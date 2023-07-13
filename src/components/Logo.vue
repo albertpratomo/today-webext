@@ -6,6 +6,6 @@
         target="_blank"
         title="GitHub"
     >
-        <pixelarticons-power />
+        <PixelarticonsPower />
     </a>
 </template>

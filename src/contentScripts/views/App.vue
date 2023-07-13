@@ -6,9 +6,9 @@ const [show, toggle] = useToggle(false);
 </script>
 
 <template>
-    <div class="fixed right-0 bottom-0 m-5 z-100 flex items-end font-sans select-none leading-1em">
+    <div class="fixed bottom-0 right-0 z-100 m-5 flex select-none items-end font-sans leading-1em">
         <div
-            class="bg-white text-gray-800 rounded-lg shadow w-max h-min"
+            class="h-min w-max rounded-lg bg-white text-gray-800 shadow"
             :class="show ? 'opacity-100' : 'opacity-0'"
             m="y-auto r-2"
             p="x-4 y-2"
@@ -23,10 +23,10 @@ const [show, toggle] = useToggle(false);
 
         <button
             bg="teal-600 hover:teal-700"
-            class="flex w-10 h-10 rounded-full shadow cursor-pointer border-none"
+            class="h-10 w-10 flex cursor-pointer rounded-full border-none shadow"
             @click="toggle()"
         >
-            <pixelarticons-power class="block m-auto text-white text-lg" />
+            <PixelarticonsPower class="m-auto block text-lg text-white" />
         </button>
     </div>
 </template>
