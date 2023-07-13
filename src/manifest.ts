@@ -62,6 +62,10 @@ export async function getManifest() {
                 ? `script-src \'self\' http://localhost:${port}; object-src \'self\'`
                 : 'script-src \'self\'; object-src \'self\'',
         },
+        // TODO: override new tab when ready
+        // chrome_url_overrides: {
+        //     newtab: './dist/options/index.html',
+        // },
     };
 
     // FIXME: not work in MV3
