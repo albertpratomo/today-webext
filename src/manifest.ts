@@ -40,22 +40,22 @@ export async function getManifest() {
             'activeTab',
         ],
         host_permissions: ['*://*/*'],
-        content_scripts: [
-            {
-                matches: [
-                    '<all_urls>',
-                ],
-                js: [
-                    'dist/contentScripts/index.global.js',
-                ],
-            },
-        ],
-        web_accessible_resources: [
-            {
-                resources: ['dist/contentScripts/style.css'],
-                matches: ['<all_urls>'],
-            },
-        ],
+        // content_scripts: [
+        //     {
+        //         matches: [
+        //             '<all_urls>',
+        //         ],
+        //         js: [
+        //             'dist/contentScripts/index.global.js',
+        //         ],
+        //     },
+        // ],
+        // web_accessible_resources: [
+        //     {
+        //         resources: ['dist/contentScripts/style.css'],
+        //         matches: ['<all_urls>'],
+        //     },
+        // ],
         content_security_policy: {
             extension_pages: isDev
                 // this is required on dev for Vite script to load
