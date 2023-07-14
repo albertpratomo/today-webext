@@ -8,7 +8,7 @@
         </div>
 
         <div class="flex-1 p-10">
-            Todo
+            <Tiptap />
         </div>
     </main>
 </template>
