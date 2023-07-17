@@ -4,22 +4,32 @@ import StarterKit from '@tiptap/starter-kit';
 import TaskItem from '@tiptap/extension-task-item';
 import TaskList from '@tiptap/extension-task-list';
 
+const modelValue = defineModel();
+
 const editor = useEditor({
-    content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+    content: modelValue.value,
+    editorProps: {
+        attributes: {
+            class: 'prose',
+        },
+    },
     extensions: [
         StarterKit,
         TaskList.configure({
             HTMLAttributes: {
-                class: 'flex flex-col gap-1',
+                class: '',
             },
         }),
         TaskItem.configure({
             HTMLAttributes: {
-                class: 'flex gap-2',
+                class: 'flex gap-2 not-prose',
             },
             nested: true,
         }),
     ],
+    onUpdate({editor}) {
+        modelValue.value = editor.getHTML();
+    },
 });
 </script>
 

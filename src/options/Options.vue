@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {tasks} from '~/logic';
 </script>
 
 <template>
@@ -8,7 +9,7 @@
         </div>
 
         <div class="flex-1 p-10">
-            <Tiptap />
+            <Tiptap v-model="tasks" />
         </div>
     </main>
 </template>
