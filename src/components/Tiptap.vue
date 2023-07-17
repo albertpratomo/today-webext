@@ -28,7 +28,7 @@ const editor = useEditor({
         }),
     ],
     onUpdate({editor}) {
-        modelValue.value = editor.getHTML();
+        modelValue.value = editor.getJSON();
     },
 });
 </script>
