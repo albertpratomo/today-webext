@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import {tasks} from '~/logic';
+const tasks = [{
+    title: 'create today app',
+    isDone: false,
+}];
 </script>
 
 <template>
@@ -9,7 +12,11 @@ import {tasks} from '~/logic';
         </div>
 
         <div class="flex-1 p-10">
-            <Tiptap v-model="tasks" />
+            <TaskItem
+                v-for="(_, i) in tasks"
+                :key="i"
+                v-model="tasks[i]"
+            />
         </div>
     </main>
 </template>
