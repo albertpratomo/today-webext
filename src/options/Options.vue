@@ -28,6 +28,9 @@ function addTask() {
                 :key="i"
                 v-model="tasks[i]"
             />
+
+            <!-- TODO: remove this -->
+            <pre class="mt-8">{{ tasks }}</pre>
         </div>
     </main>
 </template>

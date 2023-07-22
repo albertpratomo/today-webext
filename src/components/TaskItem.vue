@@ -20,13 +20,13 @@ const isEditing = ref(false);
         <TaskEditor
             v-if="isEditing"
             v-model="task"
-            class="grow"
+            class="h-7 grow"
             @click-outside="isEditing = false"
         />
 
         <label
             v-else
-            class="h-[28px] grow border border-transparent px-2 py-1"
+            class="h-7 grow border border-transparent px-2 py-1"
             @dblclick="isEditing = true"
             v-html="task.title"
         />

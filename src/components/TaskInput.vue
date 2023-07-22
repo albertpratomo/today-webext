@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import {EditorContent, useEditor} from '@tiptap/vue-3';
 import Code from '@tiptap/extension-code';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
+import {Node} from '@tiptap/core';
 
-const modelValue = defineModel<string>({required: true});
+const modelValue = defineModel<string>({required: true}); ;
+
+const Document = Node.create({
+    name: 'doc',
+    topNode: true,
+    content: 'text*',
+});
 
 const editor = useEditor({
     autofocus: 'end',
@@ -18,7 +23,6 @@ const editor = useEditor({
     extensions: [
         Code,
         Document,
-        Paragraph,
         Text,
     ],
     onUpdate({editor}) {
