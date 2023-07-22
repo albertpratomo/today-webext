@@ -15,9 +15,9 @@ function addTask() {
             Today
         </div>
 
-        <div class="flex-1 p-10 space-y-4">
+        <div class="flex-1 p-10">
             <button
-                class="bg-white px-4 py-2 text-slate-950"
+                class="mb-4 bg-white px-4 py-2 text-slate-950"
                 @click="addTask()"
             >
                 Add task

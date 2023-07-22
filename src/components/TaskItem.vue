@@ -26,7 +26,7 @@ const isEditing = ref(false);
 
         <label
             v-else
-            class="grow border border-transparent p-1"
+            class="h-[28px] grow border border-transparent px-2 py-1"
             @dblclick="isEditing = true"
         >
             {{ task.title }}

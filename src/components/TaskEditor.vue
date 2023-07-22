@@ -13,7 +13,7 @@ const onClickOutside = () => emit('clickOutside');
 <template>
     <div
         v-on-click-outside="onClickOutside"
-        class="border rounded p-1"
+        class="border rounded bg-slate-800 px-2 py-1"
         tabindex="0"
     >
         <TaskInput v-model="task.title" />
