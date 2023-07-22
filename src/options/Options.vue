@@ -1,8 +1,5 @@
 <script setup lang="ts">
-const tasks = ref([{
-    title: 'create today app',
-    isDone: false,
-}]);
+import {tasks} from '~/logic';
 
 function addTask() {
     tasks.value.push({
