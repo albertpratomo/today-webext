@@ -9,6 +9,7 @@ module.exports = {
         '@typescript-eslint/object-curly-spacing': ['error', 'never'],
         '@typescript-eslint/semi': ['error', 'always'],
         '@unocss/order': 'error',
+        'n/prefer-global/process': 0,
         'no-multi-spaces': 'error',
         'vue/attributes-order': ['error', {alphabetical: true}],
         'vue/component-name-in-template-casing': ['error', 'PascalCase', {

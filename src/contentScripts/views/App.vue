@@ -6,7 +6,7 @@ const [show, toggle] = useToggle(false);
 </script>
 
 <template>
-    <div class="fixed bottom-0 right-0 z-100 m-5 flex select-none items-end font-sans leading-1em">
+    <div class="fixed bottom-0 right-0 z-100 m-5 flex select-none items-end leading-1em font-sans">
         <div
             class="h-min w-max rounded-lg bg-white text-gray-800 shadow"
             :class="show ? 'opacity-100' : 'opacity-0'"
