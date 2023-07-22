@@ -10,8 +10,6 @@ withDefaults(defineProps<Props>(), {
 });
 
 const task = defineModel<Task>({required: true});
-
-const isEditing = ref(false);
 </script>
 
 <template>
@@ -27,17 +25,17 @@ const isEditing = ref(false);
         >
 
         <TaskEditor
-            v-if="isEditing"
+            v-if="task.isEditing"
             v-model="task"
-            v-on-click-outside="() => isEditing = false"
+            v-on-click-outside="() => task.isEditing = false"
             class="h-7 grow"
-            @keyup.enter="isEditing = false"
+            @keyup.enter="task.isEditing = false"
         />
 
         <label
             v-else
             class="h-7 grow border border-transparent px-1.5 py-1"
-            @dblclick="isEditing = true"
+            @dblclick="task.isEditing = true"
             v-html="task.title"
         />
     </div>

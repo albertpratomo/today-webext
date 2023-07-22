@@ -3,6 +3,13 @@ import type Task from '~/models/Task';
 
 export const tasks = useStorageLocal<Task[]>('tasks', []);
 
-export function newTask(task: Task = {title: 'start with a verb', isDone: false}) {
+export function newTask(task?: Task) {
+    task = {
+        title: '',
+        isDone: false,
+        isEditing: true,
+        ...task,
+    };
+
     tasks.value.unshift(task);
 }
