@@ -23,6 +23,7 @@ module.exports = {
             multiline: {max: 1},
             singleline: {max: 1},
         }],
+        'vue/object-curly-spacing': ['error', 'never'],
         'vue/padding-line-between-tags': [
             'error',
             [{blankLine: 'always', next: '*', prev: '*'}],

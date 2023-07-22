@@ -7,6 +7,8 @@ function addTask() {
         isDone: false,
     });
 }
+
+const selected = ref<number[]>([]);
 </script>
 
 <template>
@@ -15,22 +17,30 @@ function addTask() {
             Today
         </div>
 
-        <div class="flex-1 p-10">
+        <div class="flex-1 p-10 space-y-8">
             <button
-                class="mb-4 bg-white px-4 py-2 text-slate-950"
+                class="bg-white px-4 py-2 text-slate-950"
                 @click="addTask()"
             >
                 Add task
             </button>
 
-            <TaskItem
-                v-for="(_, i) in tasks"
-                :key="i"
-                v-model="tasks[i]"
-            />
+            <div v-on-click-outside="() => selected = []">
+                <TaskItem
+                    v-for="(_, i) in tasks"
+                    :key="i"
+                    v-model="tasks[i]"
+                    :is-selected="selected.includes(i)"
+                    @click="selected = [i]"
+                />
+            </div>
 
             <!-- TODO: remove this -->
-            <pre class="mt-8">{{ tasks }}</pre>
+            <pre>{{ tasks }}</pre>
+
+            <!--
+            - arrow key navigation
+            - enter to start editing -->
         </div>
     </main>
 </template>
