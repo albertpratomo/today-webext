@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import {EditorContent, useEditor} from '@tiptap/vue-3';
-import Text from '@tiptap/extension-text';
+import Code from '@tiptap/extension-code';
 import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
 
 const modelValue = defineModel<string>({required: true});
 
 const editor = useEditor({
+    autofocus: 'end',
     content: modelValue.value,
     editorProps: {
         attributes: {
@@ -14,12 +16,13 @@ const editor = useEditor({
         },
     },
     extensions: [
+        Code,
         Document,
         Paragraph,
         Text,
     ],
     onUpdate({editor}) {
-        modelValue.value = editor.getText();
+        modelValue.value = editor.getHTML();
     },
 });
 </script>

@@ -28,8 +28,13 @@ const isEditing = ref(false);
             v-else
             class="h-[28px] grow border border-transparent px-2 py-1"
             @dblclick="isEditing = true"
-        >
-            {{ task.title }}
-        </label>
+            v-html="task.title"
+        />
     </div>
 </template>
+
+<style scoped>
+:deep(code) {
+    @apply text-red bg-slate-100 rounded-sm p-px;
+}
+</style>
