@@ -23,7 +23,7 @@ function addTask() {
                 Add task
             </button>
 
-            <TaskList />
+            <TaskList v-model="tasks" />
 
             <!-- TODO: remove this -->
             <pre>{{ tasks }}</pre>

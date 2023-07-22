@@ -17,7 +17,7 @@ const isEditing = ref(false);
 <template>
     <div
         class="flex items-center rounded p-1.5"
-        :class="{'bg-slate-7': isSelected}"
+        :class="{'bg-slate-700': isSelected}"
         tabindex="0"
     >
         <input
@@ -45,6 +45,6 @@ const isEditing = ref(false);
 
 <style scoped>
 :deep(code) {
-    @apply text-red bg-slate-1 rounded-sm p-px;
+    @apply text-red bg-slate-100 rounded-sm p-px;
 }
 </style>

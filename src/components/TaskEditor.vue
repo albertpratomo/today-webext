@@ -6,7 +6,7 @@ const task = defineModel<Task>({required: true});
 
 <template>
     <div
-        class="border rounded bg-slate-8 px-1.5 py-1"
+        class="border rounded bg-slate-800 px-1.5 py-1"
         tabindex="0"
     >
         <TaskInput v-model="task.title" />
