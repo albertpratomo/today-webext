@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import {EditorContent, useEditor} from '@tiptap/vue-3';
+import Bold from '@tiptap/extension-bold';
 import Code from '@tiptap/extension-code';
+import History from '@tiptap/extension-history';
+import Italic from '@tiptap/extension-italic';
 import Text from '@tiptap/extension-text';
 import {Node} from '@tiptap/core';
 
@@ -21,8 +24,11 @@ const editor = useEditor({
         },
     },
     extensions: [
+        Bold,
         Code,
         Document,
+        History,
+        Italic,
         Text,
     ],
     onUpdate({editor}) {
