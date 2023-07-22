@@ -20,8 +20,8 @@ const isEditing = ref(false);
         <TaskEditor
             v-if="isEditing"
             v-model="task"
+            v-on-click-outside="() => isEditing = false"
             class="h-7 grow"
-            @click-outside="isEditing = false"
         />
 
         <label
