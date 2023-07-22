@@ -1,5 +1,5 @@
 *,
 ::before,
 ::after {
-  border-color: #94a3b8;
+  @apply border-slate-8;
 }
