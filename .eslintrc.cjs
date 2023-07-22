@@ -27,5 +27,9 @@ module.exports = {
             'error',
             [{blankLine: 'always', next: '*', prev: '*'}],
         ],
+        'vue/v-on-event-hyphenation': ['error', 'always', {
+            autofix: true,
+            ignore: [],
+        }],
     },
 };

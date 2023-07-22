@@ -8,6 +8,11 @@ const modelValue = defineModel<string>({required: true});
 
 const editor = useEditor({
     content: modelValue.value,
+    editorProps: {
+        attributes: {
+            class: 'focus:outline-none',
+        },
+    },
     extensions: [
         Document,
         Paragraph,
