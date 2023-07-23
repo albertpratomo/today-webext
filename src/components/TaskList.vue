@@ -20,16 +20,20 @@ function onTaskClick(index: number, {ctrlKey, metaKey}: PointerEvent) {
     else
         selected.value = [index];
 };
+
+function getIsSelected(task: Task, index: number) {
+    return task.isEditing || selected.value.includes(index);
+}
 </script>
 
 <template>
     <div v-on-click-outside="() => selected = []">
         <TaskItem
-            v-for="(_, i) in tasks"
+            v-for="(task, i) in tasks"
             :key="i"
             v-model="tasks[i]"
-            :aria-selected="selected.includes(i)"
-            :is-selected="selected.includes(i)"
+            :aria-selected="getIsSelected(task, i)"
+            :is-selected="getIsSelected(task, i)"
             @click="onTaskClick(i, $event)"
         />
     </div>

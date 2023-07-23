@@ -12,7 +12,7 @@ import {tasks} from '~/stores/tasks';
             class="flex flex-1 flex-col"
             p="t-10"
         >
-            <div class="overflow-y-scroll px-10 space-y-8">
+            <div class="px-10 space-y-8">
                 <h1 class="text-4xl">
                     Today
                 </h1>
