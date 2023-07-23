@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import {onKeyStroke} from '@vueuse/core';
 import type Task from '~/models/Task';
+import {newTask} from '~/stores/tasks';
 
 const tasks = defineModel<Task[]>({required: true});
 
 const selected = ref<number[]>([]);
 
-onKeyStroke('ArrowUp', (event) => {
-    event.preventDefault();
-});
+function onTaskEnter(task: Task, index: number) {
 
-onKeyStroke('ArrowDown', (event) => {
-    event.preventDefault();
-});
+}
 
 function onTaskClick(index: number, {ctrlKey, metaKey}: PointerEvent) {
     if (ctrlKey || metaKey)
@@ -24,6 +21,19 @@ function onTaskClick(index: number, {ctrlKey, metaKey}: PointerEvent) {
 function getIsSelected(task: Task, index: number) {
     return task.isEditing || selected.value.includes(index);
 }
+
+onKeyStroke('ArrowUp', (event) => {
+    event.preventDefault();
+});
+
+onKeyStroke('ArrowDown', (event) => {
+    event.preventDefault();
+});
+
+onKeyStroke(['n', 'N'], (e) => {
+    if (e.target instanceof HTMLElement && !e.target.isContentEditable)
+        newTask();
+}, {eventName: 'keyup'});
 </script>
 
 <template>
@@ -35,6 +45,7 @@ function getIsSelected(task: Task, index: number) {
             :aria-selected="getIsSelected(task, i)"
             :is-selected="getIsSelected(task, i)"
             @click="onTaskClick(i, $event)"
+            @keyup.enter="onTaskEnter(task, i)"
         />
     </div>
 </template>
