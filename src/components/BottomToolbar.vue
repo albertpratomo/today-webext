@@ -18,15 +18,15 @@ onKeyUp(['n', 'N'], (e) => {
             :class="buttonClass"
             @click="newTask()"
         >
-            <HeroiconsPlus :class="iconClass" />
+            <MaterialSymbolsAdd :class="iconClass" />
         </button>
 
         <button :class="buttonClass">
-            <HeroiconsPlay :class="iconClass" />
+            <MaterialSymbolsPlayCircleOutline :class="iconClass" />
         </button>
 
         <button :class="buttonClass">
-            <HeroiconsHashtag :class="iconClass" />
+            <MaterialSymbolsTag :class="iconClass" />
         </button>
     </div>
 </template>
