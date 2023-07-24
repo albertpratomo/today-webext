@@ -1,15 +1,20 @@
+import {defineStore} from 'pinia';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 import type Task from '~/models/Task';
 
-export const tasks = useStorageLocal<Task[]>('tasks', []);
+export const useTasksStore = defineStore('tasks', () => {
+    const tasks = useStorageLocal<Task[]>('tasks', []);
 
-export function newTask(task?: Task) {
-    task = {
-        title: '',
-        isDone: false,
-        isEditing: true,
-        ...task,
+    function newTask(task?: Task) {
+        task = {
+            title: '',
+            isDone: false,
+            isEditing: true,
+            ...task,
+        };
+
+        tasks.value.unshift(task);
     };
 
-    tasks.value.unshift(task);
-}
+    return {tasks, newTask};
+});

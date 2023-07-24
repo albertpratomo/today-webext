@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import {tasks} from '~/stores/tasks';
+import {storeToRefs} from 'pinia';
+import {useTasksStore} from '~/stores/tasks';
+
+const {tasks} = storeToRefs(useTasksStore());
 </script>
 
 <template>
@@ -21,9 +24,6 @@ import {tasks} from '~/stores/tasks';
                     v-model="tasks"
                     class="mt-8"
                 />
-
-                <!-- TODO: remove this -->
-                <!-- <pre class="mt-8">{{ tasks }}</pre> -->
             </div>
 
             <BottomToolbar class="mt-auto border-t" />

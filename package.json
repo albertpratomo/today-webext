@@ -30,17 +30,15 @@
     "postinstall": "simple-git-hooks",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@tiptap/pm": "^2.0.4",
-    "@tiptap/starter-kit": "^2.0.4",
-    "@tiptap/vue-3": "^2.0.4"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "@ffflorian/jszip-cli": "^3.4.1",
     "@iconify/json": "^2.2.91",
     "@playwright/test": "^1.36.1",
     "@testing-library/vue": "^7.0.0",
+    "@tiptap/pm": "^2.0.4",
+    "@tiptap/starter-kit": "^2.0.4",
+    "@tiptap/vue-3": "^2.0.4",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^20.4.2",
     "@types/webextension-polyfill": "^0.10.1",
@@ -61,6 +59,7 @@
     "kolorist": "^1.8.0",
     "lint-staged": "^13.2.3",
     "npm-run-all": "^4.1.5",
+    "pinia": "^2.1.4",
     "rimraf": "^5.0.1",
     "simple-git-hooks": "^2.8.1",
     "typescript": "^5.1.6",

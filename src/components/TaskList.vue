@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {onKeyStroke} from '@vueuse/core';
 import type Task from '~/models/Task';
-import {newTask} from '~/stores/tasks';
+import {useTasksStore} from '~/stores/tasks';
+
+const {newTask} = useTasksStore();
 
 const tasks = defineModel<Task[]>({required: true});
 
