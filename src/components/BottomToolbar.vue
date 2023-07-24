@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import {onKeyStroke} from '@vueuse/core';
 import {useTasksStore} from '~/stores/tasks';
 
 const {newTask} = useTasksStore();
+onKeyStroke(['n', 'N'], (e) => {
+    if (e.target instanceof HTMLElement && !e.target.isContentEditable)
+        newTask();
+}, {eventName: 'keyup'});
 
 const buttonClass = 'px-10 py-2 border border-transparent hover:border-slate-8 rounded';
 const iconClass = 'w-6 h-6';

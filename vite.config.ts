@@ -32,6 +32,7 @@ export const sharedConfig: UserConfig = {
 
         AutoImport({
             imports: [
+                'vitest',
                 'vue',
                 {
                     'webextension-polyfill': [

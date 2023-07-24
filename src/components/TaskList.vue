@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import {onKeyStroke} from '@vueuse/core';
 import type Task from '~/models/Task';
-import {useTasksStore} from '~/stores/tasks';
-
-const {newTask} = useTasksStore();
 
 const tasks = defineModel<Task[]>({required: true});
-
-const selected = ref<number[]>([]);
 
 function onTaskEnter(task: Task, index: number) {
 
 }
+
+const selected = ref<number[]>([]);
 
 function onTaskClick(index: number, {ctrlKey, metaKey}: PointerEvent) {
     if (ctrlKey || metaKey)
@@ -31,11 +28,6 @@ onKeyStroke('ArrowUp', (event) => {
 onKeyStroke('ArrowDown', (event) => {
     event.preventDefault();
 });
-
-onKeyStroke(['n', 'N'], (e) => {
-    if (e.target instanceof HTMLElement && !e.target.isContentEditable)
-        newTask();
-}, {eventName: 'keyup'});
 </script>
 
 <template>

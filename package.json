@@ -34,6 +34,7 @@
     "@antfu/eslint-config": "^0.39.8",
     "@ffflorian/jszip-cli": "^3.4.1",
     "@iconify/json": "^2.2.91",
+    "@pinia/testing": "^0.1.2",
     "@playwright/test": "^1.36.1",
     "@testing-library/vue": "^7.0.0",
     "@tiptap/pm": "^2.0.4",

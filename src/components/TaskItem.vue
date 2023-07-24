@@ -32,7 +32,7 @@ const task = defineModel<Task>({required: true});
             @keyup.enter="task.isEditing = false"
         />
 
-        <label
+        <div
             v-else
             class="h-7 grow border border-transparent px-1.5 py-1"
             @dblclick="task.isEditing = true"
