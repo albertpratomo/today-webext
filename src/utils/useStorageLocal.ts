@@ -23,8 +23,10 @@ const storageLocal: StorageLikeAsync = {
     },
 };
 
-export function useStorageLocal<T>(key: string,
+export function useStorageLocal<T>(
+    key: string,
     initialValue: MaybeRef<T>,
-    options?: UseStorageAsyncOptions<T>): RemovableRef<T> {
+    options?: UseStorageAsyncOptions<T>,
+): RemovableRef<T> {
     return useStorageAsync(key, initialValue, storageLocal, options);
 }
