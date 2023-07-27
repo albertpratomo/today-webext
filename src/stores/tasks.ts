@@ -9,7 +9,6 @@ export const useTasksStore = defineStore('tasks', () => {
         task = {
             title: '',
             isDone: false,
-            isEditing: true,
             ...task,
         };
 

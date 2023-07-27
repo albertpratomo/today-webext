@@ -17,10 +17,6 @@ function onTaskClick(index: number, {ctrlKey, metaKey}: PointerEvent) {
         selected.value = [index];
 };
 
-function getIsSelected(task: Task, index: number) {
-    return task.isEditing || selected.value.includes(index);
-}
-
 onKeyStroke('ArrowUp', (event) => {
     event.preventDefault();
 });
@@ -36,8 +32,8 @@ onKeyStroke('ArrowDown', (event) => {
             v-for="(task, i) in tasks"
             :key="i"
             v-model="tasks[i]"
-            :aria-selected="getIsSelected(task, i)"
-            :is-selected="getIsSelected(task, i)"
+            :aria-selected="selected.includes(i)"
+            :is-selected="selected.includes(i)"
             @click="onTaskClick(i, $event)"
             @keyup.enter="onTaskEnter(task, i)"
         />

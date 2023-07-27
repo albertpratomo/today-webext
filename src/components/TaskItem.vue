@@ -24,18 +24,8 @@ const task = defineModel<Task>({required: true});
             type="checkbox"
         >
 
-        <TaskEditor
-            v-if="task.isEditing"
-            v-model="task"
-            v-on-click-outside="() => task.isEditing = false"
-            class="h-7 grow"
-            @keyup.enter="task.isEditing = false"
-        />
-
         <div
-            v-else
             class="h-7 grow border border-transparent px-1.5 py-1"
-            @dblclick="task.isEditing = true"
             v-html="task.title"
         />
     </div>
