@@ -47,7 +47,5 @@ describe('TaskList', () => {
         expect(selected).toBeNull();
     });
 
-    test.todo('select 2 tasks');
-    test.todo('select shift 2 tasks');
-    test.todo('select shift 3 task');
+    test.todo('select shift tasks');
 });
