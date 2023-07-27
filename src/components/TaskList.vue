@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {onKeyStroke} from '@vueuse/core';
 import type Task from '~/models/Task';
+import {onKeyStroke} from '@vueuse/core';
 
 const tasks = defineModel<Task[]>({required: true});
 

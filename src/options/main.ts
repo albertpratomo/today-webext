@@ -1,9 +1,9 @@
+import '../styles';
+import App from './Options.vue';
 import {createApp} from 'vue';
 import {createPinia} from 'pinia';
-import {vOnClickOutside} from '@vueuse/components';
-import App from './Options.vue';
 import {setupApp} from '~/utils/setupApp';
-import '../styles';
+import {vOnClickOutside} from '@vueuse/components';
 
 const app = createApp(App);
 setupApp(app);

@@ -1,6 +1,6 @@
 import {fireEvent, render} from '@testing-library/vue';
-import {vOnClickOutside} from '@vueuse/components';
 import TaskList from '~/components/TaskList.vue';
+import {vOnClickOutside} from '@vueuse/components';
 
 function prepare() {
     // Pass 5 tasks.

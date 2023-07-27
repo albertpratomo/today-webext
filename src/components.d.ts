@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BottomToolbar: typeof import('./components/BottomToolbar.vue')['default']
     Logo: typeof import('./components/Logo.vue')['default']
+    PixelarticonsPower: typeof import('~icons/pixelarticons/power')['default']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
     TaskEditor: typeof import('./components/TaskEditor.vue')['default']
     TaskInput: typeof import('./components/TaskInput.vue')['default']

@@ -1,6 +1,6 @@
+import type Task from '~/models/Task';
 import {defineStore} from 'pinia';
 import {useStorageLocal} from '~/utils/useStorageLocal';
-import type Task from '~/models/Task';
 
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = useStorageLocal<Task[]>('tasks', []);

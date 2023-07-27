@@ -4,8 +4,8 @@ import Bold from '@tiptap/extension-bold';
 import Code from '@tiptap/extension-code';
 import History from '@tiptap/extension-history';
 import Italic from '@tiptap/extension-italic';
-import Text from '@tiptap/extension-text';
 import {Node} from '@tiptap/core';
+import Text from '@tiptap/extension-text';
 
 const modelValue = defineModel<string>({required: true}); ;
 

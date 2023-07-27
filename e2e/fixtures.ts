@@ -1,8 +1,8 @@
-import path from 'node:path';
-import {setTimeout as sleep} from 'node:timers/promises';
-import fs from 'fs-extra';
 import {type BrowserContext, test as base, chromium} from '@playwright/test';
 import type {Manifest} from 'webextension-polyfill';
+import fs from 'fs-extra';
+import path from 'node:path';
+import {setTimeout as sleep} from 'node:timers/promises';
 
 export {name} from '../package.json';
 
