@@ -6,7 +6,7 @@ const {tasks} = storeToRefs(useTasksStore());
 </script>
 
 <template>
-    <main class="h-screen flex bg-slate-950 text-white">
+    <main class="h-screen flex bg-gray-900 text-white">
         <div class="w-48 shrink-0 border-r p-10 text-lg">
             Today
         </div>
