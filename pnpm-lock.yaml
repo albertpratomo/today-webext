@@ -11,6 +11,9 @@ devDependencies:
   '@ffflorian/jszip-cli':
     specifier: ^3.4.1
     version: 3.4.1
+  '@headlessui/vue':
+    specifier: ^1.7.15
+    version: 1.7.15(vue@3.3.4)
   '@iconify/json':
     specifier: ^2.2.91
     version: 2.2.91
@@ -1025,6 +1028,15 @@ packages:
   /@fluent/syntax@0.19.0:
     resolution: {integrity: sha512-5D2qVpZrgpjtqU4eNOcWGp1gnUCgjfM+vKGE2y03kKN6z5EBhtx0qdRFbg8QuNNj8wXNoX93KJoYb+NqoxswmQ==}
     engines: {node: '>=14.0.0', npm: '>=7.0.0'}
+    dev: true
+
+  /@headlessui/vue@1.7.15(vue@3.3.4):
+    resolution: {integrity: sha512-3ozVEgQ8mw09nWvUPN+8S6C8l3SM0lVT1aEN/+oP5Y4LF0WNMM9UrVisVTN9LLQ06v/X3EFA0blyL/vg8XNZlg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      vue: 3.3.4
     dev: true
 
   /@humanwhocodes/config-array@0.11.10:

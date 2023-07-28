@@ -1,5 +1,5 @@
 *,
 ::before,
 ::after {
-  @apply border-slate-8;
+  @apply border-gray-600;
 }

@@ -15,7 +15,7 @@ const task = defineModel<Task>({required: true});
 <template>
     <div
         class="flex items-center rounded p-1.5"
-        :class="{'bg-slate-700': isSelected}"
+        :class="{'bg-gray-700': isSelected}"
         tabindex="0"
     >
         <input
@@ -33,6 +33,6 @@ const task = defineModel<Task>({required: true});
 
 <style scoped>
 :deep(code) {
-    @apply text-red bg-slate-100 rounded-sm p-px;
+    @apply text-red bg-gray-100 rounded-sm p-px;
 }
 </style>

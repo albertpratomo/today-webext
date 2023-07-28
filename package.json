@@ -33,6 +33,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "@ffflorian/jszip-cli": "^3.4.1",
+    "@headlessui/vue": "^1.7.15",
     "@iconify/json": "^2.2.91",
     "@pinia/testing": "^0.1.2",
     "@playwright/test": "^1.36.1",
