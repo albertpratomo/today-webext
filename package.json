@@ -73,6 +73,7 @@
     "vitest": "^0.33.0",
     "vue": "^3.3.4",
     "vue-demi": "^0.14.5",
+    "vue-i18n": "^9.2.2",
     "web-ext": "^7.6.2",
     "webext-bridge": "^6.0.1",
     "webextension-polyfill": "^0.10.0"

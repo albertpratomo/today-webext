@@ -8,7 +8,7 @@ const {tasks} = storeToRefs(useTasksStore());
 <template>
     <main class="h-screen flex bg-gray-900 text-white">
         <div class="w-48 shrink-0 border-r p-10 text-lg">
-            Today
+            {{ $t('today') }}
         </div>
 
         <div
@@ -17,7 +17,7 @@ const {tasks} = storeToRefs(useTasksStore());
         >
             <div class="px-10 space-y-8">
                 <h1 class="text-4xl">
-                    Today
+                    {{ $t('today') }}
                 </h1>
 
                 <TaskList

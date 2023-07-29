@@ -131,6 +131,9 @@ devDependencies:
   vue-demi:
     specifier: ^0.14.5
     version: 0.14.5(vue@3.3.4)
+  vue-i18n:
+    specifier: ^9.2.2
+    version: 9.2.2(vue@3.3.4)
   web-ext:
     specifier: ^7.6.2
     version: 7.6.2
@@ -1081,6 +1084,44 @@ packages:
       local-pkg: 0.4.3
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@intlify/core-base@9.2.2:
+    resolution: {integrity: sha512-JjUpQtNfn+joMbrXvpR4hTF8iJQ2sEFzzK3KIESOx+f+uwIjgw20igOyaIdhfsVVBCds8ZM64MoeNSx+PHQMkA==}
+    engines: {node: '>= 14'}
+    dependencies:
+      '@intlify/devtools-if': 9.2.2
+      '@intlify/message-compiler': 9.2.2
+      '@intlify/shared': 9.2.2
+      '@intlify/vue-devtools': 9.2.2
+    dev: true
+
+  /@intlify/devtools-if@9.2.2:
+    resolution: {integrity: sha512-4ttr/FNO29w+kBbU7HZ/U0Lzuh2cRDhP8UlWOtV9ERcjHzuyXVZmjyleESK6eVP60tGC9QtQW9yZE+JeRhDHkg==}
+    engines: {node: '>= 14'}
+    dependencies:
+      '@intlify/shared': 9.2.2
+    dev: true
+
+  /@intlify/message-compiler@9.2.2:
+    resolution: {integrity: sha512-IUrQW7byAKN2fMBe8z6sK6riG1pue95e5jfokn8hA5Q3Bqy4MBJ5lJAofUsawQJYHeoPJ7svMDyBaVJ4d0GTtA==}
+    engines: {node: '>= 14'}
+    dependencies:
+      '@intlify/shared': 9.2.2
+      source-map: 0.6.1
+    dev: true
+
+  /@intlify/shared@9.2.2:
+    resolution: {integrity: sha512-wRwTpsslgZS5HNyM7uDQYZtxnbI12aGiBZURX3BTR9RFIKKRWpllTsgzHWvj3HKm3Y2Sh5LPC1r0PDCKEhVn9Q==}
+    engines: {node: '>= 14'}
+    dev: true
+
+  /@intlify/vue-devtools@9.2.2:
+    resolution: {integrity: sha512-+dUyqyCHWHb/UcvY1MlIpO87munedm3Gn6E9WWYdWrMuYLcoIoOEVDWSS8xSwtlPU+kA+MEQTP6Q1iI/ocusJg==}
+    engines: {node: '>= 14'}
+    dependencies:
+      '@intlify/core-base': 9.2.2
+      '@intlify/shared': 9.2.2
     dev: true
 
   /@isaacs/cliui@8.0.2:
@@ -4636,6 +4677,7 @@ packages:
 
   /glob@6.0.4:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
+    requiresBuild: true
     dependencies:
       inflight: 1.0.6
       inherits: 2.0.4
@@ -5951,6 +5993,7 @@ packages:
   /mkdirp@0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
+    requiresBuild: true
     dependencies:
       minimist: 1.2.8
     dev: true
@@ -6025,6 +6068,7 @@ packages:
 
   /nan@2.17.0:
     resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -6050,6 +6094,7 @@ packages:
   /ncp@2.0.0:
     resolution: {integrity: sha512-zIdGUrPRFTUELUvr3Gmc7KZ2Sw/h1PiVM0Af/oHB6zgnV1ikqSfRk+TOufi79aHYCW3NiOXmr1BP5nWbzojLaA==}
     hasBin: true
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -7128,6 +7173,7 @@ packages:
   /rimraf@2.4.5:
     resolution: {integrity: sha512-J5xnxTyqaiw06JjMftq7L9ouA448dw/E7dKghkP9WpKNuwmARNNg+Gk8/u5ryb9N/Yo2+z3MCwuqFK/+qPOPfQ==}
     hasBin: true
+    requiresBuild: true
     dependencies:
       glob: 6.0.4
     dev: true
@@ -8416,6 +8462,19 @@ packages:
       semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /vue-i18n@9.2.2(vue@3.3.4):
+    resolution: {integrity: sha512-yswpwtj89rTBhegUAv9Mu37LNznyu3NpyLQmozF3i1hYOhwpG8RjcjIFIIfnu+2MDZJGSZPXaKWvnQA71Yv9TQ==}
+    engines: {node: '>= 14'}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@intlify/core-base': 9.2.2
+      '@intlify/shared': 9.2.2
+      '@intlify/vue-devtools': 9.2.2
+      '@vue/devtools-api': 6.5.0
+      vue: 3.3.4
     dev: true
 
   /vue@3.3.4:
