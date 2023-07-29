@@ -7,23 +7,27 @@ export const useTasksStore = defineStore('tasks', () => {
 
     // Create Task ------------------------------------------------------------
 
-    const blankTask = {
+    const BLANK_TASK = Object.freeze({
         title: '',
         note: '',
         isDone: false,
-    };
+    });
 
-    const draftCreateTask = useStorageLocal<Task>('draftCreateTask', blankTask);
+    const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {...BLANK_TASK});
 
     function createTask() {
         tasks.value.unshift(draftCreateTask.value);
 
-        draftCreateTask.value = blankTask;
+        draftCreateTask.value = {...BLANK_TASK};
     };
+
+    const taskCreateDialogIsOpen = ref(false);
 
     return {
         tasks,
+
         draftCreateTask,
         createTask,
+        taskCreateDialogIsOpen,
     };
 });

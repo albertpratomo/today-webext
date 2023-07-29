@@ -2,7 +2,7 @@
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {draftCreateTask} = storeToRefs(useTasksStore());
+const {draftCreateTask, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
 
 const buttonClass = 'px-10 py-2 border border-transparent hover:border-gray-600 rounded';
 const iconClass = 'w-6 h-6';
@@ -12,7 +12,10 @@ const hasDraft = computed(() => draftCreateTask.value.title || draftCreateTask.v
 
 <template>
     <div class="flex justify-center gap-4 py-2">
-        <button :class="[buttonClass, {'text-indigo-500': hasDraft}]">
+        <button
+            :class="[buttonClass, {'text-indigo-500': hasDraft}]"
+            @click="taskCreateDialogIsOpen = true"
+        >
             <MaterialSymbolsAdd :class="iconClass" />
         </button>
 

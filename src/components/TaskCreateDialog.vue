@@ -4,21 +4,24 @@ import {onKeyUp} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {draftCreateTask} = storeToRefs(useTasksStore());
+const {draftCreateTask, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
 const {createTask} = useTasksStore();
-
-const isOpen = ref(false);
 
 onKeyUp(['n', 'N'], (e) => {
     if (e.target instanceof HTMLElement && !e.target.isContentEditable)
-        isOpen.value = true;
+        taskCreateDialogIsOpen.value = true;
 });
+
+function close() {
+    taskCreateDialogIsOpen.value = false;
+}
 </script>
 
 <template>
     <Dialog
-        :open="isOpen"
-        @close="isOpen = false"
+        :open="taskCreateDialogIsOpen"
+        @close="close()"
+        @keyup.esc="close()"
     >
         <div class="fixed inset-0 flex items-center justify-center p-4">
             <DialogPanel class="max-w-xl w-full">
@@ -48,7 +51,7 @@ onKeyUp(['n', 'N'], (e) => {
                     <div class="flex justify-end gap-2 border-t p-2 pl-5">
                         <button
                             class="btn-gray"
-                            @click="isOpen = false"
+                            @click="close()"
                         >
                             {{ $t('actions.cancel') }}
                         </button>
