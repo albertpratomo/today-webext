@@ -4,7 +4,11 @@ import type Task from '~/models/Task';
 import {onKeyStroke} from '@vueuse/core';
 import {useTasksStore} from '~/stores/tasks';
 
-const task = ref<Task>({title: 'a', isDone: false});
+const task = ref<Task>({
+    title: '',
+    note: '',
+    isDone: false,
+});
 
 const isOpen = ref(true);
 

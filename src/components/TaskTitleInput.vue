@@ -20,7 +20,8 @@ const editor = useEditor({
     content: modelValue.value,
     editorProps: {
         attributes: {
-            class: 'focus:outline-none',
+            'class': 'focus:outline-none',
+            'data-placeholder': 'Start with a verb',
         },
     },
     extensions: [
@@ -38,5 +39,15 @@ const editor = useEditor({
 </script>
 
 <template>
-    <EditorContent :editor="editor" />
+    <EditorContent
+        class="text-lg"
+        :editor="editor"
+    />
 </template>
+
+<style scoped>
+:deep(.ProseMirror:has(> br:only-child):before) {
+    @apply text-gray-400 float-left pointer-events-none h-0;
+    content: attr(data-placeholder);
+}
+</style>

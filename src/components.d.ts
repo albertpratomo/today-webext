@@ -11,12 +11,15 @@ declare module 'vue' {
     Logo: typeof import('./components/Logo.vue')['default']
     MaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
     MaterialSymbolsPlayCircleOutline: typeof import('~icons/material-symbols/play-circle-outline')['default']
+    MaterialSymbolsScheduleOutline: typeof import('~icons/material-symbols/schedule-outline')['default']
+    MaterialSymbolsStarRounded: typeof import('~icons/material-symbols/star-rounded')['default']
     MaterialSymbolsTag: typeof import('~icons/material-symbols/tag')['default']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
     TaskEditor: typeof import('./components/TaskEditor.vue')['default']
     TaskEditorDialog: typeof import('./components/TaskEditorDialog.vue')['default']
-    TaskInput: typeof import('./components/TaskInput.vue')['default']
     TaskItem: typeof import('./components/TaskItem.vue')['default']
     TaskList: typeof import('./components/TaskList.vue')['default']
+    TaskNoteInput: typeof import('./components/TaskNoteInput.vue')['default']
+    TaskTitleInput: typeof import('./components/TaskTitleInput.vue')['default']
   }
 }

@@ -8,6 +8,7 @@ export const useTasksStore = defineStore('tasks', () => {
     function newTask(task?: Task) {
         task = {
             title: '',
+            note: '',
             isDone: false,
             ...task,
         };
