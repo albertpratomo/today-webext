@@ -31,5 +31,8 @@ export default defineConfig({
                 900: '#12121A',
             },
         },
+        fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+        },
     },
 });
