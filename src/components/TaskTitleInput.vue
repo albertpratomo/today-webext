@@ -42,7 +42,7 @@ const editor = useEditor({
 
 <template>
     <EditorContent
-        class="text-lg"
+        class="overflow-hidden text-lg"
         :editor="editor"
     />
 </template>

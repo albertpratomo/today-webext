@@ -15,7 +15,7 @@ const task = defineModel<Task>({required: true});
 <template>
     <div
         class="flex items-center rounded p-1.5"
-        :class="{'bg-gray-700': isSelected}"
+        :class="{'bg-indigo-900': isSelected}"
         tabindex="0"
     >
         <input

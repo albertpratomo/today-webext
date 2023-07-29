@@ -25,7 +25,10 @@ const editor = useEditor({
 </script>
 
 <template>
-    <EditorContent :editor="editor" />
+    <EditorContent
+        class="text-sm"
+        :editor="editor"
+    />
 </template>
 
 <style scoped>

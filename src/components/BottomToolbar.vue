@@ -3,7 +3,7 @@ import {useTasksStore} from '~/stores/tasks';
 
 const {newTask} = useTasksStore();
 
-const buttonClass = 'px-10 py-2 border border-transparent hover:border-gray-8 rounded';
+const buttonClass = 'px-10 py-2 border border-transparent hover:border-gray-600 rounded';
 const iconClass = 'w-6 h-6';
 </script>
 

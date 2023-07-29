@@ -13,7 +13,7 @@ export default defineConfig({
         'btn': 'inline-block px-4 py-1.5 rounded text-sm font-medium disabled:opacity-60',
         'btn-gray': 'btn bg-gray-500 text-gray-100',
         'btn-indigo': 'btn bg-indigo-500 text-gray-100',
-        'btn-icon': 'inline-block px-2 py-1 bg-gray-700 border border-gray-600 rounded disabled:opacity-60',
+        'btn-icon': 'inline-block px-2 py-1 bg-gray-700 border rounded disabled:opacity-60',
     },
     theme: {
         colors: {

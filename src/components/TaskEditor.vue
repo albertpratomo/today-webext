@@ -7,20 +7,20 @@ const task = defineModel<Task>({required: true});
 <template>
     <div class="border rounded bg-gray-800 text-gray-100">
         <div class="py-4 pl-5 pr-2">
-            <div class="flex justify-between">
+            <div class="flex items-start justify-between gap-4">
                 <TaskTitleInput v-model="task.title" />
 
-                <button>
+                <button class="pt-1">
                     <MaterialSymbolsPlayCircleOutline class="h-6 w-6" />
                 </button>
             </div>
 
             <TaskNoteInput
                 v-model="task.note"
-                class="mt-4"
+                class="mt-2"
             />
 
-            <div class="flex justify-end gap-2">
+            <div class="mt-2 flex justify-end gap-2">
                 <button class="btn-icon">
                     <MaterialSymbolsStarRounded />
                 </button>
