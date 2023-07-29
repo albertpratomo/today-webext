@@ -38,6 +38,11 @@ const editor = useEditor({
         modelValue.value = editor.getHTML();
     },
 });
+
+watch(modelValue, (val) => {
+    if (editor.value && editor.value.getHTML() !== val)
+        editor.value.commands.setContent(val, false);
+});
 </script>
 
 <template>

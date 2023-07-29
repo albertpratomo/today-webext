@@ -7,7 +7,6 @@ const {t} = useI18n();
 const modelValue = defineModel<string>({required: true}); ;
 
 const editor = useEditor({
-    autofocus: 'end',
     content: modelValue.value,
     editorProps: {
         attributes: {
@@ -21,6 +20,11 @@ const editor = useEditor({
     onUpdate({editor}) {
         modelValue.value = editor.getHTML();
     },
+});
+
+watch(modelValue, (val) => {
+    if (editor.value && editor.value.getHTML() !== val)
+        editor.value.commands.setContent(val, false);
 });
 </script>
 

@@ -5,16 +5,25 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = useStorageLocal<Task[]>('tasks', []);
 
-    function newTask(task?: Task) {
-        task = {
-            title: '',
-            note: '',
-            isDone: false,
-            ...task,
-        };
+    // Create Task ------------------------------------------------------------
 
-        tasks.value.unshift(task);
+    const blankTask = {
+        title: '',
+        note: '',
+        isDone: false,
     };
 
-    return {tasks, newTask};
+    const draftCreateTask = useStorageLocal<Task>('draftCreateTask', blankTask);
+
+    function createTask() {
+        tasks.value.unshift(draftCreateTask.value);
+
+        draftCreateTask.value = blankTask;
+    };
+
+    return {
+        tasks,
+        draftCreateTask,
+        createTask,
+    };
 });

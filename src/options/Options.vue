@@ -29,6 +29,6 @@ const {tasks} = storeToRefs(useTasksStore());
             <BottomToolbar class="mt-auto border-t" />
         </div>
 
-        <TaskEditorDialog />
+        <TaskCreateDialog />
     </main>
 </template>

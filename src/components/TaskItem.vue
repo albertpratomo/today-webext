@@ -16,7 +16,6 @@ const task = defineModel<Task>({required: true});
     <div
         class="flex items-center rounded p-1.5"
         :class="{'bg-indigo-900': isSelected}"
-        tabindex="0"
     >
         <input
             v-model="task.isDone"
