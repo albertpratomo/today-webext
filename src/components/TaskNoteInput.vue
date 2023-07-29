@@ -2,6 +2,8 @@
 import {EditorContent, useEditor} from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 
+const {t} = useI18n();
+
 const modelValue = defineModel<string>({required: true}); ;
 
 const editor = useEditor({
@@ -10,7 +12,7 @@ const editor = useEditor({
     editorProps: {
         attributes: {
             'class': 'focus:outline-none',
-            'data-placeholder': 'Add notes',
+            'data-placeholder': t('fields.taskNote.placeholder'),
         },
     },
     extensions: [

@@ -9,6 +9,7 @@ import IconsResolver from 'unplugin-icons/resolver';
 import UnoCSS from 'unocss/vite';
 import type {UserConfig} from 'vite';
 import Vue from '@vitejs/plugin-vue';
+import VueI18n from '@intlify/unplugin-vue-i18n/vite';
 import {defineConfig} from 'vite';
 import packageJson from './package.json';
 
@@ -34,6 +35,7 @@ export const sharedConfig: UserConfig = {
             imports: [
                 'vitest',
                 'vue',
+                'vue-i18n',
                 {
                     'webextension-polyfill': [
                         ['*', 'browser'],
@@ -61,6 +63,14 @@ export const sharedConfig: UserConfig = {
 
         // https://github.com/unocss/unocss
         UnoCSS(),
+
+        // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
+        VueI18n({
+            runtimeOnly: true,
+            compositionOnly: true,
+            fullInstall: true,
+            include: [r('src/i18n/en')],
+        }),
 
         // rewrite assets to use relative path
         {

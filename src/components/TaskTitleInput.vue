@@ -7,6 +7,8 @@ import Italic from '@tiptap/extension-italic';
 import {Node} from '@tiptap/core';
 import Text from '@tiptap/extension-text';
 
+const {t} = useI18n();
+
 const modelValue = defineModel<string>({required: true}); ;
 
 const Document = Node.create({
@@ -21,7 +23,7 @@ const editor = useEditor({
     editorProps: {
         attributes: {
             'class': 'focus:outline-none',
-            'data-placeholder': 'Start with a verb',
+            'data-placeholder': t('fields.taskTitle.placeholder'),
         },
     },
     extensions: [
