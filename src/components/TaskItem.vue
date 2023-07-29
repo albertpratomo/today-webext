@@ -29,9 +29,3 @@ const task = defineModel<Task>({required: true});
         />
     </div>
 </template>
-
-<style scoped>
-:deep(code) {
-    @apply text-red bg-gray-100 rounded-sm p-px;
-}
-</style>
