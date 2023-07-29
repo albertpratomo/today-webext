@@ -1,5 +1,5 @@
 *,
 ::before,
 ::after {
-  @apply border-gray-600;
+    @apply border-gray-600;
 }

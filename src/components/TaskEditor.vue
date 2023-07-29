@@ -11,7 +11,7 @@ const task = defineModel<Task>({required: true});
                 <TaskTitleInput v-model="task.title" />
 
                 <button>
-                    <MaterialSymbolsPlayCircleOutline />
+                    <MaterialSymbolsPlayCircleOutline class="h-6 w-6" />
                 </button>
             </div>
 
@@ -21,22 +21,22 @@ const task = defineModel<Task>({required: true});
             />
 
             <div class="flex justify-end gap-2">
-                <button>
+                <button class="btn-icon">
                     <MaterialSymbolsStarRounded />
                 </button>
 
-                <button>
+                <button class="btn-icon">
                     <MaterialSymbolsScheduleOutline />
                 </button>
             </div>
         </div>
 
         <div class="flex justify-end gap-2 border-t p-2 pl-5">
-            <button>
+            <button class="btn-gray">
                 {{ $t('actions.cancel') }}
             </button>
 
-            <button>
+            <button class="btn-indigo">
                 {{ $t('actions.addTask') }}
             </button>
         </div>

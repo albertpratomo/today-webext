@@ -27,7 +27,7 @@ onKeyStroke(['n', 'N'], (e) => {
         @close="isOpen = false"
     >
         <div class="fixed inset-0 flex items-center justify-center p-4">
-            <DialogPanel class="max-w-lg w-full">
+            <DialogPanel class="max-w-xl w-full">
                 <TaskEditor v-model="task" />
             </DialogPanel>
         </div>
