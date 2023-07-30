@@ -1,4 +1,5 @@
 import {fireEvent, render} from '@testing-library/vue';
+import type {RenderResult} from '@testing-library/vue';
 import TaskList from '~/components/TaskList.vue';
 import {vOnClickOutside} from '@vueuse/components';
 
@@ -18,12 +19,22 @@ function prepare() {
     });
 
     return {
-        ...result,
-        querySelected: () => result.queryByText((_, element) => {
-            return element?.getAttribute('aria-selected') === 'true';
-        }),
+        result,
         taskItems: result.getAllByText(/^task/),
     };
+}
+
+function expectSelected(result: RenderResult, indexes: number[]) {
+    const selected = result.queryAllByText((_, element) => {
+        return element?.getAttribute('aria-selected') === 'true';
+    });
+
+    if (indexes.length === 0)
+        expect(selected).toStrictEqual([]);
+
+    selected.forEach((taskItem, i) => {
+        expect(taskItem.textContent).toBe(`task ${indexes[i]}`);
+    });
 }
 
 describe('TaskList', () => {
@@ -34,20 +45,32 @@ describe('TaskList', () => {
     });
 
     test('select 1 task', async () => {
-        const {taskItems, querySelected} = prepare();
+        const {result, taskItems} = prepare();
 
         await fireEvent.click(taskItems[0]);
-        let selected = querySelected();
-        expect(selected?.textContent).toBe('task 0');
+        expectSelected(result, [0]);
 
         await fireEvent.click(taskItems[2]);
-        selected = querySelected();
-        expect(selected?.textContent).toBe('task 2');
+        expectSelected(result, [2]);
 
         await fireEvent.click(document);
-        selected = querySelected();
-        expect(selected).toBeNull();
+        expectSelected(result, []);
     });
 
-    test.todo('select shift tasks');
+    test('cmd + select tasks', async () => {
+        const {result, taskItems} = prepare();
+
+        await fireEvent.click(taskItems[0], {metaKey: true});
+        expectSelected(result, [0]);
+
+        await fireEvent.click(taskItems[2], {metaKey: true});
+        expectSelected(result, [0, 2]);
+
+        // Deselect task 0.
+        await fireEvent.click(taskItems[0], {metaKey: true});
+        expectSelected(result, [2]);
+
+        await fireEvent.click(document);
+        expectSelected(result, []);
+    });
 });
