@@ -2,7 +2,7 @@
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {tasks} = storeToRefs(useTasksStore());
+const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
 </script>
 
 <template>
@@ -22,6 +22,7 @@ const {tasks} = storeToRefs(useTasksStore());
 
                 <TaskList
                     v-model="tasks"
+                    v-model:selected-indexes="selectedIndexes"
                     class="mt-8"
                 />
             </div>

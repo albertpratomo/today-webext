@@ -13,6 +13,7 @@ const hasDraft = computed(() => draftCreateTask.value.title || draftCreateTask.v
 <template>
     <div class="flex justify-center gap-4 py-2">
         <button
+            id="btn-new-task"
             :class="[buttonClass, {'text-indigo-500': hasDraft}]"
             @click="taskCreateDialogIsOpen = true"
         >

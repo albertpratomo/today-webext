@@ -5,6 +5,8 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = useStorageLocal<Task[]>('tasks', []);
 
+    const selectedIndexes = ref<number[]>([]);
+
     // Create Task ------------------------------------------------------------
 
     const BLANK_TASK = Object.freeze({
@@ -16,7 +18,16 @@ export const useTasksStore = defineStore('tasks', () => {
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {...BLANK_TASK});
 
     function createTask() {
-        tasks.value.unshift(draftCreateTask.value);
+        // Find the last selected index.
+        const index = selectedIndexes.value.length
+            ? (selectedIndexes.value.at(-1) || 0) + 1
+            : 0;
+
+        // Insert the new task there.
+        tasks.value.splice(index, 0, draftCreateTask.value);
+
+        // Highlight the newly created task.
+        selectedIndexes.value = [index];
 
         draftCreateTask.value = {...BLANK_TASK};
     };
@@ -25,6 +36,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
     return {
         tasks,
+        selectedIndexes,
 
         draftCreateTask,
         createTask,

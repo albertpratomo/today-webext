@@ -1,22 +1,11 @@
 <script setup lang="ts">
 import type Task from '~/models/Task';
 
-interface Props {
-    isSelected: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-    isSelected: false,
-});
-
 const task = defineModel<Task>({required: true});
 </script>
 
 <template>
-    <div
-        class="flex items-center rounded p-1.5"
-        :class="{'bg-indigo-900': isSelected}"
-    >
+    <div class="flex items-center rounded p-1.5">
         <input
             v-model="task.isDone"
             class="mr-1.5 h-4 w-4"
