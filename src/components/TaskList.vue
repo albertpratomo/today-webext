@@ -9,18 +9,23 @@ function onTaskEnter(task: Task, index: number) {
 
 }
 
-function onTaskClick(clicked: number, {ctrlKey, metaKey}: PointerEvent) {
+function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent) {
     if (ctrlKey || metaKey) {
-        const index = selectedIndexes.value.indexOf(clicked);
+        // Select or deselect the task.
+        selectedIndexes.value.includes(clicked)
+            ? selectedIndexes.value.splice(selectedIndexes.value.indexOf(clicked), 1)
+            : selectedIndexes.value.push(clicked);
+    }
+    else if (selectedIndexes.value.length && shiftKey) {
+        const lastIndex = selectedIndexes.value[selectedIndexes.value.length - 1];
 
-        // Deselect if the clicked task is already selected.
-        if (index !== -1) {
-            selectedIndexes.value.splice(index, 1);
-        }
-        else {
-            selectedIndexes.value.push(clicked);
-            selectedIndexes.value.sort((a, b) => a - b); // Keep the array sorted
-        }
+        selectedIndexes.value = Array.from(new Set([
+            ...selectedIndexes.value,
+            ...Array.from(
+                {length: Math.abs(clicked - lastIndex) + 1},
+                (_, i) => Math.min(clicked, lastIndex) + i,
+            ),
+        ]));
     }
     else {
         // Replace the whole selection.

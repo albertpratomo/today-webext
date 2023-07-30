@@ -3,9 +3,9 @@ import type {RenderResult} from '@testing-library/vue';
 import TaskList from '~/components/TaskList.vue';
 import {vOnClickOutside} from '@vueuse/components';
 
-function prepare() {
+function prepare(length = 5) {
     // Pass 5 tasks.
-    const modelValue = Array.from({length: 5}, (_, i) => ({title: `task ${i}`}));
+    const modelValue = Array.from({length}, (_, i) => ({title: `task ${i}`}));
 
     const result = render(TaskList, {
         global: {
@@ -72,5 +72,25 @@ describe('TaskList', () => {
 
         await fireEvent.click(document);
         expectSelected(result, []);
+    });
+
+    test('shift + select tasks', async () => {
+        const {result, taskItems} = prepare(6);
+
+        await fireEvent.click(taskItems[1], {shiftKey: true});
+        expectSelected(result, [1]);
+
+        await fireEvent.click(taskItems[3], {shiftKey: true});
+        expectSelected(result, [1, 2, 3]);
+
+        await fireEvent.click(taskItems[5], {shiftKey: true});
+        expectSelected(result, [1, 2, 3, 4, 5]);
+
+        await fireEvent.click(taskItems[0], {shiftKey: true});
+        expectSelected(result, [0, 1, 2, 3, 4, 5]);
+
+        // Deselect task 2.
+        await fireEvent.click(taskItems[2], {metaKey: true});
+        expectSelected(result, [0, 1, 3, 4, 5]);
     });
 });
