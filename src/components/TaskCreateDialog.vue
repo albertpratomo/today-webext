@@ -46,7 +46,7 @@ function close() {
                             class="mt-2"
                         />
 
-                        <div class="mt-2 flex justify-end gap-2">
+                        <div class="mt-5 flex justify-end gap-2">
                             <button class="btn-icon">
                                 <MaterialSymbolsStarRounded />
                             </button>
