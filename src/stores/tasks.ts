@@ -17,6 +17,13 @@ export const useTasksStore = defineStore('tasks', () => {
 
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {...BLANK_TASK});
 
+    const draftCreateTaskHasContent = computed(() => {
+        const {note} = draftCreateTask.value;
+
+        return draftCreateTask.value.title
+            || (note && note !== '<p></p>');
+    });
+
     function createTask() {
         // Find the last selected index.
         const index = selectedIndexes.value.length
@@ -39,6 +46,7 @@ export const useTasksStore = defineStore('tasks', () => {
         selectedIndexes,
 
         draftCreateTask,
+        draftCreateTaskHasContent,
         createTask,
         taskCreateDialogIsOpen,
     };

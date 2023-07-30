@@ -4,7 +4,11 @@ import {onKeyUp} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {draftCreateTask, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
+const {
+    draftCreateTask,
+    draftCreateTaskHasContent,
+    taskCreateDialogIsOpen,
+} = storeToRefs(useTasksStore());
 const {createTask} = useTasksStore();
 
 onKeyUp(['n', 'N'], (e) => {
@@ -23,13 +27,18 @@ function close() {
         @close="close()"
         @keyup.esc="close()"
     >
+        <div
+            aria-hidden="true"
+            class="fixed inset-0 bg-black/30"
+        />
+
         <div class="fixed inset-0 flex items-center justify-center p-4">
             <DialogPanel class="max-w-xl w-full">
                 <div class="border rounded bg-gray-800 text-gray-100">
                     <div class="py-4 pl-5 pr-2">
                         <TaskTitleInput
                             v-model="draftCreateTask.title"
-                            @keyup.enter="createTask()"
+                            @keyup.enter="() => draftCreateTaskHasContent ? createTask() : close()"
                         />
 
                         <TaskNoteInput
