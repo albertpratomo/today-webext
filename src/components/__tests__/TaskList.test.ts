@@ -12,6 +12,8 @@ function prepare() {
         },
         props: {
             modelValue,
+            'selectedIndexes': [],
+            'onUpdate:selectedIndexes': (selectedIndexes: number[]) => result.rerender({selectedIndexes}),
         },
     });
 

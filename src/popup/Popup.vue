@@ -13,7 +13,7 @@ function openOptionsPage() {
         <SharedSubtitle />
 
         <button
-            class="btn mt-2"
+            class="mt-2 btn"
             @click="openOptionsPage"
         >
             Open Options
