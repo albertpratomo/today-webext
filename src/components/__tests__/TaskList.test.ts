@@ -29,8 +29,7 @@ function expectSelected(result: RenderResult, indexes: number[]) {
         return element?.getAttribute('aria-selected') === 'true';
     });
 
-    if (indexes.length === 0)
-        expect(selected).toStrictEqual([]);
+    expect(selected.length).toBe(indexes.length);
 
     selected.forEach((taskItem, i) => {
         expect(taskItem.textContent).toBe(`task ${indexes[i]}`);
@@ -92,5 +91,35 @@ describe('TaskList', () => {
         // Deselect task 2.
         await fireEvent.click(taskItems[2], {metaKey: true});
         expectSelected(result, [0, 1, 3, 4, 5]);
+    });
+
+    test('select task with arrow key up and down', async () => {
+        const {result} = prepare();
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp'});
+        expectSelected(result, [4]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp'});
+        expectSelected(result, [3]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp'});
+        expectSelected(result, [2]);
+
+        await fireEvent.click(document); // Clicks away.
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [0]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp'});
+        expectSelected(result, [4]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [0]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [1]);
+
+        await fireEvent.keyDown(document, {key: 'Esc'});
+        expectSelected(result, []);
     });
 });
