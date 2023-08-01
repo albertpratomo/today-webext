@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
-import {onKeyUp} from '@vueuse/core';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
@@ -11,10 +11,9 @@ const {
 } = storeToRefs(useTasksStore());
 const {createTask} = useTasksStore();
 
-onKeyUp(['n', 'N'], (e) => {
-    if (e.target instanceof HTMLElement && !e.target.isContentEditable)
-        taskCreateDialogIsOpen.value = true;
-});
+onKeyStroke(['n', 'N'], () => {
+    taskCreateDialogIsOpen.value = true;
+}, {eventName: 'keyup'});
 
 function close() {
     taskCreateDialogIsOpen.value = false;

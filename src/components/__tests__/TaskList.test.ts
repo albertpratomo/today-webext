@@ -4,7 +4,6 @@ import TaskList from '~/components/TaskList.vue';
 import {vOnClickOutside} from '@vueuse/components';
 
 function prepare(length = 5) {
-    // Pass 5 tasks.
     const modelValue = Array.from({length}, (_, i) => ({title: `task ${i}`}));
 
     const result = render(TaskList, {
