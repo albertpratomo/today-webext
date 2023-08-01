@@ -36,16 +36,22 @@ const onClickOutside = [
     {ignore: ['#btn-new-task', '#headlessui-portal-root']},
 ];
 
-onKeyStroke(['ArrowDown', 'ArrowUp'], (event) => {
-    event.preventDefault();
+onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
+    e.preventDefault();
 
     const taskLength = tasks.value.length;
-    const isArrowDown = event.key === 'ArrowDown';
+    const isArrowDown = e.key === 'ArrowDown';
 
     const lastIndex = selectedIndexes.value.at(-1) ?? (isArrowDown ? -1 : 0);
     const selected = (lastIndex + (isArrowDown ? 1 : -1) + taskLength) % taskLength;
 
-    selectedIndexes.value = [selected];
+    if (e.shiftKey) {
+        if (selectedIndexes.value.includes(selected))
+            selectedIndexes.value = selectedIndexes.value.filter(i => i !== lastIndex);
+        else
+            selectedIndexes.value.push(selected);
+    }
+    else { selectedIndexes.value = [selected]; }
 });
 
 onKeyStroke(['Esc', 'Escape'], () => {

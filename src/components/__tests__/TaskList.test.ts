@@ -43,7 +43,7 @@ describe('TaskList', () => {
         expect(taskItems.length).toBe(5);
     });
 
-    test('select 1 task', async () => {
+    test('click 1 task', async () => {
         const {result, taskItems} = prepare();
 
         await fireEvent.click(taskItems[0]);
@@ -56,7 +56,7 @@ describe('TaskList', () => {
         expectSelected(result, []);
     });
 
-    test('cmd + select tasks', async () => {
+    test('cmd + click tasks', async () => {
         const {result, taskItems} = prepare();
 
         await fireEvent.click(taskItems[0], {metaKey: true});
@@ -73,7 +73,7 @@ describe('TaskList', () => {
         expectSelected(result, []);
     });
 
-    test('shift + select tasks', async () => {
+    test('shift + click tasks', async () => {
         const {result, taskItems} = prepare(6);
 
         await fireEvent.click(taskItems[1], {shiftKey: true});
@@ -93,7 +93,7 @@ describe('TaskList', () => {
         expectSelected(result, [0, 1, 3, 4, 5]);
     });
 
-    test('select task with arrow key up and down', async () => {
+    test('select task with arrow keys', async () => {
         const {result} = prepare();
 
         await fireEvent.keyDown(document, {key: 'ArrowUp'});
@@ -121,5 +121,24 @@ describe('TaskList', () => {
 
         await fireEvent.keyDown(document, {key: 'Esc'});
         expectSelected(result, []);
+    });
+
+    test('shift select tasks with arrow keys', async () => {
+        const {result} = prepare();
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [0]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
+        expectSelected(result, [0, 4]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
+        expectSelected(result, [0, 3, 4]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
+        expectSelected(result, [0, 4]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
+        expectSelected(result, [0]);
     });
 });
