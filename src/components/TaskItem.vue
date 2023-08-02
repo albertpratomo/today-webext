@@ -5,7 +5,7 @@ const task = defineModel<Task>({required: true});
 </script>
 
 <template>
-    <div class="flex items-center rounded p-1.5">
+    <div class="flex cursor-pointer select-none items-center rounded p-1.5">
         <input
             v-model="task.isDone"
             class="mr-1.5 h-4 w-4"
