@@ -11,3 +11,21 @@ html {
 code {
     @apply text-red bg-gray-100 rounded-sm p-px;
 }
+
+.prose {
+    --un-prose-borders: #ECEDFA;
+
+    & li {
+        & p, ul {
+            @apply m-0;
+        }
+    }
+
+    & ul[data-type="taskList"] {
+        @apply list-none p-0;
+
+        > li {
+            @apply flex gap-2;
+        }
+    }
+}
