@@ -1,6 +1,8 @@
 import {fireEvent, render} from '@testing-library/vue';
 import type {RenderResult} from '@testing-library/vue';
 import TaskList from '~/components/TaskList.vue';
+import {createTestingPinia} from '@pinia/testing';
+import {useTasksStore} from '~/stores/tasks';
 import {vOnClickOutside} from '@vueuse/components';
 
 function prepare(length = 5) {
@@ -9,6 +11,7 @@ function prepare(length = 5) {
     const result = render(TaskList, {
         global: {
             directives: {'on-click-outside': vOnClickOutside},
+            plugins: [createTestingPinia()],
         },
         props: {
             modelValue,
@@ -16,9 +19,11 @@ function prepare(length = 5) {
             'onUpdate:selectedIndexes': (selectedIndexes: number[]) => result.rerender({selectedIndexes}),
         },
     });
+    const store = useTasksStore();
 
     return {
         result,
+        store,
         taskItems: result.getAllByText(/^task/),
     };
 }
@@ -139,5 +144,12 @@ describe('TaskList', () => {
 
         await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
         expectSelected(result, [0]);
+    });
+
+    test('edit 1 task', async () => {
+        const {store, taskItems} = prepare(1);
+
+        await fireEvent.dblClick(taskItems[0]);
+        expect(store.editTask).toHaveBeenCalledWith({title: 'task 0'});
     });
 });
