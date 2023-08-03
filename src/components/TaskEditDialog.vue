@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {draftEditTask} = storeToRefs(useTasksStore());
+const {draftEditTask, selectedTask} = storeToRefs(useTasksStore());
 const {editTask} = useTasksStore();
+
+onKeyStroke('Enter', ({metaKey}) => {
+    if (metaKey && selectedTask.value)
+        editTask(selectedTask.value);
+});
 
 function close() {
     draftEditTask.value = null;
@@ -25,7 +31,10 @@ function close() {
         <div class="fixed inset-0 flex items-center justify-center p-4">
             <DialogPanel class="max-w-xl w-full">
                 <div class="border rounded bg-gray-800 text-gray-100">
-                    <div class="py-4 pl-5 pr-2">
+                    <div
+                        v-if="draftEditTask"
+                        class="py-4 pl-5 pr-2"
+                    >
                         <TaskTitleInput
                             v-model="draftEditTask.title"
                             @keyup.enter="close()"

@@ -7,6 +7,13 @@ export const useTasksStore = defineStore('tasks', () => {
 
     const selectedIndexes = ref<number[]>([]);
 
+    const selectedTask = computed(() => {
+        if (tasks.value.length && selectedIndexes.value.length === 1)
+            return tasks.value[selectedIndexes.value[0]];
+
+        return null;
+    });
+
     // Create Task ------------------------------------------------------------
 
     const BLANK_TASK = Object.freeze({
@@ -52,6 +59,7 @@ export const useTasksStore = defineStore('tasks', () => {
     return {
         tasks,
         selectedIndexes,
+        selectedTask,
 
         draftCreateTask,
         draftCreateTaskHasContent,
