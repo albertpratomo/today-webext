@@ -41,6 +41,14 @@ export const useTasksStore = defineStore('tasks', () => {
 
     const taskCreateDialogIsOpen = ref(false);
 
+    // Edit Task --------------------------------------------------------------
+
+    const draftEditTask = ref<Task | null>(null);
+
+    function editTask(task: Task) {
+        draftEditTask.value = task;
+    }
+
     return {
         tasks,
         selectedIndexes,
@@ -49,5 +57,8 @@ export const useTasksStore = defineStore('tasks', () => {
         draftCreateTaskHasContent,
         createTask,
         taskCreateDialogIsOpen,
+
+        draftEditTask,
+        editTask,
     };
 });

@@ -16,6 +16,7 @@ declare module 'vue' {
     MaterialSymbolsTag: typeof import('~icons/material-symbols/tag')['default']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
     TaskCreateDialog: typeof import('./components/TaskCreateDialog.vue')['default']
+    TaskEditDialog: typeof import('./components/TaskEditDialog.vue')['default']
     TaskItem: typeof import('./components/TaskItem.vue')['default']
     TaskList: typeof import('./components/TaskList.vue')['default']
     TaskNoteInput: typeof import('./components/TaskNoteInput.vue')['default']

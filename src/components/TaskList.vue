@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
+import {useTasksStore} from '~/stores/tasks';
 
 const tasks = defineModel<Task[]>({required: true});
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {required: true});
@@ -57,16 +58,19 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 onKeyStroke(['Esc', 'Escape'], () => {
     selectedIndexes.value = [];
 });
+
+const {editTask} = useTasksStore();
 </script>
 
 <template>
     <div v-on-click-outside="onClickOutside">
         <TaskItem
-            v-for="(_, i) in tasks"
+            v-for="(task, i) in tasks"
             :key="i"
             v-model="tasks[i]"
             :aria-selected="selectedIndexes.includes(i)"
             @click="onTaskClick(i, $event)"
+            @dblclick="editTask(task)"
         />
     </div>
 </template>

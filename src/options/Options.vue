@@ -31,5 +31,7 @@ const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
         </div>
 
         <TaskCreateDialog />
+
+        <TaskEditDialog />
     </main>
 </template>
