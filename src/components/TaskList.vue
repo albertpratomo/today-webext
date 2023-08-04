@@ -5,8 +5,16 @@ import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useTasksStore} from '~/stores/tasks';
 
+const {editTask} = useTasksStore();
 const tasks = defineModel<Task[]>({required: true});
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {required: true});
+
+function selectTask(index: number | number[]) {
+    if (!Array.isArray(index))
+        index = [index];
+
+    selectedIndexes.value = index;
+}
 
 function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent) {
     if (ctrlKey || metaKey) {
@@ -18,22 +26,22 @@ function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent
     else if (selectedIndexes.value.length && shiftKey) {
         const lastIndex = selectedIndexes.value[selectedIndexes.value.length - 1];
 
-        selectedIndexes.value = Array.from(new Set([
+        selectTask(Array.from(new Set([
             ...selectedIndexes.value,
             ...Array.from(
                 {length: Math.abs(clicked - lastIndex) + 1},
                 (_, i) => Math.min(clicked, lastIndex) + i,
             ),
-        ]));
+        ])));
     }
     else {
         // Replace the whole selection.
-        selectedIndexes.value = [clicked];
+        selectTask(clicked);
     }
 }
 
 const onClickOutside = [
-    () => selectedIndexes.value = [],
+    () => selectTask([]),
     // Don't deselect when user click on these elements, so user can insert task
     // under the selected position.
     {ignore: ['#btn-new-task', '#headlessui-portal-root']},
@@ -50,27 +58,23 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 
     if (e.shiftKey) {
         if (selectedIndexes.value.includes(selected))
-            selectedIndexes.value = selectedIndexes.value.filter(i => i !== lastIndex);
+            selectTask(selectedIndexes.value.filter(i => i !== lastIndex));
         else
             selectedIndexes.value.push(selected);
     }
-    else { selectedIndexes.value = [selected]; }
+    else { selectTask(selected); }
 });
 
 onKeyStroke(['Esc', 'Escape'], () => {
-    selectedIndexes.value = [];
+    selectTask([]);
 });
-
-const {editTask} = useTasksStore();
 
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
-    onUpdate: (e: SortableEvent) => {
+    onUpdate: async (e: SortableEvent) => {
         moveArrayElement(tasks.value, e.oldIndex, e.newIndex);
-
-        nextTick(() => {
-            selectedIndexes.value = [e.newIndex];
-        });
+        await nextTick();
+        selectTask(e.newIndex);
     },
 });
 </script>
@@ -87,7 +91,7 @@ useSortable(list, tasks, {
             :aria-selected="selectedIndexes.includes(i)"
             @click="onTaskClick(i, $event)"
             @dblclick="editTask(task)"
-            @dragstart="selectedIndexes = [i]"
+            @dragstart="selectTask(i)"
         />
     </div>
 </template>
