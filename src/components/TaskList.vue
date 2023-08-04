@@ -77,7 +77,7 @@ onKeyStroke(['Esc', 'Escape'], () => {
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
     onUpdate: async (e: SortableEvent) => {
-        swapTask(e.oldIndex, e.newIndex);
+        swapTask(e.oldIndex!, e.newIndex!);
     },
 });
 
