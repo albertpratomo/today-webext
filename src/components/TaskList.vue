@@ -23,7 +23,7 @@ function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent
             ? selectedIndexes.value.splice(selectedIndexes.value.indexOf(clicked), 1)
             : selectedIndexes.value.push(clicked);
     }
-    else if (selectedIndexes.value.length && shiftKey) {
+    else if (shiftKey && selectedIndexes.value.length) {
         const lastIndex = selectedIndexes.value[selectedIndexes.value.length - 1];
 
         selectTask(Array.from(new Set([

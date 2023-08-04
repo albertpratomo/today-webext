@@ -1,9 +1,11 @@
 import {presetAttributify, presetTypography, presetUno, transformerDirectives} from 'unocss';
 import {defineConfig} from 'unocss/vite';
+import {presetForms} from '@julr/unocss-preset-forms';
 
 export default defineConfig({
     presets: [
         presetAttributify(),
+        presetForms(),
         presetTypography(),
         presetUno(),
     ],

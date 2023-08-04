@@ -29,3 +29,16 @@ code {
         }
     }
 }
+
+input[type=checkbox] {
+    @apply rounded-full text-indigo-400 border-gray-300 bg-transparent hover:bg-gray-500 w-1em h-1em;
+
+    &:focus {
+        --un-ring-offset-width: 1px;
+        --un-ring-offset-color: transparent;
+    }
+
+    &:checked {
+        background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 24 24' width='1.2em' height='1.2em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='m10 16.4l-4-4L7.4 11l2.6 2.6L16.6 7L18 8.4l-8 8Z'/%3E%3C/svg%3E");
+    }
+}
