@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {moveArrayElement, useSortable} from '@vueuse/integrations/useSortable';
+import type {SortableEvent} from 'sortablejs';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useTasksStore} from '~/stores/tasks';
@@ -60,17 +62,32 @@ onKeyStroke(['Esc', 'Escape'], () => {
 });
 
 const {editTask} = useTasksStore();
+
+const list = ref<HTMLElement | null>(null);
+useSortable(list, tasks, {
+    onUpdate: (e: SortableEvent) => {
+        moveArrayElement(tasks.value, e.oldIndex, e.newIndex);
+
+        nextTick(() => {
+            selectedIndexes.value = [e.newIndex];
+        });
+    },
+});
 </script>
 
 <template>
-    <div v-on-click-outside="onClickOutside">
+    <div
+        ref="list"
+        v-on-click-outside="onClickOutside"
+    >
         <TaskItem
             v-for="(task, i) in tasks"
-            :key="i"
+            :key="`${i}-${task.title}`"
             v-model="tasks[i]"
             :aria-selected="selectedIndexes.includes(i)"
             @click="onTaskClick(i, $event)"
             @dblclick="editTask(task)"
+            @dragstart="selectedIndexes = [i]"
         />
     </div>
 </template>
