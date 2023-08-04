@@ -62,6 +62,11 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
         else
             selectedIndexes.value.push(selected);
     }
+    else if (e.altKey && selectedIndexes.value.length === 1) {
+        const oldIndex = selectedIndexes.value[0];
+        const newIndex = oldIndex + (isArrowDown ? 1 : -1);
+        swapTask(oldIndex, newIndex);
+    }
     else { selectTask(selected); }
 });
 
@@ -72,11 +77,19 @@ onKeyStroke(['Esc', 'Escape'], () => {
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
     onUpdate: async (e: SortableEvent) => {
-        moveArrayElement(tasks.value, e.oldIndex, e.newIndex);
-        await nextTick();
-        selectTask(e.newIndex);
+        swapTask(e.oldIndex, e.newIndex);
     },
 });
+
+async function swapTask(oldIndex: number, newIndex: number) {
+    if (newIndex >= 0 && newIndex < tasks.value.length) {
+        moveArrayElement(tasks.value, oldIndex, newIndex);
+
+        await nextTick();
+
+        selectTask(newIndex);
+    }
+}
 </script>
 
 <template>
