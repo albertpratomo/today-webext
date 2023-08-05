@@ -5,8 +5,11 @@ import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useTasksStore} from '~/stores/tasks';
 
+const {t} = useI18n();
 const {editTask} = useTasksStore();
 const tasks = defineModel<Task[]>({required: true});
+const undoneTasks = computed(() => tasks.value.filter(t => !t.isDone));
+const doneTasks = computed(() => tasks.value.filter(t => t.isDone));
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {required: true});
 
 function selectTask(index: number | number[]) {
@@ -50,7 +53,7 @@ const onClickOutside = [
 onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     e.preventDefault();
 
-    const taskLength = tasks.value.length;
+    const taskLength = undoneTasks.value.length;
     const isArrowDown = e.key === 'ArrowDown';
 
     const lastIndex = selectedIndexes.value.at(-1) ?? (isArrowDown ? -1 : 0);
@@ -82,7 +85,7 @@ useSortable(list, tasks, {
 });
 
 async function swapTask(oldIndex: number, newIndex: number) {
-    if (newIndex >= 0 && newIndex < tasks.value.length) {
+    if (newIndex >= 0 && newIndex < undoneTasks.value.length) {
         moveArrayElement(tasks.value, oldIndex, newIndex);
 
         await nextTick();
@@ -90,22 +93,51 @@ async function swapTask(oldIndex: number, newIndex: number) {
         selectTask(newIndex);
     }
 }
+
+const showDoneTasks = ref(false);
+const toggleText = computed(() => {
+    const key = showDoneTasks.value ? 'hide' : 'show';
+    return t(`actions.${key}CompletedTasks`);
+});
 </script>
 
 <template>
-    <div
-        ref="list"
-        v-on-click-outside="onClickOutside"
-    >
-        <TaskItem
-            v-for="(task, i) in tasks"
-            :key="`${i}-${task.title}`"
-            v-model="tasks[i]"
-            :aria-selected="selectedIndexes.includes(i)"
-            @click="onTaskClick(i, $event)"
-            @dblclick="editTask(task)"
-            @dragstart="selectTask(i)"
-        />
+    <div>
+        <div
+            ref="list"
+            v-on-click-outside="onClickOutside"
+        >
+            <TaskItem
+                v-for="(task, i) in undoneTasks"
+                :key="`${i}-${task.title}`"
+                v-model="undoneTasks[i]"
+                :aria-selected="selectedIndexes.includes(i)"
+                @click="onTaskClick(i, $event)"
+                @dblclick="editTask(task)"
+                @dragstart="selectTask(i)"
+            />
+        </div>
+
+        <div
+            v-if="doneTasks.length"
+            class="mt-12"
+        >
+            <button
+                class="text-sm text-gray-400"
+                @click="showDoneTasks = !showDoneTasks"
+            >
+                {{ toggleText }}
+            </button>
+
+            <template v-if="showDoneTasks">
+                <TaskItem
+                    v-for="(task, i) in doneTasks"
+                    :key="`${i}-${task.title}`"
+                    v-model="doneTasks[i]"
+                    @dblclick="editTask(task)"
+                />
+            </template>
+        </div>
     </div>
 </template>
 

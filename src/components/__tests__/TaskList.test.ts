@@ -2,16 +2,20 @@ import {fireEvent, render} from '@testing-library/vue';
 import type {RenderResult} from '@testing-library/vue';
 import TaskList from '~/components/TaskList.vue';
 import {createTestingPinia} from '@pinia/testing';
+import i18n from '~/i18n';
 import {useTasksStore} from '~/stores/tasks';
 import {vOnClickOutside} from '@vueuse/components';
 
 function prepare(length = 5) {
-    const modelValue = Array.from({length}, (_, i) => ({title: `task ${i}`}));
+    const modelValue = Array.from({length}, (_, i) => ({
+        title: `task ${i}`,
+        isDone: false,
+    }));
 
     const result = render(TaskList, {
         global: {
             directives: {'on-click-outside': vOnClickOutside},
-            plugins: [createTestingPinia()],
+            plugins: [createTestingPinia(), i18n],
         },
         props: {
             modelValue,
@@ -150,7 +154,10 @@ describe('TaskList', () => {
         const {store, taskItems} = prepare(1);
 
         await fireEvent.dblClick(taskItems[0]);
-        expect(store.editTask).toHaveBeenCalledWith({title: 'task 0'});
+        expect(store.editTask).toHaveBeenCalledWith({
+            title: 'task 0',
+            isDone: false,
+        });
     });
 
     test('cmd + shift + arrow key to reorder task', async () => {
@@ -168,5 +175,16 @@ describe('TaskList', () => {
         await nextTick();
         taskItems = await result.findAllByText(/^task/);
         expect(taskItems[1].textContent).toBe('task 0');
+    });
+
+    test('complete task', async () => {
+        const {result} = prepare(1);
+
+        const input: HTMLInputElement = result.getByRole('checkbox');
+        await fireEvent.update(input);
+        expect(input.checked).toBe(true);
+
+        // Expect completed task to be hidden.
+        expect(result.queryByText('task 0')).toBeNull();
     });
 });

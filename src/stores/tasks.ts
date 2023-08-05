@@ -1,4 +1,5 @@
 import type Task from '~/models/Task';
+import {computedEager} from '@vueuse/core';
 import {defineStore} from 'pinia';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
@@ -33,7 +34,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {...BLANK_TASK});
 
-    const draftCreateTaskHasContent = computed(() => {
+    const draftCreateTaskHasContent = computedEager(() => {
         const {note} = draftCreateTask.value;
 
         return draftCreateTask.value.title

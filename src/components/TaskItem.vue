@@ -10,11 +10,13 @@ const task = defineModel<Task>({required: true});
             v-model="task.isDone"
             class="mr-1"
             type="checkbox"
+            @click.stop
             @dblclick.stop
         >
 
         <div
-            class="grow border border-transparent px-1.5 py-1"
+            class="grow border border-transparent px-1.5 py-1 transition-colors"
+            :class="{'text-gray-400': task.isDone}"
             v-html="task.title"
         />
     </div>

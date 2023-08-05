@@ -4,6 +4,8 @@ export default {
     actions: {
         addTask: 'Add task',
         cancel: 'Cancel',
+        hideCompletedTasks: 'Hide completed tasks',
+        showCompletedTasks: 'Show completed tasks',
     },
     fields: {
         taskNote: {placeholder: 'Add notes'},
