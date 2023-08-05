@@ -56,16 +56,16 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     const lastIndex = selectedIndexes.value.at(-1) ?? (isArrowDown ? -1 : 0);
     const selected = (lastIndex + (isArrowDown ? 1 : -1) + taskLength) % taskLength;
 
-    if (e.shiftKey) {
+    if (e.shiftKey && (e.metaKey || e.ctrlKey) && selectedIndexes.value.length === 1) {
+        const oldIndex = selectedIndexes.value[0];
+        const newIndex = oldIndex + (isArrowDown ? 1 : -1);
+        swapTask(oldIndex, newIndex);
+    }
+    else if (e.shiftKey) {
         if (selectedIndexes.value.includes(selected))
             selectTask(selectedIndexes.value.filter(i => i !== lastIndex));
         else
             selectedIndexes.value.push(selected);
-    }
-    else if (e.altKey && selectedIndexes.value.length === 1) {
-        const oldIndex = selectedIndexes.value[0];
-        const newIndex = oldIndex + (isArrowDown ? 1 : -1);
-        swapTask(oldIndex, newIndex);
     }
     else { selectTask(selected); }
 });

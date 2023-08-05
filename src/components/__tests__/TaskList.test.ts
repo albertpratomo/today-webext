@@ -153,18 +153,18 @@ describe('TaskList', () => {
         expect(store.editTask).toHaveBeenCalledWith({title: 'task 0'});
     });
 
-    test('alt + arrow key to reorder task', async () => {
+    test('cmd + shift + arrow key to reorder task', async () => {
         const {result} = prepare(2);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown'});
         expectSelected(result, [0]);
 
-        await fireEvent.keyDown(document, {key: 'ArrowDown', altKey: true});
+        await fireEvent.keyDown(document, {key: 'ArrowDown', metaKey: true, shiftKey: true});
         await nextTick();
         let taskItems = await result.findAllByText(/^task/);
         expect(taskItems[1].textContent).toBe('task 0');
 
-        await fireEvent.keyDown(document, {key: 'ArrowDown', altKey: true});
+        await fireEvent.keyDown(document, {key: 'ArrowDown', metaKey: true, shiftKey: true});
         await nextTick();
         taskItems = await result.findAllByText(/^task/);
         expect(taskItems[1].textContent).toBe('task 0');
