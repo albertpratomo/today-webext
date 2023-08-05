@@ -4,7 +4,6 @@ export default {
     actions: {
         addTask: 'Add task',
         cancel: 'Cancel',
-        saveTask: 'Save task',
     },
     fields: {
         taskNote: {placeholder: 'Add notes'},

@@ -55,22 +55,6 @@ function close() {
                             </button>
                         </div>
                     </div>
-
-                    <div class="flex justify-end gap-2 border-t p-2 pl-5">
-                        <button
-                            class="btn-gray"
-                            @click="close()"
-                        >
-                            {{ $t('actions.cancel') }}
-                        </button>
-
-                        <button
-                            class="btn-indigo"
-                            @click="close()"
-                        >
-                            {{ $t('actions.saveTask') }}
-                        </button>
-                    </div>
                 </div>
             </DialogPanel>
         </div>
