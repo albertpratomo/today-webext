@@ -177,7 +177,7 @@ describe('TaskList', () => {
         expect(taskItems[1].textContent).toBe('task 0');
     });
 
-    test('complete task', async () => {
+    test('click checkbox to complete task', async () => {
         vi.useFakeTimers();
         const {result} = prepare(1);
 
@@ -193,5 +193,20 @@ describe('TaskList', () => {
 
         // Expect completed task to be hidden.
         expect(result.queryByText('task 0')).toBeNull();
+    });
+
+    test('[D] to complete task', async () => {
+        vi.useFakeTimers();
+        const {result} = prepare(1);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [0]);
+
+        await fireEvent.keyDown(document, {key: 'd'});
+        const input: HTMLInputElement = result.getByRole('checkbox');
+        expect(input.checked).toBe(true);
+
+        await fireEvent.keyDown(document, {key: 'd'});
+        expect(input.checked).toBe(false);
     });
 });

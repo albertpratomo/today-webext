@@ -28,6 +28,7 @@ export const sharedConfig: UserConfig = {
         Vue({
             script: {
                 defineModel: true,
+                propsDestructure: true,
             },
         }),
 

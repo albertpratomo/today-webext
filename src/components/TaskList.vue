@@ -112,6 +112,7 @@ const toggleText = computed(() => {
                 :key="`${i}-${task.title}`"
                 v-model="undoneTasks[i]"
                 :aria-selected="selectedIndexes.includes(i)"
+                :is-selected="selectedIndexes.includes(i)"
                 @click="onTaskClick(i, $event)"
                 @dblclick="editTask(task)"
                 @dragstart="selectTask(i)"

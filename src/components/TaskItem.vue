@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type Task from '~/models/Task';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useDebounceFn} from '@vueuse/core';
 
+const {isSelected = false} = defineProps<{isSelected?: boolean}>();
 const task = defineModel<Task>({required: true});
-
 const _isDone = ref(task.value.isDone);
 
 const updateIsDone = useDebounceFn((val: boolean) => {
@@ -15,6 +16,11 @@ watch(_isDone, (val) => {
         updateIsDone(val);
     else
         task.value.isDone = val;
+});
+
+onKeyStroke(['d', 'D'], () => {
+    if (isSelected)
+        _isDone.value = !_isDone.value;
 });
 </script>
 
