@@ -26,13 +26,18 @@ export const useTasksStore = defineStore('tasks', () => {
 
     // Create Task ------------------------------------------------------------
 
+    const lastTaskId = useStorageLocal<number>('lastTaskId', 1);
+
     const BLANK_TASK = Object.freeze({
         title: '',
         note: '',
         isDone: false,
     });
 
-    const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {...BLANK_TASK});
+    const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {
+        id: lastTaskId.value,
+        ...BLANK_TASK,
+    });
 
     const draftCreateTaskHasContent = computedEager(() => {
         const {note} = draftCreateTask.value;
@@ -53,7 +58,10 @@ export const useTasksStore = defineStore('tasks', () => {
         // Highlight the newly created task.
         selectTask(index);
 
-        draftCreateTask.value = {...BLANK_TASK};
+        draftCreateTask.value = {
+            id: ++lastTaskId.value,
+            ...BLANK_TASK,
+        };
     };
 
     const taskCreateDialogIsOpen = ref(false);
@@ -73,6 +81,7 @@ export const useTasksStore = defineStore('tasks', () => {
         selectedTask,
         selectTask,
 
+        lastTaskId,
         draftCreateTask,
         draftCreateTaskHasContent,
         createTask,

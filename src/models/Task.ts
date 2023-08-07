@@ -1,4 +1,5 @@
 interface Task {
+    id: number
     title: string
     note: string
     isDone: boolean

@@ -8,6 +8,7 @@ import {vOnClickOutside} from '@vueuse/components';
 
 function prepare(length = 5) {
     const modelValue = Array.from({length}, (_, i) => ({
+        id: i + 1,
         title: `task ${i}`,
         isDone: false,
     }));
