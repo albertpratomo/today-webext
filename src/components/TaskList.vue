@@ -86,7 +86,10 @@ useSortable(list, tasks, {
 
 async function swapTask(oldIndex: number, newIndex: number) {
     if (newIndex >= 0 && newIndex < undoneTasks.value.length) {
-        moveArrayElement(tasks.value, oldIndex, newIndex);
+        const from = tasks.value.indexOf(undoneTasks.value[oldIndex]);
+        const to = tasks.value.indexOf(undoneTasks.value[newIndex]);
+
+        moveArrayElement(tasks.value, from, to);
 
         await nextTick();
 
@@ -131,7 +134,7 @@ function onTaskDone(index: number) {
             class="mt-12"
         >
             <button
-                class="text-sm text-gray-400"
+                class="rounded p-2 text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-300"
                 @click="showDoneTasks = !showDoneTasks"
             >
                 {{ toggleText }}
