@@ -156,6 +156,7 @@ describe('TaskList', () => {
 
         await fireEvent.dblClick(taskItems[0]);
         expect(store.editTask).toHaveBeenCalledWith({
+            id: 1,
             title: 'task 0',
             isDone: false,
         });

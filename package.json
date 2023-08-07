@@ -28,7 +28,7 @@
     "test": "vitest test",
     "test:e2e": "playwright test",
     "postinstall": "simple-git-hooks",
-    "typecheck": "vue-tsc --noEmit"
+    "tsc": "vue-tsc --noEmit"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
