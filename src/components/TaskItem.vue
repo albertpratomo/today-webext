@@ -4,11 +4,18 @@ import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useDebounceFn} from '@vueuse/core';
 
 const {isSelected = false} = defineProps<{isSelected?: boolean}>();
+const emit = defineEmits<{
+    done: []
+}>();
+
 const task = defineModel<Task>({required: true});
 const _isDone = ref(task.value.isDone);
 
 const updateIsDone = useDebounceFn((val: boolean) => {
     task.value.isDone = val;
+
+    if (val)
+        emit('done');
 }, 1800);
 
 watch(_isDone, (val) => {
