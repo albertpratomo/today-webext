@@ -8,8 +8,8 @@ import {useTasksStore} from '~/stores/tasks';
 const {t} = useI18n();
 const {editTask} = useTasksStore();
 const tasks = defineModel<Task[]>({required: true});
-const undoneTasks = computed(() => tasks.value.filter(t => !t.isDone));
-const doneTasks = computed(() => tasks.value.filter(t => t.isDone).reverse());
+const undoneTasks = computed(() => tasks.value.filter(t => !t.deletedAt && !t.isDone));
+const doneTasks = computed(() => tasks.value.filter(t => !t.deletedAt && t.isDone).reverse());
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {required: true});
 
 function selectTask(index: number | number[]) {
@@ -108,6 +108,15 @@ function onTaskDone(index: number) {
     // beginning of the array and can be reordered correctly.
     tasks.value.push(tasks.value.splice(index, 1)[0]);
 }
+
+onKeyStroke(['Backspace'], () => {
+    selectedIndexes.value.forEach((i) => {
+        undoneTasks.value[i].deletedAt = new Date();
+    });
+
+    if (selectedIndexes.value.length > 1)
+        selectTask(0);
+});
 </script>
 
 <template>

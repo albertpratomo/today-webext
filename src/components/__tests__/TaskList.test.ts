@@ -198,7 +198,6 @@ describe('TaskList', () => {
     });
 
     test('[D] to complete task', async () => {
-        vi.useFakeTimers();
         const {result} = prepare(1);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown'});
@@ -210,5 +209,17 @@ describe('TaskList', () => {
 
         await fireEvent.keyDown(document, {key: 'd'});
         expect(input.checked).toBe(false);
+    });
+
+    test('backspace to delete task', async () => {
+        const {result, taskItems} = prepare();
+
+        await fireEvent.click(taskItems[1], {metaKey: true});
+        await fireEvent.click(taskItems[2], {metaKey: true});
+        await fireEvent.keyDown(document, {key: 'Backspace'});
+
+        const tasks = result.getAllByText(/^task/);
+        expect(tasks.length).toBe(3);
+        expectSelected(result, [0]);
     });
 });

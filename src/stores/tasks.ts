@@ -32,6 +32,7 @@ export const useTasksStore = defineStore('tasks', () => {
         title: '',
         note: '',
         isDone: false,
+        deletedAt: null,
     });
 
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {

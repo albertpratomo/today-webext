@@ -3,6 +3,7 @@ interface Task {
     title: string
     note: string
     isDone: boolean
+    deletedAt: Date | null
 }
 
 export default Task;
