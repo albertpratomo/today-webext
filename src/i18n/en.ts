@@ -12,4 +12,5 @@ export default {
         taskTitle: {placeholder: 'Start with a verb'},
     },
     today: 'Today',
+    trash: 'Trash',
 };

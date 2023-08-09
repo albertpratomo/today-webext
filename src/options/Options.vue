@@ -1,14 +1,19 @@
-<script setup lang="ts">
-import {storeToRefs} from 'pinia';
-import {useTasksStore} from '~/stores/tasks';
-
-const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
-</script>
-
 <template>
     <main class="h-screen flex">
         <div class="w-48 shrink-0 border-r p-10 text-lg">
-            {{ $t('today') }}
+            <ul class="space-y-4">
+                <li>
+                    <RouterLink :to="{name: 'index'}">
+                        {{ $t('today') }}
+                    </RouterLink>
+                </li>
+
+                <li>
+                    <RouterLink :to="{name: 'trash'}">
+                        {{ $t('trash') }}
+                    </RouterLink>
+                </li>
+            </ul>
         </div>
 
         <div
@@ -16,15 +21,7 @@ const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
             p="t-10"
         >
             <div class="px-10 space-y-8">
-                <h1 class="text-4xl">
-                    {{ $t('today') }}
-                </h1>
-
-                <TaskList
-                    v-model="tasks"
-                    v-model:selected-indexes="selectedIndexes"
-                    class="mt-8"
-                />
+                <RouterView />
             </div>
 
             <BottomToolbar class="mt-auto border-t" />
