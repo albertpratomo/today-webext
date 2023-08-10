@@ -1,5 +1,6 @@
 import {fireEvent, render} from '@testing-library/vue';
 import type {RenderResult} from '@testing-library/vue';
+import type Task from '~/models/Task';
 import TaskList from '~/components/TaskList.vue';
 import {createTestingPinia} from '@pinia/testing';
 import i18n from '~/i18n';
@@ -16,19 +17,19 @@ function prepare(length = 5) {
     const result = render(TaskList, {
         global: {
             directives: {'on-click-outside': vOnClickOutside},
-            plugins: [createTestingPinia(), i18n],
+            plugins: [createTestingPinia({stubActions: false}), i18n],
         },
         props: {
             modelValue,
+            'onUpdate:modelValue': (modelValue: Task[]) => result.rerender({modelValue}),
             'selectedIndexes': [],
             'onUpdate:selectedIndexes': (selectedIndexes: number[]) => result.rerender({selectedIndexes}),
         },
     });
-    const store = useTasksStore();
 
     return {
         result,
-        store,
+        store: useTasksStore(),
         taskItems: result.getAllByText(/^task/),
     };
 }

@@ -1,5 +1,5 @@
+import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
-import {defineStore} from 'pinia';
 import pullAt from 'lodash/pullAt';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
@@ -21,3 +21,6 @@ export const useTrashStore = defineStore('trash', () => {
         trashTasks,
     };
 });
+
+if (import.meta.hot)
+    import.meta.hot.accept(acceptHMRUpdate(useTrashStore, import.meta.hot));

@@ -1,6 +1,6 @@
+import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
 import {computedEager} from '@vueuse/core';
-import {defineStore} from 'pinia';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useTasksStore = defineStore('tasks', () => {
@@ -73,3 +73,6 @@ export const useTasksStore = defineStore('tasks', () => {
         editTask,
     };
 });
+
+if (import.meta.hot)
+    import.meta.hot.accept(acceptHMRUpdate(useTasksStore, import.meta.hot));
