@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
-import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {draftEditTask, selectedTask} = storeToRefs(useTasksStore());
-const {editTask} = useTasksStore();
-
-onKeyStroke('Enter', ({metaKey}) => {
-    if (metaKey && selectedTask.value)
-        editTask(selectedTask.value);
-});
+const {draftEditTask} = storeToRefs(useTasksStore());
 
 function close() {
     draftEditTask.value = null;

@@ -6,23 +6,7 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = useStorageLocal<Task[]>('tasks', []);
 
-    // Select Task ------------------------------------------------------------
-
     const selectedIndexes = ref<number[]>([]);
-
-    const selectedTask = computed(() => {
-        if (tasks.value.length && selectedIndexes.value.length === 1)
-            return tasks.value[selectedIndexes.value[0]];
-
-        return null;
-    });
-
-    function selectTask(index: number | number[]) {
-        if (!Array.isArray(index))
-            index = [index];
-
-        selectedIndexes.value = index;
-    }
 
     // Create Task ------------------------------------------------------------
 
@@ -57,7 +41,7 @@ export const useTasksStore = defineStore('tasks', () => {
         tasks.value.splice(index, 0, draftCreateTask.value);
 
         // Highlight the newly created task.
-        selectTask(index);
+        selectedIndexes.value = [index];
 
         draftCreateTask.value = {
             id: ++lastTaskId.value,
@@ -77,10 +61,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
     return {
         tasks,
-
         selectedIndexes,
-        selectedTask,
-        selectTask,
 
         lastTaskId,
         draftCreateTask,

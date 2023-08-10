@@ -7,11 +7,11 @@ import {useTasksStore} from '~/stores/tasks';
 import {useTrashStore} from '~/stores/trash';
 
 const {t} = useI18n();
-const {editTask} = useTasksStore();
+
 const tasks = defineModel<Task[]>({required: true});
 const undoneTasks = computed(() => tasks.value.filter(t => !t.isDone));
 const doneTasks = computed(() => tasks.value.filter(t => t.isDone).reverse());
-const selectedIndexes = defineModel<number[]>('selectedIndexes', {default: []});
+const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, default: []});
 
 function selectTask(index: number | number[]) {
     if (!Array.isArray(index))
@@ -76,6 +76,12 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 
 onKeyStroke(['Esc', 'Escape'], () => {
     selectTask([]);
+});
+
+const {editTask} = useTasksStore();
+onKeyStroke('Enter', ({metaKey}) => {
+    if (metaKey && selectedIndexes.value.length === 1)
+        editTask(undoneTasks.value[selectedIndexes.value[0]]);
 });
 
 const list = ref<HTMLElement | null>(null);
