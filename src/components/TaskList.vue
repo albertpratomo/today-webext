@@ -4,13 +4,14 @@ import type {SortableEvent} from 'sortablejs';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useTasksStore} from '~/stores/tasks';
+import {useTrashStore} from '~/stores/trash';
 
 const {t} = useI18n();
 const {editTask} = useTasksStore();
 const tasks = defineModel<Task[]>({required: true});
-const undoneTasks = computed(() => tasks.value.filter(t => !t.deletedAt && !t.isDone));
-const doneTasks = computed(() => tasks.value.filter(t => !t.deletedAt && t.isDone).reverse());
-const selectedIndexes = defineModel<number[]>('selectedIndexes', {required: true});
+const undoneTasks = computed(() => tasks.value.filter(t => !t.isDone));
+const doneTasks = computed(() => tasks.value.filter(t => t.isDone).reverse());
+const selectedIndexes = defineModel<number[]>('selectedIndexes', {default: []});
 
 function selectTask(index: number | number[]) {
     if (!Array.isArray(index))
@@ -109,10 +110,9 @@ function onTaskDone(index: number) {
     tasks.value.push(tasks.value.splice(index, 1)[0]);
 }
 
+const {trashTasks} = useTrashStore();
 onKeyStroke(['Backspace'], () => {
-    selectedIndexes.value.forEach((i) => {
-        undoneTasks.value[i].deletedAt = new Date();
-    });
+    trashTasks(tasks, selectedIndexes.value);
 
     if (selectedIndexes.value.length > 1)
         selectTask(0);
