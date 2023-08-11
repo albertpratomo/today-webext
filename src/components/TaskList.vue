@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import {moveArrayElement, useSortable} from '@vueuse/integrations/useSortable';
+import {useHistoryStore, useTasksStore, useTrashStore} from '~/stores';
 import type {SortableEvent} from 'sortablejs';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
-import {useTasksStore} from '~/stores/tasks';
-import {useTrashStore} from '~/stores/trash';
 
 const {t} = useI18n();
 
@@ -91,14 +90,15 @@ useSortable(list, tasks, {
     },
 });
 
+const {commit} = useHistoryStore();
 async function swapTask(oldIndex: number, newIndex: number) {
     if (newIndex >= 0 && newIndex < undoneTasks.value.length) {
         const from = tasks.value.indexOf(undoneTasks.value[oldIndex]);
         const to = tasks.value.indexOf(undoneTasks.value[newIndex]);
 
         moveArrayElement(tasks.value, from, to);
-
         await nextTick();
+        commit();
 
         selectTask(newIndex);
     }
