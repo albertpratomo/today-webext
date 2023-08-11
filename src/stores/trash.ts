@@ -1,6 +1,6 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
-import pullAt from 'lodash/pullAt';
+import {pullAt} from 'lodash-es';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useTrashStore = defineStore('trash', () => {
