@@ -1,11 +1,11 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
 import {computedEager} from '@vueuse/core';
+import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = useStorageLocal<Task[]>('tasks', []);
-
     const selectedIndexes = ref<number[]>([]);
 
     // Create Task ------------------------------------------------------------
@@ -39,6 +39,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
         // Insert the new task there.
         tasks.value.splice(index, 0, draftCreateTask.value);
+        useHistoryStore().commit();
 
         // Highlight the newly created task.
         selectedIndexes.value = [index];

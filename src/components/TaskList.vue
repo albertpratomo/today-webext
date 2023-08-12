@@ -12,6 +12,8 @@ const undoneTasks = computed(() => tasks.value.filter(t => !t.isDone));
 const doneTasks = computed(() => tasks.value.filter(t => t.isDone).reverse());
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, default: []});
 
+onMounted(() => useHistoryStore());
+
 function selectTask(index: number | number[]) {
     if (!Array.isArray(index))
         index = [index];
@@ -90,7 +92,6 @@ useSortable(list, tasks, {
     },
 });
 
-const {commit} = useHistoryStore();
 async function swapTask(oldIndex: number, newIndex: number) {
     if (newIndex >= 0 && newIndex < undoneTasks.value.length) {
         const from = tasks.value.indexOf(undoneTasks.value[oldIndex]);
@@ -98,7 +99,7 @@ async function swapTask(oldIndex: number, newIndex: number) {
 
         moveArrayElement(tasks.value, from, to);
         await nextTick();
-        commit();
+        useHistoryStore().commit();
 
         selectTask(newIndex);
     }

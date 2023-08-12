@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
+import {useHistoryStore, useTasksStore} from '~/stores';
 import {storeToRefs} from 'pinia';
-import {useTasksStore} from '~/stores/tasks';
 
 const {draftEditTask} = storeToRefs(useTasksStore());
 
 function close() {
     draftEditTask.value = null;
+
+    useHistoryStore().commit();
 }
 </script>
 

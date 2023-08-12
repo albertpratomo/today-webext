@@ -9,10 +9,10 @@ export const useHistoryStore = defineStore('history', () => {
     const {tasks: trashTasks} = storeToRefs(useTrashStore());
 
     const historiable = computed({
-        get: () => ({tasks, trashTasks}),
+        get: () => ({tasks: tasks.value, trashTasks: trashTasks.value}),
         set: (val) => {
-            tasks.value = val.tasks.value;
-            trashTasks.value = val.trashTasks.value;
+            tasks.value = val.tasks;
+            trashTasks.value = val.trashTasks;
         },
     });
 

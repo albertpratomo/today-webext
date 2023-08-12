@@ -1,6 +1,7 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
 import {pullAt} from 'lodash-es';
+import {useHistoryStore} from './history';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useTrashStore = defineStore('trash', () => {
@@ -14,6 +15,8 @@ export const useTrashStore = defineStore('trash', () => {
         const removed = pullAt(sourceTasks.value, indexes);
 
         tasks.value.push(...removed);
+
+        useHistoryStore().commit();
     }
 
     return {
