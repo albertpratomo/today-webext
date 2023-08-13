@@ -35,11 +35,11 @@ export async function getManifest() {
             128: './assets/icon-512.png',
         },
         permissions: [
-            'tabs',
+            // 'tabs',
             'storage',
-            'activeTab',
+            // 'activeTab',
         ],
-        host_permissions: ['*://*/*'],
+        // host_permissions: ['*://*/*'],
         // content_scripts: [
         //     {
         //         matches: [
