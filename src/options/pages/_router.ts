@@ -15,6 +15,10 @@ const router = createRouter({
             name: 'trash',
             component: Trash,
         },
+        {
+            path: '/:pathMatch(.*)*',
+            redirect: '/',
+        },
     ],
 });
 

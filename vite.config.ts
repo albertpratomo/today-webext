@@ -70,7 +70,7 @@ export const sharedConfig: UserConfig = {
             runtimeOnly: true,
             compositionOnly: true,
             fullInstall: true,
-            include: [r('src/i18n/en')],
+            include: [r('src/i18n/locales/**')],
         }),
 
         // rewrite assets to use relative path
@@ -112,10 +112,6 @@ export default defineConfig(({command}) => ({
         emptyOutDir: false,
         sourcemap: isDev ? 'inline' : false,
         target: 'esnext',
-        // https://developer.chrome.com/docs/webstore/program_policies/#:~:text=Code%20Readability%20Requirements
-        terserOptions: {
-            mangle: false,
-        },
         rollupOptions: {
             input: {
                 options: r('src/options/index.html'),

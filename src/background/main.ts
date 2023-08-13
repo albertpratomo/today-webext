@@ -10,8 +10,7 @@ if (import.meta.hot) {
 }
 
 browser.runtime.onInstalled.addListener((): void => {
-    // eslint-disable-next-line no-console
-    console.log('Extension installed');
+    // console.log('Extension installed');
 });
 
 let previousTabId = 0;
@@ -34,8 +33,7 @@ browser.tabs.onActivated.addListener(async ({tabId}) => {
         return;
     }
 
-    // eslint-disable-next-line no-console
-    console.log('previous tab', tab);
+    // console.log('previous tab', tab);
     sendMessage('tab-prev', {title: tab.title}, {context: 'content-script', tabId});
 });
 
