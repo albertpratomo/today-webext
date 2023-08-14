@@ -30,5 +30,7 @@
         <TaskCreateDialog />
 
         <TaskEditDialog />
+
+        <TaskFocusDialog />
     </main>
 </template>

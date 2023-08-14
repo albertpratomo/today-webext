@@ -60,6 +60,14 @@ export const useTasksStore = defineStore('tasks', () => {
         draftEditTask.value = task;
     }
 
+    // Focus Task --------------------------------------------------------------
+
+    const focusedTask = ref<Task | null>(null);
+
+    function focusTask(task: Task) {
+        focusedTask.value = task;
+    }
+
     return {
         tasks,
         selectedIndexes,
@@ -72,6 +80,9 @@ export const useTasksStore = defineStore('tasks', () => {
 
         draftEditTask,
         editTask,
+
+        focusedTask,
+        focusTask,
     };
 });
 

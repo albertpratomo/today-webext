@@ -19,6 +19,7 @@ declare module 'vue' {
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
     TaskCreateDialog: typeof import('./components/TaskCreateDialog.vue')['default']
     TaskEditDialog: typeof import('./components/TaskEditDialog.vue')['default']
+    TaskFocusDialog: typeof import('./components/TaskFocusDialog.vue')['default']
     TaskItem: typeof import('./components/TaskItem.vue')['default']
     TaskList: typeof import('./components/TaskList.vue')['default']
     TaskNoteInput: typeof import('./components/TaskNoteInput.vue')['default']
