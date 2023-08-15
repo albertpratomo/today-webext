@@ -23,10 +23,10 @@ function close() {
         @close="close()"
         @keyup.esc="close()"
     >
-        <DialogPanel class="fixed inset-0 bg-gray-900">
+        <DialogPanel class="fixed inset-0 bg-gray-900 pt-40">
             <div
                 v-if="focusedTask"
-                class="max-w-xl py-4 pl-5 pr-2"
+                class="mx-auto max-w-xl"
             >
                 <TaskTitleInput
                     v-model="focusedTask.title"
