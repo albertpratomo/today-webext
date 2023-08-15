@@ -26,7 +26,7 @@ const [show, toggle] = useToggle(false);
             class="h-10 w-10 flex cursor-pointer rounded-full border-none shadow"
             @click="toggle()"
         >
-            <PixelarticonsPower class="m-auto block text-lg text-white" />
+            Toggle
         </button>
     </div>
 </template>

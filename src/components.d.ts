@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BottomToolbar: typeof import('./components/BottomToolbar.vue')['default']
-    Logo: typeof import('./components/Logo.vue')['default']
     MaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
     MaterialSymbolsPlayCircleOutline: typeof import('~icons/material-symbols/play-circle-outline')['default']
     MaterialSymbolsScheduleOutline: typeof import('~icons/material-symbols/schedule-outline')['default']
