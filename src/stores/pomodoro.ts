@@ -39,6 +39,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     });
 
     return {
+        task,
         startTask,
     };
 });
