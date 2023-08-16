@@ -16,6 +16,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
+    SidebarLayout: typeof import('./components/SidebarLayout.vue')['default']
     TaskCreateDialog: typeof import('./components/TaskCreateDialog.vue')['default']
     TaskEditDialog: typeof import('./components/TaskEditDialog.vue')['default']
     TaskFocusDialog: typeof import('./components/TaskFocusDialog.vue')['default']

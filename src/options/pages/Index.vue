@@ -6,15 +6,17 @@ const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
 </script>
 
 <template>
-    <div class="space-y-8">
-        <h1 class="text-4xl">
-            {{ $t('today') }}
-        </h1>
+    <SidebarLayout>
+        <div class="space-y-8">
+            <h1 class="text-4xl">
+                {{ $t('today') }}
+            </h1>
 
-        <TaskList
-            v-model="tasks"
-            v-model:selected-indexes="selectedIndexes"
-            class="mt-8"
-        />
-    </div>
+            <TaskList
+                v-model="tasks"
+                v-model:selected-indexes="selectedIndexes"
+                class="mt-8"
+            />
+        </div>
+    </SidebarLayout>
 </template>
