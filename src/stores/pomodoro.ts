@@ -1,5 +1,8 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
+import {useTimer} from '~/utils/useTimer';
+
+const POMODORO_DURATION = 25 * 60;
 
 export const usePomodoroStore = defineStore('pomodoro', () => {
     /**
@@ -12,7 +15,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
      */
     const task = ref<Task | null>(null);
 
-    async function startTask(_task: Task) {
+    async function focusTask(_task: Task) {
         task.value = _task;
 
         if (windowId.value) {
@@ -38,9 +41,12 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
             windowId.value = null;
     });
 
+    const timer = useTimer(POMODORO_DURATION);
+
     return {
         task,
-        startTask,
+        focusTask,
+        ...timer,
     };
 });
 

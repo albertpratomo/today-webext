@@ -31,7 +31,7 @@ onKeyStroke(['d', 'D'], () => {
         _isDone.value = !_isDone.value;
 });
 
-const {startTask} = usePomodoroStore();
+const {focusTask} = usePomodoroStore();
 </script>
 
 <template>
@@ -52,7 +52,7 @@ const {startTask} = usePomodoroStore();
 
         <MaterialSymbolsPlayCircleOutline
             class="hidden group-hover:block hover:text-gray-400"
-            @click="startTask(task)"
+            @click="focusTask(task)"
         />
     </div>
 </template>
