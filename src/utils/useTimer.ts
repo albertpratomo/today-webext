@@ -20,3 +20,5 @@ export function useTimer(duration: number) {
         reset,
     };
 }
+
+export type UseTimerReturn = ReturnType<typeof useTimer>;

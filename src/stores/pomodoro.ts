@@ -6,14 +6,18 @@ const POMODORO_DURATION = 25 * 60;
 
 export const usePomodoroStore = defineStore('pomodoro', () => {
     /**
-     * The floating window's id.
-     */
-    const windowId = ref<number | null>(null);
-
-    /**
      * The task that the user is focusing on.
      */
     const task = ref<Task | null>(null);
+
+    const timer = useTimer(POMODORO_DURATION);
+
+    // Floating Window --------------------------------------------------------
+
+    /**
+     * The floating window's id.
+     */
+    const windowId = ref<number | null>(null);
 
     async function focusTask(_task: Task) {
         task.value = _task;
@@ -32,6 +36,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
                 url: 'dist/options/index.html#/pomodoro',
             });
 
+            floatingWindow.alwaysOnTop = true;
+
             windowId.value = floatingWindow.id!;
         }
     }
@@ -41,12 +47,24 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
             windowId.value = null;
     });
 
-    const timer = useTimer(POMODORO_DURATION);
+    // Icon Badge -------------------------------------------------------------
+
+    browser.action.setBadgeBackgroundColor({color: '#12131A'});
+    browser.action.setBadgeTextColor({color: '#ECEDFA'});
+
+    watchEffect(() => {
+        const text = windowId.value
+            ? `${timer.minutes.value}:${timer.seconds.value}`
+            : '';
+
+        browser.action.setBadgeText({text});
+    });
 
     return {
         task,
-        focusTask,
         ...timer,
+        windowId,
+        focusTask,
     };
 });
 
