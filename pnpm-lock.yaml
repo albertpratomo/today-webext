@@ -104,6 +104,9 @@ devDependencies:
   fs-extra:
     specifier: ^11.1.1
     version: 11.1.1
+  jest-webextension-mock:
+    specifier: ^3.8.9
+    version: 3.8.9
   jsdom:
     specifier: ^22.1.0
     version: 22.1.0
@@ -5728,6 +5731,10 @@ packages:
 
   /jed@1.1.1:
     resolution: {integrity: sha512-z35ZSEcXHxLW4yumw0dF6L464NT36vmx3wxJw8MDpraBcWuNVgUPZgPJKcu1HekNgwlMFNqol7i/IpSbjhqwqA==}
+    dev: true
+
+  /jest-webextension-mock@3.8.9:
+    resolution: {integrity: sha512-PglflLBEhqAtfKOmwEcP2iV2YdQK3Xwa7e/SELIK/4+y1NiKSJnba7DdPe32HavHJCJwuL8bpVwFrxGZFD2m+A==}
     dev: true
 
   /jiti@1.19.1:

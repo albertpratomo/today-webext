@@ -122,5 +122,10 @@ export default defineConfig(({command}) => ({
     test: {
         globals: true,
         environment: 'jsdom',
+        sequence: {setupFiles: 'list'},
+        setupFiles: [
+            r('src/components/__tests__/setup.ts'),
+            'jest-webextension-mock',
+        ],
     },
 }));
