@@ -39,5 +39,7 @@
         <TaskEditDialog />
 
         <TaskFocusDialog />
+
+        <PomodoroWindow />
     </main>
 </template>

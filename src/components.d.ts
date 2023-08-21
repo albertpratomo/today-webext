@@ -17,6 +17,7 @@ declare module 'vue' {
     MaterialSymbolsScheduleOutline: typeof import('~icons/material-symbols/schedule-outline')['default']
     MaterialSymbolsStarRounded: typeof import('~icons/material-symbols/star-rounded')['default']
     MaterialSymbolsTag: typeof import('~icons/material-symbols/tag')['default']
+    PomodoroWindow: typeof import('./components/PomodoroWindow.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']

@@ -1,69 +1,32 @@
-import {acceptHMRUpdate, defineStore} from 'pinia';
-import type Task from '~/models/Task';
+import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
+import {useTasksStore} from './tasks';
 import {useTimer} from '~/utils/useTimer';
 
 const POMODORO_DURATION = 25 * 60;
 
 export const usePomodoroStore = defineStore('pomodoro', () => {
     /**
-     * The task that the user is focusing on.
+     * The id of the task that the user is focusing on.
      */
-    const task = ref<Task | null>(null);
+    const taskId = ref<number | null>(null);
 
-    const timer = useTimer(POMODORO_DURATION);
+    const {tasks} = storeToRefs(useTasksStore());
 
-    // Floating Window --------------------------------------------------------
+    const task = computed(() => {
+        return taskId.value
+            ? tasks.value.find(t => t.id === taskId.value)
+            : null;
+    });
 
-    /**
-     * The floating window's id.
-     */
-    const windowId = ref<number | null>(null);
-
-    async function focusTask(_task: Task) {
-        task.value = _task;
-
-        if (windowId.value) {
-            browser.windows.update(windowId.value, {
-                focused: true,
-                drawAttention: true,
-            });
-        }
-        else {
-            const floatingWindow = await browser.windows.create({
-                width: 300,
-                height: 200,
-                type: 'popup',
-                url: 'dist/options/index.html#/pomodoro',
-            });
-
-            floatingWindow.alwaysOnTop = true;
-
-            windowId.value = floatingWindow.id!;
-        }
+    function focusTask(id: number) {
+        taskId.value = id;
     }
 
-    browser.windows.onRemoved.addListener((id) => {
-        if (id === windowId.value)
-            windowId.value = null;
-    });
-
-    // Icon Badge -------------------------------------------------------------
-
-    browser.action.setBadgeBackgroundColor({color: '#12131A'});
-    browser.action.setBadgeTextColor({color: '#ECEDFA'});
-
-    watchEffect(() => {
-        const text = windowId.value
-            ? `${timer.minutes.value}:${timer.seconds.value}`
-            : '';
-
-        browser.action.setBadgeText({text});
-    });
+    const timer = useTimer(POMODORO_DURATION);
 
     return {
         task,
         ...timer,
-        windowId,
         focusTask,
     };
 });

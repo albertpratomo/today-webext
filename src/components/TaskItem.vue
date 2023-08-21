@@ -52,7 +52,7 @@ const {focusTask} = usePomodoroStore();
 
         <MaterialSymbolsPlayCircleOutline
             class="hidden group-hover:block hover:text-gray-400"
-            @click="focusTask(task)"
+            @click="focusTask(task.id)"
         />
     </div>
 </template>
