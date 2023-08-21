@@ -6,7 +6,7 @@ const {tasks} = storeToRefs(useTrashStore());
 </script>
 
 <template>
-    <SidebarLayout>
+    <LayoutSidebar>
         <TaskList v-model="tasks" />
-    </SidebarLayout>
+    </LayoutSidebar>
 </template>

@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BottomToolbar: typeof import('./components/BottomToolbar.vue')['default']
+    LayoutSidebar: typeof import('./components/LayoutSidebar.vue')['default']
     MaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
     MaterialSymbolsPauseCircle: typeof import('~icons/material-symbols/pause-circle')['default']
     MaterialSymbolsPlayCircle: typeof import('~icons/material-symbols/play-circle')['default']
@@ -19,7 +20,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
-    SidebarLayout: typeof import('./components/SidebarLayout.vue')['default']
     TaskCreateDialog: typeof import('./components/TaskCreateDialog.vue')['default']
     TaskEditDialog: typeof import('./components/TaskEditDialog.vue')['default']
     TaskFocusDialog: typeof import('./components/TaskFocusDialog.vue')['default']

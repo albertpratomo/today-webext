@@ -6,7 +6,7 @@ const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
 </script>
 
 <template>
-    <SidebarLayout>
+    <LayoutSidebar>
         <div class="space-y-8">
             <h1 class="text-4xl">
                 {{ $t('today') }}
@@ -18,5 +18,5 @@ const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
                 class="mt-8"
             />
         </div>
-    </SidebarLayout>
+    </LayoutSidebar>
 </template>
