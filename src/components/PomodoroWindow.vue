@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import {usePomodoroStore, useTasksStore} from '~/stores';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
-import {usePomodoroStore} from '~/stores';
 
 const {task, minutes, seconds, isRunning} = storeToRefs(usePomodoroStore());
 const {play, pause, reset, focusTask} = usePomodoroStore();
@@ -23,6 +24,12 @@ watch(task, async (newVal, oldVal) => {
         });
     }
 });
+
+const {selectedIndexes, tasks} = storeToRefs(useTasksStore());
+onKeyStroke([' '], () => {
+    if (selectedIndexes.value.length === 1)
+        focusTask(tasks.value[selectedIndexes.value[0]].id);
+}, {dedupe: false});
 </script>
 
 <template>
