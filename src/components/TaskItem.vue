@@ -29,13 +29,13 @@ watch(_isDone, (val) => {
 onKeyStroke(['d', 'D'], () => {
     if (isSelected)
         _isDone.value = !_isDone.value;
-});
+}, {dedupe: false});
 
 const {focusTask} = usePomodoroStore();
 </script>
 
 <template>
-    <div class="group flex cursor-pointer select-none items-center rounded px-3 py-1.5">
+    <div class="group flex cursor-pointer select-none items-center rounded px-3 py-1.5 hover:bg-gray-800">
         <input
             v-model="_isDone"
             class="mr-1"
@@ -50,7 +50,7 @@ const {focusTask} = usePomodoroStore();
             v-html="task.title"
         />
 
-        <MaterialSymbolsPlayCircleOutline
+        <MaterialSymbolsPlayCircle
             class="hidden group-hover:block hover:text-gray-400"
             @click="focusTask(task.id)"
         />

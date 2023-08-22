@@ -10,7 +10,7 @@ const {focusTask} = useTasksStore();
 onKeyStroke(['f', 'F'], () => {
     if (selectedIndexes.value.length === 1)
         focusTask(tasks.value[selectedIndexes.value[0]]);
-}, {eventName: 'keyup'});
+}, {dedupe: false});
 
 function close() {
     focusedTask.value = null;

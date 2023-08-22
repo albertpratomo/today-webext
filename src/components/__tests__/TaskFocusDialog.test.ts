@@ -35,7 +35,7 @@ describe('TaskFocusDialog', () => {
         const {result, store} = prepare();
 
         store.$patch({selectedIndexes: [0]});
-        await fireEvent.keyUp(document, {key: 'F'});
+        await fireEvent.keyDown(document, {key: 'F'});
 
         result.getByText('task 0');
     });

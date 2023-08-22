@@ -13,7 +13,7 @@ const {createTask} = useTasksStore();
 
 onKeyStroke(['n', 'N'], () => {
     taskCreateDialogIsOpen.value = true;
-}, {eventName: 'keyup'});
+}, {dedupe: false});
 
 function close() {
     taskCreateDialogIsOpen.value = false;
