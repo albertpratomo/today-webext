@@ -3,37 +3,30 @@ import {storeToRefs} from 'pinia';
 import {usePomodoroStore} from '~/stores';
 
 const {task, minutes, seconds, isRunning} = storeToRefs(usePomodoroStore());
-const {play, pause, reset} = usePomodoroStore();
+const {play, pause, reset, focusTask} = usePomodoroStore();
 
 const el = ref<HTMLDivElement | null>(null);
 
-let pomodoroWindow = null;
-
 watch(task, async (newVal, oldVal) => {
     if (oldVal === null && newVal) {
-        pomodoroWindow = await documentPictureInPicture.requestWindow({
+        const pomodoroWindow = await documentPictureInPicture.requestWindow({
             width: 300,
             height: 200,
         });
 
+        pomodoroWindow.document.head.insertAdjacentHTML('beforeend', document.head.innerHTML);
+
         pomodoroWindow.document.body.append(el!.value);
+
+        pomodoroWindow.addEventListener('pagehide', () => {
+            focusTask(null);
+        });
     }
-});
-
-browser.action.setBadgeBackgroundColor({color: '#12131A'});
-browser.action.setBadgeTextColor({color: '#ECEDFA'});
-
-watchEffect(() => {
-    const text = pomodoroWindow
-        ? `${minutes.value}:${seconds.value}`
-        : '';
-
-    browser.action.setBadgeText({text});
 });
 </script>
 
 <template>
-    <div
+    <main
         v-if="task"
         ref="el"
         class="p-3"
@@ -63,5 +56,5 @@ watchEffect(() => {
         <div class="mt-3">
             {{ task!.title }}
         </div>
-    </div>
+    </main>
 </template>
