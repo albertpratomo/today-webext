@@ -36,7 +36,7 @@ onKeyStroke([' '], () => {
     <main
         v-if="task"
         ref="el"
-        class="p-3"
+        class="group h-full p-3"
     >
         <div class="flex">
             <div class="text-2xl font-semibold">
@@ -44,7 +44,7 @@ onKeyStroke([' '], () => {
             </div>
 
             <button
-                class="ml-auto"
+                class="ml-auto opacity-0 transition-opacity ease-out group-hover:opacity-100"
                 @click="!isRunning ? play() : pause()"
             >
                 <MaterialSymbolsPlayCircle v-if="!isRunning" />
@@ -53,7 +53,7 @@ onKeyStroke([' '], () => {
             </button>
 
             <button
-                class="ml-2"
+                class="ml-2 opacity-0 transition-opacity ease-out group-hover:opacity-100"
                 @click="reset()"
             >
                 <MaterialSymbolsReplayCircleFilled />
