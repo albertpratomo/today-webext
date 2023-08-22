@@ -8,13 +8,6 @@
                     </RouterLink>
                 </li>
 
-                <!-- TODO: Remove this -->
-                <li>
-                    <RouterLink :to="{name: 'pomodoro'}">
-                        Pomodoro
-                    </RouterLink>
-                </li>
-
                 <li>
                     <RouterLink :to="{name: 'trash'}">
                         {{ $t('trash') }}
