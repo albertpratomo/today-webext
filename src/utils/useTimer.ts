@@ -17,7 +17,10 @@ export function useTimer(duration: number) {
         isRunning: isActive,
         play: resume,
         pause,
-        reset,
+        reset: () => {
+            pause();
+            reset();
+        },
     };
 }
 

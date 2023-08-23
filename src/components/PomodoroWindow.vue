@@ -6,7 +6,7 @@ import {storeToRefs} from 'pinia';
 const {task, minutes, seconds, isRunning} = storeToRefs(usePomodoroStore());
 const {play, pause, reset, focusTask} = usePomodoroStore();
 
-const el = ref<HTMLDivElement | null>(null);
+const el = ref<HTMLElement | null>(null);
 
 watch(task, async (newVal, oldVal) => {
     if (oldVal === null && newVal) {
@@ -31,6 +31,8 @@ onKeyStroke([' '], () => {
     if (selectedIndexes.value.length === 1)
         focusTask(tasks.value[selectedIndexes.value[0]].id);
 }, {dedupe: false});
+
+const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 group-hover:opacity-100';
 </script>
 
 <template>
@@ -40,29 +42,41 @@ onKeyStroke([' '], () => {
         class="group h-full p-3"
     >
         <div class="flex">
-            <div class="text-2xl font-semibold">
+            <div class="text-2xl font-medium">
                 {{ minutes }}:{{ seconds }}
             </div>
 
             <button
-                class="ml-auto opacity-0 transition-opacity ease-out group-hover:opacity-100"
-                @click="!isRunning ? play() : pause()"
+                class="ml-auto"
+                :class="buttonClass"
+                @click="reset()"
             >
-                <MaterialSymbolsPlayCircle v-if="!isRunning" />
-
-                <MaterialSymbolsPauseCircle v-else />
+                <MaterialSymbolsUndo />
             </button>
 
             <button
-                class="ml-2 opacity-0 transition-opacity ease-out group-hover:opacity-100"
-                @click="reset()"
+                class="ml-2"
+                :class="buttonClass"
+                @click="!isRunning ? play() : pause()"
             >
-                <MaterialSymbolsReplayCircleFilled />
+                <MaterialSymbolsPlayArrow v-if="!isRunning" />
+
+                <MaterialSymbolsPause v-else />
             </button>
         </div>
 
-        <div class="mt-3">
-            {{ task!.title }}
+        <div class="mt-2 flex items-center">
+            <input
+                v-model="task.isDone"
+                class="mr-2"
+                type="checkbox"
+            >
+
+            <div
+                class="text-sm transition-colors"
+                :class="{'text-gray-400': task.isDone}"
+                v-html="task.title"
+            />
         </div>
     </main>
 </template>
