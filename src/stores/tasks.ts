@@ -1,6 +1,5 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
-import {computedEager} from '@vueuse/core';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
@@ -24,7 +23,7 @@ export const useTasksStore = defineStore('tasks', () => {
         ...BLANK_TASK,
     });
 
-    const draftCreateTaskHasContent = computedEager(() => {
+    const draftCreateTaskHasContent = computed(() => {
         const {note} = draftCreateTask.value;
 
         return draftCreateTask.value.title

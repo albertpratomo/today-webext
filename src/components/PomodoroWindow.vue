@@ -20,6 +20,7 @@ watch(task, async (newVal, oldVal) => {
         pomodoroWindow.document.body.append(el!.value);
 
         pomodoroWindow.addEventListener('pagehide', () => {
+            pause();
             focusTask(null);
         });
     }

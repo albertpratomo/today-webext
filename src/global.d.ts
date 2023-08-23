@@ -6,3 +6,6 @@ declare module '*.vue' {
   const component: any
   export default component
 }
+
+// TODO: Use the official TS interface when it's published.
+declare var documentPictureInPicture: DocumentPictureInPicture;
