@@ -125,7 +125,6 @@ export default defineConfig(({command}) => ({
         sequence: {setupFiles: 'list'},
         setupFiles: [
             r('src/components/__tests__/setup.ts'),
-            'jest-webextension-mock',
         ],
     },
 }));
