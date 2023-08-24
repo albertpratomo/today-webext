@@ -8,7 +8,7 @@ import {onKeyStroke} from '~/utils/onKeyStroke';
 const {t} = useI18n();
 
 const tasks = defineModel<Task[]>({required: true});
-const doneTasks = defineModel<Task[]>('doneTasks', {required: true});
+const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, default: []});
 
 onMounted(() => useHistoryStore());
@@ -93,10 +93,7 @@ useSortable(list, tasks, {
 
 async function swapTask(oldIndex: number, newIndex: number) {
     if (newIndex >= 0 && newIndex < tasks.value.length) {
-        const from = tasks.value.indexOf(tasks.value[oldIndex]);
-        const to = tasks.value.indexOf(tasks.value[newIndex]);
-
-        moveArrayElement(tasks.value, from, to);
+        moveArrayElement(tasks.value, oldIndex, newIndex);
         await nextTick();
         useHistoryStore().commit();
 

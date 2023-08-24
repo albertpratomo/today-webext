@@ -73,14 +73,22 @@ export const useTasksStore = defineStore('tasks', () => {
 
     const doneTasks = useStorageLocal<Task[]>('doneTasks', []);
 
-    const doneTaskIds = computed(() => {
-        return tasks.value.filter(t => t.isDone).map(t => t.id);
-    });
+    // Move done tasks to doneTasks after 1800ms.
+    watchDebounced(
+        () => tasks.value.filter(t => t.isDone).map(t => t.id),
+        () => {
+            doneTasks.value.unshift(...remove(tasks.value, t => t.isDone));
+        },
+        {debounce: 1800},
+    );
 
-    watchDebounced(doneTaskIds, () => {
-        // Move done tasks to doneTasks after 1800ms.
-        doneTasks.value.unshift(...remove(tasks.value, t => t.isDone));
-    }, {debounce: 1800});
+    // Move undone tasks back to tasks immediately.
+    watch(
+        () => doneTasks.value.some(t => !t.isDone),
+        () => {
+            tasks.value.unshift(...remove(doneTasks.value, t => !t.isDone));
+        },
+    );
 
     return {
         tasks,
