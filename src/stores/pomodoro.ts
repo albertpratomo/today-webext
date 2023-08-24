@@ -1,4 +1,6 @@
 import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
+import {find} from 'lodash-es';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useTasksStore} from './tasks';
 import {useTimer} from '~/utils/useTimer';
 
@@ -10,7 +12,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
      */
     const _taskId = ref<number | null>(null);
 
-    const {tasks} = storeToRefs(useTasksStore());
+    const {selectedIndexes, tasks} = storeToRefs(useTasksStore());
 
     const task = computed(() => {
         return _taskId.value
@@ -21,6 +23,23 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     function focusTask(id: number | null) {
         _taskId.value = id;
     }
+
+    function focusNextTask() {
+        if (!task.value)
+            return;
+
+        const index = tasks.value.indexOf(task.value);
+
+        const nextTask = find(tasks.value, t => !t.isDone, index + 1);
+
+        if (nextTask)
+            focusTask(nextTask.id);
+    }
+
+    onKeyStroke([' '], () => {
+        if (selectedIndexes.value.length === 1)
+            focusTask(tasks.value[selectedIndexes.value[0]].id);
+    }, {dedupe: false});
 
     const timer = useTimer(POMODORO_DURATION);
 
@@ -41,6 +60,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
         task,
         ...timer,
         focusTask,
+        focusNextTask,
     };
 });
 
