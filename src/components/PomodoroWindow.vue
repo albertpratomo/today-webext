@@ -3,7 +3,7 @@ import {storeToRefs} from 'pinia';
 import {usePomodoroStore} from '~/stores';
 
 const {task, minutes, seconds, isRunning, state} = storeToRefs(usePomodoroStore());
-const {play, pause, reset, focusTask, skip} = usePomodoroStore();
+const {play, pause, reset, focusTask} = usePomodoroStore();
 
 const el = ref<HTMLElement | null>(null);
 
@@ -34,7 +34,7 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
         class="group h-full p-3"
         :class="state.isBreak ? 'bg-green-900' : 'bg-gray-900'"
     >
-        <div class="flex items-center">
+        <div class="mb-2 flex items-center">
             <div class="text-2xl font-medium">
                 {{ minutes }}:{{ seconds }}
             </div>
@@ -67,8 +67,9 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             name="fade-up"
         >
             <div
+                v-if="!state.isBreak"
                 :key="task.id"
-                class="mt-2 flex items-center"
+                class="flex items-center"
             >
                 <input
                     v-model="task.isDone"
@@ -81,6 +82,13 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
                     :class="{'text-gray-400': task.isDone}"
                     v-html="task.title"
                 />
+            </div>
+
+            <div
+                v-else
+                class="text-sm"
+            >
+                {{ $t('pomodoro.breakMessage') }}
             </div>
         </Transition>
     </main>

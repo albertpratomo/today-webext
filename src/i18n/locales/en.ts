@@ -11,6 +11,10 @@ export default {
         taskNote: {placeholder: 'Add notes'},
         taskTitle: {placeholder: 'Start with a verb'},
     },
+    pomodoro: {
+        breakMessage: 'Take a break',
+        doneMessage: 'You\'re all done',
+    },
     today: 'Today',
     trash: 'Trash',
 };
