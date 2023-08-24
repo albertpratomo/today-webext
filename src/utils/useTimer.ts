@@ -2,8 +2,7 @@ import {useCounter, useIntervalFn} from '@vueuse/core';
 
 export function useTimer(duration: number) {
     const {count, dec, reset} = useCounter(duration, {
-        max: duration,
-        min: 0,
+        min: -1,
     });
 
     const minutes = computed(() => Math.floor(count.value / 60).toString().padStart(2, '0'));
@@ -12,14 +11,15 @@ export function useTimer(duration: number) {
     const {pause, resume, isActive} = useIntervalFn(dec, 1000, {immediate: false});
 
     return {
+        count,
         minutes,
         seconds,
         isRunning: isActive,
         play: resume,
         pause,
-        reset: () => {
+        reset: (duration?: number) => {
             pause();
-            reset();
+            reset(duration);
         },
     };
 }

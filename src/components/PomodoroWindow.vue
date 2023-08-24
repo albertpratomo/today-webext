@@ -2,8 +2,8 @@
 import {storeToRefs} from 'pinia';
 import {usePomodoroStore} from '~/stores';
 
-const {task, minutes, seconds, isRunning} = storeToRefs(usePomodoroStore());
-const {play, pause, reset, focusTask} = usePomodoroStore();
+const {task, minutes, seconds, isRunning, state} = storeToRefs(usePomodoroStore());
+const {play, pause, reset, focusTask, skip} = usePomodoroStore();
 
 const el = ref<HTMLElement | null>(null);
 
@@ -32,10 +32,15 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
         v-if="task"
         ref="el"
         class="group h-full p-3"
+        :class="state.isBreak ? 'bg-green-900' : 'bg-gray-900'"
     >
-        <div class="flex">
+        <div class="flex items-center">
             <div class="text-2xl font-medium">
                 {{ minutes }}:{{ seconds }}
+            </div>
+
+            <div class="ml-2 rounded-full bg-gray-200 px-1 text-xs text-gray-900">
+                {{ state.sessionCount }}
             </div>
 
             <button

@@ -1,11 +1,9 @@
 import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
 import {find} from 'lodash-es';
 import {onKeyStroke} from '~/utils/onKeyStroke';
+import {usePomodoroCycle} from '~/utils/usePomodoroCycle';
 import {useTasksStore} from './tasks';
-import {useTimer} from '~/utils/useTimer';
 import {watchDebounced} from '@vueuse/core';
-
-const POMODORO_DURATION = 25 * 60;
 
 export const usePomodoroStore = defineStore('pomodoro', () => {
     /**
@@ -51,9 +49,9 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
             focusTask(tasks.value[selectedIndexes.value[0]].id);
     }, {dedupe: false});
 
-    // Icon Badge -------------------------------------------------------------
+    const {skip, state, timer} = usePomodoroCycle();
 
-    const timer = useTimer(POMODORO_DURATION);
+    // Icon Badge -------------------------------------------------------------
 
     browser.action.setBadgeBackgroundColor({color: '#12131A'});
     browser.action.setBadgeTextColor({color: '#ECEDFA'});
@@ -69,6 +67,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     return {
         task,
         ...timer,
+        state,
+        skip,
         focusTask,
         focusNextTask,
     };
