@@ -1,3 +1,5 @@
 <template>
     <RouterView />
+
+    <PomodoroWindow />
 </template>

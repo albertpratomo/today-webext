@@ -3,6 +3,7 @@ import {find} from 'lodash-es';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {useTasksStore} from './tasks';
 import {useTimer} from '~/utils/useTimer';
+import {watchDebounced} from '@vueuse/core';
 
 const POMODORO_DURATION = 25 * 60;
 
@@ -36,14 +37,23 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
             focusTask(nextTask.id);
     }
 
+    watchDebounced(
+        () => !!task.value?.isDone,
+        (isDone) => {
+            if (isDone)
+                focusNextTask();
+        },
+        {debounce: 1750},
+    );
+
     onKeyStroke([' '], () => {
         if (selectedIndexes.value.length === 1)
             focusTask(tasks.value[selectedIndexes.value[0]].id);
     }, {dedupe: false});
 
-    const timer = useTimer(POMODORO_DURATION);
-
     // Icon Badge -------------------------------------------------------------
+
+    const timer = useTimer(POMODORO_DURATION);
 
     browser.action.setBadgeBackgroundColor({color: '#12131A'});
     browser.action.setBadgeTextColor({color: '#ECEDFA'});

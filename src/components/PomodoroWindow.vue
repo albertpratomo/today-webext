@@ -57,18 +57,26 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             </button>
         </div>
 
-        <div class="mt-2 flex items-center">
-            <input
-                v-model="task.isDone"
-                class="mr-2"
-                type="checkbox"
-            >
-
+        <Transition
+            mode="out-in"
+            name="fade-up"
+        >
             <div
-                class="text-sm transition-colors"
-                :class="{'text-gray-400': task.isDone}"
-                v-html="task.title"
-            />
-        </div>
+                :key="task.id"
+                class="mt-2 flex items-center"
+            >
+                <input
+                    v-model="task.isDone"
+                    class="mr-2"
+                    type="checkbox"
+                >
+
+                <div
+                    class="text-sm transition-colors"
+                    :class="{'text-gray-400': task.isDone}"
+                    v-html="task.title"
+                />
+            </div>
+        </Transition>
     </main>
 </template>
