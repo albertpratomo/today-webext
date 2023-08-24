@@ -1,34 +1,15 @@
 <script setup lang="ts">
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
-import {useDebounceFn} from '@vueuse/core';
 import {usePomodoroStore} from '~/stores';
 
 const {isSelected = false} = defineProps<{isSelected?: boolean}>();
-const emit = defineEmits<{
-    done: []
-}>();
 
 const task = defineModel<Task>({required: true});
-const _isDone = ref(task.value.isDone);
-
-const updateIsDone = useDebounceFn((val: boolean) => {
-    task.value.isDone = val;
-
-    if (val)
-        emit('done');
-}, 1800);
-
-watch(_isDone, (val) => {
-    if (!task.value.isDone)
-        updateIsDone(val);
-    else
-        task.value.isDone = val;
-});
 
 onKeyStroke(['d', 'D'], () => {
     if (isSelected)
-        _isDone.value = !_isDone.value;
+        task.value.isDone = !task.value.isDone;
 }, {dedupe: false});
 
 const {focusTask} = usePomodoroStore();
@@ -37,7 +18,7 @@ const {focusTask} = usePomodoroStore();
 <template>
     <div class="group flex cursor-pointer select-none items-center rounded p-1 pl-3 hover:bg-gray-800">
         <input
-            v-model="_isDone"
+            v-model="task.isDone"
             class="mr-1 border-2"
             type="checkbox"
             @click.stop
@@ -46,11 +27,12 @@ const {focusTask} = usePomodoroStore();
 
         <div
             class="grow border border-transparent px-1.5 py-1 text-sm font-medium transition-colors"
-            :class="{'text-gray-400': _isDone}"
+            :class="{'text-gray-400': task.isDone}"
             v-html="task.title"
         />
 
         <MaterialSymbolsPlayCircle
+            v-if="!task.isDone"
             class="hidden group-hover:block hover:text-gray-400"
             @click="focusTask(task.id)"
         />

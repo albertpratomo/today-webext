@@ -3,7 +3,8 @@ import {useDateFormat, useNow} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
+const {tasks, doneTasks, selectedIndexes} = storeToRefs(useTasksStore());
+
 const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 </script>
 
@@ -12,6 +13,7 @@ const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
         <div class="space-y-8">
             <h1 class="pl-3 text-xl font-medium">
                 {{ $t('today') }}
+
                 <span class="ml-1 text-gray-500">
                     {{ currentDate }}
                 </span>
@@ -19,6 +21,7 @@ const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 
             <TaskList
                 v-model="tasks"
+                v-model:done-tasks="doneTasks"
                 v-model:selected-indexes="selectedIndexes"
                 class="mt-8"
             />

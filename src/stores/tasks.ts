@@ -1,7 +1,9 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
+import {remove} from 'lodash-es';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
+import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = useStorageLocal<Task[]>('tasks', []);
@@ -59,7 +61,7 @@ export const useTasksStore = defineStore('tasks', () => {
         draftEditTask.value = task;
     }
 
-    // Focus Task --------------------------------------------------------------
+    // Focus Task -------------------------------------------------------------
 
     const focusedTask = ref<Task | null>(null);
 
@@ -67,8 +69,22 @@ export const useTasksStore = defineStore('tasks', () => {
         focusedTask.value = task;
     }
 
+    // Done Task --------------------------------------------------------------
+
+    const doneTasks = useStorageLocal<Task[]>('doneTasks', []);
+
+    const doneTaskIds = computed(() => {
+        return tasks.value.filter(t => t.isDone).map(t => t.id);
+    });
+
+    watchDebounced(doneTaskIds, () => {
+        // Move done tasks to doneTasks after 1800ms.
+        doneTasks.value.unshift(...remove(tasks.value, t => t.isDone));
+    }, {debounce: 1800});
+
     return {
         tasks,
+        doneTasks,
         selectedIndexes,
 
         lastTaskId,

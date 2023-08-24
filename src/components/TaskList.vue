@@ -8,8 +8,7 @@ import {onKeyStroke} from '~/utils/onKeyStroke';
 const {t} = useI18n();
 
 const tasks = defineModel<Task[]>({required: true});
-const undoneTasks = computed(() => tasks.value.filter(t => !t.isDone));
-const doneTasks = computed(() => tasks.value.filter(t => t.isDone).reverse());
+const doneTasks = defineModel<Task[]>('doneTasks', {required: true});
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, default: []});
 
 onMounted(() => useHistoryStore());
@@ -55,7 +54,7 @@ const onClickOutside = [
 onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     e.preventDefault();
 
-    const taskLength = undoneTasks.value.length;
+    const taskLength = tasks.value.length;
     const isArrowDown = e.key === 'ArrowDown';
 
     const lastIndex = selectedIndexes.value.at(-1) ?? (isArrowDown ? -1 : 0);
@@ -82,7 +81,7 @@ onKeyStroke(['Esc', 'Escape'], () => {
 const {editTask} = useTasksStore();
 onKeyStroke('Enter', ({metaKey}) => {
     if (metaKey && selectedIndexes.value.length === 1)
-        editTask(undoneTasks.value[selectedIndexes.value[0]]);
+        editTask(tasks.value[selectedIndexes.value[0]]);
 });
 
 const list = ref<HTMLElement | null>(null);
@@ -93,9 +92,9 @@ useSortable(list, tasks, {
 });
 
 async function swapTask(oldIndex: number, newIndex: number) {
-    if (newIndex >= 0 && newIndex < undoneTasks.value.length) {
-        const from = tasks.value.indexOf(undoneTasks.value[oldIndex]);
-        const to = tasks.value.indexOf(undoneTasks.value[newIndex]);
+    if (newIndex >= 0 && newIndex < tasks.value.length) {
+        const from = tasks.value.indexOf(tasks.value[oldIndex]);
+        const to = tasks.value.indexOf(tasks.value[newIndex]);
 
         moveArrayElement(tasks.value, from, to);
         await nextTick();
@@ -110,12 +109,6 @@ const toggleText = computed(() => {
     const key = showDoneTasks.value ? 'hide' : 'show';
     return t(`actions.${key}CompletedTasks`);
 });
-
-function onTaskDone(index: number) {
-    // Move done task to end of array. So undone tasks are grouped in the
-    // beginning of the array and can be reordered correctly.
-    tasks.value.push(tasks.value.splice(index, 1)[0]);
-}
 
 const {trashTasks} = useTrashStore();
 onKeyStroke(['Backspace'], () => {
@@ -133,14 +126,13 @@ onKeyStroke(['Backspace'], () => {
             v-on-click-outside="onClickOutside"
         >
             <TaskItem
-                v-for="(task, i) in undoneTasks"
+                v-for="(task, i) in tasks"
                 :key="task.id"
-                v-model="undoneTasks[i]"
+                v-model="tasks[i]"
                 :aria-selected="selectedIndexes.includes(i)"
                 :is-selected="selectedIndexes.includes(i)"
                 @click="onTaskClick(i, $event)"
                 @dblclick="editTask(task)"
-                @done="onTaskDone(i)"
                 @dragstart="selectTask(i)"
             />
         </div>

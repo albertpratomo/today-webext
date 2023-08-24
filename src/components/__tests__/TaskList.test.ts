@@ -1,6 +1,5 @@
 import {fireEvent, render} from '@testing-library/vue';
 import type {RenderResult} from '@testing-library/vue';
-import type Task from '~/models/Task';
 import TaskList from '~/components/TaskList.vue';
 import {createTestingPinia} from '@pinia/testing';
 import i18n from '~/i18n';
@@ -8,28 +7,36 @@ import {useTasksStore} from '~/stores/tasks';
 import {vOnClickOutside} from '@vueuse/components';
 
 function prepare(length = 5) {
-    const modelValue = Array.from({length}, (_, i) => ({
+    const tasks = Array.from({length}, (_, i) => ({
         id: i + 1,
         title: `task ${i}`,
         isDone: false,
     }));
 
+    const pinia = createTestingPinia({
+        stubActions: false,
+        initialState: {
+            tasks: {tasks},
+        },
+    });
+
+    const store = useTasksStore();
+
     const result = render(TaskList, {
         global: {
             directives: {'on-click-outside': vOnClickOutside},
-            plugins: [createTestingPinia({stubActions: false}), i18n],
+            plugins: [pinia, i18n],
         },
         props: {
-            modelValue,
-            'onUpdate:modelValue': (modelValue: Task[]) => result.rerender({modelValue}),
-            'selectedIndexes': [],
-            'onUpdate:selectedIndexes': (selectedIndexes: number[]) => result.rerender({selectedIndexes}),
+            modelValue: store.tasks,
+            doneTasks: store.doneTasks,
+            selectedIndexes: [],
         },
     });
 
     return {
         result,
-        store: useTasksStore(),
+        store,
         taskItems: result.getAllByText(/^task/),
     };
 }
@@ -182,7 +189,7 @@ describe('TaskList', () => {
 
     test('click checkbox to complete task', async () => {
         vi.useFakeTimers();
-        const {result} = prepare(1);
+        const {result, store} = prepare(1);
 
         const input: HTMLInputElement = result.getByRole('checkbox');
         await fireEvent.update(input);
@@ -195,7 +202,7 @@ describe('TaskList', () => {
         await nextTick();
 
         // Expect completed task to be hidden.
-        expect(result.queryByText('task 0')).toBeNull();
+        expect(store.tasks).toEqual([]);
     });
 
     test('[D] to complete task', async () => {
