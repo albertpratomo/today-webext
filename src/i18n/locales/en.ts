@@ -13,7 +13,7 @@ export default {
     },
     pomodoro: {
         breakMessage: 'Take a break',
-        doneMessage: 'You\'re all done',
+        doneMessage: 'You\'re all done!',
     },
     today: 'Today',
     trash: 'Trash',

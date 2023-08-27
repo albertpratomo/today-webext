@@ -29,7 +29,7 @@ function createCycle() {
 }
 
 export function usePomodoroCycle() {
-    const {state, next} = useCycleList(createCycle());
+    const {state, index, next} = useCycleList(createCycle());
 
     const timer = useTimer(state.value.duration);
 
@@ -39,7 +39,12 @@ export function usePomodoroCycle() {
         const color = state.value.isBreak ? '#1E4E36' : '#12131A';
         browser.action.setBadgeBackgroundColor({color});
 
-        timer.reset((state.value.duration));
+        timer.reset(state.value.duration);
+    }
+
+    function resetCycle() {
+        index.value = 0;
+        timer.reset(state.value.duration);
     }
 
     watch(timer.count, (count) => {
@@ -51,5 +56,6 @@ export function usePomodoroCycle() {
         skip,
         state,
         timer,
+        resetCycle,
     };
 }

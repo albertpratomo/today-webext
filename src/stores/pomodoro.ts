@@ -11,7 +11,9 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
      */
     const _taskId = ref<number | null>(null);
 
-    const {selectedIndexes, tasks} = storeToRefs(useTasksStore());
+    const showWindow = ref(false);
+
+    const {selectedIndexes, tasks, isAllDone} = storeToRefs(useTasksStore());
 
     const task = computed(() => {
         return _taskId.value
@@ -24,12 +26,13 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     }
 
     function focusNextTask() {
-        if (!task.value)
-            return;
+        const index = task.value ? tasks.value.indexOf(task.value) : -1;
 
-        const index = tasks.value.indexOf(task.value);
+        let nextTask = find(tasks.value, t => !t.isDone, index + 1);
 
-        const nextTask = find(tasks.value, t => !t.isDone, index + 1);
+        // If no next task, find any undone task.
+        if (!nextTask)
+            nextTask = find(tasks.value, t => !t.isDone);
 
         if (nextTask)
             focusTask(nextTask.id);
@@ -49,7 +52,20 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
             focusTask(tasks.value[selectedIndexes.value[0]].id);
     }, {dedupe: false});
 
-    const {skip, state, timer} = usePomodoroCycle();
+    const {skip, state, timer, resetCycle} = usePomodoroCycle();
+
+    watch(isAllDone, (done) => {
+        if (!showWindow.value)
+            return;
+
+        if (done) {
+            _taskId.value = null;
+            resetCycle();
+        }
+        else if (!done) {
+            focusNextTask();
+        }
+    });
 
     // Icon Badge -------------------------------------------------------------
 
@@ -68,6 +84,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
         task,
         ...timer,
         state,
+        isAllDone,
+        showWindow,
         skip,
         focusTask,
         focusNextTask,

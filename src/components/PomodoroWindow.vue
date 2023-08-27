@@ -2,13 +2,14 @@
 import {storeToRefs} from 'pinia';
 import {usePomodoroStore} from '~/stores';
 
-const {task, minutes, seconds, isRunning, state} = storeToRefs(usePomodoroStore());
+const {task, minutes, seconds, isRunning, state, isAllDone, showWindow} = storeToRefs(usePomodoroStore());
 const {play, pause, reset, focusTask, skip} = usePomodoroStore();
 
 const el = ref<HTMLElement | null>(null);
 
 watch(task, async (newVal, oldVal) => {
-    if (oldVal === null && newVal) {
+    if (!showWindow.value && oldVal === null && newVal) {
+        showWindow.value = true;
         const pomodoroWindow = await documentPictureInPicture.requestWindow({
             width: 300,
             height: 200,
@@ -20,6 +21,7 @@ watch(task, async (newVal, oldVal) => {
         pomodoroWindow.addEventListener('pagehide', () => {
             pause();
             focusTask(null);
+            showWindow.value = false;
         });
     }
 });
@@ -29,10 +31,10 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
 
 <template>
     <main
-        v-if="task"
+        v-if="showWindow"
         ref="el"
         class="group h-full p-3"
-        :class="state.isBreak ? 'bg-green-900' : 'bg-gray-900'"
+        :class="state.isBreak || isAllDone ? 'bg-green-900' : 'bg-gray-900'"
     >
         <div class="mb-2 flex items-center">
             <div class="text-2xl font-medium">
@@ -44,6 +46,7 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             </div>
 
             <button
+                v-if="task"
                 class="ml-auto"
                 :class="buttonClass"
             >
@@ -59,6 +62,7 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             </button>
 
             <button
+                v-if="task"
                 class="ml-2"
                 :class="buttonClass"
             >
@@ -74,38 +78,48 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             </button>
         </div>
 
-        <Transition
-            mode="out-in"
-            name="fade-up"
-        >
-            <div
-                :key="task.id"
-                class="relative"
+        <div class="text-sm">
+            <Transition
+                mode="out-in"
+                name="fade-up"
             >
                 <div
-                    v-if="!task.isDone && state.isBreak"
-                    class="pointer-events-none absolute inset-0 text-sm group-hover:opacity-0"
+                    v-if="task"
+                    :key="task.id"
+                    class="relative"
                 >
-                    {{ $t('pomodoro.breakMessage') }}
+                    <div
+                        v-if="state.isBreak && !task.isDone"
+                        class="pointer-events-none absolute inset-0 group-hover:opacity-0"
+                    >
+                        {{ $t('pomodoro.breakMessage') }}
+                    </div>
+
+                    <div
+                        class="flex items-center"
+                        :class="{'opacity-0 group-hover:opacity-100': state.isBreak && !task.isDone}"
+                    >
+                        <input
+                            v-model="task.isDone"
+                            class="mr-2"
+                            type="checkbox"
+                        >
+
+                        <div
+                            class="transition-colors"
+                            :class="{'text-gray-400': task.isDone}"
+                            v-html="task.title"
+                        />
+                    </div>
                 </div>
 
                 <div
-                    class="flex items-center"
-                    :class="{'opacity-0 group-hover:opacity-100': !task.isDone && state.isBreak}"
+                    v-else-if="isAllDone"
+                    key="done"
                 >
-                    <input
-                        v-model="task.isDone"
-                        class="mr-2"
-                        type="checkbox"
-                    >
-
-                    <div
-                        class="text-sm transition-colors"
-                        :class="{'text-gray-400': task.isDone}"
-                        v-html="task.title"
-                    />
+                    {{ $t('pomodoro.doneMessage') }}
                 </div>
-            </div>
-        </Transition>
+            </Transition>
+        </div>
     </main>
 </template>
