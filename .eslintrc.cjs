@@ -4,6 +4,7 @@ module.exports = {
         '@antfu',
         '@unocss',
     ],
+    ignorePatterns: ['**/*.mp3'],
     rules: {
         '@typescript-eslint/indent': ['error', 4],
         '@typescript-eslint/object-curly-spacing': ['error', 'never'],

@@ -1,4 +1,7 @@
+import breakEndSfx from '~/assets/sounds/breakEnd.mp3';
+import focusEndSfx from '~/assets/sounds/focusEnd.mp3';
 import {useCycleList} from '@vueuse/core';
+import {useSound} from '@vueuse/sound';
 import {useTimer} from './useTimer';
 
 // TODO: Change this to correct numbers.
@@ -33,8 +36,13 @@ export function usePomodoroCycle() {
 
     const timer = useTimer(state.value.duration);
 
+    const {play: playFocusEnd} = useSound(focusEndSfx);
+    const {play: playBreakEnd} = useSound(breakEndSfx);
+
     function skip() {
         next();
+
+        state.value.isBreak ? playFocusEnd() : playBreakEnd();
 
         const color = state.value.isBreak ? '#1E4E36' : '#12131A';
         browser.action.setBadgeBackgroundColor({color});
