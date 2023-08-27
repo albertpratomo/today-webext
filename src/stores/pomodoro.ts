@@ -62,7 +62,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
             _taskId.value = null;
             resetCycle();
         }
-        else if (!done) {
+        else {
             focusNextTask();
         }
     });

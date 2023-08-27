@@ -2,7 +2,7 @@
 import {storeToRefs} from 'pinia';
 import {usePomodoroStore} from '~/stores';
 
-const {task, minutes, seconds, isRunning, state, isAllDone, showWindow} = storeToRefs(usePomodoroStore());
+const {task, minutes, seconds, isRunning, hasRun, state, isAllDone, showWindow} = storeToRefs(usePomodoroStore());
 const {play, pause, reset, focusTask, skip} = usePomodoroStore();
 
 const el = ref<HTMLElement | null>(null);
@@ -56,7 +56,7 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
                 />
 
                 <MaterialSymbolsUndo
-                    v-else
+                    v-else-if="hasRun"
                     @click="reset()"
                 />
             </button>
