@@ -55,7 +55,7 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             >
                 <MaterialSymbolsSkipNext
                     v-if="state.isBreak"
-                    @click="skip()"
+                    @click="skip(); play();"
                 />
 
                 <MaterialSymbolsUndo

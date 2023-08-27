@@ -1,15 +1,17 @@
 import breakEndSfx from '~/assets/sounds/breakEnd.mp3';
 import focusEndSfx from '~/assets/sounds/focusEnd.mp3';
+import tickSfx from '~/assets/sounds/tick.mp3';
 import {useCycleList} from '@vueuse/core';
 import {useSound} from '@vueuse/sound';
 import {useTimer} from './useTimer';
 
 // TODO: Change this to correct numbers.
 const MINUTES = 1;
-const SESSION_DURATION = 3 * MINUTES;
+const FOCUS_DURATION = 4 * MINUTES;
 const BREAK_DURATION = 2 * MINUTES;
-const LONG_BREAK_DURATION = 4 * MINUTES;
+const LONG_BREAK_DURATION = 5 * MINUTES;
 const SESSIONS = 3;
+const TICK_SOUND_INTERVAL = 2 * MINUTES;
 
 function createCycle() {
     const cycle = [];
@@ -17,7 +19,7 @@ function createCycle() {
     for (let i = 0; i < SESSIONS; i++) {
         cycle.push({
             sessionCount: i,
-            duration: SESSION_DURATION,
+            duration: FOCUS_DURATION,
             isBreak: false,
         });
 
@@ -38,6 +40,7 @@ export function usePomodoroCycle() {
 
     const {play: playFocusEnd} = useSound(focusEndSfx);
     const {play: playBreakEnd} = useSound(breakEndSfx);
+    const {play: playTick} = useSound(tickSfx, {volume: 0.2}); // The tick sfx is louder than the rest.
 
     function skip() {
         next();
@@ -56,6 +59,14 @@ export function usePomodoroCycle() {
     }
 
     watch(timer.count, (count) => {
+        if (
+            !state.value.isBreak
+            && count < FOCUS_DURATION
+            && count > 0
+            && count % TICK_SOUND_INTERVAL === 0
+        )
+            playTick();
+
         if (count <= -1)
             skip();
     });
