@@ -52,7 +52,9 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
             focusTask(tasks.value[selectedIndexes.value[0]].id);
     }, {dedupe: false});
 
-    const {skip, state, timer, resetCycle} = usePomodoroCycle();
+    // Cycle & Timer ----------------------------------------------------------
+
+    const {skip, state, timer, resetCycle, sessionCount} = usePomodoroCycle();
 
     watch(isAllDone, (done) => {
         if (!showWindow.value)
@@ -86,6 +88,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
         state,
         isAllDone,
         showWindow,
+        sessionCount,
         skip,
         focusTask,
         focusNextTask,

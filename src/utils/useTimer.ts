@@ -1,4 +1,4 @@
-import {computedEager, useCounter, useIntervalFn} from '@vueuse/core';
+import {useCounter, useIntervalFn} from '@vueuse/core';
 
 export function useTimer(duration: number) {
     const {count, dec, reset} = useCounter(duration, {
@@ -10,7 +10,7 @@ export function useTimer(duration: number) {
 
     const {pause, resume, isActive} = useIntervalFn(dec, 1000, {immediate: false});
 
-    const hasRun = computedEager(() => count.value < duration);
+    const hasRun = computed(() => count.value < duration);
 
     return {
         count,

@@ -2,7 +2,10 @@
 import {storeToRefs} from 'pinia';
 import {usePomodoroStore} from '~/stores';
 
-const {task, minutes, seconds, isRunning, hasRun, state, isAllDone, showWindow} = storeToRefs(usePomodoroStore());
+const {
+    task, minutes, seconds, isRunning, hasRun, state, isAllDone,
+    showWindow, sessionCount,
+} = storeToRefs(usePomodoroStore());
 const {play, pause, reset, focusTask, skip} = usePomodoroStore();
 
 const el = ref<HTMLElement | null>(null);
@@ -42,10 +45,10 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             </div>
 
             <div
-                v-if="state.sessionCount > 0"
+                v-if="sessionCount > 0"
                 class="ml-2 rounded-full bg-gray-200 px-1 text-xs text-gray-900"
             >
-                {{ state.sessionCount }}
+                {{ sessionCount }}
             </div>
 
             <button
