@@ -3,7 +3,7 @@ import {storeToRefs} from 'pinia';
 import {usePomodoroStore} from '~/stores';
 
 const {task, minutes, seconds, isRunning, state} = storeToRefs(usePomodoroStore());
-const {play, pause, reset, focusTask} = usePomodoroStore();
+const {play, pause, reset, focusTask, skip} = usePomodoroStore();
 
 const el = ref<HTMLElement | null>(null);
 
@@ -46,19 +46,31 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             <button
                 class="ml-auto"
                 :class="buttonClass"
-                @click="reset()"
             >
-                <MaterialSymbolsUndo />
+                <MaterialSymbolsSkipNext
+                    v-if="state.isBreak"
+                    @click="skip()"
+                />
+
+                <MaterialSymbolsUndo
+                    v-else
+                    @click="reset()"
+                />
             </button>
 
             <button
                 class="ml-2"
                 :class="buttonClass"
-                @click="!isRunning ? play() : pause()"
             >
-                <MaterialSymbolsPlayArrow v-if="!isRunning" />
+                <MaterialSymbolsPlayArrow
+                    v-if="!isRunning"
+                    @click="play()"
+                />
 
-                <MaterialSymbolsPause v-else />
+                <MaterialSymbolsPause
+                    v-else
+                    @click="pause()"
+                />
             </button>
         </div>
 
@@ -67,28 +79,32 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
             name="fade-up"
         >
             <div
-                v-if="!state.isBreak"
                 :key="task.id"
-                class="flex items-center"
+                class="relative"
             >
-                <input
-                    v-model="task.isDone"
-                    class="mr-2"
-                    type="checkbox"
+                <div
+                    v-if="!task.isDone && state.isBreak"
+                    class="pointer-events-none absolute inset-0 text-sm group-hover:opacity-0"
                 >
+                    {{ $t('pomodoro.breakMessage') }}
+                </div>
 
                 <div
-                    class="text-sm transition-colors"
-                    :class="{'text-gray-400': task.isDone}"
-                    v-html="task.title"
-                />
-            </div>
+                    class="flex items-center"
+                    :class="{'opacity-0 group-hover:opacity-100': !task.isDone && state.isBreak}"
+                >
+                    <input
+                        v-model="task.isDone"
+                        class="mr-2"
+                        type="checkbox"
+                    >
 
-            <div
-                v-else
-                class="text-sm"
-            >
-                {{ $t('pomodoro.breakMessage') }}
+                    <div
+                        class="text-sm transition-colors"
+                        :class="{'text-gray-400': task.isDone}"
+                        v-html="task.title"
+                    />
+                </div>
             </div>
         </Transition>
     </main>

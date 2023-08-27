@@ -35,6 +35,10 @@ export function usePomodoroCycle() {
 
     function skip() {
         next();
+
+        const color = state.value.isBreak ? '#1E4E36' : '#12131A';
+        browser.action.setBadgeBackgroundColor({color});
+
         timer.reset((state.value.duration));
     }
 

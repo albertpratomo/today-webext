@@ -15,6 +15,7 @@ declare module 'vue' {
     MaterialSymbolsPlayCircle: typeof import('~icons/material-symbols/play-circle')['default']
     MaterialSymbolsPlayCircleOutline: typeof import('~icons/material-symbols/play-circle-outline')['default']
     MaterialSymbolsScheduleOutline: typeof import('~icons/material-symbols/schedule-outline')['default']
+    MaterialSymbolsSkipNext: typeof import('~icons/material-symbols/skip-next')['default']
     MaterialSymbolsStarRounded: typeof import('~icons/material-symbols/star-rounded')['default']
     MaterialSymbolsTag: typeof import('~icons/material-symbols/tag')['default']
     MaterialSymbolsUndo: typeof import('~icons/material-symbols/undo')['default']
