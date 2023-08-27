@@ -19,7 +19,7 @@ function createCycle() {
         });
 
         cycle.push({
-            sessionCount: i,
+            sessionCount: i + 1,
             duration: i === SESSIONS - 1 ? LONG_BREAK_DURATION : BREAK_DURATION,
             isBreak: true,
         });

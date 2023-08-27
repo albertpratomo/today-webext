@@ -41,7 +41,10 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
                 {{ minutes }}:{{ seconds }}
             </div>
 
-            <div class="ml-2 rounded-full bg-gray-200 px-1 text-xs text-gray-900">
+            <div
+                v-if="state.sessionCount > 0"
+                class="ml-2 rounded-full bg-gray-200 px-1 text-xs text-gray-900"
+            >
                 {{ state.sessionCount }}
             </div>
 
