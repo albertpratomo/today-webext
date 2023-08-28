@@ -18,12 +18,12 @@ const iconClass = 'w-6 h-6';
             <MaterialSymbolsAdd :class="iconClass" />
         </button>
 
-        <button :class="buttonClass">
+        <!-- <button :class="buttonClass">
             <MaterialSymbolsPlayCircleOutline :class="iconClass" />
         </button>
 
         <button :class="buttonClass">
             <MaterialSymbolsTag :class="iconClass" />
-        </button>
+        </button> -->
     </div>
 </template>
