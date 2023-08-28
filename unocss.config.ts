@@ -38,5 +38,8 @@ export default defineConfig({
         fontFamily: {
             sans: ['Inter', 'ui-sans-serif', 'system-ui'],
         },
+        fontSize: {
+            '2sm': '0.813rem',
+        },
     },
 });

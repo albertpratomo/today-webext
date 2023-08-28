@@ -2,13 +2,13 @@
     <main class="h-screen flex">
         <div class="w-48 shrink-0 border-r p-10 text-lg">
             <ul class="space-y-4">
-                <li>
+                <li class="text-2sm">
                     <RouterLink :to="{name: 'index'}">
                         {{ $t('today') }}
                     </RouterLink>
                 </li>
 
-                <li>
+                <li class="text-2sm">
                     <RouterLink :to="{name: 'trash'}">
                         {{ $t('trash') }}
                     </RouterLink>

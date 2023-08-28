@@ -150,7 +150,7 @@ onKeyStroke(['Backspace'], () => {
             class="mt-12"
         >
             <button
-                class="rounded p-2 text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-300"
+                class="rounded p-2 text-sm text-gray-400 duration-100 hover:bg-gray-800 hover:text-gray-300"
                 @click="showDoneTasks = !showDoneTasks"
             >
                 {{ toggleText }}
