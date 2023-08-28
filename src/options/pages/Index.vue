@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import {useDateFormat, useNow} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
 const {tasks, selectedIndexes} = storeToRefs(useTasksStore());
+const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 </script>
 
 <template>
     <LayoutSidebar>
         <div class="space-y-8">
-            <h1 class="text-4xl">
+            <h1 class="text-xl font-medium">
                 {{ $t('today') }}
+                <span class="ml-1 text-gray-500">
+                    {{ currentDate }}
+                </span>
             </h1>
 
             <TaskList
