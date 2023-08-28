@@ -1,7 +1,4 @@
 import {useCycleList, useLocalStorage} from '@vueuse/core';
-import breakEndSfx from '~/assets/sounds/breakEnd.mp3';
-import focusEndSfx from '~/assets/sounds/focusEnd.mp3';
-import tickSfx from '~/assets/sounds/tick.mp3';
 import {useSound} from '@vueuse/sound';
 import {useTimer} from '~/utils/useTimer';
 
@@ -46,9 +43,9 @@ export function usePomodoroCycle() {
 
     const timer = useTimer(state.value.duration);
 
-    const {play: playFocusEnd} = useSound(focusEndSfx);
-    const {play: playBreakEnd} = useSound(breakEndSfx);
-    const {play: playTick} = useSound(tickSfx, {volume: 0.2}); // The tick sfx is louder than the rest.
+    const {play: playFocusEnd} = useSound('/assets/sounds/focusEnd.mp3');
+    const {play: playBreakEnd} = useSound('/assets/sounds/breakEnd.mp3');
+    const {play: playTick} = useSound('/assets/sounds/tick.mp3', {volume: 0.2}); // The tick sfx is louder than the rest.
 
     function skip() {
         if (!state.value.isBreak)
