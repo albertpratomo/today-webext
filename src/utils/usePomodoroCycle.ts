@@ -1,9 +1,8 @@
+import {useCycleList, useLocalStorage} from '@vueuse/core';
 import breakEndSfx from '~/assets/sounds/breakEnd.mp3';
 import focusEndSfx from '~/assets/sounds/focusEnd.mp3';
 import tickSfx from '~/assets/sounds/tick.mp3';
-import {useCycleList} from '@vueuse/core';
 import {useSound} from '@vueuse/sound';
-import {useStorageLocal} from '~/utils/useStorageLocal';
 import {useTimer} from '~/utils/useTimer';
 
 // TODO: Change this to correct numbers.
@@ -33,10 +32,10 @@ function createCycle() {
 }
 
 export function usePomodoroCycle() {
-    const sessionCount = useStorageLocal('pomodoroSessionCount', 0);
+    const sessionCount = useLocalStorage('pomodoroSessionCount', 0);
 
     const currentDate = new Date().toDateString();
-    const lastPomodoroAt = useStorageLocal('lastPomodoroAt', currentDate);
+    const lastPomodoroAt = useLocalStorage('lastPomodoroAt', currentDate);
 
     if (lastPomodoroAt.value !== currentDate) {
         lastPomodoroAt.value = currentDate;
