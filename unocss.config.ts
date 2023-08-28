@@ -42,7 +42,7 @@ export default defineConfig({
             sans: ['Inter', 'ui-sans-serif', 'system-ui'],
         },
         fontSize: {
-            '2sm': ['0.813rem', '1.25rem'],
+            '2sm': ['0.8125rem', '1.25rem'], // 13px, 20px
         },
     },
 });
