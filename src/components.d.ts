@@ -28,5 +28,6 @@ declare module 'vue' {
     TaskList: typeof import('./components/TaskList.vue')['default']
     TaskNoteInput: typeof import('./components/TaskNoteInput.vue')['default']
     TaskTitleInput: typeof import('./components/TaskTitleInput.vue')['default']
+    TheSidebar: typeof import('./components/TheSidebar.vue')['default']
   }
 }
