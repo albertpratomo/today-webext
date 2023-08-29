@@ -61,7 +61,7 @@ const buttonClass = 'opacity-0 transition-opacity ease-out hover:text-gray-400 g
                     @click="skip(); play();"
                 />
 
-                <MaterialSymbolsUndo
+                <MaterialSymbolsRestartAlt
                     v-else-if="hasRun"
                     @click="reset()"
                 />
