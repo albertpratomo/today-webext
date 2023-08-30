@@ -8,6 +8,7 @@ export default {
         showCompletedTasks: 'Show completed tasks',
     },
     calendar: 'Calendar',
+    comingSoon: 'Coming soon :)',
     fields: {
         taskNote: {placeholder: 'Add notes'},
         taskTitle: {placeholder: 'Start with a verb'},
@@ -17,6 +18,7 @@ export default {
         breakMessage: 'Take a break',
         doneMessage: 'You\'re all done!',
     },
+    projects: 'Projects',
     today: 'Today',
     trash: 'Trash',
 };

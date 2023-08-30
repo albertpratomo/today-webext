@@ -64,6 +64,7 @@ const items = computed(() => {
                 <div
                     v-else
                     class="flex items-center px-2 py-1.5 text-gray-500"
+                    :title="$t('comingSoon')"
                 >
                     <Component
                         :is="item.icon"
@@ -74,5 +75,16 @@ const items = computed(() => {
                 </div>
             </li>
         </ul>
+
+        <div
+            class="mt-5 flex justify-between px-2 text-gray-200"
+            :title="$t('comingSoon')"
+        >
+            <div class="text-xs">
+                {{ $t('projects') }}
+            </div>
+
+            <MaterialSymbolsAdd />
+        </div>
     </div>
 </template>
