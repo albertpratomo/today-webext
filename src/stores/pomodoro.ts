@@ -69,19 +69,6 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
         }
     });
 
-    // Icon Badge -------------------------------------------------------------
-
-    browser.action.setBadgeBackgroundColor({color: '#12131A'});
-    browser.action.setBadgeTextColor({color: '#ECEDFA'});
-
-    watchEffect(() => {
-        const text = _taskId.value
-            ? `${timer.minutes.value}:${timer.seconds.value}`
-            : '';
-
-        browser.action.setBadgeText({text});
-    });
-
     return {
         task,
         ...timer,
