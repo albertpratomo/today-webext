@@ -10,8 +10,8 @@ const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 
 <template>
     <LayoutSidebar>
-        <div class="space-y-8">
-            <div class="flex justify-between">
+        <div>
+            <div class="h-8 flex justify-between">
                 <h1 class="text-xl font-medium">
                     {{ $t('today') }}
 

@@ -7,6 +7,15 @@ const {tasks} = storeToRefs(useTrashStore());
 
 <template>
     <LayoutSidebar>
-        <TaskList v-model="tasks" />
+        <div>
+            <h1 class="h-8 text-xl font-medium">
+                {{ $t('trash') }}
+            </h1>
+
+            <TaskList
+                v-model="tasks"
+                class="mt-8"
+            />
+        </div>
     </LayoutSidebar>
 </template>
