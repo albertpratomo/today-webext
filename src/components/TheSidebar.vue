@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import IconDelete from '~icons/material-symbols/delete';
+import IconEvent from '~icons/material-symbols/event';
+import IconInbox from '~icons/material-symbols/inbox';
 import {storeToRefs} from 'pinia';
 import {useTrashStore} from '~/stores';
 
@@ -8,25 +11,25 @@ const {tasks} = storeToRefs(useTrashStore());
 const items = computed(() => {
     const items = [
         {
-            icon: 'calendar',
+            icon: IconEvent,
             text: t('today'),
             to: {name: 'index'},
             isVisible: true,
         },
         {
-            icon: 'trash',
+            icon: IconDelete,
             text: t('trash'),
             to: {name: 'trash'},
             isVisible: !!tasks.value.length,
         },
         {
-            icon: 'trash',
+            icon: IconEvent,
             text: t('calendar'),
             to: null,
             isVisible: true,
         },
         {
-            icon: 'trash',
+            icon: IconInbox,
             text: t('inbox'),
             to: null,
             isVisible: true,
@@ -43,20 +46,30 @@ const items = computed(() => {
             <li
                 v-for="(item, i) in items"
                 :key="i"
-                class="w-50 rounded font-medium text-gray-400 hover:bg-gray-800"
+                class="w-50 rounded font-medium hover:bg-gray-800"
             >
                 <RouterLink
                     v-if="item.to"
-                    class="block px-2 py-1.5"
+                    class="block flex items-center px-2 py-1.5 text-gray-350"
                     :to="item.to"
                 >
+                    <Component
+                        :is="item.icon"
+                        class="mr-2"
+                    />
+
                     {{ item.text }}
                 </RouterLink>
 
                 <div
                     v-else
-                    class="px-2 py-1.5"
+                    class="flex items-center px-2 py-1.5 text-gray-500"
                 >
+                    <Component
+                        :is="item.icon"
+                        class="mr-2"
+                    />
+
                     {{ item.text }}
                 </div>
             </li>
