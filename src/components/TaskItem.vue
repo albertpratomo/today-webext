@@ -20,12 +20,14 @@ const {focusTask} = usePomodoroStore();
         class="group flex cursor-pointer select-none items-center rounded p-2 hover:bg-gray-800"
         :class="{'bg-indigo-900 hover:bg-indigo-900': isSelected}"
     >
-        <MaterialSymbolsPlayArrow
-            class="mr-2 text-indigo-400 opacity-0 group-hover:opacity-100"
-            :class="{'opacity-100': isSelected, 'invisible': task.isDone}"
+        <button
+            class="mr-2 opacity-0 group-hover:opacity-100"
+            :class="{'invisible': task.isDone, 'opacity-100': isSelected}"
             text="indigo-400 hover:indigo-300 active:indigo-500"
             @click="focusTask(task.id)"
-        />
+        >
+            <MaterialSymbolsPlayArrow />
+        </button>
 
         <input
             v-model="task.isDone"
