@@ -26,7 +26,7 @@ const {focusTask} = usePomodoroStore();
         >
 
         <div
-            class="grow border border-transparent px-1.5 py-1 text-sm font-medium transition-colors"
+            class="h-7.5 grow border border-transparent px-1.5 py-1 text-sm font-medium transition-colors"
             :class="{'text-gray-400': task.isDone}"
             v-html="task.title"
         />

@@ -33,6 +33,9 @@ export const useTasksStore = defineStore('tasks', () => {
     });
 
     function createTask() {
+        if (!draftCreateTaskHasContent.value)
+            return;
+
         // Find the last selected index.
         const index = selectedIndexes.value.length
             ? (selectedIndexes.value.at(-1) || 0) + 1

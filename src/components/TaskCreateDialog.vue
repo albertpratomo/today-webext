@@ -72,6 +72,7 @@ function close() {
 
                         <button
                             class="btn-indigo"
+                            :disabled="!draftCreateTaskHasContent"
                             @click="createTask()"
                         >
                             {{ $t('actions.addTask') }}
