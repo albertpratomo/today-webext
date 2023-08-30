@@ -10,7 +10,7 @@ import fs from 'fs-extra';
 async function stubIndexHtml() {
     const views = [
         'options',
-        'popup',
+        // 'popup',
         'background',
     ];
 

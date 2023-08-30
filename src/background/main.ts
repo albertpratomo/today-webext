@@ -8,6 +8,10 @@ if (import.meta.hot) {
     import('./contentScriptHMR');
 }
 
+browser.action.onClicked.addListener(() => {
+    browser.runtime.openOptionsPage();
+});
+
 // browser.runtime.onInstalled.addListener((): void => {
 //     // console.log('Extension installed');
 // });
