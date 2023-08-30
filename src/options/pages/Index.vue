@@ -3,7 +3,7 @@ import {useDateFormat, useNow} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {tasks, doneTasks, selectedIndexes} = storeToRefs(useTasksStore());
+const {tasks, doneTasks, selectedIndexes, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
 
 const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 </script>
@@ -11,13 +11,23 @@ const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 <template>
     <LayoutSidebar>
         <div class="space-y-8">
-            <h1 class="pl-3 text-xl font-medium">
-                {{ $t('today') }}
+            <div class="flex justify-between">
+                <h1 class="pl-3 text-xl font-medium">
+                    {{ $t('today') }}
 
-                <span class="ml-1 text-gray-500">
-                    {{ currentDate }}
-                </span>
-            </h1>
+                    <span class="ml-1 text-gray-500">
+                        {{ currentDate }}
+                    </span>
+                </h1>
+
+                <button
+                    id="btn-new-task"
+                    class="rounded p-1.5 text-indigo-400 hover:bg-gray-800"
+                    @click="taskCreateDialogIsOpen = true"
+                >
+                    <MaterialSymbolsAdd />
+                </button>
+            </div>
 
             <TaskList
                 v-model="tasks"

@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    BottomToolbar: typeof import('./components/BottomToolbar.vue')['default']
     LayoutSidebar: typeof import('./components/LayoutSidebar.vue')['default']
     MaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
     MaterialSymbolsPause: typeof import('~icons/material-symbols/pause')['default']
