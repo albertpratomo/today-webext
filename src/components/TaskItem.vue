@@ -16,25 +16,29 @@ const {focusTask} = usePomodoroStore();
 </script>
 
 <template>
-    <div class="group flex cursor-pointer select-none items-center rounded p-1 pl-3 hover:bg-gray-800">
+    <div
+        class="group flex cursor-pointer select-none items-center rounded p-2 hover:bg-gray-800"
+        :class="{'bg-indigo-900 hover:bg-indigo-900': isSelected}"
+    >
+        <MaterialSymbolsPlayArrow
+            class="mr-2 text-indigo-400 opacity-0 group-hover:opacity-100"
+            :class="{'opacity-100': isSelected, 'invisible': task.isDone}"
+            text="indigo-400 hover:indigo-300 active:indigo-500"
+            @click="focusTask(task.id)"
+        />
+
         <input
             v-model="task.isDone"
-            class="mr-1 border-2"
+            class="mr-2 border-2"
             type="checkbox"
             @click.stop
             @dblclick.stop
         >
 
         <div
-            class="h-7.5 grow border border-transparent px-1.5 py-1 text-sm font-medium transition-colors"
+            class="h-5 grow border border-transparent text-sm font-medium transition-colors"
             :class="{'text-gray-400': task.isDone}"
             v-html="task.title"
-        />
-
-        <MaterialSymbolsPlayCircle
-            v-if="!task.isDone"
-            class="hidden group-hover:block hover:text-gray-400"
-            @click="focusTask(task.id)"
         />
     </div>
 </template>

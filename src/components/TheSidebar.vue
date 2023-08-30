@@ -41,7 +41,7 @@ const items = computed(() => {
 </script>
 
 <template>
-    <div class="px-3 py-10">
+    <div class="px-3 py-12">
         <ul class="text-2sm">
             <li
                 v-for="(item, i) in items"

@@ -121,6 +121,7 @@ onKeyStroke(['Backspace'], () => {
         <div
             ref="list"
             v-on-click-outside="onClickOutside"
+            class="-ml-8"
         >
             <TaskItem
                 v-for="(task, i) in tasks"
@@ -139,7 +140,8 @@ onKeyStroke(['Backspace'], () => {
             class="mt-12"
         >
             <button
-                class="rounded p-2 text-sm text-gray-400 duration-100 hover:bg-gray-800 hover:text-gray-300"
+                class="rounded p-2 duration-100 -ml-2 hover:bg-gray-800"
+                text="sm gray-400 hover:gray-300"
                 @click="showDoneTasks = !showDoneTasks"
             >
                 {{ toggleText }}
@@ -150,15 +152,10 @@ onKeyStroke(['Backspace'], () => {
                     v-for="(task, i) in doneTasks"
                     :key="task.id"
                     v-model="doneTasks[i]"
+                    class="-ml-8"
                     @dblclick="editTask(task)"
                 />
             </template>
         </div>
     </div>
 </template>
-
-<style scoped>
-:deep([aria-selected="true"]) {
-    @apply bg-indigo-900;
-}
-</style>
