@@ -14,9 +14,11 @@ export default {
         taskTitle: {placeholder: 'Start with a verb'},
     },
     inbox: 'Inbox',
+    newTaskTooltip: 'New task [N]',
     pomodoro: {
         breakMessage: 'Take a break',
         doneMessage: 'You\'re all done!',
+        openWindowTooltip: 'Start pomo [space]',
     },
     projects: 'Projects',
     today: 'Today',

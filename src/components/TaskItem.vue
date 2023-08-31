@@ -24,6 +24,7 @@ const {focusTask} = usePomodoroStore();
             class="mr-2 opacity-0 group-hover:opacity-100"
             :class="{'invisible': task.isDone || task.deletedAt, 'opacity-100': isSelected}"
             text="indigo-400 hover:indigo-300 active:indigo-500"
+            :title="$t('pomodoro.openWindowTooltip')"
             @click="focusTask(task.id)"
         >
             <MaterialSymbolsPlayArrow />
