@@ -11,7 +11,7 @@ export default {
     comingSoon: 'Coming soon :)',
     fields: {
         taskNote: {placeholder: 'Add notes'},
-        taskTitle: {placeholder: 'Start with a verb'},
+        taskTitle: {placeholder: 'Add new task, like “Read book”'},
     },
     inbox: 'Inbox',
     newTaskTooltip: 'New task [N]',
