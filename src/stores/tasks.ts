@@ -1,17 +1,23 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
+import {generateTasks} from '~/utils/generateTasks';
 import {remove} from 'lodash-es';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
-    const tasks = useStorageLocal<Task[]>('tasks', []);
+    const tasks = useStorageLocal<Task[]>('tasks', generateTasks([
+        'Press <code>N</code> to create a new task ✨',
+        'Select me and press <code>space</code>',
+        'ProTip: Use arrow keys to navigate',
+    ]));
+
     const selectedIndexes = ref<number[]>([]);
 
     // Create Task ------------------------------------------------------------
 
-    const lastTaskId = useStorageLocal<number>('lastTaskId', 1);
+    const lastTaskId = useStorageLocal<number>('lastTaskId', 4);
 
     const BLANK_TASK = Object.freeze({
         title: '',

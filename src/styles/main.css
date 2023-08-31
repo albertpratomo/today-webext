@@ -9,7 +9,7 @@ body {
 }
 
 code {
-    @apply text-red bg-gray-100 rounded-sm p-px;
+    @apply text-gray-300 bg-gray-700 rounded-sm py-px px-1 font-sans;
 }
 
 .prose {
