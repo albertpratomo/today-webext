@@ -9,7 +9,9 @@
             <slot />
         </div>
 
-        <div class="w-68 border-l bg-gray-850 pt-10" />
+        <div class="w-72 border-l bg-gray-850 px-3 py-12">
+            <TimeGridDay />
+        </div>
 
         <TaskCreateDialog />
 

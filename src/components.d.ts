@@ -27,5 +27,6 @@ declare module 'vue' {
     TaskNoteInput: typeof import('./components/TaskNoteInput.vue')['default']
     TaskTitleInput: typeof import('./components/TaskTitleInput.vue')['default']
     TheSidebar: typeof import('./components/TheSidebar.vue')['default']
+    TimeGridDay: typeof import('./components/TimeGridDay.vue')['default']
   }
 }
