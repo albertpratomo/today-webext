@@ -77,7 +77,7 @@ const items = computed(() => {
         </ul>
 
         <div
-            class="mt-5 flex justify-between px-2 text-gray-200"
+            class="mt-5 flex justify-between px-2 text-gray-500"
             :title="$t('comingSoon')"
         >
             <div class="text-xs">
