@@ -18,15 +18,34 @@ const options: CalendarOptions = {
         minute: '2-digit',
         omitZeroMinute: false,
     },
-    nowIndicator: true,
 };
 </script>
 
 <template>
-    <FullCalendar
-        class="text-gray-400"
-        :options="options"
-    />
+    <div class="relative h-full">
+        <FullCalendar
+            class="text-gray-400"
+            :options="options"
+        />
+
+        <div class="z-10 w-64 border rounded-lg bg-gray-800 p-4 shadow-indigo-emerald inset-center -rotate-2">
+            <div class="flex items-center text-sm font-semibold">
+                <MaterialSymbolsSchedule class="text-indigo-300" />
+
+                <div class="ml-2">
+                    {{ $t('timeblockingCard.title') }}
+                </div>
+            </div>
+
+            <div class="mt-4 text-xs text-gray-300">
+                {{ $t('timeblockingCard.body') }}
+            </div>
+
+            <div class="mt-4 text-xs text-indigo-400">
+                {{ $t('comingSoon') }}
+            </div>
+        </div>
+    </div>
 </template>
 
 <style>

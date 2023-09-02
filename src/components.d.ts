@@ -12,6 +12,7 @@ declare module 'vue' {
     MaterialSymbolsPause: typeof import('~icons/material-symbols/pause')['default']
     MaterialSymbolsPlayArrow: typeof import('~icons/material-symbols/play-arrow')['default']
     MaterialSymbolsRestartAlt: typeof import('~icons/material-symbols/restart-alt')['default']
+    MaterialSymbolsSchedule: typeof import('~icons/material-symbols/schedule')['default']
     MaterialSymbolsScheduleOutline: typeof import('~icons/material-symbols/schedule-outline')['default']
     MaterialSymbolsSkipNext: typeof import('~icons/material-symbols/skip-next')['default']
     MaterialSymbolsStarRounded: typeof import('~icons/material-symbols/star-rounded')['default']

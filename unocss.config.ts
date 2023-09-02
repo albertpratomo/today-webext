@@ -17,8 +17,12 @@ export default defineConfig({
         'btn-gray': 'btn bg-gray-500 text-gray-100',
         'btn-indigo': 'btn bg-indigo-500 text-gray-100',
         'btn-icon': 'inline-block px-2 py-1 bg-gray-700 border rounded disabled:opacity-60',
+        'inset-center': 'absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2',
     },
     theme: {
+        boxShadow: {
+            'indigo-emerald': '-4px -4px 4px 0px rgba(55, 48, 163, 0.12), 4px 4px 4px 0px rgba(6, 95, 70, 0.12)',
+        },
         colors: {
             gray: {
                 50: '#F8F9FC',
