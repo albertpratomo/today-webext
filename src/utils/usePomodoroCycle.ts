@@ -2,13 +2,12 @@ import {useCycleList, useLocalStorage} from '@vueuse/core';
 import {useSound} from '@vueuse/sound';
 import {useTimer} from '~/utils/useTimer';
 
-// TODO: Change this to correct numbers.
-const MINUTES = 1;
-const SESSION_DURATION = 4 * MINUTES;
-const BREAK_DURATION = 2 * MINUTES;
-const LONG_BREAK_DURATION = 5 * MINUTES;
+const MINUTES = 60;
+const SESSION_DURATION = 25 * MINUTES;
+const BREAK_DURATION = 5 * MINUTES;
+const LONG_BREAK_DURATION = 15 * MINUTES;
 const SESSIONS = 3;
-const TICK_SOUND_INTERVAL = 2 * MINUTES;
+const TICK_SOUND_INTERVAL = 5 * MINUTES;
 
 function createCycle() {
     const cycle = [];
