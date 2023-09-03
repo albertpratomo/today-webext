@@ -13,7 +13,7 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
 
     const showWindow = ref(false);
 
-    const {selectedIndexes, tasks, isAllDone} = storeToRefs(useTasksStore());
+    const {lastSelectedIndex, tasks, isAllDone} = storeToRefs(useTasksStore());
 
     const task = computed(() => {
         return _taskId.value
@@ -48,8 +48,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     );
 
     onKeyStroke([' '], () => {
-        if (selectedIndexes.value.length === 1)
-            focusTask(tasks.value[selectedIndexes.value[0]].id);
+        if (typeof lastSelectedIndex.value === 'number')
+            focusTask(tasks.value[lastSelectedIndex.value].id);
     }, {dedupe: false});
 
     // Cycle & Timer ----------------------------------------------------------

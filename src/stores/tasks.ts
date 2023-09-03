@@ -14,6 +14,7 @@ export const useTasksStore = defineStore('tasks', () => {
     ]));
 
     const selectedIndexes = ref<number[]>([]);
+    const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
 
     // Create Task ------------------------------------------------------------
 
@@ -104,6 +105,7 @@ export const useTasksStore = defineStore('tasks', () => {
     return {
         tasks,
         selectedIndexes,
+        lastSelectedIndex,
 
         lastTaskId,
         draftCreateTask,

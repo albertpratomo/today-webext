@@ -4,12 +4,12 @@ import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores';
 
-const {focusedTask, selectedIndexes, tasks} = storeToRefs(useTasksStore());
+const {focusedTask, lastSelectedIndex, tasks} = storeToRefs(useTasksStore());
 const {focusTask} = useTasksStore();
 
 onKeyStroke(['f', 'F'], () => {
-    if (selectedIndexes.value.length === 1)
-        focusTask(tasks.value[selectedIndexes.value[0]]);
+    if (typeof lastSelectedIndex.value === 'number')
+        focusTask(tasks.value[lastSelectedIndex.value]);
 }, {dedupe: false});
 
 function close() {

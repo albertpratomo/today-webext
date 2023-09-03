@@ -3,7 +3,10 @@ import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {usePomodoroStore} from '~/stores';
 
-const {isSelected = false} = defineProps<{isSelected?: boolean}>();
+const {isLastSelected = false, isSelected = false} = defineProps<{
+    isLastSelected?: boolean
+    isSelected?: boolean
+}>();
 
 const task = defineModel<Task>({required: true});
 
@@ -17,12 +20,15 @@ const {focusTask} = usePomodoroStore();
 
 <template>
     <div
-        class="group flex cursor-pointer select-none items-center rounded p-2 hover:bg-gray-800"
-        :class="{'bg-indigo-900 hover:bg-indigo-900': isSelected}"
+        class="group flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
+        :class="[
+            {'bg-indigo-900 hover:bg-indigo-900': isSelected},
+            isLastSelected ? 'border-indigo-400' : 'border-transparent',
+        ]"
     >
         <button
             class="mr-2 opacity-0 group-hover:opacity-100"
-            :class="{'invisible': task.isDone || task.deletedAt, 'opacity-100': isSelected}"
+            :class="{'invisible': task.isDone || task.deletedAt, 'opacity-100': isLastSelected}"
             text="indigo-400 hover:indigo-300 active:indigo-500"
             :title="$t('pomodoro.openWindowTooltip')"
             @click="focusTask(task.id)"

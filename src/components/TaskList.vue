@@ -11,6 +11,8 @@ const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, default: []});
 
+const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
+
 onMounted(() => useHistoryStore());
 
 function selectTask(index: number | number[]) {
@@ -27,14 +29,12 @@ function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent
             ? selectedIndexes.value.splice(selectedIndexes.value.indexOf(clicked), 1)
             : selectedIndexes.value.push(clicked);
     }
-    else if (shiftKey && selectedIndexes.value.length) {
-        const lastIndex = selectedIndexes.value[selectedIndexes.value.length - 1];
-
+    else if (shiftKey && typeof lastSelectedIndex.value === 'number') {
         selectTask(Array.from(new Set([
             ...selectedIndexes.value,
             ...Array.from(
-                {length: Math.abs(clicked - lastIndex) + 1},
-                (_, i) => Math.min(clicked, lastIndex) + i,
+                {length: Math.abs(clicked - lastSelectedIndex.value) + 1},
+                (_, i) => Math.min(clicked, lastSelectedIndex.value!) + i,
             ),
         ])));
     }
@@ -57,7 +57,7 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     const taskLength = tasks.value.length;
     const isArrowDown = e.key === 'ArrowDown';
 
-    const lastIndex = selectedIndexes.value.at(-1) ?? (isArrowDown ? -1 : 0);
+    const lastIndex = lastSelectedIndex.value ?? (isArrowDown ? -1 : 0);
     const selected = (lastIndex + (isArrowDown ? 1 : -1) + taskLength) % taskLength;
 
     if (e.shiftKey && (e.metaKey || e.ctrlKey) && selectedIndexes.value.length === 1) {
@@ -80,8 +80,8 @@ onKeyStroke(['Esc', 'Escape'], () => {
 
 const {editTask} = useTasksStore();
 onKeyStroke('Enter', ({metaKey}) => {
-    if (metaKey && selectedIndexes.value.length === 1)
-        editTask(tasks.value[selectedIndexes.value[0]]);
+    if (metaKey && typeof lastSelectedIndex.value === 'number')
+        editTask(tasks.value[lastSelectedIndex.value]);
 });
 
 const list = ref<HTMLElement | null>(null);
@@ -128,6 +128,7 @@ onKeyStroke(['Backspace'], () => {
                 :key="task.id"
                 v-model="tasks[i]"
                 :aria-selected="selectedIndexes.includes(i)"
+                :is-last-selected="lastSelectedIndex === i "
                 :is-selected="selectedIndexes.includes(i)"
                 @click="onTaskClick(i, $event)"
                 @dblclick="editTask(task)"
