@@ -20,7 +20,7 @@ const {focusTask} = usePomodoroStore();
 
 <template>
     <div
-        class="group flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
+        class="group h-9 flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
         :class="[
             {'bg-indigo-900 hover:bg-indigo-900': isSelected},
             isLastSelected ? 'border-indigo-400' : 'border-transparent',
@@ -45,7 +45,7 @@ const {focusTask} = usePomodoroStore();
         >
 
         <div
-            class="h-5 grow border border-transparent text-sm font-medium transition-colors"
+            class="grow border border-transparent text-sm font-medium transition-colors"
             :class="{'text-gray-400': task.isDone}"
             v-html="task.title"
         />
