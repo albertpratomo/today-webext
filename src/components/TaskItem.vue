@@ -38,7 +38,7 @@ const {focusTask} = usePomodoroStore();
 
         <input
             v-model="task.isDone"
-            class="mr-2 border-2"
+            class="mr-2 cursor-pointer border-2"
             type="checkbox"
             @click.stop
             @dblclick.stop
