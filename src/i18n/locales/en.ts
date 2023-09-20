@@ -2,7 +2,7 @@
 
 export default {
     actions: {
-        addTask: 'Add task',
+        addTask: 'Create task',
         cancel: 'Cancel',
         hideCompletedTasks: 'Hide completed tasks',
         showCompletedTasks: 'Show completed tasks',
@@ -10,8 +10,8 @@ export default {
     calendar: 'Calendar',
     comingSoon: 'Coming soon :)',
     fields: {
-        taskNote: {placeholder: 'Add notes'},
-        taskTitle: {placeholder: 'Add new task, like “Read book”'},
+        taskNote: {placeholder: 'Notes'},
+        taskTitle: {placeholder: 'Create a new task, like “Read book”'},
     },
     inbox: 'Inbox',
     newTaskTooltip: 'New task [N]',
