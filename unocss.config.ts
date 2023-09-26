@@ -43,6 +43,10 @@ export default defineConfig({
             green: {
                 900: '#133122',
             },
+            blueberry: {
+                foreground: '#B4B1E5',
+                background: '#2D2863',
+            },
         },
         fontFamily: {
             sans: ['Inter', 'ui-sans-serif', 'system-ui'],
