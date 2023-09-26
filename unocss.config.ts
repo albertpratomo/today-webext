@@ -49,6 +49,7 @@ export default defineConfig({
         },
         fontSize: {
             '2sm': ['0.8125rem', '1.25rem'], // 13px, 20px
+            '2xs': ['0.688rem', '1rem'], // 11px, 16px
         },
     },
 });
