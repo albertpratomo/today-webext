@@ -2,7 +2,7 @@
 
 export default {
     actions: {
-        addTask: 'Create task',
+        createTask: 'Create task',
         cancel: 'Cancel',
         hideCompletedTasks: 'Hide completed tasks',
         showCompletedTasks: 'Show completed tasks',
