@@ -75,7 +75,7 @@ function close() {
                             :disabled="!draftCreateTaskHasContent"
                             @click="createTask()"
                         >
-                            {{ $t('actions.addTask') }}
+                            {{ $t('actions.createTask') }}
                         </button>
                     </div>
                 </div>
