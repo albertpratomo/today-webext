@@ -10,6 +10,7 @@ declare module 'vue' {
     Button: typeof import('./components/Button.vue')['default']
     LayoutSidebar: typeof import('./components/LayoutSidebar.vue')['default']
     MaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
+    MaterialSymbolsEventNote: typeof import('~icons/material-symbols/event-note')['default']
     MaterialSymbolsPause: typeof import('~icons/material-symbols/pause')['default']
     MaterialSymbolsPlayArrow: typeof import('~icons/material-symbols/play-arrow')['default']
     MaterialSymbolsRestartAlt: typeof import('~icons/material-symbols/restart-alt')['default']

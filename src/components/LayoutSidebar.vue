@@ -1,15 +1,9 @@
 <template>
-    <main class="h-screen flex">
+    <main class="h-screen flex overflow-x-hidden">
         <TheSidebar class="shrink-0 border-r" />
 
-        <div class="flex flex-1 justify-center bg-gray-850">
-            <div class="w-180 py-12">
-                <slot />
-            </div>
-        </div>
-
-        <div class="w-72 border-l bg-gray-850 px-3 py-12">
-            <TimeGridDay />
+        <div class="grow bg-gray-850">
+            <slot />
         </div>
 
         <TaskCreateDialog />
