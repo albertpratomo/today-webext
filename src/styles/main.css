@@ -4,6 +4,23 @@
     @apply border-gray-700;
 }
 
+* {
+    scrollbar-color: #3C3D53 transparent;
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #3C3D53;
+    border: 4px solid transparent;
+    background-clip: content-box;
+    border-radius: 10px;
+}
+
 body {
     @apply bg-gray-950 text-gray-100 font-sans text-base;
 }
