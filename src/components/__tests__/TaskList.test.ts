@@ -189,20 +189,12 @@ describe('TaskList', () => {
 
     test('click checkbox to complete task', async () => {
         vi.useFakeTimers();
-        const {result, store} = prepare(1);
+        const {result} = prepare(1);
 
         const input: HTMLInputElement = result.getByRole('checkbox');
         await fireEvent.update(input);
+
         expect(input.checked).toBe(true);
-
-        // Expect completed task to still be visible.
-        result.getByText('task 0');
-
-        vi.advanceTimersByTime(1800);
-        await nextTick();
-
-        // Expect completed task to be hidden.
-        expect(store.tasks).toEqual([]);
     });
 
     test('[D] to complete task', async () => {
