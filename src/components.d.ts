@@ -8,8 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('./components/Button.vue')['default']
+    GcalConnectCard: typeof import('./components/GcalConnectCard.vue')['default']
     LayoutSidebar: typeof import('./components/LayoutSidebar.vue')['default']
+    LogosGoogleCalendar: typeof import('~icons/logos/google-calendar')['default']
     MaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
+    MaterialSymbolsClose: typeof import('~icons/material-symbols/close')['default']
     MaterialSymbolsEventNote: typeof import('~icons/material-symbols/event-note')['default']
     MaterialSymbolsPause: typeof import('~icons/material-symbols/pause')['default']
     MaterialSymbolsPlayArrow: typeof import('~icons/material-symbols/play-arrow')['default']

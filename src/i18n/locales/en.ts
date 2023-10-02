@@ -3,6 +3,7 @@
 export default {
     actions: {
         cancel: 'Cancel',
+        connect: 'Connect',
         createTask: 'Create task',
         hideCompletedTasks: 'Hide completed tasks',
         showCompletedTasks: 'Show completed tasks',
@@ -12,6 +13,10 @@ export default {
     fields: {
         taskNote: {placeholder: 'Notes'},
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},
+    },
+    gcalConnectCard: {
+        body: 'Sign in to your calendar and see your events here. Or you can do it later in settings.',
+        title: 'Connect your Google Calendar',
     },
     inbox: 'Inbox',
     newTaskTooltip: 'New task [N]',

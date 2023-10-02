@@ -27,6 +27,8 @@ const options: CalendarOptions = {
             class="text-gray-400"
             :options="options"
         />
+
+        <GcalConnectCard class="absolute bottom-0 right-0 z-10" />
     </div>
 </template>
 
