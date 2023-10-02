@@ -21,10 +21,6 @@ export default {
         openWindowTooltip: 'Start pomo [space]',
     },
     projects: 'Projects',
-    timeblockingCard: {
-        body: 'You can drag your tasks here and plan your deep work session. It\'s a pleasant way to plan your day.',
-        title: 'Timeblocking',
-    },
     today: 'Today',
     trash: 'Trash',
 };
