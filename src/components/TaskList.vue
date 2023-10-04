@@ -140,13 +140,13 @@ onKeyStroke(['Backspace'], () => {
             v-if="doneTasks.length"
             class="mt-12"
         >
-            <button
-                class="rounded p-2 duration-100 -ml-2 hover:bg-gray-800"
-                text="sm gray-400 hover:gray-300"
+            <Button
+                class="p-2 text-gray-400 -ml-4"
+                variant="ghost"
                 @click="showDoneTasks = !showDoneTasks"
             >
                 {{ toggleText }}
-            </button>
+            </Button>
 
             <template v-if="showDoneTasks">
                 <TaskItem

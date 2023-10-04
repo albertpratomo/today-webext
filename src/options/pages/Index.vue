@@ -31,14 +31,16 @@ const isCalendarVisible = ref(true);
                             </span>
                         </h1>
 
-                        <button
+                        <Button
                             id="btn-new-task"
-                            class="rounded p-1.5 text-indigo-400 hover:bg-gray-800"
+                            class="text-indigo-400"
+                            size="square"
                             :title="$t('newTaskTooltip')"
+                            variant="ghost"
                             @click="taskCreateDialogIsOpen = true"
                         >
                             <MaterialSymbolsAdd />
-                        </button>
+                        </Button>
                     </div>
 
                     <TaskList
