@@ -3,13 +3,22 @@ import type {Manifest} from 'webextension-polyfill';
 import type PkgType from '../package.json';
 import fs from 'fs-extra';
 
+interface WebExtensionManifest extends Manifest.WebExtensionManifest {
+    key: string
+    oauth2: {
+        client_id: string
+        scopes: string[]
+    }
+}
+
 export async function getManifest() {
     const pkg = await fs.readJSON(r('package.json')) as typeof PkgType;
 
     // update this file to update this manifest.json
     // can also be conditional based on your need
-    const manifest: Manifest.WebExtensionManifest = {
+    const manifest: WebExtensionManifest = {
         manifest_version: 3,
+        key: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvAzqGSh1qjO1nh3LTPUNIeZSUiH9o/24Zzvf4cQ/T6T3p1xtavVdHbQygp4JmbDwhnQRoT4CzGDBkyDh297lWDtZrS4Fgqz3/+8LrH/AHfp3ckWfAta7pRlKWz8ek/5ijQ4oTF/i3Ft4IvF11P2Ba8TovVBaNd8TAX++tBKHE5bwO4bcTXFn7ZV1FFhb/5K4NJ5kF86f/grHT5cYCFSdchftpUEBHMBbRWgy403nfYhNhLhezwSZTS+Au3giaZcIoCJSYxfLrDNZGjtDjjfJg28t2G2DiDuP8Jz19wb+Pp3hiVGMBYPGstjcSx8nwcB8t3J472xfSaxh8CIkYpD94wIDAQAB',
         name: pkg.displayName || pkg.name,
         version: pkg.version,
         description: pkg.description,
@@ -36,9 +45,14 @@ export async function getManifest() {
         },
         permissions: [
             // 'tabs',
+            'identity',
             'storage',
             // 'activeTab',
         ],
+        oauth2: {
+            client_id: '1021613980165-vefd6a9hcsshq6uhasigrn42555c4eav.apps.googleusercontent.com',
+            scopes: ['https://www.googleapis.com/auth/calendar.events'],
+        },
         // host_permissions: ['*://*/*'],
         // content_scripts: [
         //     {

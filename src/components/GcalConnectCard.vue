@@ -1,5 +1,10 @@
 <script setup lang="ts">
 const isVisible = ref(true);
+
+function connect() {
+    chrome.identity.getAuthToken({interactive: true}, (token) => {
+    });
+}
 </script>
 
 <template>
@@ -26,7 +31,10 @@ const isVisible = ref(true);
             {{ $t('gcalConnectCard.body') }}
         </div>
 
-        <button class="mt-4 btn-indigo">
+        <button
+            class="mt-4 btn-indigo"
+            @click="connect"
+        >
             {{ $t('actions.connect') }}
         </button>
     </div>
