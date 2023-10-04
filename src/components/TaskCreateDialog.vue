@@ -63,16 +63,16 @@ function close() {
                     </div>
 
                     <div class="flex justify-end gap-2 border-t p-2 pl-5">
-                        <button
-                            class="btn-gray"
+                        <Button
+                            variant="secondary"
                             @click="close()"
                         >
                             {{ $t('actions.cancel') }}
-                        </button>
+                        </Button>
 
-                        <button
-                            class="btn-indigo"
+                        <Button
                             :disabled="!draftCreateTaskHasContent"
+                            variant="primary"
                             @click="createTask()"
                         >
                             {{ $t('actions.createTask') }}
