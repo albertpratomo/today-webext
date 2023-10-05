@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import {useGcalStore} from '~/stores';
+
 const isVisible = ref(true);
 
-function connect() {
-    chrome.identity.getAuthToken({interactive: true}, (token) => {
-    });
+const {getAuthToken, getEvents} = useGcalStore();
+
+async function connect() {
+    await getAuthToken();
+
+    getEvents();
 }
 </script>
 
