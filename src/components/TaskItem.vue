@@ -22,7 +22,7 @@ const {focusTask} = usePomodoroStore();
     <div
         class="group h-9 flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
         :class="[
-            {'bg-indigo-950': isSelected},
+            {'bg-indigo-950 hover:bg-indigo-950': isSelected},
             isLastSelected ? 'border-indigo-900' : 'border-transparent',
         ]"
     >
