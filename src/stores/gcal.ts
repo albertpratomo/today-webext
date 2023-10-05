@@ -52,6 +52,7 @@ export const useGcalStore = defineStore('gcal', () => {
         authToken,
         getAuthToken,
         getEvents,
+        todayEvents,
     };
 });
 

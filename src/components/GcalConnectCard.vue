@@ -9,6 +9,8 @@ async function connect() {
     await getAuthToken();
 
     getEvents();
+
+    isVisible.value = false;
 }
 </script>
 

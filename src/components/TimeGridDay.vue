@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
+import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import {useGcalStore} from '~/stores';
 
-const options: CalendarOptions = {
-    allDaySlot: false,
+const {todayEvents} = storeToRefs(useGcalStore());
+
+const options: ComputedRef<CalendarOptions> = computed(() => ({
+    events: todayEvents.value.map(e => ({
+        title: e.summary,
+        start: e.start?.dateTime || e.start?.date,
+        end: e.end?.dateTime || e.end?.date,
+    })),
+    allDaySlot: true,
     dayHeaders: false,
     expandRows: true,
     headerToolbar: false,
@@ -18,7 +27,7 @@ const options: CalendarOptions = {
         minute: '2-digit',
         omitZeroMinute: false,
     },
-};
+}));
 </script>
 
 <template>
