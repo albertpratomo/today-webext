@@ -40,6 +40,9 @@ export default defineConfig({
                 900: '#16171F',
                 950: '#12131A',
             },
+            indigo: {
+                950: '#22223F',
+            },
             green: {
                 900: '#133122',
             },
