@@ -9,9 +9,9 @@ const {todayEvents} = storeToRefs(useCalendarStore());
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map(e => ({
-        title: e.summary,
-        start: e.start?.dateTime || e.start?.date,
-        end: e.end?.dateTime || e.end?.date,
+        title: e.summary || undefined,
+        start: e.start?.dateTime || e.start?.date || undefined,
+        end: e.end?.dateTime || e.end?.date || undefined,
     })),
     allDaySlot: true,
     dayHeaders: false,

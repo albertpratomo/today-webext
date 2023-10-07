@@ -59,6 +59,9 @@ devDependencies:
   '@tiptap/vue-3':
     specifier: ^2.0.4
     version: 2.0.4(@tiptap/core@2.0.4)(@tiptap/pm@2.0.4)(vue@3.3.4)
+  '@types/chrome':
+    specifier: ^0.0.246
+    version: 0.0.246
   '@types/fs-extra':
     specifier: ^11.0.1
     version: 11.0.1
@@ -1897,8 +1900,25 @@ packages:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
     dev: true
 
+  /@types/chrome@0.0.246:
+    resolution: {integrity: sha512-MxGxEomGxsJiL9xe/7ZwVgwdn8XVKWbPvxpVQl3nWOjrS0Ce63JsfzxUc4aU3GvRcUPYsfufHmJ17BFyKxeA4g==}
+    dependencies:
+      '@types/filesystem': 0.0.33
+      '@types/har-format': 1.2.13
+    dev: true
+
   /@types/estree@1.0.1:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
+    dev: true
+
+  /@types/filesystem@0.0.33:
+    resolution: {integrity: sha512-2KedRPzwu2K528vFkoXnnWdsG0MtUwPjuA7pRy4vKxlxHEe8qUDZibYHXJKZZr2Cl/ELdCWYqyb/MKwsUuzBWw==}
+    dependencies:
+      '@types/filewriter': 0.0.30
+    dev: true
+
+  /@types/filewriter@0.0.30:
+    resolution: {integrity: sha512-lB98tui0uxc7erbj0serZfJlHKLNJHwBltPnbmO1WRpL5T325GOHRiQfr2E29V2q+S1brDO63Fpdt6vb3bES9Q==}
     dev: true
 
   /@types/fs-extra@11.0.1:
@@ -1906,6 +1926,10 @@ packages:
     dependencies:
       '@types/jsonfile': 6.1.1
       '@types/node': 20.4.2
+    dev: true
+
+  /@types/har-format@1.2.13:
+    resolution: {integrity: sha512-PwBsCBD3lDODn4xpje3Y1di0aDJp4Ww7aSfMRVw6ysnxD4I7Wmq2mBkSKaDtN403hqH5sp6c9xQUvFYY3+lkBg==}
     dev: true
 
   /@types/http-cache-semantics@4.0.1:
