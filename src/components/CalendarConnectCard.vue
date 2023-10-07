@@ -38,11 +38,12 @@ async function connect() {
             {{ $t('calendarConnectCard.body') }}
         </div>
 
-        <button
-            class="mt-4 btn-indigo"
+        <Button
+            class="mt-4"
+            variant="primary"
             @click="connect"
         >
             {{ $t('actions.connect') }}
-        </button>
+        </Button>
     </div>
 </template>
