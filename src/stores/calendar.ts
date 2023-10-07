@@ -1,6 +1,6 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
+import {createFetch, useLocalStorage} from '@vueuse/core';
 import {type calendar_v3} from '@googleapis/calendar';
-import {useStorageLocal} from '~/utils/useStorageLocal';
 
 function getTimeOfDay(type = 'start') {
     const date = new Date();
@@ -14,7 +14,7 @@ function getTimeOfDay(type = 'start') {
 }
 
 export const useCalendarStore = defineStore('calendar', () => {
-    const authToken = useStorageLocal<string>('calendarAuthToken', '');
+    const authToken = useLocalStorage<string>('calendarAuthToken', '');
 
     const todayEvents: Ref<calendar_v3.Schema$Event[]> = ref([]);
 
@@ -29,6 +29,23 @@ export const useCalendarStore = defineStore('calendar', () => {
         authToken.value = response.token;
     }
 
+    const useGcalApi = createFetch({
+        baseUrl: 'https://www.googleapis.com/calendar/v3',
+        options: {
+            async beforeFetch({options}) {
+                if (!authToken.value)
+                    await getAuthToken();
+
+                options.headers = {
+                    ...options.headers,
+                    Authorization: `Bearer ${authToken.value}`,
+                };
+
+                return {options};
+            },
+        },
+    });
+
     async function getEvents(calendarId: string = 'primary') {
         const params = new URLSearchParams({
             key: 'AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo',
@@ -36,16 +53,14 @@ export const useCalendarStore = defineStore('calendar', () => {
             timeMax: getTimeOfDay('end'),
         });
 
-        const response = await fetch(
-            `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?${params.toString()}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${authToken.value}`,
-                },
-            },
-        );
+        const result = await useGcalApi<{items: calendar_v3.Schema$Event[]}>(
+            `calendars/${calendarId}/events?${params.toString()}`,
+        ).json();
 
-        todayEvents.value = (await response.json()).items;
+        if (!result.error.value)
+            todayEvents.value = result.data.value.items;
+
+        return result;
     }
 
     return {

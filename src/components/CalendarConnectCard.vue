@@ -1,16 +1,28 @@
 <script setup lang="ts">
+import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
 const isVisible = ref(true);
 
+const {authToken} = storeToRefs(useCalendarStore());
 const {getAuthToken, getEvents} = useCalendarStore();
+
+if (authToken.value) {
+    isVisible.value = false;
+
+    _getEvents();
+}
+
+async function _getEvents() {
+    const {error} = await getEvents();
+
+    isVisible.value = !!error.value;
+}
 
 async function connect() {
     await getAuthToken();
 
-    getEvents();
-
-    isVisible.value = false;
+    _getEvents();
 }
 </script>
 

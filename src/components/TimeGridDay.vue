@@ -37,7 +37,9 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
             :options="options"
         />
 
-        <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
+        <Suspense>
+            <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
+        </Suspense>
     </div>
 </template>
 
