@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {useGcalStore} from '~/stores';
+import {useCalendarStore} from '~/stores';
 
 const isVisible = ref(true);
 
-const {getAuthToken, getEvents} = useGcalStore();
+const {getAuthToken, getEvents} = useCalendarStore();
 
 async function connect() {
     await getAuthToken();
@@ -31,11 +31,11 @@ async function connect() {
         </div>
 
         <div class="my-2 text-sm font-semibold leading-5">
-            {{ $t('gcalConnectCard.title') }}
+            {{ $t('calendarConnectCard.title') }}
         </div>
 
         <div class="text-xs text-gray-300">
-            {{ $t('gcalConnectCard.body') }}
+            {{ $t('calendarConnectCard.body') }}
         </div>
 
         <button

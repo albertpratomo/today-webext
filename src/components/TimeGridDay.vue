@@ -3,9 +3,9 @@ import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import {useGcalStore} from '~/stores';
+import {useCalendarStore} from '~/stores';
 
-const {todayEvents} = storeToRefs(useGcalStore());
+const {todayEvents} = storeToRefs(useCalendarStore());
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map(e => ({
@@ -37,7 +37,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
             :options="options"
         />
 
-        <GcalConnectCard class="absolute bottom-0 right-0 z-10" />
+        <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
     </div>
 </template>
 

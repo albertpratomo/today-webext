@@ -9,14 +9,14 @@ export default {
         showCompletedTasks: 'Show completed tasks',
     },
     calendar: 'Calendar',
+    calendarConnectCard: {
+        body: 'Sign in to your calendar and see your events here. Or you can do it later in settings.',
+        title: 'Connect your Google Calendar',
+    },
     comingSoon: 'Coming soon :)',
     fields: {
         taskNote: {placeholder: 'Notes'},
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},
-    },
-    gcalConnectCard: {
-        body: 'Sign in to your calendar and see your events here. Or you can do it later in settings.',
-        title: 'Connect your Google Calendar',
     },
     inbox: 'Inbox',
     newTaskTooltip: 'New task [N]',

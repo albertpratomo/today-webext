@@ -13,8 +13,8 @@ function getTimeOfDay(type = 'start') {
     return date.toISOString();
 }
 
-export const useGcalStore = defineStore('gcal', () => {
-    const authToken = useStorageLocal<string>('gcalAuthToken', '');
+export const useCalendarStore = defineStore('calendar', () => {
+    const authToken = useStorageLocal<string>('calendarAuthToken', '');
 
     const todayEvents: Ref<calendar_v3.Schema$Event[]> = ref([]);
 
@@ -57,4 +57,4 @@ export const useGcalStore = defineStore('gcal', () => {
 });
 
 if (import.meta.hot)
-    import.meta.hot.accept(acceptHMRUpdate(useGcalStore, import.meta.hot));
+    import.meta.hot.accept(acceptHMRUpdate(useCalendarStore, import.meta.hot));
