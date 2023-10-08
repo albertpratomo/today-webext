@@ -21,9 +21,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     async function getAuthToken() {
         const response = await chrome.identity.getAuthToken({
             interactive: true,
-            scopes: [
-                'https://www.googleapis.com/auth/calendar',
-            ],
+            scopes: ['https://www.googleapis.com/auth/calendar'],
         });
 
         authToken.value = response.token;
