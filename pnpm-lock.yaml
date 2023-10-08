@@ -14,6 +14,9 @@ devDependencies:
   '@fullcalendar/core':
     specifier: ^6.1.8
     version: 6.1.8
+  '@fullcalendar/interaction':
+    specifier: ^6.1.9
+    version: 6.1.9(@fullcalendar/core@6.1.8)
   '@fullcalendar/timegrid':
     specifier: ^6.1.8
     version: 6.1.8(@fullcalendar/core@6.1.8)
@@ -1113,6 +1116,14 @@ packages:
     resolution: {integrity: sha512-kCZxQFKb9Vqa3CZRX0v7rMSJ2mlTt4gDpyLfiNJKxUAq7W51uKurPaFZWicaXy1ESHVBxKNlbx5uNjBpyu50JQ==}
     peerDependencies:
       '@fullcalendar/core': ~6.1.8
+    dependencies:
+      '@fullcalendar/core': 6.1.8
+    dev: true
+
+  /@fullcalendar/interaction@6.1.9(@fullcalendar/core@6.1.8):
+    resolution: {integrity: sha512-I3FGnv0kKZpIwujg3HllbKrciNjTqeTYy3oJG226oAn7lV6wnrrDYMmuGmA0jPJAGN46HKrQqKN7ItxQRDec4Q==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.9
     dependencies:
       '@fullcalendar/core': 6.1.8
     dev: true

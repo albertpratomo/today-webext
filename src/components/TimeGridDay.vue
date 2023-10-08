@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {storeToRefs} from 'pinia';
@@ -15,11 +16,13 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     })),
     allDaySlot: true,
     dayHeaders: false,
+    droppable: true,
+    editable: true,
     expandRows: true,
     headerToolbar: false,
     height: '100%',
     initialView: 'timeGridDay',
-    plugins: [timeGridPlugin],
+    plugins: [interactionPlugin, timeGridPlugin],
     scrollTime: '05:50',
     slotLabelFormat: {
         hour12: false,
@@ -28,6 +31,23 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
         omitZeroMinute: false,
     },
 }));
+
+onMounted(() => {
+    const taskListEl = document.getElementById('undone-task-list');
+
+    if (taskListEl) {
+        // eslint-disable-next-line no-new
+        new Draggable(taskListEl, {
+            itemSelector: '.task-item',
+            eventData(taskItemEl: HTMLElement) {
+                return {
+                    title: taskItemEl.innerText,
+                    duration: '01:00',
+                };
+            },
+        });
+    }
+});
 </script>
 
 <template>
