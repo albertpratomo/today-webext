@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import type {CalendarOptions, EventAddArg} from '@fullcalendar/core';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
-import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
 
 const {todayEvents} = storeToRefs(useCalendarStore());
+const {createEvent} = useCalendarStore();
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map(e => ({
@@ -18,6 +19,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     dayHeaders: false,
     droppable: true,
     editable: true,
+    eventReceive: (arg: EventAddArg) => { createEvent(arg.event.title, arg.event.start, arg.event.end); },
     expandRows: true,
     headerToolbar: false,
     height: '100%',

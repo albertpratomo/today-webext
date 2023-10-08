@@ -30,7 +30,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     const useGcalApi = createFetch({
         baseUrl: 'https://www.googleapis.com/calendar/v3',
         options: {
-            async beforeFetch({options}) {
+            async beforeFetch({url, options}) {
                 if (!authToken.value)
                     await getAuthToken();
 
@@ -39,14 +39,15 @@ export const useCalendarStore = defineStore('calendar', () => {
                     Authorization: `Bearer ${authToken.value}`,
                 };
 
-                return {options};
+                url += `${url.includes('?') ? '&' : '?'}key=AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo`;
+
+                return {url, options};
             },
         },
     });
 
     async function getEvents(calendarId: string = 'primary') {
         const params = new URLSearchParams({
-            key: 'AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo',
             timeMin: getTimeOfDay('start'),
             timeMax: getTimeOfDay('end'),
             singleEvents: 'true',
@@ -62,8 +63,17 @@ export const useCalendarStore = defineStore('calendar', () => {
         return result;
     }
 
+    async function createEvent(title: string, start: Date, end: Date) {
+        return await useGcalApi('calendars/primary/events').post({
+            summary: title,
+            start: {dateTime: start},
+            end: {dateTime: end},
+        });
+    }
+
     return {
         authToken,
+        createEvent,
         getAuthToken,
         getEvents,
         todayEvents,
