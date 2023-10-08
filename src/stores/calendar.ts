@@ -49,6 +49,7 @@ export const useCalendarStore = defineStore('calendar', () => {
             key: 'AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo',
             timeMin: getTimeOfDay('start'),
             timeMax: getTimeOfDay('end'),
+            singleEvents: 'true',
         });
 
         const result = await useGcalApi<{items: calendar_v3.Schema$Event[]}>(
