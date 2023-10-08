@@ -26,12 +26,14 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     initialView: 'timeGridDay',
     plugins: [interactionPlugin, timeGridPlugin],
     scrollTime: '05:50',
+    slotDuration: '00:15:00',
     slotLabelFormat: {
         hour12: false,
-        hour: '2-digit',
+        hour: 'numeric',
         minute: '2-digit',
-        omitZeroMinute: false,
+        omitZeroMinute: true,
     },
+    slotLabelInterval: '01:00:00',
 }));
 
 onMounted(() => {
@@ -67,8 +69,8 @@ onMounted(() => {
 
 <style>
 :root {
-    --fc-border-color: #3C3D53;
-    --fc-now-indicator-color: #DC2626;
+    --fc-border-color: theme('colors.gray.700');
+    --fc-now-indicator-color: theme('colors.red.500');
     --fc-today-bg-color: transparent;
 }
 
