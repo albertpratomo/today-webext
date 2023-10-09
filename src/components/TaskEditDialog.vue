@@ -3,12 +3,22 @@ import {Dialog, DialogPanel} from '@headlessui/vue';
 import {useHistoryStore, useTasksStore} from '~/stores';
 import {storeToRefs} from 'pinia';
 
-const {draftEditTask} = storeToRefs(useTasksStore());
+const {draftEditTask, selectedSubtasks} = storeToRefs(useTasksStore());
+const {createSubtask} = useTasksStore();
 
 function close() {
     draftEditTask.value = null;
 
     useHistoryStore().commit();
+}
+
+function hasSubtasks() {
+    return (typeof draftEditTask.value?.subtasks != 'undefined' && draftEditTask.value.subtasks.length > 0);
+}
+
+function createFirstSubtask() {
+    if (!hasSubtasks())
+        createSubtask();
 }
 </script>
 
@@ -40,21 +50,24 @@ function close() {
                             class="mt-2"
                         />
 
-                        <div class="mt-5 flex justify-end gap-2">
+                        <div
+                            v-if="!hasSubtasks()"
+                            class="mt-5 flex justify-end gap-2"
+                        >
                             <button
-                                class="btn-icon"
-                                disabled
+                                id="btn-new-task"
+                                class="bg-gray-800 btn-icon"
+                                :title="$t('createSubtaskTooltip')"
+                                @click="createFirstSubtask()"
                             >
-                                <MaterialSymbolsStarRounded />
-                            </button>
-
-                            <button
-                                class="btn-icon"
-                                disabled
-                            >
-                                <MaterialSymbolsScheduleOutline />
+                                <MaterialSymbolsChecklist />
                             </button>
                         </div>
+
+                        <SubtaskList
+                            v-model="draftEditTask.subtasks"
+                            v-model:selected-subtasks="selectedSubtasks"
+                        />
                     </div>
                 </div>
             </DialogPanel>

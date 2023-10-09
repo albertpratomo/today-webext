@@ -1,4 +1,5 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
+import type Subtask from '~/models/Subtask';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {remove} from 'lodash-es';
@@ -25,6 +26,7 @@ export const useTasksStore = defineStore('tasks', () => {
         note: '',
         isDone: false,
         deletedAt: null,
+        subtasks: [],
     });
 
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {
@@ -102,6 +104,46 @@ export const useTasksStore = defineStore('tasks', () => {
         },
     );
 
+    // Subtasks ---------------------------------------------------------------
+
+    const selectedSubtasks = ref<number[]>([]);
+    const lastSelectedSubtasks = computed(() => selectedSubtasks.value.at(-1));
+
+    // Create Subtask ---------------------------------------------------------
+
+    const BLANK_SUBTASK = Object.freeze({
+        title: '',
+        isDone: false,
+    });
+
+    const draftCreateSubtask = useStorageLocal<Subtask>('draftCreateSubtask', {
+        ...BLANK_SUBTASK,
+    });
+
+    function createSubtask() {
+        if (!draftEditTask.value)
+            return false;
+
+        // Find the last selected subtask.
+        const index = selectedSubtasks.value.length
+            ? (selectedSubtasks.value.at(-1) || 0) + 1
+            : 0;
+
+        if (typeof draftEditTask.value.subtasks == 'undefined')
+            draftEditTask.value.subtasks = [];
+
+        // Insert the new subtask there.
+        draftEditTask.value?.subtasks.splice(index, 0, draftCreateSubtask.value);
+        // useHistoryStore().commit();
+
+        // Highlight the newly created subtask.
+        selectedSubtasks.value = [index];
+
+        draftCreateSubtask.value = {
+            ...BLANK_SUBTASK,
+        };
+    };
+
     return {
         tasks,
         selectedIndexes,
@@ -121,6 +163,10 @@ export const useTasksStore = defineStore('tasks', () => {
 
         doneTasks,
         isAllDone,
+
+        selectedSubtasks,
+        lastSelectedSubtasks,
+        createSubtask,
     };
 });
 
