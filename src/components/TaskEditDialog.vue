@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
 import {useHistoryStore, useTasksStore} from '~/stores';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 
 const {draftEditTask, selectedSubtasks} = storeToRefs(useTasksStore());
 const {createSubtask} = useTasksStore();
+
+const titleComponent = ref(null);
 
 function close() {
     draftEditTask.value = null;
@@ -12,14 +15,30 @@ function close() {
     useHistoryStore().commit();
 }
 
+function focusTitleInput() {
+    titleComponent.value.editor.commands.focus();
+}
+
 function hasSubtasks() {
     return (typeof draftEditTask.value?.subtasks != 'undefined' && draftEditTask.value.subtasks.length > 0);
+}
+
+function focusFirstSubtask() {
+    if (!hasSubtasks())
+        createSubtask();
+    else
+        selectedSubtasks.value = [0];
 }
 
 function createFirstSubtask() {
     if (!hasSubtasks())
         createSubtask();
 }
+
+onKeyStroke(['0'], ({metaKey, shiftKey}) => {
+    if (metaKey && shiftKey)
+        createFirstSubtask();
+});
 </script>
 
 <template>
@@ -41,7 +60,10 @@ function createFirstSubtask() {
                         class="py-4 pl-5 pr-2"
                     >
                         <TaskTitleInput
+                            ref="titleComponent"
                             v-model="draftEditTask.title"
+                            @keyboard-arrow-down="focusFirstSubtask()"
+                            @keyboard-shift-meta-0="createFirstSubtask()"
                             @keyup.enter="close()"
                         />
 
@@ -67,6 +89,7 @@ function createFirstSubtask() {
                         <SubtaskList
                             v-model="draftEditTask.subtasks"
                             v-model:selected-subtasks="selectedSubtasks"
+                            @event-empty-list="focusTitleInput()"
                         />
                     </div>
                 </div>

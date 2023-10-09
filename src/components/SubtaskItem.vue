@@ -8,6 +8,8 @@ const {index, isLastSelectedSubtask = false, isSelectedSubtask = false} = define
     isSelectedSubtask?: boolean
 }>();
 
+const emit = defineEmits(['eventMoveSelection']);
+
 const subtask = defineModel<Subtask>({required: true});
 
 const {createSubtask, removeSubtask} = useTasksStore();
@@ -18,8 +20,10 @@ const create = function () {
 };
 
 const remove = function () {
-    if (subtask.value.title.length === 0)
+    if (subtask.value.title.length === 0) {
         removeSubtask(index);
+        emit('eventMoveSelection', 'up', index);
+    }
 };
 </script>
 
@@ -40,6 +44,8 @@ const remove = function () {
         <SubtaskTitleInput
             v-model="subtask.title"
             :index="index"
+            @keyboard-arrow-down="emit('eventMoveSelection', 'down', index)"
+            @keyboard-arrow-up="emit('eventMoveSelection', 'up', index)"
             @keydown.backspace="remove()"
             @keyup.enter="create()"
         />

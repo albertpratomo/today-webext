@@ -1,20 +1,36 @@
 <script setup lang="ts">
 import {EditorContent, useEditor} from '@tiptap/vue-3';
+import {Extension, Node} from '@tiptap/core';
 import Bold from '@tiptap/extension-bold';
 import Code from '@tiptap/extension-code';
 import History from '@tiptap/extension-history';
 import Italic from '@tiptap/extension-italic';
-import {Node} from '@tiptap/core';
 import Text from '@tiptap/extension-text';
+
+const emit = defineEmits(['keyboardShiftMeta0', 'keyboardArrowDown']);
 
 const {t} = useI18n();
 
-const modelValue = defineModel<string>({required: true}); ;
+const modelValue = defineModel<string>({required: true});
 
 const Document = Node.create({
     name: 'doc',
     topNode: true,
     content: 'text*',
+});
+
+const overrideKeyboardDefaults = Extension.create({
+    name: 'overrideKeyboardDefaults',
+    addKeyboardShortcuts() {
+        return {
+            'Shift-Meta-0': () => {
+                emit('keyboardShiftMeta0');
+            },
+            'ArrowDown': () => {
+                emit('keyboardArrowDown');
+            },
+        };
+    },
 });
 
 const editor = useEditor({
@@ -33,6 +49,7 @@ const editor = useEditor({
         History,
         Italic,
         Text,
+        overrideKeyboardDefaults,
     ],
     onUpdate({editor}) {
         modelValue.value = editor.getHTML();
@@ -42,6 +59,10 @@ const editor = useEditor({
 watch(modelValue, (val) => {
     if (editor.value && editor.value.getHTML() !== val)
         editor.value.commands.setContent(val, false);
+});
+
+defineExpose({
+    editor,
 });
 </script>
 

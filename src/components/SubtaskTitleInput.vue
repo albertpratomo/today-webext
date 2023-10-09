@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {EditorContent, useEditor} from '@tiptap/vue-3';
-import {Node} from '@tiptap/core';
+import {Extension, Node} from '@tiptap/core';
 import Text from '@tiptap/extension-text';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores';
@@ -8,6 +8,8 @@ import {useTasksStore} from '~/stores';
 const {index} = defineProps<{
     index: number
 }>();
+
+const emit = defineEmits(['keyboardArrowUp', 'keyboardArrowDown']);
 
 const {t} = useI18n();
 
@@ -18,6 +20,20 @@ const Document = Node.create({
     name: 'doc',
     topNode: true,
     content: 'text*',
+});
+
+const overrideKeyboardDefaults = Extension.create({
+    name: 'overrideKeyboardDefaults',
+    addKeyboardShortcuts() {
+        return {
+            ArrowUp: () => {
+                emit('keyboardArrowUp');
+            },
+            ArrowDown: () => {
+                emit('keyboardArrowDown');
+            },
+        };
+    },
 });
 
 const editor = useEditor({
@@ -31,6 +47,7 @@ const editor = useEditor({
     extensions: [
         Document,
         Text,
+        overrideKeyboardDefaults,
     ],
     onUpdate({editor}) {
         modelValue.value = editor.getHTML();
