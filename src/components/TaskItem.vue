@@ -3,15 +3,21 @@ import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {usePomodoroStore} from '~/stores';
 
-const {isLastSelected = false, isSelected = false} = defineProps<{
-    isLastSelected?: boolean
-    isSelected?: boolean
-}>();
+const props = withDefaults(
+    defineProps<{
+        isLastSelected?: boolean
+        isSelected?: boolean
+    }>(),
+    {
+        isLastSelected: false,
+        isSelected: false,
+    },
+);
 
 const task = defineModel<Task>({required: true});
 
 onKeyStroke(['d', 'D'], () => {
-    if (isSelected)
+    if (props.isSelected)
         task.value.isDone = !task.value.isDone;
 }, {dedupe: false});
 
