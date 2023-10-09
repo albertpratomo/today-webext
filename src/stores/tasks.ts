@@ -144,6 +144,17 @@ export const useTasksStore = defineStore('tasks', () => {
         };
     };
 
+    // Remove Subtask ---------------------------------------------------------
+
+    function removeSubtask(index: number) {
+        draftEditTask.value?.subtasks.splice(index, 1);
+
+        // useHistoryStore().commit();
+
+        if (selectedSubtasks.value.length)
+            selectedSubtasks.value.splice(selectedSubtasks.value.indexOf(index), 1);
+    }
+
     return {
         tasks,
         selectedIndexes,
@@ -167,6 +178,7 @@ export const useTasksStore = defineStore('tasks', () => {
         selectedSubtasks,
         lastSelectedSubtasks,
         createSubtask,
+        removeSubtask,
     };
 });
 

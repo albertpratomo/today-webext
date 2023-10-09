@@ -10,11 +10,16 @@ const {index, isLastSelectedSubtask = false, isSelectedSubtask = false} = define
 
 const subtask = defineModel<Subtask>({required: true});
 
-const {createSubtask} = useTasksStore();
+const {createSubtask, removeSubtask} = useTasksStore();
 
 const create = function () {
     if (subtask.value.title.length > 0)
         createSubtask();
+};
+
+const remove = function () {
+    if (subtask.value.title.length === 0)
+        removeSubtask(index);
 };
 </script>
 
@@ -35,6 +40,7 @@ const create = function () {
         <SubtaskTitleInput
             v-model="subtask.title"
             :index="index"
+            @keydown.backspace="remove()"
             @keyup.enter="create()"
         />
     </div>
