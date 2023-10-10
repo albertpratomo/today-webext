@@ -19,19 +19,19 @@ function focusTitleInput() {
     titleComponent.value.editor.commands.focus();
 }
 
-function hasSubtasks() {
+const hasSubtasks = computed(() => {
     return (typeof draftEditTask.value?.subtasks != 'undefined' && draftEditTask.value.subtasks.length > 0);
-}
+});
 
 function focusFirstSubtask() {
-    if (!hasSubtasks())
+    if (!hasSubtasks.value)
         createSubtask();
     else
         selectedSubtasks.value = [0];
 }
 
 function createFirstSubtask() {
-    if (!hasSubtasks())
+    if (!hasSubtasks.value)
         createSubtask();
 }
 
@@ -73,11 +73,10 @@ onKeyStroke(['0'], ({metaKey, shiftKey}) => {
                         />
 
                         <div
-                            v-if="!hasSubtasks()"
+                            v-if="!hasSubtasks"
                             class="mt-5 flex justify-end gap-2"
                         >
                             <button
-                                id="btn-new-task"
                                 class="bg-gray-800 btn-icon"
                                 :title="$t('createSubtaskTooltip')"
                                 @click="createFirstSubtask()"

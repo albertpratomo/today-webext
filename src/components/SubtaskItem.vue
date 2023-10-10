@@ -2,17 +2,24 @@
 import type Subtask from '~/models/Subtask';
 import {useTasksStore} from '~/stores';
 
-const {index, isLastSelectedSubtask = false, isSelectedSubtask = false} = defineProps<{
-    index: number
-    isLastSelectedSubtask?: boolean
-    isSelectedSubtask?: boolean
-}>();
+const props = withDefaults(
+    defineProps<{
+        index: number
+        isLastSelected?: boolean
+        isSelected?: boolean
+    }>(),
+    {
+        index: 0,
+        isLastSelected: false,
+        isSelected: false,
+    },
+);
 
-const emit = defineEmits(['eventMoveSelection']);
+const emit = defineEmits(['moveSelection']);
 
 const subtask = defineModel<Subtask>({required: true});
 
-const {createSubtask, removeSubtask} = useTasksStore();
+const {createSubtask, deleteSubtask} = useTasksStore();
 
 const create = function () {
     if (subtask.value.title.length > 0)
@@ -21,8 +28,8 @@ const create = function () {
 
 const remove = function () {
     if (subtask.value.title.length === 0) {
-        removeSubtask(index);
-        emit('eventMoveSelection', 'up', index);
+        deleteSubtask(props.index);
+        emit('moveSelection', 'up', props.index);
     }
 };
 </script>
@@ -31,8 +38,8 @@ const remove = function () {
     <div
         class="group h-9 flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
         :class="[
-            {'bg-indigo-900 hover:bg-indigo-900': isSelectedSubtask},
-            isLastSelectedSubtask ? 'border-indigo-400' : 'border-transparent',
+            {'bg-indigo-900 hover:bg-indigo-900': isSelected},
+            isLastSelected ? 'border-indigo-400' : 'border-transparent',
         ]"
     >
         <input
@@ -44,8 +51,8 @@ const remove = function () {
         <SubtaskTitleInput
             v-model="subtask.title"
             :index="index"
-            @keyboard-arrow-down="emit('eventMoveSelection', 'down', index)"
-            @keyboard-arrow-up="emit('eventMoveSelection', 'up', index)"
+            @keyboard-arrow-down="emit('moveSelection', 'down', index)"
+            @keyboard-arrow-up="emit('moveSelection', 'up', index)"
             @keydown.backspace="remove()"
             @keyup.enter="create()"
         />

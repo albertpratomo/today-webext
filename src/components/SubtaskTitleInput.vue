@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores';
 
-const {index} = defineProps<{
+const prop = defineProps<{
     index: number
 }>();
 
@@ -53,8 +53,8 @@ const editor = useEditor({
         modelValue.value = editor.getHTML();
     },
     onFocus() {
-        if (selectedSubtasks.value.includes(index) === false)
-            selectedSubtasks.value = [index];
+        if (selectedSubtasks.value.includes(prop.index) === false)
+            selectedSubtasks.value = [prop.index];
     },
     onBlur() {
         selectedSubtasks.value = [];
@@ -67,7 +67,7 @@ watch(modelValue, (val) => {
 });
 
 watchEffect(() => {
-    if (editor.value && lastSelectedSubtasks.value === index && editor.value.isFocused === false)
+    if (editor.value && lastSelectedSubtasks.value === prop.index && editor.value.isFocused === false)
         editor.value.commands.focus('end');
 });
 </script>

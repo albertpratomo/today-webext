@@ -5,7 +5,7 @@ const emit = defineEmits(['eventEmptyList']);
 
 const subtasks = defineModel<Subtask[]>({required: true});
 const selectedSubtasks = defineModel<number[]>('selectedSubtasks', {local: true, default: []});
-const lastSelectedSubtasks = computed(() => selectedSubtasks.value.at(-1));
+const lastSelectedSubtask = computed(() => selectedSubtasks.value.at(-1));
 
 function selectSubtask(index: number | number[]) {
     if (!Array.isArray(index))
@@ -14,11 +14,11 @@ function selectSubtask(index: number | number[]) {
     selectedSubtasks.value = index;
 }
 
-const moveSelection = function (direction: string, selectedIndex: number) {
+const moveSelection = function (direction: 'up' | 'down', selectedIndex: number) {
     const subtasksLength = subtasks.value.length;
     const directionDown = direction === 'down';
 
-    const lastIndex = (selectedIndex ?? lastSelectedSubtasks.value) ?? (directionDown ? -1 : 0);
+    const lastIndex = (selectedIndex ?? lastSelectedSubtask.value) ?? (directionDown ? -1 : 0);
     const selected = (lastIndex + (directionDown ? 1 : -1) + subtasksLength) % subtasksLength;
 
     if (Number.isNaN(selected) || (!directionDown && lastIndex === 0))
@@ -32,12 +32,12 @@ const moveSelection = function (direction: string, selectedIndex: number) {
 
 <template>
     <SubtaskItem
-        v-for="(subtask, i) in subtasks"
+        v-for="(_, i) in subtasks"
         :key="i"
         v-model="subtasks[i]"
         :index="i"
-        :is-last-selected-subtask="lastSelectedSubtasks === i"
-        :is-selected-subtask="selectedSubtasks.includes(i)"
-        @event-move-selection="moveSelection"
+        :is-last-selected="lastSelectedSubtask === i"
+        :is-selected="selectedSubtasks.includes(i)"
+        @move-selection="moveSelection"
     />
 </template>
