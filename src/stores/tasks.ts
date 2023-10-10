@@ -1,5 +1,4 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
-import type Subtask from '~/models/Subtask';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {remove} from 'lodash-es';
@@ -116,10 +115,6 @@ export const useTasksStore = defineStore('tasks', () => {
         isDone: false,
     });
 
-    const draftCreateSubtask = useStorageLocal<Subtask>('draftCreateSubtask', {
-        ...BLANK_SUBTASK,
-    });
-
     function createSubtask() {
         if (!draftEditTask.value)
             return false;
@@ -133,15 +128,11 @@ export const useTasksStore = defineStore('tasks', () => {
             draftEditTask.value.subtasks = [];
 
         // Insert the new subtask there.
-        draftEditTask.value?.subtasks.splice(index, 0, draftCreateSubtask.value);
+        draftEditTask.value?.subtasks.splice(index, 0, {...BLANK_SUBTASK});
         // useHistoryStore().commit();
 
         // Highlight the newly created subtask.
         selectedSubtasks.value = [index];
-
-        draftCreateSubtask.value = {
-            ...BLANK_SUBTASK,
-        };
     };
 
     // Remove Subtask ---------------------------------------------------------
