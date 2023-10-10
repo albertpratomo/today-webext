@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type Subtask from '~/models/Subtask';
 
-const emit = defineEmits(['eventEmptyList']);
+const emit = defineEmits(['whenEmptyList']);
 
 const subtasks = defineModel<Subtask[]>({required: true});
 const selectedSubtasks = defineModel<number[]>('selectedSubtasks', {local: true, default: []});
@@ -21,9 +21,9 @@ const moveSelection = function (direction: 'up' | 'down', selectedIndex: number)
     const lastIndex = (selectedIndex ?? lastSelectedSubtask.value) ?? (directionDown ? -1 : 0);
     const selected = (lastIndex + (directionDown ? 1 : -1) + subtasksLength) % subtasksLength;
 
-    if (Number.isNaN(selected) || (!directionDown && lastIndex === 0))
-        emit('eventEmptyList');
-    else if (directionDown && selected === 0)
+    if (Number.isNaN(selected))
+        emit('whenEmptyList');
+    else if ((!directionDown && lastIndex === 0) || (directionDown && selected === 0))
         return null;
     else
         selectSubtask(selected);

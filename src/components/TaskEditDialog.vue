@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
 import {useHistoryStore, useTasksStore} from '~/stores';
-import {onKeyStroke} from '~/utils/onKeyStroke';
+import {onKeyStroke} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 
 const {draftEditTask, selectedSubtasks} = storeToRefs(useTasksStore());
@@ -37,7 +37,7 @@ function createFirstSubtask() {
 
 onKeyStroke(['0'], ({metaKey, shiftKey}) => {
     if (metaKey && shiftKey)
-        createFirstSubtask();
+        focusFirstSubtask();
 });
 </script>
 
@@ -62,8 +62,6 @@ onKeyStroke(['0'], ({metaKey, shiftKey}) => {
                         <TaskTitleInput
                             ref="titleComponent"
                             v-model="draftEditTask.title"
-                            @keyboard-arrow-down="focusFirstSubtask()"
-                            @keyboard-shift-meta-0="createFirstSubtask()"
                             @keyup.enter="close()"
                         />
 
@@ -88,7 +86,7 @@ onKeyStroke(['0'], ({metaKey, shiftKey}) => {
                         <SubtaskList
                             v-model="draftEditTask.subtasks"
                             v-model:selected-subtasks="selectedSubtasks"
-                            @event-empty-list="focusTitleInput()"
+                            @when-empty-list="focusTitleInput()"
                         />
                     </div>
                 </div>
