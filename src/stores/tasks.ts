@@ -106,7 +106,7 @@ export const useTasksStore = defineStore('tasks', () => {
     // Subtasks ---------------------------------------------------------------
 
     const selectedSubtasks = ref<number[]>([]);
-    const lastSelectedSubtasks = computed(() => selectedSubtasks.value.at(-1));
+    const lastSelectedSubtask = computed(() => selectedSubtasks.value.at(-1));
 
     // Create Subtask ---------------------------------------------------------
 
@@ -167,7 +167,7 @@ export const useTasksStore = defineStore('tasks', () => {
         isAllDone,
 
         selectedSubtasks,
-        lastSelectedSubtasks,
+        lastSelectedSubtask,
         createSubtask,
         deleteSubtask,
     };

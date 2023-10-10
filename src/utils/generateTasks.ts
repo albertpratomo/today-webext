@@ -7,5 +7,6 @@ export function generateTasks(titles: string[]): Task[] {
         note: '',
         isDone: false,
         deletedAt: null,
+        subtasks: [],
     }));
 }

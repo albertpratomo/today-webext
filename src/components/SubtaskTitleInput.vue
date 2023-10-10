@@ -14,7 +14,7 @@ const emit = defineEmits(['keyboardArrowUp', 'keyboardArrowDown']);
 const {t} = useI18n();
 
 const modelValue = defineModel<string>({required: true});
-const {selectedSubtasks, lastSelectedSubtasks} = storeToRefs(useTasksStore());
+const {selectedSubtasks, lastSelectedSubtask} = storeToRefs(useTasksStore());
 
 const Document = Node.create({
     name: 'doc',
@@ -67,7 +67,7 @@ watch(modelValue, (val) => {
 });
 
 watchEffect(() => {
-    if (editor.value && lastSelectedSubtasks.value === prop.index && editor.value.isFocused === false)
+    if (editor.value && lastSelectedSubtask.value === prop.index && editor.value.isFocused === false)
         editor.value.commands.focus('end');
 });
 </script>
