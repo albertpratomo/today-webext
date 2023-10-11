@@ -5,6 +5,7 @@ import FullCalendar from '@fullcalendar/vue3';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
+import {useDateFormat} from '@vueuse/core';
 
 const {todayEvents} = storeToRefs(useCalendarStore());
 const {createEvent, updateEvent} = useCalendarStore();
@@ -16,6 +17,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
         start: e.start?.dateTime || e.start?.date || undefined,
         end: e.end?.dateTime || e.end?.date || undefined,
     })),
+    allDayContent: '',
     allDaySlot: true,
     dayHeaders: false,
     droppable: true,
@@ -28,6 +30,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     initialView: 'timeGridDay',
     nowIndicator: true,
     plugins: [interactionPlugin, timeGridPlugin],
+    scrollTime: useDateFormat(new Date(), 'HH:00').value,
     slotDuration: '00:15:00',
     slotLabelFormat: {
         hour12: false,
