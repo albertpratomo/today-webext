@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type {CalendarOptions, EventAddArg} from '@fullcalendar/core';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
+import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -12,7 +12,7 @@ const {createEvent, updateEvent} = useCalendarStore();
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map(e => ({
-        id: e.id,
+        id: e.id || undefined,
         title: e.summary || undefined,
         start: e.start?.dateTime || e.start?.date || undefined,
         end: e.end?.dateTime || e.end?.date || undefined,
@@ -23,7 +23,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     droppable: true,
     editable: true,
     eventChange: ({event}) => { updateEvent(event); },
-    eventReceive: (arg: EventAddArg) => { createEvent(arg.event); },
+    eventReceive: ({event}) => { createEvent(event); },
     expandRows: true,
     headerToolbar: false,
     height: '100%',
