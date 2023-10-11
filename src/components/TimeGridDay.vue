@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
+import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import {useCalendarStore} from '~/stores';
 
-const options: CalendarOptions = {
-    allDaySlot: false,
+const {todayEvents} = storeToRefs(useCalendarStore());
+
+const options: ComputedRef<CalendarOptions> = computed(() => ({
+    events: todayEvents.value.map(e => ({
+        title: e.summary || undefined,
+        start: e.start?.dateTime || e.start?.date || undefined,
+        end: e.end?.dateTime || e.end?.date || undefined,
+    })),
+    allDaySlot: true,
     dayHeaders: false,
     expandRows: true,
     headerToolbar: false,
@@ -18,7 +27,7 @@ const options: CalendarOptions = {
         minute: '2-digit',
         omitZeroMinute: false,
     },
-};
+}));
 </script>
 
 <template>
@@ -28,23 +37,9 @@ const options: CalendarOptions = {
             :options="options"
         />
 
-        <div class="z-10 w-64 border rounded-lg bg-gray-800 p-4 shadow-indigo-emerald inset-center -rotate-2">
-            <div class="flex items-center text-sm font-semibold">
-                <MaterialSymbolsSchedule class="text-indigo-300" />
-
-                <div class="ml-2">
-                    {{ $t('timeblockingCard.title') }}
-                </div>
-            </div>
-
-            <div class="mt-4 text-xs text-gray-300">
-                {{ $t('timeblockingCard.body') }}
-            </div>
-
-            <div class="mt-4 text-xs text-indigo-400">
-                {{ $t('comingSoon') }}
-            </div>
-        </div>
+        <Suspense>
+            <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
+        </Suspense>
     </div>
 </template>
 

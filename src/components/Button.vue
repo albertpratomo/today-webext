@@ -4,8 +4,8 @@ import {twMerge} from 'tailwind-merge';
 
 withDefaults(
     defineProps<{
-        variant: ButtonProps['variant']
-        size: ButtonProps['size']
+        variant?: ButtonProps['variant']
+        size?: ButtonProps['size']
     }>(),
     {
         variant: 'secondary',

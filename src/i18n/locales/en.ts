@@ -3,11 +3,16 @@
 export default {
     actions: {
         cancel: 'Cancel',
+        connect: 'Connect',
         createTask: 'Create task',
         hideCompletedTasks: 'Hide completed tasks',
         showCompletedTasks: 'Show completed tasks',
     },
     calendar: 'Calendar',
+    calendarConnectCard: {
+        body: 'Sign in to your calendar and see your events here. Or you can do it later in settings.',
+        title: 'Connect your Google Calendar',
+    },
     comingSoon: 'Coming soon :)',
     fields: {
         taskNote: {placeholder: 'Notes'},
@@ -21,10 +26,6 @@ export default {
         openWindowTooltip: 'Start pomo [space]',
     },
     projects: 'Projects',
-    timeblockingCard: {
-        body: 'You can drag your tasks here and plan your deep work session. It\'s a pleasant way to plan your day.',
-        title: 'Timeblocking',
-    },
     today: 'Today',
     trash: 'Trash',
 };

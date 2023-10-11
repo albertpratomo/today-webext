@@ -20,7 +20,7 @@ const isCalendarVisible = ref(true);
                 <MaterialSymbolsEventNote />
             </button>
 
-            <div class="flex grow justify-center py-12">
+            <div class="flex grow justify-center pb-3 pt-12">
                 <div class="w-180">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
@@ -55,7 +55,7 @@ const isCalendarVisible = ref(true);
             <Transition name="slide-left-right">
                 <div
                     v-show="isCalendarVisible"
-                    class="ml-auto w-72 border-l px-3 py-12"
+                    class="w-76 shrink-0 border-l px-3 pb-3 pt-12"
                 >
                     <TimeGridDay />
                 </div>
