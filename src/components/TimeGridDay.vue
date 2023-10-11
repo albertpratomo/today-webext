@@ -7,10 +7,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
 
 const {todayEvents} = storeToRefs(useCalendarStore());
-const {createEvent} = useCalendarStore();
+const {createEvent, updateEvent} = useCalendarStore();
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map(e => ({
+        id: e.id,
         title: e.summary || undefined,
         start: e.start?.dateTime || e.start?.date || undefined,
         end: e.end?.dateTime || e.end?.date || undefined,
@@ -19,13 +20,14 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     dayHeaders: false,
     droppable: true,
     editable: true,
-    eventReceive: (arg: EventAddArg) => { createEvent(arg.event.title, arg.event.start, arg.event.end); },
+    eventChange: ({event}) => { updateEvent(event); },
+    eventReceive: (arg: EventAddArg) => { createEvent(arg.event); },
     expandRows: true,
     headerToolbar: false,
     height: '100%',
     initialView: 'timeGridDay',
+    nowIndicator: true,
     plugins: [interactionPlugin, timeGridPlugin],
-    scrollTime: '05:50',
     slotDuration: '00:15:00',
     slotLabelFormat: {
         hour12: false,
