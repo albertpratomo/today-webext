@@ -70,11 +70,18 @@ onMounted(() => {
 <style>
 :root {
     --fc-border-color: theme('colors.gray.700');
+    --fc-event-bg-color: theme('colors.indigo.900');
+    --fc-event-border-color: transparent;
     --fc-now-indicator-color: theme('colors.red.500');
+    --fc-page-bg-color: transparent;
     --fc-today-bg-color: transparent;
 }
 
 .fc {
+    & .fc-event {
+        @apply p-1;
+    }
+
     & .fc-scrollgrid, td, th {
         @apply border-none;
     }
