@@ -21,6 +21,7 @@ style: related to code style (linting)
 perf: related to performance
 test: related to tests
 chore: related to dependencies, and other miscellaneous things
+content: related to changing the text or content in the app
 ```
 2. Optionally include the scope of the commit after the prefix (without space)  
 Example: `feat(TaskList): add done tasks toggle`
