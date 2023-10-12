@@ -7,6 +7,15 @@ import Italic from '@tiptap/extension-italic';
 import {Node} from '@tiptap/core';
 import Text from '@tiptap/extension-text';
 
+const props = withDefaults(
+    defineProps<{
+        isFocused?: boolean
+    }>(),
+    {
+        isFocused: false,
+    },
+);
+
 const {t} = useI18n();
 
 const modelValue = defineModel<string>({required: true});
@@ -44,8 +53,9 @@ watch(modelValue, (val) => {
         editor.value.commands.setContent(val, false);
 });
 
-defineExpose({
-    editor,
+watchEffect(() => {
+    if (props.isFocused && editor.value && !editor.value.isFocused)
+        editor.value.commands.focus('end');
 });
 </script>
 

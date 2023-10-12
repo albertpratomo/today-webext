@@ -7,16 +7,10 @@ import {storeToRefs} from 'pinia';
 const {draftEditTask, selectedSubtasks} = storeToRefs(useTasksStore());
 const {createSubtask} = useTasksStore();
 
-const titleComponent = ref(null);
-
 function close() {
     draftEditTask.value = null;
 
     useHistoryStore().commit();
-}
-
-function focusTitleInput() {
-    titleComponent.value.editor.commands.focus();
 }
 
 const hasSubtasks = computed(() => {
@@ -60,8 +54,8 @@ onKeyStroke(['0'], ({metaKey, shiftKey}) => {
                         class="py-4 pl-5 pr-2"
                     >
                         <TaskTitleInput
-                            ref="titleComponent"
                             v-model="draftEditTask.title"
+                            :is-focused="!hasSubtasks"
                             @keyup.enter="close()"
                         />
 
@@ -86,7 +80,6 @@ onKeyStroke(['0'], ({metaKey, shiftKey}) => {
                         <SubtaskList
                             v-model="draftEditTask.subtasks"
                             v-model:selected-subtasks="selectedSubtasks"
-                            @when-empty-list="focusTitleInput()"
                         />
                     </div>
                 </div>

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type Subtask from '~/models/Subtask';
 
-const emit = defineEmits(['whenEmptyList']);
-
 const subtasks = defineModel<Subtask[]>({required: true});
 const selectedSubtasks = defineModel<number[]>('selectedSubtasks', {local: true, default: []});
 const lastSelectedSubtask = computed(() => selectedSubtasks.value.at(-1));
@@ -14,18 +12,16 @@ function selectSubtask(index: number | number[]) {
     selectedSubtasks.value = index;
 }
 
-const moveSelection = function (direction: 'up' | 'down', selectedIndex: number) {
+const selectSibling = function (direction: 'above' | 'below', selectedIndex: number) {
     const subtasksLength = subtasks.value.length;
-    const directionDown = direction === 'down';
+    const directionDown = direction === 'below';
 
     const lastIndex = (selectedIndex ?? lastSelectedSubtask.value) ?? (directionDown ? -1 : 0);
     const selected = (lastIndex + (directionDown ? 1 : -1) + subtasksLength) % subtasksLength;
 
-    if (Number.isNaN(selected))
-        emit('whenEmptyList');
-    else if ((!directionDown && lastIndex === 0) || (directionDown && selected === 0))
+    if ((!directionDown && lastIndex === 0) || (directionDown && selected === 0))
         return null;
-    else
+    else if (!Number.isNaN(selected))
         selectSubtask(selected);
 };
 </script>
@@ -38,6 +34,7 @@ const moveSelection = function (direction: 'up' | 'down', selectedIndex: number)
         :index="i"
         :is-last-selected="lastSelectedSubtask === i"
         :is-selected="selectedSubtasks.includes(i)"
-        @move-selection="moveSelection"
+        @select-sibling="selectSibling"
+        @subtask-deleted="selectSibling('above', i)"
     />
 </template>

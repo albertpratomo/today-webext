@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type Subtask from '~/models/Subtask';
+import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores';
 
 const props = withDefaults(
@@ -15,7 +16,9 @@ const props = withDefaults(
     },
 );
 
-const emit = defineEmits(['moveSelection']);
+const emit = defineEmits(['selectSibling', 'subtaskDeleted']);
+
+const {selectedSubtasks, lastSelectedSubtask} = storeToRefs(useTasksStore());
 
 const subtask = defineModel<Subtask>({required: true});
 
@@ -26,10 +29,15 @@ const create = function () {
         createSubtask();
 };
 
+const focus = function () {
+    if (selectedSubtasks.value.includes(props.index) === false)
+        selectedSubtasks.value = [props.index];
+};
+
 const remove = function () {
     if (subtask.value.title.length === 0) {
         deleteSubtask(props.index);
-        emit('moveSelection', 'up', props.index);
+        emit('subtaskDeleted');
     }
 };
 </script>
@@ -51,10 +59,13 @@ const remove = function () {
         <SubtaskTitleInput
             v-model="subtask.title"
             :index="index"
-            @keyboard-arrow-down="emit('moveSelection', 'down', index)"
-            @keyboard-arrow-up="emit('moveSelection', 'up', index)"
-            @keydown.backspace="remove()"
-            @keyup.enter="create()"
+            :is-focused="lastSelectedSubtask === index"
+            @blur="selectedSubtasks = [];"
+            @focus="focus"
+            @keyboard-arrow-down="emit('selectSibling', 'below', index)"
+            @keyboard-arrow-up="emit('selectSibling', 'above', index)"
+            @keydown.backspace="remove"
+            @keyup.enter="create"
         />
     </div>
 </template>

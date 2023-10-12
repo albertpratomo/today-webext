@@ -2,19 +2,21 @@
 import {EditorContent, useEditor} from '@tiptap/vue-3';
 import {Extension, Node} from '@tiptap/core';
 import Text from '@tiptap/extension-text';
-import {storeToRefs} from 'pinia';
-import {useTasksStore} from '~/stores';
 
-const prop = defineProps<{
-    index: number
-}>();
+const props = withDefaults(
+    defineProps<{
+        isFocused?: boolean
+    }>(),
+    {
+        isFocused: false,
+    },
+);
 
-const emit = defineEmits(['keyboardArrowUp', 'keyboardArrowDown']);
+const emit = defineEmits(['blur', 'focus', 'keyboardArrowUp', 'keyboardArrowDown']);
 
 const {t} = useI18n();
 
 const modelValue = defineModel<string>({required: true});
-const {selectedSubtasks, lastSelectedSubtask} = storeToRefs(useTasksStore());
 
 const Document = Node.create({
     name: 'doc',
@@ -53,11 +55,10 @@ const editor = useEditor({
         modelValue.value = editor.getHTML();
     },
     onFocus() {
-        if (selectedSubtasks.value.includes(prop.index) === false)
-            selectedSubtasks.value = [prop.index];
+        emit('focus');
     },
     onBlur() {
-        selectedSubtasks.value = [];
+        emit('blur');
     },
 });
 
@@ -67,7 +68,7 @@ watch(modelValue, (val) => {
 });
 
 watchEffect(() => {
-    if (editor.value && lastSelectedSubtask.value === prop.index && editor.value.isFocused === false)
+    if (props.isFocused && editor.value && !editor.value.isFocused)
         editor.value.commands.focus('end');
 });
 </script>
