@@ -65,11 +65,16 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
 
     async function createEvent(event: FcEvent) {
-        return await useGcalApi('calendars/primary/events').post({
+        const result = await useGcalApi('calendars/primary/events').post({
             summary: event.title,
             start: {dateTime: event.startStr},
             end: {dateTime: event.endStr},
-        });
+        }).json();
+
+        // Set gcal generated id to the event instance.
+        event.setProp('id', result.data.value.id);
+
+        return result;
     }
 
     async function updateEvent(event: FcEvent) {
