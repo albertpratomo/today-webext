@@ -2,17 +2,7 @@ import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {type EventApi as FcEvent} from '@fullcalendar/core';
 import {type calendar_v3} from '@googleapis/calendar';
-
-function getTimeOfDay(type = 'start') {
-    const date = new Date();
-
-    if (type === 'start')
-        date.setHours(0, 0, 0, 0);
-    else
-        date.setHours(23, 59, 59, 999);
-
-    return date.toISOString();
-}
+import {getTimeOfDay} from '~/utils/date';
 
 export const useCalendarStore = defineStore('calendar', () => {
     const authToken = useLocalStorage<string>('calendarAuthToken', '');
@@ -49,8 +39,8 @@ export const useCalendarStore = defineStore('calendar', () => {
 
     async function getEvents(calendarId: string = 'primary') {
         const params = new URLSearchParams({
-            timeMin: getTimeOfDay('start'),
-            timeMax: getTimeOfDay('end'),
+            timeMin: getTimeOfDay(new Date(), 'start'),
+            timeMax: getTimeOfDay(new Date(), 'end'),
             singleEvents: 'true',
         });
 
