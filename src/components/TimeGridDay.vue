@@ -2,6 +2,7 @@
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
+import {getDuration} from '~/utils/date';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
@@ -23,6 +24,14 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     droppable: true,
     editable: true,
     eventChange: ({event}) => { updateEvent(event); },
+    eventContent: ({event}) => {
+        return {
+            html: `
+                <div class="text-xs font-medium">${event.title}</div>
+                <div class="text-2xs text-gray-200/50">${getDuration(event.start!, event.end!)}</div>
+            `,
+        };
+    },
     eventReceive: ({event}) => { createEvent(event); },
     expandRows: true,
     headerToolbar: false,
