@@ -11,27 +11,29 @@ import {useDateFormat} from '@vueuse/core';
 const {todayEvents} = storeToRefs(useCalendarStore());
 const {createEvent, updateEvent} = useCalendarStore();
 
+const selectedEventId = ref('');
+
 const options: ComputedRef<CalendarOptions> = computed(() => ({
-    events: todayEvents.value.map(e => ({
-        id: e.id || undefined,
-        title: e.summary || undefined,
-        start: e.start?.dateTime || e.start?.date || undefined,
-        end: e.end?.dateTime || e.end?.date || undefined,
-    })),
+    events: todayEvents.value.map((e) => {
+        const isSelected = e.id === selectedEventId.value;
+
+        return {
+            id: e.id || undefined,
+            title: e.summary || undefined,
+            start: e.start?.dateTime || e.start?.date || undefined,
+            end: e.end?.dateTime || e.end?.date || undefined,
+            extendedProps: {isSelected},
+            backgroundColor: `var(--fc-event${isSelected ? '-selected' : ''}-bg-color)`,
+            borderColor: `var(--fc-event${isSelected ? '-selected' : ''}-border-color)`,
+        };
+    }),
     allDayContent: '',
     allDaySlot: true,
     dayHeaders: false,
     droppable: true,
     editable: true,
     eventChange: ({event}) => { updateEvent(event); },
-    eventContent: ({event}) => {
-        return {
-            html: `
-                <div class="text-xs font-medium">${event.title}</div>
-                <div class="text-2xs text-gray-200/50">${getDuration(event.start!, event.end!)}</div>
-            `,
-        };
-    },
+    eventClick: ({event}) => { selectedEventId.value = event.id; },
     eventReceive: ({event}) => { createEvent(event); },
     expandRows: true,
     headerToolbar: false,
@@ -73,7 +75,17 @@ onMounted(() => {
         <FullCalendar
             class="text-gray-400"
             :options="options"
-        />
+        >
+            <template #eventContent="{event}">
+                <div class="text-xs font-medium">
+                    {{ event.title }}
+                </div>
+
+                <div class="text-2xs text-gray-200/50">
+                    {{ getDuration(event.start, event.end) }}
+                </div>
+            </template>
+        </FullCalendar>
 
         <Suspense>
             <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
@@ -86,6 +98,8 @@ onMounted(() => {
     --fc-border-color: theme('colors.gray.700');
     --fc-event-bg-color: theme('colors.indigo.900');
     --fc-event-border-color: transparent;
+    --fc-event-selected-bg-color: theme('colors.indigo.800');
+    --fc-event-selected-border-color: theme('colors.indigo.500');
     --fc-now-indicator-color: theme('colors.red.500');
     --fc-page-bg-color: transparent;
     --fc-today-bg-color: transparent;
