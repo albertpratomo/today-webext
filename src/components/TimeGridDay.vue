@@ -86,11 +86,11 @@ onMounted(() => {
             :options="options"
         >
             <template #eventContent="{event}">
-                <div class="text-xs font-medium">
+                <div class="truncate text-2sm font-medium">
                     {{ event.title }}
                 </div>
 
-                <div class="text-2xs text-gray-200/50">
+                <div class="text-2xs text-gray-200/50 [.fc-timegrid-event-short_&]:order-first">
                     {{ getDuration(event.start, event.end) }}
                 </div>
             </template>
@@ -110,6 +110,7 @@ onMounted(() => {
     --fc-border-color: theme('colors.gray.700');
     --fc-event-bg-color: theme('colors.indigo.900');
     --fc-event-border-color: transparent;
+    --fc-event-resizer-thickness: 1rem;
     --fc-event-selected-bg-color: theme('colors.indigo.800');
     --fc-event-selected-border-color: theme('colors.indigo.500');
     --fc-now-indicator-color: theme('colors.red.500');
@@ -119,7 +120,7 @@ onMounted(() => {
 
 .fc {
     & .fc-event {
-        @apply p-1;
+        @apply px-1;
     }
 
     & .fc-scrollgrid, td, th {
@@ -136,6 +137,24 @@ onMounted(() => {
 
     & .fc-timegrid-slot-lane:not(.fc-timegrid-slot-minor) {
         border-top: 1px solid var(--fc-border-color);
+    }
+
+    & .fc-timegrid-event {
+        @apply rounded-md;
+    }
+
+    & .fc-timegrid-event-harness {
+        @apply -translate-y-px;
+    }
+
+    & .fc-event-main {
+        @apply p-0;
+    }
+
+    & .fc-timegrid-event-short {
+        & .fc-event-main {
+            @apply flex items-center gap-2;
+        }
     }
 
     & .fc-timegrid-slot-minor {
