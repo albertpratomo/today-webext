@@ -35,6 +35,9 @@ devDependencies:
   '@julr/unocss-preset-forms':
     specifier: ^0.0.5
     version: 0.0.5(unocss@0.53.5)
+  '@mobiscroll/vue':
+    specifier: 5.27.1
+    version: /@mobiscroll/vue-trial@5.27.1(vue@3.3.4)
   '@pinia/testing':
     specifier: ^0.1.2
     version: 0.1.2(pinia@2.1.4)(vue@3.3.4)
@@ -152,6 +155,9 @@ devDependencies:
   rimraf:
     specifier: ^5.0.1
     version: 5.0.1
+  sass:
+    specifier: ^1.69.3
+    version: 1.69.3
   simple-git-hooks:
     specifier: ^2.8.1
     version: 2.8.1
@@ -178,10 +184,10 @@ devDependencies:
     version: 0.25.1(vue@3.3.4)
   vite:
     specifier: ^4.4.4
-    version: 4.4.4(@types/node@20.4.2)
+    version: 4.4.4(@types/node@20.4.2)(sass@1.69.3)
   vitest:
     specifier: ^0.33.0
-    version: 0.33.0(jsdom@22.1.0)
+    version: 0.33.0(jsdom@22.1.0)(sass@1.69.3)
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -1424,6 +1430,14 @@ packages:
     resolution: {integrity: sha512-CD/2ai1W45cDN/zN2AcYduDavU+nq9aStyQizi4MHxnwkRvS/H24WIjgc1qD8CISoqXa8AAIe+A+zpWxwV7a2Q==}
     dev: true
 
+  /@mobiscroll/vue-trial@5.27.1(vue@3.3.4):
+    resolution: {integrity: sha512-UELFY4BVOmtW91NR3A0lVdl4ftCTgkGu4lvNoJU1FcSR/Y/OywZ8Xd4ON23XUD9KGEuAD/+5M1F/FFY0IiQL3w==, tarball: https://npm.mobiscroll.com/@mobiscroll/vue-trial/-/vue-trial-5.27.1.tgz}
+    peerDependencies:
+      vue: '>=3.0.0'
+    dependencies:
+      vue: 3.3.4
+    dev: true
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -2420,7 +2434,7 @@ packages:
       chokidar: 3.5.3
       fast-glob: 3.3.0
       magic-string: 0.30.1
-      vite: 4.4.4(@types/node@20.4.2)
+      vite: 4.4.4(@types/node@20.4.2)(sass@1.69.3)
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -2432,7 +2446,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.4(@types/node@20.4.2)
+      vite: 4.4.4(@types/node@20.4.2)(sass@1.69.3)
       vue: 3.3.4
     dev: true
 
@@ -5539,6 +5553,10 @@ packages:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
     dev: true
 
+  /immutable@4.3.4:
+    resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
+    dev: true
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -7944,6 +7962,16 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
+  /sass@1.69.3:
+    resolution: {integrity: sha512-X99+a2iGdXkdWn1akFPs0ZmelUzyAQfvqYc2P/MPTrJRuIRoTffGzT9W9nFqG00S+c8hXzVmgxhUuHFdrwxkhQ==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.4
+      source-map-js: 1.0.2
+    dev: true
+
   /sax@1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
     dev: true
@@ -9002,7 +9030,7 @@ packages:
       extsprintf: 1.3.0
     dev: true
 
-  /vite-node@0.33.0(@types/node@20.4.2):
+  /vite-node@0.33.0(@types/node@20.4.2)(sass@1.69.3):
     resolution: {integrity: sha512-19FpHYbwWWxDr73ruNahC+vtEdza52kA90Qb3La98yZ0xULqV8A5JLNPUff0f5zID4984tW7l3DH2przTJUZSw==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -9012,7 +9040,7 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.4.4(@types/node@20.4.2)
+      vite: 4.4.4(@types/node@20.4.2)(sass@1.69.3)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -9024,7 +9052,7 @@ packages:
       - terser
     dev: true
 
-  /vite@4.4.4(@types/node@20.4.2):
+  /vite@4.4.4(@types/node@20.4.2)(sass@1.69.3):
     resolution: {integrity: sha512-4mvsTxjkveWrKDJI70QmelfVqTm+ihFAb6+xf4sjEU2TmUCTlVX87tmg/QooPEMQb/lM9qGHT99ebqPziEd3wg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -9056,11 +9084,12 @@ packages:
       esbuild: 0.18.13
       postcss: 8.4.26
       rollup: 3.26.3
+      sass: 1.69.3
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitest@0.33.0(jsdom@22.1.0):
+  /vitest@0.33.0(jsdom@22.1.0)(sass@1.69.3):
     resolution: {integrity: sha512-1CxaugJ50xskkQ0e969R/hW47za4YXDUfWJDxip1hwbnhUjYolpfUn2AMOulqG/Dtd9WYAtkHmM/m3yKVrEejQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -9113,8 +9142,8 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.5.0
       tinypool: 0.6.0
-      vite: 4.4.4(@types/node@20.4.2)
-      vite-node: 0.33.0(@types/node@20.4.2)
+      vite: 4.4.4(@types/node@20.4.2)(sass@1.69.3)
+      vite-node: 0.33.0(@types/node@20.4.2)(sass@1.69.3)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
