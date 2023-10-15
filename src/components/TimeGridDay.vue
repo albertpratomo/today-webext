@@ -4,17 +4,23 @@ import {onClickOutside, useDateFormat} from '@vueuse/core';
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {getDuration} from '~/utils/date';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
 
 const {todayEvents} = storeToRefs(useCalendarStore());
-const {createEvent, updateEvent} = useCalendarStore();
+const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
 
 const card = ref(null);
 
 const selectedEventId = ref('');
 onClickOutside(card, () => selectedEventId.value = '');
+
+onKeyStroke('Backspace', () => {
+    if (selectedEventId.value)
+        deleteEvent(selectedEventId.value);
+});
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map((e) => {

@@ -74,9 +74,18 @@ export const useCalendarStore = defineStore('calendar', () => {
         });
     }
 
+    async function deleteEvent(id: string) {
+        const result = await useGcalApi(`calendars/primary/events/${id}`).delete();
+
+        await getEvents();
+
+        return result;
+    }
+
     return {
         authToken,
         createEvent,
+        deleteEvent,
         getAuthToken,
         getEvents,
         todayEvents,
