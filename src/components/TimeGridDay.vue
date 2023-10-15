@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
+import {onClickOutside, useDateFormat} from '@vueuse/core';
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {getDuration} from '~/utils/date';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
-import {useDateFormat} from '@vueuse/core';
 
 const {todayEvents} = storeToRefs(useCalendarStore());
 const {createEvent, updateEvent} = useCalendarStore();
 
+const card = ref(null);
+
 const selectedEventId = ref('');
+onClickOutside(card, () => selectedEventId.value = '');
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map((e) => {
@@ -88,7 +91,10 @@ onMounted(() => {
         </FullCalendar>
 
         <Suspense>
-            <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
+            <CalendarConnectCard
+                ref="card"
+                class="absolute bottom-0 right-0 z-10"
+            />
         </Suspense>
     </div>
 </template>
