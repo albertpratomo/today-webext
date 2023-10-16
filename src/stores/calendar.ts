@@ -64,20 +64,29 @@ export const useCalendarStore = defineStore('calendar', () => {
         // Set gcal generated id to the event instance.
         event.setProp('id', result.data.value.id);
 
+        todayEvents.value.push(result.data.value);
+
         return result;
     }
 
     async function updateEvent(event: FcEvent) {
-        return await useGcalApi(`calendars/primary/events/${event.id}`).patch({
+        const result = await useGcalApi(`calendars/primary/events/${event.id}`).patch({
             start: {dateTime: event.startStr},
             end: {dateTime: event.endStr},
-        });
+        }).json();
+
+        // Update todayEvents with the updated event.
+        const index = todayEvents.value.findIndex(e => e.id === event.id);
+        todayEvents.value[index] = result.data.value;
+
+        return result;
     }
 
     async function deleteEvent(id: string) {
         const result = await useGcalApi(`calendars/primary/events/${id}`).delete();
 
-        await getEvents();
+        // Delete the event from todayEvents.
+        todayEvents.value = todayEvents.value.filter(e => e.id !== id);
 
         return result;
     }
