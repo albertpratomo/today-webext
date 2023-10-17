@@ -5,9 +5,11 @@ import Text from '@tiptap/extension-text';
 
 const props = withDefaults(
     defineProps<{
+        isEditable?: boolean
         isFocused?: boolean
     }>(),
     {
+        isEditable: true,
         isFocused: false,
     },
 );
@@ -39,6 +41,7 @@ const overrideKeyboardDefaults = Extension.create({
 });
 
 const editor = useEditor({
+    editable: props.isEditable,
     content: modelValue.value,
     editorProps: {
         attributes: {
@@ -68,8 +71,13 @@ watch(modelValue, (val) => {
 });
 
 watchEffect(() => {
-    if (props.isFocused && editor.value && !editor.value.isFocused)
-        editor.value.commands.focus('end');
+    if (editor.value) {
+        if (props.isEditable && props.isFocused && !editor.value.isFocused)
+            editor.value.commands.focus('end');
+
+        if (props.isEditable !== editor.value.isEditable)
+            editor.value.setEditable(props.isEditable);
+    }
 });
 </script>
 

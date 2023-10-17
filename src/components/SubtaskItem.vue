@@ -8,20 +8,20 @@ const props = withDefaults(
         index: number
         isLastSelected?: boolean
         isSelected?: boolean
+        isSorting?: boolean
     }>(),
     {
         index: 0,
         isLastSelected: false,
         isSelected: false,
+        isSorting: false,
     },
 );
 
 const emit = defineEmits(['selectSibling', 'subtaskDeleted']);
 
 const {selectedSubtasks, lastSelectedSubtask} = storeToRefs(useTasksStore());
-
 const subtask = defineModel<Subtask>({required: true});
-
 const {createSubtask, deleteSubtask} = useTasksStore();
 
 const create = function () {
@@ -59,6 +59,7 @@ const remove = function () {
         <SubtaskTitleInput
             v-model="subtask.title"
             :index="index"
+            :is-editable="isSorting === false"
             :is-focused="lastSelectedSubtask === index"
             @blur="selectedSubtasks = [];"
             @focus="focus"
@@ -67,5 +68,13 @@ const remove = function () {
             @keydown.backspace="remove"
             @keyup.enter="create"
         />
+
+        <button
+            :class="[
+                isSelected ? '' : 'hidden',
+            ]"
+        >
+            ≡
+        </button>
     </div>
 </template>

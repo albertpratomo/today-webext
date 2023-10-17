@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {moveArrayElement, useSortable} from '@vueuse/integrations/useSortable';
+import type {SortableEvent} from 'sortablejs';
 import type Subtask from '~/models/Subtask';
 
 const subtasks = defineModel<Subtask[]>({required: true});
@@ -24,17 +26,44 @@ const selectSibling = function (direction: 'above' | 'below', selectedIndex: num
     else if (!Number.isNaN(selected))
         selectSubtask(selected);
 };
+
+const isSorting = ref<boolean>(false);
+const list = ref<HTMLElement | null>(null);
+useSortable(list, subtasks, {
+    onStart: () => {
+        isSorting.value = true;
+    },
+    onEnd: () => {
+        isSorting.value = false;
+    },
+    onUpdate: async (e: SortableEvent) => {
+        swapSubtask(e.oldIndex!, e.newIndex!);
+    },
+});
+
+async function swapSubtask(oldIndex: number, newIndex: number) {
+    if (newIndex >= 0 && newIndex < subtasks.value.length) {
+        moveArrayElement(subtasks.value, oldIndex, newIndex);
+        await nextTick();
+        // useHistoryStore().commit();
+
+        selectSubtask(newIndex);
+    }
+}
 </script>
 
 <template>
-    <SubtaskItem
-        v-for="(_, i) in subtasks"
-        :key="i"
-        v-model="subtasks[i]"
-        :index="i"
-        :is-last-selected="lastSelectedSubtask === i"
-        :is-selected="selectedSubtasks.includes(i)"
-        @select-sibling="selectSibling"
-        @subtask-deleted="selectSibling('above', i)"
-    />
+    <div ref="list">
+        <SubtaskItem
+            v-for="(_, i) in subtasks"
+            :key="i"
+            v-model="subtasks[i]"
+            :index="i"
+            :is-last-selected="lastSelectedSubtask === i"
+            :is-selected="selectedSubtasks.includes(i)"
+            :is-sorting="isSorting"
+            @select-sibling="selectSibling"
+            @subtask-deleted="selectSibling('above', i)"
+        />
+    </div>
 </template>
