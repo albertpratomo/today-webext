@@ -16,7 +16,7 @@ const props = withDefaults(
     },
 );
 
-const emit = defineEmits(['selectSibling', 'subtaskDeleted']);
+const emit = defineEmits(['subtaskDeleted']);
 
 const {selectedSubtasks} = storeToRefs(useTasksStore());
 const subtask = defineModel<Subtask>({required: true});
@@ -57,8 +57,6 @@ const onBackspace = function () {
             :is-focused="isSelected"
             @blur="selectedSubtasks = [];"
             @focus="focus"
-            @keyboard-arrow-down="emit('selectSibling', 'below', index)"
-            @keyboard-arrow-up="emit('selectSibling', 'above', index)"
             @keydown.backspace="onBackspace"
             @keyup.enter="create"
         />
