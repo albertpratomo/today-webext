@@ -2,17 +2,7 @@ import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {type EventApi as FcEvent} from '@fullcalendar/core';
 import {type calendar_v3} from '@googleapis/calendar';
-
-function getTimeOfDay(type = 'start') {
-    const date = new Date();
-
-    if (type === 'start')
-        date.setHours(0, 0, 0, 0);
-    else
-        date.setHours(23, 59, 59, 999);
-
-    return date.toISOString();
-}
+import {getTimeOfDay} from '~/utils/date';
 
 export const useCalendarStore = defineStore('calendar', () => {
     const authToken = useLocalStorage<string>('calendarAuthToken', '');
@@ -49,8 +39,8 @@ export const useCalendarStore = defineStore('calendar', () => {
 
     async function getEvents(calendarId: string = 'primary') {
         const params = new URLSearchParams({
-            timeMin: getTimeOfDay('start'),
-            timeMax: getTimeOfDay('end'),
+            timeMin: getTimeOfDay(new Date(), 'start'),
+            timeMax: getTimeOfDay(new Date(), 'end'),
             singleEvents: 'true',
         });
 
@@ -74,19 +64,37 @@ export const useCalendarStore = defineStore('calendar', () => {
         // Set gcal generated id to the event instance.
         event.setProp('id', result.data.value.id);
 
+        todayEvents.value.push(result.data.value);
+
         return result;
     }
 
     async function updateEvent(event: FcEvent) {
-        return await useGcalApi(`calendars/primary/events/${event.id}`).patch({
+        const result = await useGcalApi(`calendars/primary/events/${event.id}`).patch({
             start: {dateTime: event.startStr},
             end: {dateTime: event.endStr},
-        });
+        }).json();
+
+        // Update todayEvents with the updated event.
+        const index = todayEvents.value.findIndex(e => e.id === event.id);
+        todayEvents.value[index] = result.data.value;
+
+        return result;
+    }
+
+    async function deleteEvent(id: string) {
+        const result = await useGcalApi(`calendars/primary/events/${id}`).delete();
+
+        // Delete the event from todayEvents.
+        todayEvents.value = todayEvents.value.filter(e => e.id !== id);
+
+        return result;
     }
 
     return {
         authToken,
         createEvent,
+        deleteEvent,
         getAuthToken,
         getEvents,
         todayEvents,
