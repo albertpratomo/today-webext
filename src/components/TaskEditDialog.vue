@@ -14,24 +14,16 @@ function close() {
 }
 
 const hasSubtasks = computed(() => {
-    return (typeof draftEditTask.value?.subtasks != 'undefined' && draftEditTask.value.subtasks.length > 0);
+    return (Array.isArray(draftEditTask.value?.subtasks) && draftEditTask.value!.subtasks.length > 0);
 });
 
-function focusFirstSubtask() {
-    if (!hasSubtasks.value)
-        createSubtask();
-    else
-        selectedSubtasks.value = [0];
-}
-
-function createFirstSubtask() {
-    if (!hasSubtasks.value)
-        createSubtask();
-}
-
 onKeyStroke(['0'], ({metaKey, shiftKey}) => {
-    if (metaKey && shiftKey)
-        focusFirstSubtask();
+    if (metaKey && shiftKey) {
+        if (!hasSubtasks.value)
+            createSubtask();
+        else
+            selectedSubtasks.value = [0];
+    }
 });
 </script>
 
@@ -71,7 +63,7 @@ onKeyStroke(['0'], ({metaKey, shiftKey}) => {
                             <button
                                 class="bg-gray-800 btn-icon"
                                 :title="$t('createSubtaskTooltip')"
-                                @click="createFirstSubtask()"
+                                @click="createSubtask"
                             >
                                 <MaterialSymbolsChecklist />
                             </button>

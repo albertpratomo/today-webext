@@ -133,15 +133,6 @@ export const useTasksStore = defineStore('tasks', () => {
         selectedSubtasks.value = [index];
     };
 
-    // Remove Subtask ---------------------------------------------------------
-
-    function deleteSubtask(index: number) {
-        draftEditTask.value?.subtasks.splice(index, 1);
-
-        if (selectedSubtasks.value.length)
-            selectedSubtasks.value.splice(selectedSubtasks.value.indexOf(index), 1);
-    }
-
     return {
         tasks,
         selectedIndexes,
@@ -164,7 +155,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
         selectedSubtasks,
         createSubtask,
-        deleteSubtask,
     };
 });
 

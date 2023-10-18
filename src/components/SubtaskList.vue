@@ -5,7 +5,7 @@ import type Subtask from '~/models/Subtask';
 import {onKeyStroke} from '@vueuse/core';
 
 const subtasks = defineModel<Subtask[]>({required: true});
-const selectedSubtasks = defineModel<number[]>('selectedSubtasks', {local: true, default: []});
+const selectedSubtasks = defineModel<number[]>('selectedSubtasks', {default: []});
 
 function selectSubtask(index: number | number[]) {
     if (!Array.isArray(index))
@@ -53,6 +53,11 @@ async function swapSubtask(oldIndex: number, newIndex: number) {
         selectSubtask(newIndex);
     }
 }
+
+function deleteSubtask(index: number) {
+    subtasks.value.splice(index, 1);
+    selectSibling('up', index);
+}
 </script>
 
 <template>
@@ -61,10 +66,10 @@ async function swapSubtask(oldIndex: number, newIndex: number) {
             v-for="(_, i) in subtasks"
             :key="i"
             v-model="subtasks[i]"
-            :index="i"
             :is-selected="selectedSubtasks.includes(i)"
             :is-sorting="isSorting"
-            @subtask-deleted="selectSibling('up', i)"
+            @delete="deleteSubtask(i)"
+            @focus="selectSubtask(i)"
         />
     </div>
 </template>

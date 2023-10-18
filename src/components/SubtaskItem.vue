@@ -3,40 +3,31 @@ import type Subtask from '~/models/Subtask';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores';
 
-const props = withDefaults(
+withDefaults(
     defineProps<{
-        index: number
         isSelected?: boolean
         isSorting?: boolean
     }>(),
     {
-        index: 0,
         isSelected: false,
         isSorting: false,
     },
 );
 
-const emit = defineEmits(['subtaskDeleted']);
+const emit = defineEmits(['delete', 'focus']);
 
 const {selectedSubtasks} = storeToRefs(useTasksStore());
 const subtask = defineModel<Subtask>({required: true});
-const {createSubtask, deleteSubtask} = useTasksStore();
+const {createSubtask} = useTasksStore();
 
 const create = function () {
     if (subtask.value.title.length > 0)
         createSubtask();
 };
 
-const focus = function () {
-    if (selectedSubtasks.value.includes(props.index) === false)
-        selectedSubtasks.value = [props.index];
-};
-
 const onBackspace = function () {
-    if (subtask.value.title.length === 0) {
-        deleteSubtask(props.index);
-        emit('subtaskDeleted');
-    }
+    if (subtask.value.title.length === 0)
+        emit('delete');
 };
 </script>
 
@@ -56,7 +47,7 @@ const onBackspace = function () {
             :is-editable="isSorting === false"
             :is-focused="isSelected"
             @blur="selectedSubtasks = [];"
-            @focus="focus"
+            @focus="$emit('focus')"
             @keydown.backspace="onBackspace"
             @keyup.enter="create"
         />
