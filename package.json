@@ -34,6 +34,7 @@
     "@antfu/eslint-config": "^0.39.8",
     "@ffflorian/jszip-cli": "^3.4.1",
     "@fullcalendar/core": "^6.1.8",
+    "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/timegrid": "^6.1.8",
     "@fullcalendar/vue3": "^6.1.8",
     "@googleapis/calendar": "^9.3.1",

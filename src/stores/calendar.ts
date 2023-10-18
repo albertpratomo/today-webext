@@ -1,5 +1,6 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
+import {type EventApi as FcEvent} from '@fullcalendar/core';
 import {type calendar_v3} from '@googleapis/calendar';
 
 function getTimeOfDay(type = 'start') {
@@ -21,9 +22,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     async function getAuthToken() {
         const response = await chrome.identity.getAuthToken({
             interactive: true,
-            scopes: [
-                'https://www.googleapis.com/auth/calendar',
-            ],
+            scopes: ['https://www.googleapis.com/auth/calendar'],
         });
 
         authToken.value = response.token;
@@ -32,7 +31,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     const useGcalApi = createFetch({
         baseUrl: 'https://www.googleapis.com/calendar/v3',
         options: {
-            async beforeFetch({options}) {
+            async beforeFetch({url, options}) {
                 if (!authToken.value)
                     await getAuthToken();
 
@@ -41,16 +40,18 @@ export const useCalendarStore = defineStore('calendar', () => {
                     Authorization: `Bearer ${authToken.value}`,
                 };
 
-                return {options};
+                url += `${url.includes('?') ? '&' : '?'}key=AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo`;
+
+                return {url, options};
             },
         },
     });
 
     async function getEvents(calendarId: string = 'primary') {
         const params = new URLSearchParams({
-            key: 'AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo',
             timeMin: getTimeOfDay('start'),
             timeMax: getTimeOfDay('end'),
+            singleEvents: 'true',
         });
 
         const result = await useGcalApi<{items: calendar_v3.Schema$Event[]}>(
@@ -63,11 +64,33 @@ export const useCalendarStore = defineStore('calendar', () => {
         return result;
     }
 
+    async function createEvent(event: FcEvent) {
+        const result = await useGcalApi('calendars/primary/events').post({
+            summary: event.title,
+            start: {dateTime: event.startStr},
+            end: {dateTime: event.endStr},
+        }).json();
+
+        // Set gcal generated id to the event instance.
+        event.setProp('id', result.data.value.id);
+
+        return result;
+    }
+
+    async function updateEvent(event: FcEvent) {
+        return await useGcalApi(`calendars/primary/events/${event.id}`).patch({
+            start: {dateTime: event.startStr},
+            end: {dateTime: event.endStr},
+        });
+    }
+
     return {
         authToken,
+        createEvent,
         getAuthToken,
         getEvents,
         todayEvents,
+        updateEvent,
     };
 });
 

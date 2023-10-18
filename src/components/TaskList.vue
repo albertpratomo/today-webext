@@ -119,6 +119,7 @@ onKeyStroke(['Backspace'], () => {
 <template>
     <div>
         <div
+            id="undone-task-list"
             ref="list"
             v-on-click-outside="onClickOutside"
             class="-ml-8"
@@ -128,6 +129,7 @@ onKeyStroke(['Backspace'], () => {
                 :key="task.id"
                 v-model="tasks[i]"
                 :aria-selected="selectedIndexes.includes(i)"
+                class="task-item"
                 :is-last-selected="lastSelectedIndex === i "
                 :is-selected="selectedIndexes.includes(i)"
                 @click="onTaskClick(i, $event)"

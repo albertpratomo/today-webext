@@ -1,33 +1,62 @@
 <script setup lang="ts">
+import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
+import {useDateFormat} from '@vueuse/core';
 
 const {todayEvents} = storeToRefs(useCalendarStore());
+const {createEvent, updateEvent} = useCalendarStore();
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: todayEvents.value.map(e => ({
+        id: e.id || undefined,
         title: e.summary || undefined,
         start: e.start?.dateTime || e.start?.date || undefined,
         end: e.end?.dateTime || e.end?.date || undefined,
     })),
+    allDayContent: '',
     allDaySlot: true,
     dayHeaders: false,
+    droppable: true,
+    editable: true,
+    eventChange: ({event}) => { updateEvent(event); },
+    eventReceive: ({event}) => { createEvent(event); },
     expandRows: true,
     headerToolbar: false,
     height: '100%',
     initialView: 'timeGridDay',
-    plugins: [timeGridPlugin],
-    scrollTime: '05:50',
+    nowIndicator: true,
+    plugins: [interactionPlugin, timeGridPlugin],
+    scrollTime: useDateFormat(new Date(), 'HH:00').value,
+    slotDuration: '00:15:00',
     slotLabelFormat: {
         hour12: false,
-        hour: '2-digit',
+        hour: 'numeric',
         minute: '2-digit',
-        omitZeroMinute: false,
+        omitZeroMinute: true,
     },
+    slotLabelInterval: '01:00:00',
 }));
+
+onMounted(() => {
+    const taskListEl = document.getElementById('undone-task-list');
+
+    if (taskListEl) {
+        // eslint-disable-next-line no-new
+        new Draggable(taskListEl, {
+            itemSelector: '.task-item',
+            eventData(taskItemEl: HTMLElement) {
+                return {
+                    title: taskItemEl.innerText,
+                    duration: '01:00',
+                };
+            },
+        });
+    }
+});
 </script>
 
 <template>
@@ -45,12 +74,19 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
 
 <style>
 :root {
-    --fc-border-color: #3C3D53;
-    --fc-now-indicator-color: #DC2626;
+    --fc-border-color: theme('colors.gray.700');
+    --fc-event-bg-color: theme('colors.indigo.900');
+    --fc-event-border-color: transparent;
+    --fc-now-indicator-color: theme('colors.red.500');
+    --fc-page-bg-color: transparent;
     --fc-today-bg-color: transparent;
 }
 
 .fc {
+    & .fc-event {
+        @apply p-1;
+    }
+
     & .fc-scrollgrid, td, th {
         @apply border-none;
     }
