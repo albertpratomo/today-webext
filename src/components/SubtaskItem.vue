@@ -6,13 +6,11 @@ import {useTasksStore} from '~/stores';
 const props = withDefaults(
     defineProps<{
         index: number
-        isLastSelected?: boolean
         isSelected?: boolean
         isSorting?: boolean
     }>(),
     {
         index: 0,
-        isLastSelected: false,
         isSelected: false,
         isSorting: false,
     },
@@ -20,7 +18,7 @@ const props = withDefaults(
 
 const emit = defineEmits(['selectSibling', 'subtaskDeleted']);
 
-const {selectedSubtasks, lastSelectedSubtask} = storeToRefs(useTasksStore());
+const {selectedSubtasks} = storeToRefs(useTasksStore());
 const subtask = defineModel<Subtask>({required: true});
 const {createSubtask, deleteSubtask} = useTasksStore();
 
@@ -45,10 +43,7 @@ const onBackspace = function () {
 <template>
     <div
         class="group h-9 flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
-        :class="[
-            {'bg-indigo-900 hover:bg-indigo-900': isSelected},
-            isLastSelected ? 'border-indigo-400' : 'border-transparent',
-        ]"
+        :class="{'bg-indigo-900 border-indigo-400 hover:bg-indigo-900': isSelected}"
     >
         <input
             v-model="subtask.isDone"
@@ -59,7 +54,7 @@ const onBackspace = function () {
         <SubtaskTitleInput
             v-model="subtask.title"
             :is-editable="isSorting === false"
-            :is-focused="lastSelectedSubtask === index"
+            :is-focused="isSelected"
             @blur="selectedSubtasks = [];"
             @focus="focus"
             @keyboard-arrow-down="emit('selectSibling', 'below', index)"

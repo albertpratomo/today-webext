@@ -106,7 +106,6 @@ export const useTasksStore = defineStore('tasks', () => {
     // Subtasks ---------------------------------------------------------------
 
     const selectedSubtasks = ref<number[]>([]);
-    const lastSelectedSubtask = computed(() => selectedSubtasks.value.at(-1));
 
     // Create Subtask ---------------------------------------------------------
 
@@ -129,7 +128,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
         // Insert the new subtask there.
         draftEditTask.value?.subtasks.splice(index, 0, {...BLANK_SUBTASK});
-        // useHistoryStore().commit();
 
         // Highlight the newly created subtask.
         selectedSubtasks.value = [index];
@@ -139,8 +137,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
     function deleteSubtask(index: number) {
         draftEditTask.value?.subtasks.splice(index, 1);
-
-        // useHistoryStore().commit();
 
         if (selectedSubtasks.value.length)
             selectedSubtasks.value.splice(selectedSubtasks.value.indexOf(index), 1);
@@ -167,7 +163,6 @@ export const useTasksStore = defineStore('tasks', () => {
         isAllDone,
 
         selectedSubtasks,
-        lastSelectedSubtask,
         createSubtask,
         deleteSubtask,
     };
