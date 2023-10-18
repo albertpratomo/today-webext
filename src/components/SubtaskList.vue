@@ -45,8 +45,6 @@ async function swapSubtask(oldIndex: number, newIndex: number) {
     if (newIndex >= 0 && newIndex < subtasks.value.length) {
         moveArrayElement(subtasks.value, oldIndex, newIndex);
         await nextTick();
-        // useHistoryStore().commit();
-
         selectSubtask(newIndex);
     }
 }

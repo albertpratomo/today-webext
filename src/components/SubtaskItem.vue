@@ -34,7 +34,7 @@ const focus = function () {
         selectedSubtasks.value = [props.index];
 };
 
-const remove = function () {
+const onBackspace = function () {
     if (subtask.value.title.length === 0) {
         deleteSubtask(props.index);
         emit('subtaskDeleted');
@@ -58,22 +58,17 @@ const remove = function () {
 
         <SubtaskTitleInput
             v-model="subtask.title"
-            :index="index"
             :is-editable="isSorting === false"
             :is-focused="lastSelectedSubtask === index"
             @blur="selectedSubtasks = [];"
             @focus="focus"
             @keyboard-arrow-down="emit('selectSibling', 'below', index)"
             @keyboard-arrow-up="emit('selectSibling', 'above', index)"
-            @keydown.backspace="remove"
+            @keydown.backspace="onBackspace"
             @keyup.enter="create"
         />
 
-        <button
-            :class="[
-                isSelected ? '' : 'hidden',
-            ]"
-        >
+        <button :class="{hidden: isSelected}">
             ≡
         </button>
     </div>
