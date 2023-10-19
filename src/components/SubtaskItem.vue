@@ -6,11 +6,11 @@ import {useTasksStore} from '~/stores';
 withDefaults(
     defineProps<{
         isSelected?: boolean
-        isSorting?: boolean
+        isEditable?: boolean
     }>(),
     {
         isSelected: false,
-        isSorting: false,
+        isEditable: true,
     },
 );
 
@@ -44,7 +44,7 @@ const onBackspace = function () {
 
         <SubtaskTitleInput
             v-model="subtask.title"
-            :is-editable="isSorting === false"
+            :is-editable="isEditable"
             :is-focused="isSelected"
             @blur="selectedSubtasks = [];"
             @focus="$emit('focus')"

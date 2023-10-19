@@ -63,11 +63,11 @@ function deleteSubtask(index: number) {
 <template>
     <div ref="list">
         <SubtaskItem
-            v-for="(_, i) in subtasks"
-            :key="i"
+            v-for="(subtask, i) in subtasks"
+            :key="`${i}-${subtask.title}`"
             v-model="subtasks[i]"
+            :is-editable="!isSorting"
             :is-selected="selectedSubtasks.includes(i)"
-            :is-sorting="isSorting"
             @delete="deleteSubtask(i)"
             @focus="selectSubtask(i)"
         />
