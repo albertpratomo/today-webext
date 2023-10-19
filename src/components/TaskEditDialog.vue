@@ -20,11 +20,16 @@ const hasSubtasks = computed(() => {
 onKeyStroke(['0'], ({metaKey, shiftKey}) => {
     if (metaKey && shiftKey) {
         if (!hasSubtasks.value)
-            createSubtask();
+            _createSubtask();
         else
             selectedSubtasks.value = [0];
     }
 });
+
+function _createSubtask() {
+    createSubtask();
+    selectedSubtasks.value = [0];
+}
 </script>
 
 <template>
@@ -63,7 +68,7 @@ onKeyStroke(['0'], ({metaKey, shiftKey}) => {
                             <button
                                 class="bg-gray-800 btn-icon"
                                 :title="$t('createSubtaskTooltip')"
-                                @click="createSubtask"
+                                @click="_createSubtask"
                             >
                                 <MaterialSymbolsChecklist />
                             </button>

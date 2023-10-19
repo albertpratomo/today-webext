@@ -52,7 +52,7 @@ const onBackspace = function () {
             @keyup.enter="create"
         />
 
-        <button :class="{hidden: isSelected}">
+        <button :class="{hidden: !isSelected}">
             ≡
         </button>
     </div>
