@@ -24,12 +24,11 @@ const selectSibling = function (direction: 'up' | 'down', selectedIndex: number)
 };
 
 onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
-    e.preventDefault();
+    if (subtasks.value.length && selectedSubtasks.value.length) {
+        e.preventDefault();
 
-    const isArrowDown = e.key === 'ArrowDown';
-
-    if (selectedSubtasks.value.length)
-        selectSibling(isArrowDown ? 'down' : 'up', selectedSubtasks.value[0]);
+        selectSibling(e.key === 'ArrowDown' ? 'down' : 'up', selectedSubtasks.value[0]);
+    }
 });
 
 const isSorting = ref<boolean>(false);
