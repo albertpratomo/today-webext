@@ -3,11 +3,12 @@ import {createFetch, useLocalStorage} from '@vueuse/core';
 import {type EventApi as FcEvent} from '@fullcalendar/core';
 import {type calendar_v3} from '@googleapis/calendar';
 import {getTimeOfDay} from '~/utils/date';
+import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useCalendarStore = defineStore('calendar', () => {
     const authToken = useLocalStorage<string>('calendarAuthToken', '');
 
-    const todayEvents: Ref<calendar_v3.Schema$Event[]> = ref([]);
+    const events = useStorageLocal<calendar_v3.Schema$Event[]>('events', []);
 
     async function getAuthToken() {
         const response = await chrome.identity.getAuthToken({
@@ -49,7 +50,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         ).json();
 
         if (!result.error.value)
-            todayEvents.value = result.data.value.items;
+            events.value = result.data.value.items;
 
         return result;
     }
@@ -64,7 +65,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         // Set gcal generated id to the event instance.
         event.setProp('id', result.data.value.id);
 
-        todayEvents.value.push(result.data.value);
+        events.value.push(result.data.value);
 
         return result;
     }
@@ -75,9 +76,9 @@ export const useCalendarStore = defineStore('calendar', () => {
             end: {dateTime: event.endStr},
         }).json();
 
-        // Update todayEvents with the updated event.
-        const index = todayEvents.value.findIndex(e => e.id === event.id);
-        todayEvents.value[index] = result.data.value;
+        // Update events with the updated event.
+        const index = events.value.findIndex(e => e.id === event.id);
+        events.value[index] = result.data.value;
 
         return result;
     }
@@ -85,8 +86,8 @@ export const useCalendarStore = defineStore('calendar', () => {
     async function deleteEvent(id: string) {
         const result = await useGcalApi(`calendars/primary/events/${id}`).delete();
 
-        // Delete the event from todayEvents.
-        todayEvents.value = todayEvents.value.filter(e => e.id !== id);
+        // Delete the event from events.
+        events.value = events.value.filter(e => e.id !== id);
 
         return result;
     }
@@ -97,7 +98,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         deleteEvent,
         getAuthToken,
         getEvents,
-        todayEvents,
+        events,
         updateEvent,
     };
 });

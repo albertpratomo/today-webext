@@ -9,7 +9,7 @@ import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
 
-const {todayEvents} = storeToRefs(useCalendarStore());
+const {events} = storeToRefs(useCalendarStore());
 const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
 
 const card = ref(null);
@@ -23,7 +23,7 @@ onKeyStroke('Backspace', () => {
 });
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
-    events: todayEvents.value.map((e) => {
+    events: events.value.map((e) => {
         const isSelected = e.id === selectedEventId.value;
 
         return {
