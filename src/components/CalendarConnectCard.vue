@@ -5,7 +5,7 @@ import {useCalendarStore} from '~/stores';
 const isVisible = ref(true);
 
 const {authToken} = storeToRefs(useCalendarStore());
-const {getAuthToken, getEvents} = useCalendarStore();
+const {getAuthToken, fetchGcalEvents} = useCalendarStore();
 
 if (authToken.value) {
     isVisible.value = false;
@@ -14,7 +14,7 @@ if (authToken.value) {
 }
 
 async function _getEvents() {
-    const {error} = await getEvents();
+    const {error} = await fetchGcalEvents();
 
     isVisible.value = !!error.value;
 }

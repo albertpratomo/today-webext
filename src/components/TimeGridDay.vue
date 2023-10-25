@@ -27,11 +27,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
         const isSelected = e.id === selectedEventId.value;
 
         return {
-            id: e.id || undefined,
-            title: e.summary || undefined,
-            start: e.start?.dateTime || e.start?.date || undefined,
-            end: e.end?.dateTime || e.end?.date || undefined,
-            extendedProps: {isSelected},
+            ...e,
             backgroundColor: `var(--fc-event${isSelected ? '-selected' : ''}-bg-color)`,
             borderColor: `var(--fc-event${isSelected ? '-selected' : ''}-border-color)`,
         };

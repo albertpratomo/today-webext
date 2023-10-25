@@ -1,14 +1,14 @@
+import type {Event, FcEvent, GcalEvent} from '~/models/Event';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
-import {type EventApi as FcEvent} from '@fullcalendar/core';
-import {type calendar_v3} from '@googleapis/calendar';
+import {formatFcEvent, formatGcalEvent} from '~/models/Event';
 import {getTimeOfDay} from '~/utils/date';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useCalendarStore = defineStore('calendar', () => {
     const authToken = useLocalStorage<string>('calendarAuthToken', '');
 
-    const events = useStorageLocal<calendar_v3.Schema$Event[]>('events', []);
+    const events = useStorageLocal<Event[]>('events', []);
 
     async function getAuthToken() {
         const response = await chrome.identity.getAuthToken({
@@ -38,67 +38,66 @@ export const useCalendarStore = defineStore('calendar', () => {
         },
     });
 
-    async function getEvents(calendarId: string = 'primary') {
+    async function fetchGcalEvents(calendarId: string = 'primary') {
         const params = new URLSearchParams({
             timeMin: getTimeOfDay(new Date(), 'start'),
             timeMax: getTimeOfDay(new Date(), 'end'),
             singleEvents: 'true',
         });
 
-        const result = await useGcalApi<{items: calendar_v3.Schema$Event[]}>(
+        const result = await useGcalApi(
             `calendars/${calendarId}/events?${params.toString()}`,
-        ).json();
+        ).json<{items: GcalEvent[]}>();
 
-        if (!result.error.value)
-            events.value = result.data.value.items;
+        if (!result.error.value && result.data.value)
+            // For now we assume Gcal is master, so replace local events with Gcal events.
+            events.value = result.data.value.items.map(i => formatGcalEvent(i));
 
         return result;
     }
 
-    async function createEvent(event: FcEvent) {
+    async function createEvent(fcEvent: FcEvent) {
         const result = await useGcalApi('calendars/primary/events').post({
-            summary: event.title,
-            start: {dateTime: event.startStr},
-            end: {dateTime: event.endStr},
-        }).json();
+            summary: fcEvent.title,
+            start: {dateTime: fcEvent.startStr},
+            end: {dateTime: fcEvent.endStr},
+        }).json<GcalEvent>();
 
-        // Set gcal generated id to the event instance.
-        event.setProp('id', result.data.value.id);
+        if (!result.error.value && result.data.value)
+            // Set gcal generated id to the event instance.
+            fcEvent.setProp('id', result.data.value.id);
 
-        events.value.push(result.data.value);
+        events.value.push(formatFcEvent(fcEvent));
 
         return result;
     }
 
-    async function updateEvent(event: FcEvent) {
-        const result = await useGcalApi(`calendars/primary/events/${event.id}`).patch({
-            start: {dateTime: event.startStr},
-            end: {dateTime: event.endStr},
+    async function updateEvent(fcEvent: FcEvent) {
+        // Update local events with the updated fcEvent.
+        const index = events.value.findIndex(e => e.id === fcEvent.id);
+        events.value[index] = formatFcEvent(fcEvent);
+
+        return await useGcalApi(`calendars/primary/events/${fcEvent.id}`).patch({
+            start: {dateTime: fcEvent.startStr},
+            end: {dateTime: fcEvent.endStr},
         }).json();
-
-        // Update events with the updated event.
-        const index = events.value.findIndex(e => e.id === event.id);
-        events.value[index] = result.data.value;
-
-        return result;
     }
 
     async function deleteEvent(id: string) {
-        const result = await useGcalApi(`calendars/primary/events/${id}`).delete();
-
-        // Delete the event from events.
+        // Delete the event from local events.
         events.value = events.value.filter(e => e.id !== id);
 
-        return result;
+        return await useGcalApi(`calendars/primary/events/${id}`).delete();
     }
 
     return {
         authToken,
+        events,
+
         createEvent,
         deleteEvent,
+        fetchGcalEvents,
         getAuthToken,
-        getEvents,
-        events,
         updateEvent,
     };
 });
