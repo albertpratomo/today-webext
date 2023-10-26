@@ -21,6 +21,7 @@ export default {
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},
     },
     inbox: 'Inbox',
+    later: 'Later',
     newTaskTooltip: 'New task [N]',
     pomodoro: {
         breakMessage: 'Take a break',
@@ -28,6 +29,7 @@ export default {
         openWindowTooltip: 'Start pomo [space]',
     },
     projects: 'Projects',
+    settings: 'Settings',
     today: 'Today',
     trash: 'Trash',
 };

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import IconDelete from '~icons/material-symbols/delete';
-import IconEvent from '~icons/material-symbols/event';
-import IconInbox from '~icons/material-symbols/inbox';
 import {storeToRefs} from 'pinia';
 import {useTrashStore} from '~/stores';
 
@@ -11,28 +8,34 @@ const {tasks} = storeToRefs(useTrashStore());
 const items = computed(() => {
     const items = [
         {
-            icon: IconEvent,
+            icon: 'inbox',
+            text: t('inbox'),
+            to: null,
+            isVisible: true,
+        },
+        {
+            icon: 'today',
             text: t('today'),
             to: {name: 'index'},
             isVisible: true,
         },
         {
-            icon: IconDelete,
-            text: t('trash'),
-            to: {name: 'trash'},
-            isVisible: !!tasks.value.length,
-        },
-        {
-            icon: IconEvent,
+            icon: 'calendar',
             text: t('calendar'),
             to: null,
             isVisible: true,
         },
         {
-            icon: IconInbox,
-            text: t('inbox'),
+            icon: 'later',
+            text: t('later'),
             to: null,
             isVisible: true,
+        },
+        {
+            icon: 'trash',
+            text: t('trash'),
+            to: {name: 'trash'},
+            isVisible: !!tasks.value.length,
         },
     ];
 
@@ -41,8 +44,8 @@ const items = computed(() => {
 </script>
 
 <template>
-    <div class="px-3 pb-3 pt-12">
-        <ul class="text-2sm">
+    <div class="min-w-[180px] flex flex-col px-3 pb-3 pt-11">
+        <ul class="mb-6 flex flex-initial flex-col bg-red-500/0 text-2sm">
             <li
                 v-for="(item, i) in items"
                 :key="i"
@@ -50,12 +53,12 @@ const items = computed(() => {
             >
                 <RouterLink
                     v-if="item.to"
-                    class="block flex items-center px-2 py-1.5 text-gray-350"
+                    class="block flex items-center px-2 py-1.5 text-gray-300"
                     :to="item.to"
                 >
-                    <Component
-                        :is="item.icon"
+                    <Icon
                         class="mr-2"
+                        :name="item.icon"
                     />
 
                     {{ item.text }}
@@ -63,12 +66,12 @@ const items = computed(() => {
 
                 <div
                     v-else
-                    class="flex items-center px-2 py-1.5 text-gray-500"
+                    class="flex cursor-not-allowed items-center px-2 py-1.5 text-gray-500"
                     :title="$t('comingSoon')"
                 >
-                    <Component
-                        :is="item.icon"
+                    <Icon
                         class="mr-2"
+                        :name="item.icon"
                     />
 
                     {{ item.text }}
@@ -77,7 +80,7 @@ const items = computed(() => {
         </ul>
 
         <div
-            class="mt-5 flex justify-between px-2 text-gray-500"
+            class="mb-10 flex flex-grow justify-between pl-2.5 pr-1 text-gray-500"
             :title="$t('comingSoon')"
         >
             <div class="text-xs">
@@ -85,6 +88,14 @@ const items = computed(() => {
             </div>
 
             <MaterialSymbolsAdd />
+        </div>
+
+        <div class="flex grow-0 text-2sm font-medium text-gray-300">
+            <a class="5 flex items-center px-2 py-1">
+                <MaterialSymbolsSettings class="mr-2" />
+
+                {{ $t('settings') }}
+            </a>
         </div>
     </div>
 </template>
