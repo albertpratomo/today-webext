@@ -41,6 +41,8 @@ const items = computed(() => {
 
     return items.filter(i => i.isVisible);
 });
+
+const isSettingsOpen = ref(false);
 </script>
 
 <template>
@@ -90,12 +92,16 @@ const items = computed(() => {
             <MaterialSymbolsAdd />
         </div>
 
-        <div class="flex grow-0 text-2sm font-medium text-gray-300">
-            <a class="5 flex items-center px-2 py-1">
-                <MaterialSymbolsSettings class="mr-2" />
+        <button
+            class="flex items-center rounded px-2 py-1.5 font-medium hover:bg-gray-800"
+            text="2sm gray-300"
+            @click="isSettingsOpen = true"
+        >
+            <MaterialSymbolsSettings class="mr-2" />
 
-                {{ $t('settings') }}
-            </a>
-        </div>
+            {{ $t('settings') }}
+        </button>
+
+        <SettingsDialog v-model="isSettingsOpen" />
     </div>
 </template>

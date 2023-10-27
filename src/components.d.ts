@@ -24,6 +24,7 @@ declare module 'vue' {
     PomodoroWindow: typeof import('./components/PomodoroWindow.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SettingsDialog: typeof import('./components/SettingsDialog.vue')['default']
     SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
     SubtaskItem: typeof import('./components/SubtaskItem.vue')['default']
     SubtaskList: typeof import('./components/SubtaskList.vue')['default']

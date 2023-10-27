@@ -13,6 +13,7 @@ export default {
         body: 'Sign in to your calendar and see your events here. Or you can do it later in settings.',
         title: 'Connect your Google Calendar',
     },
+    calendars: 'Calendars',
     comingSoon: 'Coming soon :)',
     createSubtaskTooltip: 'Add subtasks',
     fields: {
