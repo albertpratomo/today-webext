@@ -46,6 +46,7 @@ export async function getManifest() {
         permissions: [
             // 'tabs',
             'identity',
+            'identity.email',
             'storage',
             // 'activeTab',
         ],

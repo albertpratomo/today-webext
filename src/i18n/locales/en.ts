@@ -6,6 +6,7 @@ export default {
         connect: 'Connect',
         createTask: 'Create task',
         hideCompletedTasks: 'Hide completed tasks',
+        remove: 'Remove',
         showCompletedTasks: 'Show completed tasks',
     },
     calendar: 'Calendar',
@@ -13,7 +14,6 @@ export default {
         body: 'Sign in to your calendar and see your events here. Or you can do it later in settings.',
         title: 'Connect your Google Calendar',
     },
-    calendars: 'Calendars',
     comingSoon: 'Coming soon :)',
     createSubtaskTooltip: 'Add subtasks',
     fields: {
@@ -30,6 +30,15 @@ export default {
     },
     projects: 'Projects',
     settings: 'Settings',
+    settingsCalendars: {
+        gcal: {
+            connect: {
+                subtitle: 'See events from your Google Calendar',
+                title: 'Connect Google Calendar',
+            },
+        },
+        title: 'Calendars',
+    },
     today: 'Today',
     trash: 'Trash',
 };

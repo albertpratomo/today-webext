@@ -21,10 +21,6 @@ function close() {
 
         <div class="fixed inset-0 flex items-center justify-center p-4">
             <DialogPanel class="relative max-w-3xl w-full border rounded bg-gray-850 px-18 py-10">
-                <h2 class="text-lg font-medium">
-                    {{ $t('calendars') }}
-                </h2>
-
                 <Button
                     class="absolute right-4 top-4"
                     size="square"
@@ -33,6 +29,8 @@ function close() {
                 >
                     <MaterialSymbolsClose />
                 </Button>
+
+                <SettingsCalendars />
             </DialogPanel>
         </div>
     </Dialog>
