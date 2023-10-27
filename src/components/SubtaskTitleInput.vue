@@ -16,8 +16,6 @@ const props = withDefaults(
 
 const emit = defineEmits(['blur', 'focus']);
 
-const {t} = useI18n();
-
 const modelValue = defineModel<string>({required: true});
 
 const Document = Node.create({
@@ -31,8 +29,7 @@ const editor = useEditor({
     content: modelValue.value,
     editorProps: {
         attributes: {
-            'class': 'focus:outline-none',
-            'data-placeholder': t('fields.subtaskTitle.placeholder'),
+            class: 'focus:outline-none',
         },
     },
     extensions: [
@@ -68,14 +65,7 @@ watchEffect(() => {
 
 <template>
     <EditorContent
-        class="flex-1 overflow-hidden text-lg"
+        class="gray-300 flex-1 overflow-hidden text-sm leading-5 caret-indigo-400"
         :editor="editor"
     />
 </template>
-
-<style scoped>
-:deep(.ProseMirror:has(> br:only-child):before) {
-    @apply text-gray-400 float-left pointer-events-none h-0;
-    content: attr(data-placeholder);
-}
-</style>

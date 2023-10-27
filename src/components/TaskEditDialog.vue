@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
 import {useHistoryStore, useTasksStore} from '~/stores';
-import {onKeyStroke} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 
 const {draftEditTask, selectedSubtasks} = storeToRefs(useTasksStore());
@@ -16,24 +15,11 @@ function close() {
 const hasSubtasks = computed(() => {
     return (Array.isArray(draftEditTask.value?.subtasks) && draftEditTask.value!.subtasks.length > 0);
 });
-
-onKeyStroke(['0'], ({metaKey, shiftKey}) => {
-    if (metaKey && shiftKey) {
-        if (!hasSubtasks.value)
-            _createSubtask();
-        else
-            selectedSubtasks.value = [0];
-    }
-});
-
-function _createSubtask() {
-    createSubtask();
-    selectedSubtasks.value = [0];
-}
 </script>
 
 <template>
     <Dialog
+        v-if="!!draftEditTask"
         :open="!!draftEditTask"
         @close="close()"
         @keyup.esc="close()"
@@ -48,7 +34,7 @@ function _createSubtask() {
                 <div class="border rounded bg-gray-800 text-gray-100">
                     <div
                         v-if="draftEditTask"
-                        class="py-4 pl-5 pr-2"
+                        class="px-5 py-4 pb-5"
                     >
                         <TaskTitleInput
                             v-model="draftEditTask.title"
@@ -58,27 +44,29 @@ function _createSubtask() {
 
                         <TaskNoteInput
                             v-model="draftEditTask.note"
-                            class="mt-2"
-                        />
-
-                        <div
-                            v-if="!hasSubtasks"
-                            class="mt-5 flex justify-end gap-2"
-                        >
-                            <button
-                                class="bg-gray-800 btn-icon"
-                                :title="$t('createSubtaskTooltip')"
-                                @click="_createSubtask"
-                            >
-                                <MaterialSymbolsChecklist />
-                            </button>
-                        </div>
-
-                        <SubtaskList
-                            v-model="draftEditTask.subtasks"
-                            v-model:selected-subtasks="selectedSubtasks"
+                            class="mt-4"
                         />
                     </div>
+
+                    <div
+                        v-if="!hasSubtasks"
+                        class="flex justify-end gap-2 px-3"
+                    >
+                        <button
+                            class="border-gray-600 bg-gray-750 btn-icon"
+                            :title="$t('createSubtaskTooltip')"
+                            @click="createSubtask"
+                        >
+                            <MaterialSymbolsChecklist class="h-4 w-4 text-gray-350" />
+                        </button>
+                    </div>
+
+                    <SubtaskList
+                        v-model="draftEditTask.subtasks"
+                        v-model:selected-subtasks="selectedSubtasks"
+                        class="px-3"
+                        :class="[hasSubtasks ? 'pb-5' : 'pb-3']"
+                    />
                 </div>
             </DialogPanel>
         </div>

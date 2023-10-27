@@ -3,6 +3,9 @@ import {moveArrayElement, useSortable} from '@vueuse/integrations/useSortable';
 import type {SortableEvent} from 'sortablejs';
 import type Subtask from '~/models/Subtask';
 import {onKeyStroke} from '@vueuse/core';
+import {useTasksStore} from '~/stores';
+
+const {createSubtask} = useTasksStore();
 
 const subtasks = defineModel<Subtask[]>({required: true});
 const selectedSubtasks = defineModel<number[]>('selectedSubtasks', {default: []});
@@ -23,6 +26,15 @@ const selectSibling = function (direction: 'up' | 'down', selectedIndex: number)
         selectSubtask(newIndex);
 };
 
+onKeyStroke(['O', 'o'], ({metaKey, shiftKey}) => {
+    if (metaKey && shiftKey) {
+        if (subtasks.value.length === 0)
+            createSubtask();
+        else
+            selectedSubtasks.value = [0];
+    }
+});
+
 onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     if (subtasks.value.length && selectedSubtasks.value.length) {
         e.preventDefault();
@@ -34,6 +46,7 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 const isSorting = ref<boolean>(false);
 const list = ref<HTMLElement | null>(null);
 useSortable(list, subtasks, {
+    dragClass: 'bg-gray-750',
     onStart: () => {
         isSorting.value = true;
     },
@@ -63,7 +76,7 @@ function deleteSubtask(index: number) {
     <div ref="list">
         <SubtaskItem
             v-for="(subtask, i) in subtasks"
-            :key="`${i}-${subtask.title}`"
+            :key="subtask.id"
             v-model="subtasks[i]"
             :is-editable="!isSorting"
             :is-selected="selectedSubtasks.includes(i)"
