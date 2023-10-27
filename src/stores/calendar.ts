@@ -6,7 +6,14 @@ import {getTimeOfDay} from '~/utils/date';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useCalendarStore = defineStore('calendar', () => {
-    const authToken = useLocalStorage<string>('calendarAuthToken', '');
+    // There are 3 possible states:
+    // null -> user hasn't decided to connect or not
+    // empty string '' -> user has chosen to disconnect
+    // non-empty string ->  user has chosen to connnect
+    const authToken = useLocalStorage<string | null>('calendarAuthToken', null);
+
+    // The email account who owns the calendars.
+    const calendarEmail = useLocalStorage<string>('calendarEmail', '');
 
     const events = useStorageLocal<Event[]>('events', []);
 
@@ -59,11 +66,14 @@ export const useCalendarStore = defineStore('calendar', () => {
 
         const result = await useGcalApi(
             `calendars/${calendarId}/events?${params.toString()}`,
-        ).json<{items: GcalEvent[]}>();
+        ).json<{items: GcalEvent[]; summary: string}>();
 
-        if (!result.error.value && result.data.value)
+        if (!result.error.value && result.data.value) {
             // For now we assume Gcal is master, so replace local events with Gcal events.
             events.value = result.data.value.items.map(i => formatGcalEvent(i));
+
+            calendarEmail.value = result.data.value.summary;
+        }
 
         return result;
     }
@@ -104,6 +114,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
     return {
         authToken,
+        calendarEmail,
         events,
 
         createEvent,

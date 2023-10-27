@@ -2,12 +2,15 @@
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
-const isVisible = ref(true);
+const isVisible = ref(false);
 
 const {authToken} = storeToRefs(useCalendarStore());
 const {getAuthToken, fetchGcalEvents} = useCalendarStore();
 
-if (authToken.value) {
+if (authToken.value === null) {
+    isVisible.value = true;
+}
+else if (authToken.value) {
     isVisible.value = false;
 
     _getEvents();
@@ -24,6 +27,11 @@ async function connect() {
 
     _getEvents();
 }
+
+function close() {
+    isVisible.value = false;
+    authToken.value = '';
+}
 </script>
 
 <template>
@@ -36,7 +44,7 @@ async function connect() {
 
             <button
                 class="text-gray-300"
-                @click="isVisible = false"
+                @click="close"
             >
                 <MaterialSymbolsClose />
             </button>

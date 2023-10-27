@@ -1,5 +1,21 @@
 <script setup lang="ts">
-const connected = ref(true);
+import {storeToRefs} from 'pinia';
+import {useCalendarStore} from '~/stores';
+
+const {authToken, calendarEmail} = storeToRefs(useCalendarStore());
+const {getAuthToken, fetchGcalEvents} = useCalendarStore();
+
+async function connect() {
+    await getAuthToken();
+
+    fetchGcalEvents();
+}
+
+function disconnect() {
+    chrome.identity.removeCachedAuthToken({token: authToken.value!});
+
+    authToken.value = '';
+}
 </script>
 
 <template>
@@ -10,15 +26,18 @@ const connected = ref(true);
 
         <div class="mt-4 border-y py-4">
             <div class="flex items-center justify-between">
-                <template v-if="connected">
-                    <div>
+                <template v-if="authToken">
+                    <div class="flex items-center gap-3 text-sm">
                         <LogosGoogleCalendar />
+
+                        {{ calendarEmail }}
                     </div>
 
                     <div>
                         <Button
                             class="text-red-400"
                             variant="ghost"
+                            @click="disconnect"
                         >
                             {{ $t('actions.remove') }}
                         </Button>
@@ -36,7 +55,10 @@ const connected = ref(true);
                         </p>
                     </div>
 
-                    <Button variant="primary">
+                    <Button
+                        variant="primary"
+                        @click="connect"
+                    >
                         {{ $t('actions.connect') }}
                     </Button>
                 </template>
