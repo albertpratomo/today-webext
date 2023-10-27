@@ -11,12 +11,24 @@ export const useCalendarStore = defineStore('calendar', () => {
     const events = useStorageLocal<Event[]>('events', []);
 
     async function getAuthToken() {
-        const response = await chrome.identity.getAuthToken({
+        // `chrome.identity.getAuthToken` didn't work in Arc. This is a work-around
+        // using `chrome.identity.launchWebAuthFlow`, as explained in
+        // https://github.com/GoogleChrome/developer.chrome.com/issues/7434
+        const url = new URL('https://accounts.google.com/o/oauth2/auth');
+        const manifest = chrome.runtime.getManifest();
+        url.searchParams.set('client_id', manifest.oauth2!.client_id);
+        url.searchParams.set('response_type', 'token');
+        url.searchParams.set('scope', manifest.oauth2!.scopes!.join(' '));
+        url.searchParams.set('redirect_uri', chrome.identity.getRedirectURL());
+
+        const response = await chrome.identity.launchWebAuthFlow({
             interactive: true,
-            scopes: ['https://www.googleapis.com/auth/calendar'],
+            url: url.href,
         });
 
-        authToken.value = response.token;
+        const params = new URLSearchParams(response?.split('#')[1]);
+
+        authToken.value = params.get('access_token');
     }
 
     const useGcalApi = createFetch({
