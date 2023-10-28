@@ -65,17 +65,16 @@ input[type=checkbox] {
 }
 
 input[type=checkbox].subtask-checkbox {
-    @apply rounded-full text-gray-300 border-indigo-400 bg-transparent w-3 h-3;
+    @apply rounded-full border-indigo-400 bg-transparent w-3 h-3;
 
     &:focus {
-        --un-ring-offset-width: -2px;
+        --un-ring-offset-width: 1px;
         --un-ring-offset-color: transparent;
     }
 
     &:checked {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cmask id='mask0_1426_5339' style='mask-type:alpha' maskUnits='userSpaceOnUse' x='0' y='0' width='12' height='12'%3E%3Crect width='12' height='12' fill='%23D9D9D9'/%3E%3C/mask%3E%3Cg mask='url(%23mask0_1426_5339)'%3E%3Cpath d='M4.49693 10L1 6.2079L1.87423 5.25988L4.49693 8.10395L10.1258 2L11 2.94802L4.49693 10Z' fill='%23ECEDFA'/%3E%3C/g%3E%3C/svg%3E");
-        border:0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cmask id='mask0_1426_5339' style='mask-type:alpha' maskUnits='userSpaceOnUse' x='0' y='0' width='12' height='12'%3E%3Crect width='12' height='12' fill='%23D9D9D9'/%3E%3C/mask%3E%3Cg mask='url(%23mask0_1426_5339)'%3E%3Cpath d='M4.49693 10L1 6.2079L1.87423 5.25988L4.49693 8.10395L10.1258 2L11 2.94802L4.49693 10Z' fill='%23ecedfa80'/%3E%3C/g%3E%3C/svg%3E");
+        border: 0;
         background-color: transparent;
-        opacity: 0.5;
     }
 }
