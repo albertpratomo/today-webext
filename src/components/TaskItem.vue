@@ -48,6 +48,7 @@ const {focusTask} = usePomodoroStore();
             type="checkbox"
             @click.stop
             @dblclick.stop
+            @keyup.enter="task.isDone = !(task.isDone)"
         >
 
         <div

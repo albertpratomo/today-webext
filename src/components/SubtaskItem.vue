@@ -44,6 +44,7 @@ const onBackspace = function () {
                 v-model="subtask.isDone"
                 class="subtask-checkbox mr-2 cursor-pointer border-2"
                 type="checkbox"
+                @keyup.enter="subtask.isDone = !(subtask.isDone)"
             >
 
             <SubtaskTitleInput
