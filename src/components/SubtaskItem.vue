@@ -37,12 +37,12 @@ const onBackspace = function () {
         :class="{'shadow-[0_0_0_1px_#474B66] rounded-sm bg-gray-750 relative z-10': isSelected}"
     >
         <div
-            class="flex cursor-pointer select-none items-center border-t px-0.5 py-2 group-last:border-b"
+            class="flex cursor-pointer select-none border-t px-0.5 py-2 group-last:border-b"
             :class="{'border-transparent': isSelected}"
         >
             <input
                 v-model="subtask.isDone"
-                class="subtask-checkbox mr-2 cursor-pointer border-2"
+                class="subtask-checkbox mr-2 mt-1 cursor-pointer border-2"
                 type="checkbox"
                 @keyup.enter="subtask.isDone = !(subtask.isDone)"
             >
@@ -59,7 +59,7 @@ const onBackspace = function () {
             />
 
             <button
-                class="ml-1 h-4 text-gray-350 opacity-0 group-hover:opacity-100"
+                class="ml-1 mt-[2px] h-4 text-gray-350 opacity-0 group-hover:opacity-100"
                 :class="{'opacity-100': isSelected}"
                 tabindex="-1"
             >
