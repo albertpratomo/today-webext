@@ -16,6 +16,7 @@ function generateEventId() {
 
 function formatFcEvent(fcEvent: FcEvent): Event {
     return {
+        // By default FC won't generate event id. We should generate it here, so the event has unique identifier.
         id: fcEvent.id || generateEventId(),
         title: fcEvent.title,
         start: fcEvent.startStr,
@@ -25,6 +26,7 @@ function formatFcEvent(fcEvent: FcEvent): Event {
 
 function formatGcalEvent(gcalEvent: GcalEvent): Event {
     return {
+        // Most of the time gcalEvent will have an id. In the rare case it doesn't, generate event id.
         id: gcalEvent.id || generateEventId(),
         title: gcalEvent.summary || '',
         start: gcalEvent.start?.dateTime || gcalEvent.start?.date || '',

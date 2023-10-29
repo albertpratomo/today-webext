@@ -26,3 +26,12 @@ content: related to changing the text or content in the app
 2. Optionally include the scope of the commit after the prefix (without space)  
 Example: `feat(TaskList): add done tasks toggle`
 3. When the commit is unsual / important, include a commit body message telling why the commit is done
+
+## Publish to Chrome Web Store
+1. Reinstall the extension locally, make sure everything is working well.
+1. Increment "version" in `package.json`. Use semantic versioning [convention](https://semver.org/).
+2. `pnpm build`. Then compress the generated `extension` folder into a .zip file.
+3. Login to [CWS Developer Dashboard](https://chrome.google.com/webstore/devconsole) using tinyramenstudio@gmail.com.
+4. Go to Items -> Today -> Package -> click "Upload new package" -> Select the `extension.zip` file.
+5. Review the draft Store listing submission, also the promotional assets.
+6. Click "Submit for review".
