@@ -41,10 +41,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     const useGcalApi = createFetch({
         baseUrl: 'https://www.googleapis.com/calendar/v3',
         options: {
-            async beforeFetch({url, options}) {
-                if (!authToken.value)
-                    await getAuthToken();
-
+            beforeFetch({url, options}) {
                 options.headers = {
                     ...options.headers,
                     Authorization: `Bearer ${authToken.value}`,
@@ -79,19 +76,19 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
 
     async function createEvent(fcEvent: FcEvent) {
-        const result = await useGcalApi('calendars/primary/events').post({
-            summary: fcEvent.title,
-            start: {dateTime: fcEvent.startStr},
-            end: {dateTime: fcEvent.endStr},
-        }).json<GcalEvent>();
+        if (authToken.value) {
+            const result = await useGcalApi('calendars/primary/events').post({
+                summary: fcEvent.title,
+                start: {dateTime: fcEvent.startStr},
+                end: {dateTime: fcEvent.endStr},
+            }).json<GcalEvent>();
 
-        if (!result.error.value && result.data.value)
-            // Set gcal generated id to the event instance.
-            fcEvent.setProp('id', result.data.value.id);
+            if (!result.error.value && result.data.value)
+                // Set gcal generated id to the event instance.
+                fcEvent.setProp('id', result.data.value.id);
+        }
 
         events.value.push(formatFcEvent(fcEvent));
-
-        return result;
     }
 
     async function updateEvent(fcEvent: FcEvent) {
@@ -99,17 +96,20 @@ export const useCalendarStore = defineStore('calendar', () => {
         const index = events.value.findIndex(e => e.id === fcEvent.id);
         events.value[index] = formatFcEvent(fcEvent);
 
-        return await useGcalApi(`calendars/primary/events/${fcEvent.id}`).patch({
-            start: {dateTime: fcEvent.startStr},
-            end: {dateTime: fcEvent.endStr},
-        }).json();
+        if (authToken.value) {
+            await useGcalApi(`calendars/primary/events/${fcEvent.id}`).patch({
+                start: {dateTime: fcEvent.startStr},
+                end: {dateTime: fcEvent.endStr},
+            }).json();
+        }
     }
 
     async function deleteEvent(id: string) {
         // Delete the event from local events.
         events.value = events.value.filter(e => e.id !== id);
 
-        return await useGcalApi(`calendars/primary/events/${id}`).delete();
+        if (authToken.value)
+            await useGcalApi(`calendars/primary/events/${id}`).delete();
     }
 
     return {
