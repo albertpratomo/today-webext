@@ -55,6 +55,12 @@ export const useCalendarStore = defineStore('calendar', () => {
     });
 
     async function fetchGcalEvents(calendarId: string = 'primary') {
+        // Store local events (unsynced) to Gcal.
+        const localEvents = events.value.filter(e => e.id.startsWith('_'));
+        for (const localEvent of localEvents)
+            await storeGcalEvent(localEvent.title, localEvent.start, localEvent.end);
+
+        // Fetch Gcal events.
         const params = new URLSearchParams({
             timeMin: getTimeOfDay(new Date(), 'start'),
             timeMax: getTimeOfDay(new Date(), 'end'),
@@ -66,22 +72,27 @@ export const useCalendarStore = defineStore('calendar', () => {
         ).json<{items: GcalEvent[]; summary: string}>();
 
         if (!result.error.value && result.data.value) {
-            // For now we assume Gcal is master, so replace local events with Gcal events.
+            // Store the fetched Gcal events locally.
             events.value = result.data.value.items.map(i => formatGcalEvent(i));
 
+            // Store the email of the Gcal account.
             calendarEmail.value = result.data.value.summary;
         }
 
         return result;
     }
 
+    async function storeGcalEvent(summary: string, start: string, end: string) {
+        return await useGcalApi('calendars/primary/events').post({
+            summary,
+            start: {dateTime: start},
+            end: {dateTime: end},
+        }).json<GcalEvent>();
+    }
+
     async function createEvent(fcEvent: FcEvent) {
         if (authToken.value) {
-            const result = await useGcalApi('calendars/primary/events').post({
-                summary: fcEvent.title,
-                start: {dateTime: fcEvent.startStr},
-                end: {dateTime: fcEvent.endStr},
-            }).json<GcalEvent>();
+            const result = await storeGcalEvent(fcEvent.title, fcEvent.startStr, fcEvent.endStr);
 
             if (!result.error.value && result.data.value)
                 // Set gcal generated id to the event instance.

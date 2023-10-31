@@ -11,7 +11,8 @@ interface Event {
 interface GcalEvent extends calendar_v3.Schema$Event {}
 
 function generateEventId() {
-    return String(new Date().getTime());
+    // Start the id with '_' so we know that this is a local event (not in Gcal yet).
+    return `_${String(new Date().getTime())}`;
 }
 
 function formatFcEvent(fcEvent: FcEvent): Event {
