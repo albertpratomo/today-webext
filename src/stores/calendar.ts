@@ -91,15 +91,17 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
 
     async function createEvent(fcEvent: FcEvent) {
+        const localEvent = formatFcEvent(fcEvent);
+
         if (authToken.value) {
             const result = await storeGcalEvent(fcEvent.title, fcEvent.startStr, fcEvent.endStr);
 
             if (!result.error.value && result.data.value)
                 // Set gcal generated id to the event instance.
-                fcEvent.setProp('id', result.data.value.id);
+                localEvent.id = result.data.value.id!;
         }
 
-        events.value.push(formatFcEvent(fcEvent));
+        events.value.push(localEvent);
     }
 
     async function updateEvent(fcEvent: FcEvent) {
