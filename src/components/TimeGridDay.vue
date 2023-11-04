@@ -86,7 +86,10 @@ onMounted(() => {
                     {{ event.title }}
                 </div>
 
-                <div class="text-2xs text-gray-200/50 [.fc-timegrid-event-short_&]:order-first">
+                <div
+                    v-if="!event.allDay"
+                    class="text-2xs text-gray-200/50 [.fc-timegrid-event-short_&]:order-first"
+                >
                     {{ getDuration(event.start, event.end) }}
                 </div>
             </template>
