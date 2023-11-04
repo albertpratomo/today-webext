@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
+import {pomodoroIsEnabled} from '~/utils/featureToggle';
 import {usePomodoroStore} from '~/stores';
 
 const props = withDefaults(
@@ -33,6 +34,7 @@ const {focusTask} = usePomodoroStore();
         ]"
     >
         <button
+            v-if="pomodoroIsEnabled"
             class="mr-2 opacity-0 group-hover:opacity-100"
             :class="{'invisible': task.isDone || task.deletedAt, 'opacity-100': isLastSelected}"
             text="indigo-400 hover:indigo-300 active:indigo-500"
