@@ -46,12 +46,12 @@ const isSettingsOpen = ref(false);
 </script>
 
 <template>
-    <div class="min-w-[180px] flex flex-col px-3 pb-3 pt-11">
+    <div class="w-[200px] flex flex-col px-3 pb-3 pt-11 md:w-60">
         <ul class="mb-6 flex flex-initial flex-col bg-red-500/0 text-2sm">
             <li
                 v-for="(item, i) in items"
                 :key="i"
-                class="w-50 rounded font-medium hover:bg-gray-800"
+                class="rounded font-medium hover:bg-gray-800"
             >
                 <RouterLink
                     v-if="item.to"

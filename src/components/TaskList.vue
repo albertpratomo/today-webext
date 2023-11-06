@@ -123,7 +123,7 @@ onKeyStroke(['Backspace'], () => {
             id="undone-task-list"
             ref="list"
             v-on-click-outside="onClickOutside"
-            :class="{'-ml-8': pomodoroIsEnabled}"
+            :class="[pomodoroIsEnabled ? '-ml-8' : '-ml-2']"
         >
             <TaskItem
                 v-for="(task, i) in tasks"
