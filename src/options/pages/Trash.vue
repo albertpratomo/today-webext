@@ -7,8 +7,8 @@ const {tasks} = storeToRefs(useTrashStore());
 
 <template>
     <LayoutSidebar>
-        <div class="flex justify-center pb-3 pt-12">
-            <div class="w-180">
+        <div class="flex justify-center px-8 pb-3 pt-12 md:px-11">
+            <div class="grow">
                 <h1 class="h-8 text-xl font-medium">
                     {{ $t('trash') }}
                 </h1>
