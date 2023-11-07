@@ -39,7 +39,7 @@ const isSidebarVisible = function (val: boolean) {
             </button>
 
             <div class="flex grow justify-center px-8 pb-3 pt-12 md:px-11">
-                <div class="grow">
+                <div class="max-w-[960px] grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
                             {{ $t('today') }}
