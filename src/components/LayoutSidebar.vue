@@ -1,26 +1,9 @@
 <script setup lang="ts">
-import {useWindowSize} from '@vueuse/core';
+import {breakpointsTailwind, useBreakpoints} from '@vueuse/core';
 
-const isSidebarVisible = ref(true);
+const breakpoints = useBreakpoints(breakpointsTailwind);
 
-const {width} = useWindowSize();
-const breakpoint = 1024;
-
-const onWindowResized = function (newWidth: number, oldWidth: number) {
-    if (newWidth < breakpoint)
-        isSidebarVisible.value = false;
-
-    else if (newWidth > oldWidth)
-        isSidebarVisible.value = true;
-};
-
-onMounted(() => {
-    onWindowResized(width.value, width.value);
-});
-
-watch(width, (newWidth, oldWidth) => {
-    onWindowResized(newWidth, oldWidth);
-});
+const isSidebarVisible = ref(breakpoints.greaterOrEqual('lg'));
 
 const toggleSidebar = function () {
     isSidebarVisible.value = !isSidebarVisible.value;
@@ -39,7 +22,7 @@ const toggleSidebar = function () {
 
         <div class="relative grow border border-gray-200/16 rounded-[7px] bg-gray-850">
             <Button
-                class="absolute left-1 top-1 z-10 text-gray-400 transition-opacity duration-300"
+                class="absolute left-1 top-1 z-1 text-gray-400 transition-opacity duration-300"
                 :class="isSidebarVisible ? 'opacity-0' : ''"
                 size="square"
                 variant="ghost"
