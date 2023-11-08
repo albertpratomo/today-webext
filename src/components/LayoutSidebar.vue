@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {useWindowSize} from '@vueuse/core';
 
-const emit = defineEmits(['isSidebarVisible']);
+const emit = defineEmits(['sidebarToggle']);
 
 const isSidebarVisible = ref(true);
 
 const {width} = useWindowSize();
 const breakpoint = 1024;
 
-const resizingWindow = function (newWidth: number, oldWidth: number) {
+const onWindowResized = function (newWidth: number, oldWidth: number) {
     if (newWidth < breakpoint)
         isSidebarVisible.value = false;
 
@@ -17,23 +17,25 @@ const resizingWindow = function (newWidth: number, oldWidth: number) {
 };
 
 onMounted(() => {
-    resizingWindow(width.value, width.value);
+    onWindowResized(width.value, width.value);
 });
 
 watch(width, (newWidth, oldWidth) => {
-    resizingWindow(newWidth, oldWidth);
+    onWindowResized(newWidth, oldWidth);
 });
 
 const toggleSidebar = function () {
     isSidebarVisible.value = !isSidebarVisible.value;
-    emit('isSidebarVisible', isSidebarVisible.value);
+    emit('sidebarToggle', isSidebarVisible.value);
 };
 </script>
 
 <template>
     <main class="h-screen flex overflow-x-hidden">
-        <button
-            class="absolute left-2 top-2 z-10 rounded p-1.5 text-gray-500 hover:bg-gray-800"
+        <Button
+            class="absolute left-2 top-2 z-10 text-gray-500"
+            size="square"
+            variant="ghost"
             @click="toggleSidebar"
         >
             <MaterialSymbolsDockToRight />

@@ -20,7 +20,7 @@ watch(width, (newWidth, oldWidth) => {
     }
 });
 
-const isSidebarVisible = function (val: boolean) {
+const onSidebarToggled = function (val: boolean) {
     if (val) {
         if (width.value < breakpoint)
             isCalendarVisible.value = false;
@@ -29,7 +29,7 @@ const isSidebarVisible = function (val: boolean) {
 </script>
 
 <template>
-    <LayoutSidebar @is-sidebar-visible="isSidebarVisible">
+    <LayoutSidebar @sidebar-toggled="onSidebarToggled">
         <div class="relative h-full flex">
             <button
                 class="absolute right-2 top-2 rounded p-1.5 text-gray-500 hover:bg-gray-800"
@@ -73,7 +73,7 @@ const isSidebarVisible = function (val: boolean) {
             <Transition name="slide-left-right">
                 <div
                     v-show="isCalendarVisible"
-                    class="w-[200px] shrink-0 border-l px-3 pb-3 pt-12 md:w-60"
+                    class="w-[200px] shrink-0 border-l px-3 pb-3 pt-12 lg:w-70 md:w-60"
                 >
                     <TimeGridDay />
                 </div>
