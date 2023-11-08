@@ -21,7 +21,7 @@ const {tasks} = storeToRefs(useTrashStore());
                 </div>
             </div>
 
-            <div class="hidden w-[200px] shrink-0 lg:w-70 md:w-60" />
+            <div class="hidden w-[200px] shrink-0 lg:w-70 md:w-60 md:flex" />
         </div>
     </LayoutSidebar>
 </template>

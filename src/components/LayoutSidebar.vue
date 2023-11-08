@@ -31,24 +31,26 @@ const toggleSidebar = function () {
 </script>
 
 <template>
-    <main class="h-screen flex overflow-x-hidden">
-        <Button
-            class="absolute left-2 top-2 z-10 text-gray-500"
-            size="square"
-            variant="ghost"
-            @click="toggleSidebar"
-        >
-            <MaterialSymbolsDockToRight />
-        </button>
-
+    <main class="h-screen flex overflow-x-hidden p-1.5">
         <Transition name="slide-right-left">
             <TheSidebar
                 v-show="isSidebarVisible"
-                class="shrink-0 border-r"
+                class="shrink-0"
+                @toggle-sidebar="toggleSidebar"
             />
         </Transition>
 
-        <div class="grow bg-gray-850">
+        <div class="relative grow border border-gray-200/16 rounded-[7px] bg-gray-850">
+            <Button
+                class="absolute left-1 top-1 z-10 text-gray-400 transition-opacity duration-300"
+                :class="isSidebarVisible ? 'opacity-0' : ''"
+                size="square"
+                variant="ghost"
+                @click="toggleSidebar"
+            >
+                <MaterialSymbolsThumbnailBarOutline />
+            </button>
+
             <slot />
         </div>
 

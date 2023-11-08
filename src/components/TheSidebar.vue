@@ -2,6 +2,8 @@
 import {storeToRefs} from 'pinia';
 import {useTrashStore} from '~/stores';
 
+const emit = defineEmits(['toggleSidebar']);
+
 const {t} = useI18n();
 const {tasks} = storeToRefs(useTrashStore());
 
@@ -46,7 +48,16 @@ const isSettingsOpen = ref(false);
 </script>
 
 <template>
-    <div class="w-[200px] flex flex-col px-3 pb-3 pt-11 md:w-60">
+    <div class="fixed bottom-1.5 top-1.5 z-1 mr-1.5 w-[200px] flex flex-col border border-gray-200/16 rounded-[7px] bg-gray-900 px-3 pb-3 pt-8 lg:relative lg:bottom-0 lg:top-0 md:w-60 lg:border-transparent lg:px-1.5">
+        <Button
+            class="absolute right-1 top-1 z-10 text-gray-400"
+            size="square"
+            variant="ghost"
+            @click="emit('toggleSidebar')"
+        >
+            <MaterialSymbolsThumbnailBarOutline />
+        </button>
+
         <ul class="mb-6 flex flex-initial flex-col bg-red-500/0 text-2sm">
             <li
                 v-for="(item, i) in items"

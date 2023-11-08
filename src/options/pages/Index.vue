@@ -73,7 +73,7 @@ const onSidebarToggled = function (val: boolean) {
             <Transition name="slide-left-right">
                 <div
                     v-show="isCalendarVisible"
-                    class="w-[200px] shrink-0 border-l px-3 pb-3 pt-12 lg:w-70 md:w-60"
+                    class="w-[200px] shrink-0 border-l border-gray-750 px-3 pb-3 pt-12 lg:w-70 md:w-60"
                 >
                     <TimeGridDay />
                 </div>
