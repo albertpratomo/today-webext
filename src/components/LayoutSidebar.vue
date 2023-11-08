@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {useWindowSize} from '@vueuse/core';
 
-const emit = defineEmits(['sidebarToggle']);
-
 const isSidebarVisible = ref(true);
 
 const {width} = useWindowSize();
@@ -26,7 +24,6 @@ watch(width, (newWidth, oldWidth) => {
 
 const toggleSidebar = function () {
     isSidebarVisible.value = !isSidebarVisible.value;
-    emit('sidebarToggle', isSidebarVisible.value);
 };
 </script>
 

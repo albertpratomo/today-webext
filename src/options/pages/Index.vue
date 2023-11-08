@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useDateFormat, useNow, useWindowSize} from '@vueuse/core';
+import {useDateFormat, useNow} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
@@ -8,28 +8,10 @@ const {tasks, doneTasks, selectedIndexes, taskCreateDialogIsOpen} = storeToRefs(
 const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 
 const isCalendarVisible = ref(true);
-const {width} = useWindowSize();
-const breakpoint = 1024;
-
-watch(width, (newWidth, oldWidth) => {
-    const change = newWidth > oldWidth ? 'increase' : 'decrease';
-
-    if (newWidth > breakpoint && change === 'increase') {
-        if (isCalendarVisible.value === false)
-            isCalendarVisible.value = true;
-    }
-});
-
-const onSidebarToggled = function (val: boolean) {
-    if (val) {
-        if (width.value < breakpoint)
-            isCalendarVisible.value = false;
-    }
-};
 </script>
 
 <template>
-    <LayoutSidebar @sidebar-toggled="onSidebarToggled">
+    <LayoutSidebar>
         <div class="relative h-full flex">
             <button
                 class="absolute right-2 top-2 rounded p-1.5 text-gray-500 hover:bg-gray-800"
