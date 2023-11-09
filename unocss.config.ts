@@ -108,8 +108,10 @@ export default defineConfig({
                 600: '#3858C9', // bg
             },
             blueberry: {
-                200: '#C7C2F4', // text
-                600: '#3E3799', // bg
+                200: '#D8D5FA', // text
+                600: '#3E3799', // bg active
+                650: '#352F70', // bg hover
+                700: '#322D64', // bg default
             },
             lavender: {
                 200: '#BCB6FA', // text

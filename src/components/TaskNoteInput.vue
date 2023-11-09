@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {EditorContent, useEditor} from '@tiptap/vue-3';
-import Heading from '@tiptap/extension-heading';
 import StarterKit from '@tiptap/starter-kit';
 
 const {t} = useI18n();
@@ -16,9 +15,10 @@ const editor = useEditor({
         },
     },
     extensions: [
-        StarterKit,
-        Heading.configure({
-            levels: [1, 2, 3, 4, 5],
+        StarterKit.configure({
+            heading: {
+                levels: [1, 2, 3, 4, 5],
+            },
         }),
     ],
     onUpdate({editor}) {

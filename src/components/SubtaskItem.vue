@@ -34,7 +34,7 @@ const onBackspace = function () {
 <template>
     <div
         class="group px-1.5"
-        :class="{'shadow-[0_0_0_1px_#474B66] rounded-sm bg-gray-750 relative z-10': isSelected}"
+        :class="{'shadow-[0_0_0_1px_#474B66] rounded-sm bg-gray-750 relative': isSelected}"
     >
         <div
             class="flex cursor-pointer select-none border-t px-0.5 py-2 group-last:border-b"

@@ -28,12 +28,14 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
 
         return {
             ...e,
-            backgroundColor: `var(--fc-event${isSelected ? '-selected' : ''}-bg-color)`,
-            borderColor: `var(--fc-event${isSelected ? '-selected' : ''}-border-color)`,
+            extendedProps: {
+                isSelected,
+            },
         };
     }),
     allDayContent: '',
     allDaySlot: true,
+    buttonText: {today: 'Today'},
     dayHeaders: false,
     droppable: true,
     editable: true,
@@ -41,7 +43,11 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     eventClick: ({event}) => { selectedEventId.value = event.id; },
     eventReceive: ({event}) => { createEvent(event); },
     expandRows: true,
-    headerToolbar: false,
+    headerToolbar: {
+        start: 'title',
+        center: '',
+        end: '',
+    },
     height: '100%',
     initialView: 'timeGridDay',
     nowIndicator: true,
@@ -55,6 +61,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
         omitZeroMinute: true,
     },
     slotLabelInterval: '01:00:00',
+    titleFormat: ({date}) => useDateFormat(date.marker, 'DD MMM').value,
 }));
 
 onMounted(() => {
@@ -82,15 +89,24 @@ onMounted(() => {
             :options="options"
         >
             <template #eventContent="{event}">
-                <div class="truncate text-2sm font-medium">
-                    {{ event.title }}
-                </div>
-
                 <div
-                    v-if="!event.allDay"
-                    class="text-2xs text-gray-200/50 [.fc-timegrid-event-short_&]:order-first"
+                    class="h-full items-center justify-between border border-gray-850 rounded-md [.fc-timegrid-event-short_&]:flex [.fc-timegrid-event-short_&]:pt-0"
+                    :class="event.extendedProps.isSelected ? 'bg-blueberry-600' : 'bg-blueberry-700 hover:bg-blueberry-650'"
+                    p="x-2 t-1"
                 >
-                    {{ getDuration(event.start, event.end) }}
+                    <div
+                        class="truncate text-2sm font-medium"
+                        :class="event.extendedProps.isSelected ? 'text-blueberry-200' : 'text-blueberry-200/80'"
+                    >
+                        {{ event.title }}
+                    </div>
+
+                    <div
+                        v-if="!event.allDay"
+                        class="text-xs text-blueberry-200/60"
+                    >
+                        {{ getDuration(event.start, event.end) }}
+                    </div>
                 </div>
             </template>
         </FullCalendar>
@@ -106,24 +122,44 @@ onMounted(() => {
 
 <style>
 :root {
-    --fc-border-color: theme('colors.gray.700');
-    --fc-event-bg-color: theme('colors.indigo.900');
-    --fc-event-border-color: transparent;
-    --fc-event-resizer-thickness: 1rem;
-    --fc-event-selected-bg-color: theme('colors.indigo.800');
-    --fc-event-selected-border-color: theme('colors.indigo.500');
+    --fc-neutral-bg-color: theme('colors.gray.600');
+    --fc-border-color: theme('colors.gray.600');
     --fc-now-indicator-color: theme('colors.red.500');
     --fc-page-bg-color: transparent;
     --fc-today-bg-color: transparent;
+
+    --fc-button-bg-color: theme('colors.gray.800');
+    --fc-button-hover-bg-color: theme('colors.gray.750');
+    --fc-button-active-bg-color: theme('colors.gray.750');
+    --fc-button-text-color: theme('colors.gray.400');
+    --fc-button-border-color: transparent;
+    --fc-button-hover-border-color: transparent;
+    --fc-button-active-border-color: transparent;
+
+    --fc-event-bg-color: transparent;
+    --fc-event-border-color: transparent;
+    --fc-event-resizer-thickness: 1rem;
 }
 
 .fc {
-    & .fc-event {
-        @apply px-1;
+    & .fc-toolbar-title {
+        @apply text-sm text-gray-400 font-medium;
+    }
+
+    & .fc-button {
+        @apply text-2sm p-1 focus:shadow-none!;
+    }
+
+    & .fc-today-button {
+        @apply px-2;
     }
 
     & .fc-scrollgrid, td, th {
         @apply border-none;
+    }
+
+    & .fc-timegrid-divider {
+        @apply p-0;
     }
 
     & .fc-timegrid-slot-label-frame {
@@ -138,22 +174,16 @@ onMounted(() => {
         border-top: 1px solid var(--fc-border-color);
     }
 
-    & .fc-timegrid-event {
-        @apply rounded-md;
-    }
-
     & .fc-timegrid-event-harness {
         @apply -translate-y-px;
     }
 
-    & .fc-event-main {
-        @apply p-0;
+    & .fc-timegrid-event {
+        @apply mb-0;
     }
 
-    & .fc-timegrid-event-short {
-        & .fc-event-main {
-            @apply flex items-center gap-2;
-        }
+    & .fc-event-main {
+        @apply p-0 h-full;
     }
 
     & .fc-timegrid-slot-minor {
