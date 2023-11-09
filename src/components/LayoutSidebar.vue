@@ -8,6 +8,12 @@ const isSidebarVisible = breakpoints.greaterOrEqual('lg');
 const toggleSidebar = function () {
     isSidebarVisible.value = !isSidebarVisible.value;
 };
+
+function onClickOutsideSidebar() {
+    // If sidebar is visible and screen is smaller than lg, hide the sidebar.
+    if (isSidebarVisible.value && breakpoints.smaller('lg').value)
+        isSidebarVisible.value = false;
+}
 </script>
 
 <template>
@@ -15,6 +21,7 @@ const toggleSidebar = function () {
         <Transition name="slide-right-left">
             <TheSidebar
                 v-show="isSidebarVisible"
+                v-on-click-outside="onClickOutsideSidebar"
                 class="shrink-0"
                 @toggle-sidebar="toggleSidebar"
             />
