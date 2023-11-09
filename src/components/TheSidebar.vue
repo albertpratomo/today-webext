@@ -48,7 +48,7 @@ const isSettingsOpen = ref(false);
 </script>
 
 <template>
-    <div class="fixed bottom-1.5 top-1.5 z-1 mr-1.5 w-[200px] flex flex-col border border-gray-200/16 rounded-[7px] bg-gray-900 px-3 pb-3 pt-8 lg:relative lg:bottom-0 lg:top-0 md:w-60 lg:border-transparent lg:px-1.5">
+    <div class="fixed bottom-1.5 top-1.5 z-1 mr-1.5 w-[220px] flex flex-col border border-gray-200/16 rounded-[6px] bg-gray-900 px-2 pb-2 pt-8 lg:relative lg:bottom-0 lg:top-0 md:w-56 lg:border-transparent lg:px-1.5 lg:pb-1">
         <Button
             class="absolute right-1 top-1 z-10 text-gray-400"
             size="square"
@@ -56,9 +56,9 @@ const isSettingsOpen = ref(false);
             @click="emit('toggleSidebar')"
         >
             <MaterialSymbolsThumbnailBarOutline />
-        </button>
+        </Button>
 
-        <ul class="mb-6 flex flex-initial flex-col bg-red-500/0 text-2sm">
+        <ul class="mb-6 flex flex-initial flex-col bg-red-500/0 text-sm">
             <li
                 v-for="(item, i) in items"
                 :key="i"
@@ -66,11 +66,11 @@ const isSettingsOpen = ref(false);
             >
                 <RouterLink
                     v-if="item.to"
-                    class="block flex items-center px-2 py-1.5 text-gray-300"
+                    class="block flex items-center px-2 py-1.25 text-gray-300"
                     :to="item.to"
                 >
                     <Icon
-                        class="mr-2"
+                        class="mr-1.5"
                         :name="item.icon"
                     />
 
@@ -79,11 +79,11 @@ const isSettingsOpen = ref(false);
 
                 <div
                     v-else
-                    class="flex cursor-not-allowed items-center px-2 py-1.5 text-gray-500"
+                    class="flex cursor-not-allowed items-center px-2 py-1.25 text-gray-500"
                     :title="$t('comingSoon')"
                 >
                     <Icon
-                        class="mr-2"
+                        class="mr-1.5"
                         :name="item.icon"
                     />
 
@@ -104,11 +104,11 @@ const isSettingsOpen = ref(false);
         </div>
 
         <button
-            class="flex items-center rounded px-2 py-1.5 font-medium hover:bg-gray-800"
-            text="2sm gray-300"
+            class="flex items-center rounded px-2 py-1 font-medium hover:bg-gray-800"
+            text="sm gray-300"
             @click="isSettingsOpen = true"
         >
-            <MaterialSymbolsSettings class="mr-2" />
+            <MaterialSymbolsSettings class="mr-1.5 opacity-80" />
 
             {{ $t('settings') }}
         </button>

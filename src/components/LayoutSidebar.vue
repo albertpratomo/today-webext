@@ -27,7 +27,7 @@ function onClickOutsideSidebar() {
             />
         </Transition>
 
-        <div class="relative grow border border-gray-200/16 rounded-[7px] bg-gray-850">
+        <div class="relative grow border border-gray-200/16 rounded-[6px] bg-gray-850">
             <Button
                 class="absolute left-1 top-1 z-1 text-gray-400 transition-opacity duration-300"
                 :class="isSidebarVisible ? 'opacity-0' : ''"
@@ -36,7 +36,7 @@ function onClickOutsideSidebar() {
                 @click="toggleSidebar"
             >
                 <MaterialSymbolsThumbnailBarOutline />
-            </button>
+            </Button>
 
             <slot />
         </div>

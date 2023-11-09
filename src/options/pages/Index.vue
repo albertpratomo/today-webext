@@ -14,10 +14,10 @@ const isCalendarVisible = ref(true);
     <LayoutSidebar>
         <div class="relative h-full flex">
             <button
-                class="absolute right-2 top-2 rounded p-1.5 text-gray-500 hover:bg-gray-800"
+                class="absolute right-2 top-2 rounded p-1.5 text-gray-400 hover:bg-gray-800"
                 @click="isCalendarVisible = !isCalendarVisible"
             >
-                <MaterialSymbolsEventNote />
+                <MaterialSymbolsCalendarTodayOutline />
             </button>
 
             <div class="flex grow justify-center px-8 pb-3 pt-12 md:px-11">
