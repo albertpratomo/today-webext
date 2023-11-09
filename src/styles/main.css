@@ -32,9 +32,51 @@ code {
 .prose {
     --un-prose-borders: theme('colors.gray.100');
 
+    & h1, h2, h3, h4, h5 {
+        @apply color-indigo-150 font-500;
+    }
+    & h1, h2 {
+        @apply mt-4 mb-1.5
+    }
+    & h3, h4, h5 {
+        @apply mt-4 mb-1.5;
+    }
+    & h1 { 
+        @apply text-xl;
+    }
+    & h2 { 
+        @apply text-lg;
+    }
+    & h3 { 
+        @apply text-base;
+    }
+    & h4 { 
+        @apply text-[14.5px];
+    }
+    & h5 { 
+        @apply text-xs uppercase;
+    }
+    & p {
+        @apply mb-1 mt-0 text-gray-200 leading-normal;
+    }
+    & hr {
+        @apply border-gray-600 border-b-1 border-b-solid;
+    }
+    & li::marker {
+        @apply color-indigo-400;
+    }
+    
+
+    & blockquote {
+        @apply border-l-2.5 border-l-gray-500 p-l-2.5
+    }
+
     & li {
         & p, ul {
             @apply m-0;
+        }
+        & ol {
+            @apply my-0;
         }
     }
 
@@ -46,9 +88,23 @@ code {
         }
     }
 
-    & p {
-        @apply mb-0
+    
+    & code {
+        @apply bg-gray-700 tracking-wide font-400;
+        &::before,
+        &::after {
+            @apply content-none;
+        }
     }
+
+    & pre {
+        @apply bg-gray-850/90 text-sm;
+
+        & code {
+            @apply bg-transparent;
+        }
+    }
+
 }
 
 input[type=checkbox] {
