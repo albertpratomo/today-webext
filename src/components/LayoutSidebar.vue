@@ -3,7 +3,7 @@ import {breakpointsTailwind, useBreakpoints} from '@vueuse/core';
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
-const isSidebarVisible = ref(breakpoints.greaterOrEqual('lg'));
+const isSidebarVisible = breakpoints.greaterOrEqual('lg');
 
 const toggleSidebar = function () {
     isSidebarVisible.value = !isSidebarVisible.value;

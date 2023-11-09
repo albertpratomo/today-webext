@@ -21,6 +21,7 @@ declare module 'vue' {
     MaterialSymbolsRestartAlt: typeof import('~icons/material-symbols/restart-alt')['default']
     MaterialSymbolsSettings: typeof import('~icons/material-symbols/settings')['default']
     MaterialSymbolsSkipNext: typeof import('~icons/material-symbols/skip-next')['default']
+    MaterialSymbolsThumbnailBarOutline: typeof import('~icons/material-symbols/thumbnail-bar-outline')['default']
     PomodoroWindow: typeof import('./components/PomodoroWindow.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
