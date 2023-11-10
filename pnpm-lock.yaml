@@ -39,8 +39,8 @@ devDependencies:
     specifier: ^0.0.5
     version: 0.0.5(unocss@0.53.5)
   '@mobiscroll/vue':
-    specifier: 5.27.1
-    version: /@mobiscroll/vue-trial@5.27.1(vue@3.3.4)
+    specifier: npm:@mobiscroll/vue-trial@5.27.3
+    version: /@mobiscroll/vue-trial@5.27.3(vue@3.3.4)
   '@pinia/testing':
     specifier: ^0.1.2
     version: 0.1.2(pinia@2.1.4)(vue@3.3.4)
@@ -1441,8 +1441,8 @@ packages:
     resolution: {integrity: sha512-CD/2ai1W45cDN/zN2AcYduDavU+nq9aStyQizi4MHxnwkRvS/H24WIjgc1qD8CISoqXa8AAIe+A+zpWxwV7a2Q==}
     dev: true
 
-  /@mobiscroll/vue-trial@5.27.1(vue@3.3.4):
-    resolution: {integrity: sha512-UELFY4BVOmtW91NR3A0lVdl4ftCTgkGu4lvNoJU1FcSR/Y/OywZ8Xd4ON23XUD9KGEuAD/+5M1F/FFY0IiQL3w==, tarball: https://npm.mobiscroll.com/@mobiscroll/vue-trial/-/vue-trial-5.27.1.tgz}
+  /@mobiscroll/vue-trial@5.27.3(vue@3.3.4):
+    resolution: {integrity: sha512-UYNCji57LntTSGJ2n/hZNckhc4oYX6ciSVOdlB8PME9fP+0ymC5R3x9NpyYzXxyX3a8sBOxChHuAFAnoQXWqBQ==, tarball: https://npm.mobiscroll.com/@mobiscroll/vue-trial/-/vue-trial-5.27.3.tgz}
     peerDependencies:
       vue: '>=3.0.0'
     dependencies:
@@ -2678,7 +2678,7 @@ packages:
       '@types/web-bluetooth': 0.0.17
       '@vueuse/metadata': 10.3.0
       '@vueuse/shared': 10.3.0(vue@3.3.4)
-      vue-demi: 0.14.5(vue@3.3.4)
+      vue-demi: 0.14.6(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2754,7 +2754,7 @@ packages:
   /@vueuse/shared@10.3.0(vue@3.3.4):
     resolution: {integrity: sha512-kGqCTEuFPMK4+fNWy6dUOiYmxGcUbtznMwBZLC1PubidF4VZY05B+Oht7Jh7/6x4VOWGpvu3R37WHi81cKpiqg==}
     dependencies:
-      vue-demi: 0.14.5(vue@3.3.4)
+      vue-demi: 0.14.6(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue

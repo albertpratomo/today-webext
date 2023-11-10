@@ -42,7 +42,7 @@
     "@iconify/json": "^2.2.91",
     "@intlify/unplugin-vue-i18n": "^0.12.2",
     "@julr/unocss-preset-forms": "^0.0.5",
-    "@mobiscroll/vue": "5.27.1",
+    "@mobiscroll/vue": "npm:@mobiscroll/vue-trial@5.27.3",
     "@pinia/testing": "^0.1.2",
     "@playwright/test": "^1.36.1",
     "@testing-library/vue": "^7.0.0",
