@@ -2,19 +2,22 @@
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
-const isVisible = ref(true);
+const isVisible = ref(false);
 
 const {authToken} = storeToRefs(useCalendarStore());
-const {getAuthToken, getEvents} = useCalendarStore();
+const {getAuthToken, fetchGcalEvents} = useCalendarStore();
 
-if (authToken.value) {
+if (authToken.value === null) {
+    isVisible.value = true;
+}
+else if (authToken.value) {
     isVisible.value = false;
 
     _getEvents();
 }
 
 async function _getEvents() {
-    const {error} = await getEvents();
+    const {error} = await fetchGcalEvents();
 
     isVisible.value = !!error.value;
 }
@@ -23,6 +26,11 @@ async function connect() {
     await getAuthToken();
 
     _getEvents();
+}
+
+function close() {
+    isVisible.value = false;
+    authToken.value = '';
 }
 </script>
 
@@ -36,7 +44,7 @@ async function connect() {
 
             <button
                 class="text-gray-300"
-                @click="isVisible = false"
+                @click="close"
             >
                 <MaterialSymbolsClose />
             </button>

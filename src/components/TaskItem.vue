@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
+import {pomodoroIsEnabled} from '~/utils/featureToggle';
 import {usePomodoroStore} from '~/stores';
 
-const {isLastSelected = false, isSelected = false} = defineProps<{
-    isLastSelected?: boolean
-    isSelected?: boolean
-}>();
+const props = withDefaults(
+    defineProps<{
+        isLastSelected?: boolean
+        isSelected?: boolean
+    }>(),
+    {
+        isLastSelected: false,
+        isSelected: false,
+    },
+);
 
 const task = defineModel<Task>({required: true});
 
 onKeyStroke(['d', 'D'], () => {
-    if (isSelected)
+    if (props.isSelected)
         task.value.isDone = !task.value.isDone;
 }, {dedupe: false});
 
@@ -27,6 +34,7 @@ const {focusTask} = usePomodoroStore();
         ]"
     >
         <button
+            v-if="pomodoroIsEnabled"
             class="mr-2 opacity-0 group-hover:opacity-100"
             :class="{'invisible': task.isDone || task.deletedAt, 'opacity-100': isLastSelected}"
             text="indigo-400 hover:indigo-300 active:indigo-500"
@@ -42,6 +50,7 @@ const {focusTask} = usePomodoroStore();
             type="checkbox"
             @click.stop
             @dblclick.stop
+            @keyup.enter="task.isDone = !(task.isDone)"
         >
 
         <div

@@ -36,11 +36,12 @@ export default defineConfig({
                 700: '#3C3D53',
                 750: '#313242',
                 800: '#252732',
-                850: '#191A21',
+                850: '#1C1D24',
                 900: '#16171F',
                 950: '#12131A',
             },
             indigo: {
+                150: '#CFD8FC',
                 950: '#22223F',
             },
             green: {
@@ -107,8 +108,10 @@ export default defineConfig({
                 600: '#3858C9', // bg
             },
             blueberry: {
-                200: '#C7C2F4', // text
-                600: '#3E3799', // bg
+                200: '#D8D5FA', // text
+                600: '#3E3799', // bg active
+                650: '#352F70', // bg hover
+                700: '#322D64', // bg default
             },
             lavender: {
                 200: '#BCB6FA', // text

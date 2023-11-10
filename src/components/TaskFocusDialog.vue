@@ -23,7 +23,7 @@ function close() {
         @close="close()"
         @keyup.esc="close()"
     >
-        <DialogPanel class="fixed inset-0 bg-gray-900 pt-40">
+        <DialogPanel class="fixed inset-0 z-1 bg-gray-900 pt-40">
             <div
                 v-if="focusedTask"
                 class="mx-auto max-w-xl"

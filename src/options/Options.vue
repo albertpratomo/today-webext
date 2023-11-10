@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import {pomodoroIsEnabled} from '~/utils/featureToggle';
+</script>
+
 <template>
     <RouterView />
 
-    <PomodoroWindow />
+    <PomodoroWindow v-if="pomodoroIsEnabled" />
 </template>

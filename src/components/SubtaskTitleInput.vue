@@ -1,22 +1,20 @@
 <script setup lang="ts">
 import {EditorContent, useEditor} from '@tiptap/vue-3';
-import Bold from '@tiptap/extension-bold';
-import Code from '@tiptap/extension-code';
-import History from '@tiptap/extension-history';
-import Italic from '@tiptap/extension-italic';
 import {Node} from '@tiptap/core';
 import Text from '@tiptap/extension-text';
 
 const props = withDefaults(
     defineProps<{
+        isEditable?: boolean
         isFocused?: boolean
     }>(),
     {
+        isEditable: true,
         isFocused: false,
     },
 );
 
-const {t} = useI18n();
+const emit = defineEmits(['blur', 'focus']);
 
 const modelValue = defineModel<string>({required: true});
 
@@ -27,24 +25,25 @@ const Document = Node.create({
 });
 
 const editor = useEditor({
-    autofocus: 'end',
+    editable: props.isEditable,
     content: modelValue.value,
     editorProps: {
         attributes: {
-            'class': 'focus:outline-none',
-            'data-placeholder': t('fields.taskTitle.placeholder'),
+            class: 'focus:outline-none',
         },
     },
     extensions: [
-        Bold,
-        Code,
         Document,
-        History,
-        Italic,
         Text,
     ],
     onUpdate({editor}) {
         modelValue.value = editor.getHTML();
+    },
+    onFocus() {
+        emit('focus');
+    },
+    onBlur() {
+        emit('blur');
     },
 });
 
@@ -54,21 +53,19 @@ watch(modelValue, (val) => {
 });
 
 watchEffect(() => {
-    if (props.isFocused && editor.value && !editor.value.isFocused)
-        editor.value.commands.focus('end');
+    if (editor.value) {
+        if (props.isEditable && props.isFocused && !editor.value.isFocused)
+            editor.value.commands.focus('end');
+
+        if (props.isEditable !== editor.value.isEditable)
+            editor.value.setEditable(props.isEditable);
+    }
 });
 </script>
 
 <template>
     <EditorContent
-        class="overflow-hidden text-lg"
+        class="gray-300 flex-1 overflow-hidden text-sm leading-5 caret-indigo-400"
         :editor="editor"
     />
 </template>
-
-<style scoped>
-:deep(.ProseMirror:has(> br:only-child):before) {
-    @apply text-gray-400 float-left pointer-events-none h-0;
-    content: attr(data-placeholder);
-}
-</style>

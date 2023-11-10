@@ -9,7 +9,9 @@ import {watchDebounced} from '@vueuse/core';
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = useStorageLocal<Task[]>('tasks', generateTasks([
         'Press <code>N</code> to create a new task ✨',
-        'Select me and press <code>space</code>',
+        // 'Select me and press <code>space</code>',
+        'Connect your Google Calendar',
+        'Drag and drop me to the calendar to plan your day',
         'ProTip: Use arrow keys to navigate',
     ]));
 
@@ -25,18 +27,20 @@ export const useTasksStore = defineStore('tasks', () => {
         note: '',
         isDone: false,
         deletedAt: null,
+        subtasks: [],
     });
 
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {
         id: lastTaskId.value,
-        ...BLANK_TASK,
+        ...JSON.parse(JSON.stringify(BLANK_TASK)),
     });
 
     const draftCreateTaskHasContent = computed(() => {
-        const {note} = draftCreateTask.value;
+        const {note, subtasks} = draftCreateTask.value;
 
         return draftCreateTask.value.title
-            || (note && note !== '<p></p>');
+            || (note && note !== '<p></p>')
+            || subtasks?.length;
     });
 
     function createTask() {
@@ -57,7 +61,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
         draftCreateTask.value = {
             id: ++lastTaskId.value,
-            ...BLANK_TASK,
+            ...JSON.parse(JSON.stringify(BLANK_TASK)),
         };
     };
 
@@ -102,6 +106,42 @@ export const useTasksStore = defineStore('tasks', () => {
         },
     );
 
+    // Subtasks ---------------------------------------------------------------
+
+    const selectedSubtasks = ref<number[]>([]);
+
+    // Create Subtask ---------------------------------------------------------
+
+    const lastSubtaskId = useStorageLocal<number>('lastSubtaskId', 0);
+
+    const BLANK_SUBTASK = Object.freeze({
+        title: '',
+        isDone: false,
+    });
+
+    function createSubtask() {
+        const parentTask = (draftEditTask.value ?? draftCreateTask.value);
+        if (!parentTask)
+            return false;
+
+        // Find the last selected subtask.
+        const index = selectedSubtasks.value.length && parentTask.subtasks?.length
+            ? (selectedSubtasks.value.at(-1) || 0) + 1
+            : 0;
+
+        if (typeof parentTask.subtasks == 'undefined')
+            parentTask.subtasks = [];
+
+        // Insert the new subtask there.
+        parentTask.subtasks.splice(index, 0, {
+            id: ++lastSubtaskId.value,
+            ...BLANK_SUBTASK,
+        });
+
+        // Highlight the newly created subtask.
+        selectedSubtasks.value = [index];
+    };
+
     return {
         tasks,
         selectedIndexes,
@@ -121,6 +161,9 @@ export const useTasksStore = defineStore('tasks', () => {
 
         doneTasks,
         isAllDone,
+
+        selectedSubtasks,
+        createSubtask,
     };
 });
 

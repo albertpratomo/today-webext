@@ -4,6 +4,7 @@ import {useHistoryStore, useTasksStore, useTrashStore} from '~/stores';
 import type {SortableEvent} from 'sortablejs';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
+import {pomodoroIsEnabled} from '~/utils/featureToggle';
 
 const {t} = useI18n();
 
@@ -119,15 +120,17 @@ onKeyStroke(['Backspace'], () => {
 <template>
     <div>
         <div
+            id="undone-task-list"
             ref="list"
             v-on-click-outside="onClickOutside"
-            class="-ml-8"
+            :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
         >
             <TaskItem
                 v-for="(task, i) in tasks"
                 :key="task.id"
                 v-model="tasks[i]"
                 :aria-selected="selectedIndexes.includes(i)"
+                class="task-item"
                 :is-last-selected="lastSelectedIndex === i "
                 :is-selected="selectedIndexes.includes(i)"
                 @click="onTaskClick(i, $event)"

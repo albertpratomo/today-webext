@@ -14,7 +14,10 @@
 
 /* slide-left-right */
 .slide-left-right-enter-active,
-.slide-left-right-leave-active {
+.slide-left-right-leave-active,
+.slide-right-left-enter-active,
+.slide-right-left-leave-active
+{
     @apply transition-transform duration-200 ease-out;
 }
 
@@ -22,4 +25,10 @@
 .slide-left-right-leave-to
 {
     @apply translate-x-full;
+}
+
+.slide-right-left-enter-from,
+.slide-right-left-leave-to
+{
+    @apply -translate-x-full;
 }

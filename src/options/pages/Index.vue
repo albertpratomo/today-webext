@@ -13,15 +13,17 @@ const isCalendarVisible = ref(true);
 <template>
     <LayoutSidebar>
         <div class="relative h-full flex">
-            <button
-                class="absolute right-2 top-2 rounded p-1.5 text-gray-500 hover:bg-gray-800"
+            <Button
+                class="absolute right-2 top-2 z-1 text-gray-500"
+                size="square"
+                variant="ghost"
                 @click="isCalendarVisible = !isCalendarVisible"
             >
-                <MaterialSymbolsEventNote />
-            </button>
+                <MaterialSymbolsCalendarTodayOutline />
+            </Button>
 
-            <div class="flex grow justify-center pb-3 pt-12">
-                <div class="w-180">
+            <div class="flex grow justify-center px-8 pb-3 pt-10 md:px-11">
+                <div class="max-w-[960px] grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
                             {{ $t('today') }}
@@ -55,7 +57,8 @@ const isCalendarVisible = ref(true);
             <Transition name="slide-left-right">
                 <div
                     v-show="isCalendarVisible"
-                    class="w-76 shrink-0 border-l px-3 pb-3 pt-12"
+                    class="shrink-0 border-l border-gray-750 p-3 pt-4"
+                    w="60 lg:70 xl:80"
                 >
                     <CalendarDaily />
                 </div>
