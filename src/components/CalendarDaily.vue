@@ -3,6 +3,7 @@ import '~/styles/mobiscroll.scss';
 import {MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
 
 const options: MbscEventcalendarOptions = {
+    dateFormatLong: 'DD MMM', // TODO: seems not working
     showControls: false,
     view: {schedule: {type: 'day', days: false}},
 };
@@ -14,6 +15,6 @@ const options: MbscEventcalendarOptions = {
 
 <style>
 .mbsc-schedule-date-header {
-    @apply hidden;
+    /* @apply hidden; */
 }
 </style>
