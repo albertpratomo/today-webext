@@ -1,4 +1,5 @@
-import type {Event, FcEvent, GcalEvent} from '~/models/Event';
+import type {FcEvent, GcalEvent} from '~/models/Event';
+import type {MbscCalendarEvent, MbscEventCreateEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {formatFcEvent, formatGcalEvent} from '~/models/Event';
@@ -15,7 +16,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     // The email account who owns the calendars.
     const calendarEmail = useLocalStorage<string>('calendarEmail', '');
 
-    const events = useStorageLocal<Event[]>('events', []);
+    const events = useStorageLocal<MbscCalendarEvent[]>('events', []);
 
     async function getAuthToken() {
         // `chrome.identity.getAuthToken` didn't work in Arc. This is a work-around
@@ -90,18 +91,8 @@ export const useCalendarStore = defineStore('calendar', () => {
         }).json<GcalEvent>();
     }
 
-    async function createEvent(fcEvent: FcEvent) {
-        const localEvent = formatFcEvent(fcEvent);
-
-        if (authToken.value) {
-            const result = await storeGcalEvent(fcEvent.title, fcEvent.startStr, fcEvent.endStr);
-
-            if (!result.error.value && result.data.value)
-                // Set gcal generated id to the event instance.
-                localEvent.id = result.data.value.id!;
-        }
-
-        events.value.push(localEvent);
+    async function createEvent(args: MbscEventCreateEvent) {
+        events.value.push(args.event);
     }
 
     async function updateEvent(fcEvent: FcEvent) {

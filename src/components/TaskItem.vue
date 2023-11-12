@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {MbscDraggable} from '@mobiscroll/vue';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
@@ -23,10 +24,13 @@ onKeyStroke(['d', 'D'], () => {
 }, {dedupe: false});
 
 const {focusTask} = usePomodoroStore();
+
+const el = ref(null);
 </script>
 
 <template>
     <div
+        ref="el"
         class="group h-9 flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
         :class="[
             {'bg-indigo-950 hover:bg-indigo-950': isSelected},
@@ -57,6 +61,11 @@ const {focusTask} = usePomodoroStore();
             class="grow border border-transparent text-sm text-gray-200 transition-colors"
             :class="{'text-gray-400': task.isDone}"
             v-html="task.title"
+        />
+
+        <MbscDraggable
+            :drag-data="{title: task.title}"
+            :element="el"
         />
     </div>
 </template>
