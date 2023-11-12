@@ -23,5 +23,6 @@ const options: MbscEventcalendarOptions = {
         v-bind="options"
         :data="events"
         @event-created="createEvent"
+        @event-deleted="deleteEvent"
     />
 </template>

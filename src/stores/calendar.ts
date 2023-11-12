@@ -1,5 +1,5 @@
 import type {FcEvent, GcalEvent} from '~/models/Event';
-import type {MbscCalendarEvent, MbscEventCreateEvent} from '@mobiscroll/vue';
+import type {MbscCalendarEvent, MbscEventCreatedEvent, MbscEventDeletedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {formatFcEvent, formatGcalEvent} from '~/models/Event';
@@ -91,7 +91,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         }).json<GcalEvent>();
     }
 
-    async function createEvent(args: MbscEventCreateEvent) {
+    async function createEvent(args: MbscEventCreatedEvent) {
         events.value.push(args.event);
     }
 
@@ -108,12 +108,8 @@ export const useCalendarStore = defineStore('calendar', () => {
         }
     }
 
-    async function deleteEvent(id: string) {
-        // Delete the event from local events.
-        events.value = events.value.filter(e => e.id !== id);
-
-        if (authToken.value)
-            await useGcalApi(`calendars/primary/events/${id}`).delete();
+    async function deleteEvent(args: MbscEventDeletedEvent) {
+        events.value = events.value.filter(e => e.id !== args.event.id);
     }
 
     return {
