@@ -5,7 +5,7 @@ import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
 const {events} = storeToRefs(useCalendarStore());
-const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
+const {createEvent, deleteEvent} = useCalendarStore();
 
 const options: MbscEventcalendarOptions = {
     dateFormatLong: 'DD MMM', // TODO: seems not working
