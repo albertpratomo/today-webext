@@ -58,9 +58,9 @@ const isCalendarVisible = ref(true);
                 <div
                     v-show="isCalendarVisible"
                     class="shrink-0 border-l border-gray-750 p-3 pt-4"
-                    w="60 lg:70 xl:80"
+                    w="70 xl:80"
                 >
-                    <TimeGridDay />
+                    <CalendarDaily />
                 </div>
             </Transition>
         </div>
