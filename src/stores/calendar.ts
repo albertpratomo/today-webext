@@ -92,6 +92,9 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
 
     async function createEvent(args: MbscEventCreatedEvent) {
+        // Generate unique id for the event.
+        args.event.id = new Date().getTime();
+
         events.value.push(args.event);
     }
 
