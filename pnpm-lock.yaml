@@ -74,6 +74,9 @@ devDependencies:
   '@types/lodash-es':
     specifier: ^4.17.8
     version: 4.17.11
+  '@types/luxon':
+    specifier: ^3.3.4
+    version: 3.3.4
   '@types/node':
     specifier: ^20.4.2
     version: 20.9.0
@@ -143,6 +146,9 @@ devDependencies:
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
+  luxon:
+    specifier: ^3.4.4
+    version: 3.4.4
   npm-run-all:
     specifier: ^4.1.5
     version: 4.1.5
@@ -1468,6 +1474,10 @@ packages:
 
   /@types/lodash@4.14.201:
     resolution: {integrity: sha512-y9euML0cim1JrykNxADLfaG0FgD1g/yTHwUs/Jg9ZIU7WKj2/4IW9Lbb1WZbvck78W/lfGXFfe+u2EGfIJXdLQ==}
+    dev: true
+
+  /@types/luxon@3.3.4:
+    resolution: {integrity: sha512-H9OXxv4EzJwE75aTPKpiGXJq+y4LFxjpsdgKwSmr503P5DkWc3AG7VAFYrFNVvqemT5DfgZJV9itYhqBHSGujA==}
     dev: true
 
   /@types/mdast@3.0.15:
@@ -5740,6 +5750,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /luxon@3.4.4:
+    resolution: {integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==}
+    engines: {node: '>=12'}
     dev: true
 
   /lz-string@1.5.0:
