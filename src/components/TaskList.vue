@@ -80,10 +80,10 @@ onKeyStroke(['Esc', 'Escape'], () => {
 });
 
 const {editTask} = useTasksStore();
-onKeyStroke('Enter', ({metaKey}) => {
-    if (metaKey && typeof lastSelectedIndex.value === 'number')
+onKeyStroke('Enter', () => {
+    if (typeof lastSelectedIndex.value === 'number')
         editTask(tasks.value[lastSelectedIndex.value]);
-});
+}, {eventName: 'keyup'});
 
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
