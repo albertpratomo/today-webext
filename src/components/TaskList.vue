@@ -156,7 +156,7 @@ onKeyStroke(['Backspace'], () => {
                     v-for="(task, i) in doneTasks"
                     :key="task.id"
                     v-model="doneTasks[i]"
-                    class="-ml-8"
+                    :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
                     @dblclick="editTask(task)"
                 />
             </template>
