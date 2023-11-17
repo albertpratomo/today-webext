@@ -17,7 +17,7 @@ function onClickOutsideSidebar() {
 </script>
 
 <template>
-    <main class="h-screen flex overflow-x-hidden p-1.5">
+    <main class="h-screen flex p-1.5">
         <Transition name="slide-right-left">
             <TheSidebar
                 v-show="isSidebarVisible"
@@ -27,7 +27,7 @@ function onClickOutsideSidebar() {
             />
         </Transition>
 
-        <div class="relative grow border border-gray-200/16 rounded-[6px] bg-gray-850">
+        <div class="relative min-w-0 grow border border-gray-200/16 rounded-[6px] bg-gray-850">
             <Button
                 class="absolute left-1 top-1 z-1 text-gray-400 transition-opacity duration-300"
                 :class="isSidebarVisible ? 'opacity-0' : ''"

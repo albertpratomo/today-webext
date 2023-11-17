@@ -12,7 +12,7 @@ const isCalendarVisible = ref(true);
 
 <template>
     <LayoutSidebar>
-        <div class="relative h-full flex">
+        <div class="relative h-full min-w-0 flex">
             <Button
                 class="absolute right-2 top-2 z-1 text-gray-500"
                 size="square"
@@ -22,8 +22,8 @@ const isCalendarVisible = ref(true);
                 <MaterialSymbolsCalendarTodayOutline />
             </Button>
 
-            <div class="flex grow justify-center px-8 pb-3 pt-10 md:px-11">
-                <div class="max-w-[960px] grow">
+            <div class="min-w-0 flex grow justify-center px-8 pb-3 pt-10 md:px-11">
+                <div class="max-w-[960px] min-w-0 grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
                             {{ $t('today') }}

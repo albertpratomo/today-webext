@@ -58,7 +58,7 @@ const el = ref(null);
         >
 
         <div
-            class="grow border border-transparent text-sm text-gray-200 transition-colors"
+            class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
             :class="{'text-gray-400': task.isDone}"
             v-html="task.title"
         />
