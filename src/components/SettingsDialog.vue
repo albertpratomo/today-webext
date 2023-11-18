@@ -19,7 +19,7 @@ function close() {
             class="fixed inset-0 bg-black/30"
         />
 
-        <div class="fixed inset-0 z-1 flex items-center justify-center p-4">
+        <div class="fixed inset-0 flex items-center justify-center p-4">
             <DialogPanel class="relative max-w-3xl min-h-[600px] w-full border rounded bg-gray-850 px-18 py-10">
                 <Button
                     class="absolute right-4 top-4"

@@ -36,7 +36,7 @@ const hasSubtasks = computed(() => {
             class="fixed inset-0 bg-black/30"
         />
 
-        <div class="fixed inset-0 z-1 flex items-center justify-center p-4">
+        <div class="fixed inset-0 flex items-center justify-center p-4">
             <DialogPanel class="max-w-xl w-full">
                 <div class="border rounded bg-gray-800 text-gray-100">
                     <div class="px-5 py-4 pb-5">

@@ -134,3 +134,7 @@ input[type=checkbox].subtask-checkbox {
         background-color: transparent;
     }
 }
+
+[role=dialog][aria-modal=true] {
+    @apply relative z-20;
+}
