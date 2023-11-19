@@ -50,6 +50,11 @@ const isSettingsOpen = ref(false);
 <template>
     <div class="fixed bottom-1.5 top-1.5 mr-1.5 w-[220px] flex flex-col border border-gray-200/16 rounded-[6px] bg-gray-900 px-2 pb-2 pt-8 lg:relative lg:bottom-0 lg:top-0 md:w-56 lg:border-transparent lg:px-1.5 lg:pb-1">
         <Button
+            v-tippy="{
+                content: 'Toggle sidebar <code>⌘</code> <code>[</code>',
+                placement: 'right',
+                offset: [0, 6],
+            }"
             class="absolute right-1 top-1 z-10 text-gray-400"
             size="square"
             variant="ghost"

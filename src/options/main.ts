@@ -17,8 +17,8 @@ app.use(pinia);
 app.use(VueTippy, {
     defaultProps: {
         allowHTML: true,
-        delay: 200,
-        duration: 180,
+        delay: 180,
+        duration: 100,
     },
 });
 

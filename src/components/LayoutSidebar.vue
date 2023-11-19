@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {breakpointsTailwind, useBreakpoints} from '@vueuse/core';
+import {breakpointsTailwind, onKeyStroke, useBreakpoints} from '@vueuse/core';
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
@@ -14,6 +14,11 @@ function onClickOutsideSidebar() {
     if (isSidebarVisible.value && breakpoints.smaller('lg').value)
         isSidebarVisible.value = false;
 }
+
+onKeyStroke(['['], ({metaKey, ctrlKey}) => {
+    if (ctrlKey || metaKey)
+        toggleSidebar();
+});
 </script>
 
 <template>
@@ -29,6 +34,11 @@ function onClickOutsideSidebar() {
 
         <div class="relative min-w-0 grow border border-gray-200/16 rounded-[6px] bg-gray-850">
             <Button
+                v-tippy="{
+                    content: 'Toggle sidebar <code>⌘</code> <code>[</code>',
+                    placement: 'right',
+                    offset: [0, 6],
+                }"
                 class="absolute left-1 top-1 z-1 text-gray-400 transition-opacity duration-300"
                 :class="isSidebarVisible ? 'opacity-0' : ''"
                 size="square"
