@@ -35,7 +35,7 @@ onKeyStroke(['['], ({metaKey, ctrlKey}) => {
         <div class="relative min-w-0 grow border border-gray-200/16 rounded-[6px] bg-gray-850">
             <Button
                 v-tippy="{
-                    content: 'Toggle sidebar <code>⌘</code> <code>[</code>',
+                    content: $t('tooltips.toggleSidebar'),
                     placement: 'right',
                     offset: [0, 6],
                 }"

@@ -36,7 +36,7 @@ const isCalendarVisible = ref(true);
                         <Button
                             id="btn-new-task"
                             v-tippy="{
-                                content: 'New task <code>N</code>',
+                                content: $t('tooltips.newTask'),
                                 placement: 'bottom',
                                 offset: [0, 6],
                             }"

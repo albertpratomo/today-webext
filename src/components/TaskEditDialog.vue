@@ -54,7 +54,7 @@ const hasSubtasks = computed(() => {
                     >
                         <button
                             v-tippy="{
-                                content: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
+                                content: $t('tooltips.addSubtasks'),
                                 placement: 'bottom',
                                 offset: [0, 6],
                             }"

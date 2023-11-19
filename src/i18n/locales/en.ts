@@ -39,5 +39,10 @@ export default {
         title: 'Calendars',
     },
     today: 'Today',
+    tooltips: {
+        addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
+        newTask: 'New task <code>N</code>',
+        toggleSidebar: 'Toggle sidebar <code>⌘</code> <code>[</code>',
+    },
     trash: 'Trash',
 };
