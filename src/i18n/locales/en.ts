@@ -15,7 +15,6 @@ export default {
         title: 'Connect your Google Calendar',
     },
     comingSoon: 'Coming soon :)',
-    createSubtaskTooltip: '',
     fields: {
         taskNote: {placeholder: 'Notes'},
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},

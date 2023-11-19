@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {breakpointsTailwind, onKeyStroke, useBreakpoints} from '@vueuse/core';
+import {breakpointsTailwind, useBreakpoints} from '@vueuse/core';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 

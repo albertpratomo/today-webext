@@ -22,7 +22,7 @@ const isCalendarVisible = ref(true);
                 <MaterialSymbolsCalendarTodayOutline />
             </Button>
 
-            <div class="min-w-0 flex grow justify-center overflow-auto px-8 py-10 md:px-11">
+            <div class="min-w-0 flex grow justify-center overflow-y-scroll px-8 py-10 md:px-11">
                 <div class="max-w-[960px] min-w-0 grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
@@ -53,12 +53,8 @@ const isCalendarVisible = ref(true);
                         v-model="tasks"
                         v-model:done-tasks="doneTasks"
                         v-model:selected-indexes="selectedIndexes"
-                        class="mt-8"
+                        class="mt-8 pb-10"
                     />
-
-                    <br>
-
-                    <br>
                 </div>
             </div>
 
