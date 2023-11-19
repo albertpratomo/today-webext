@@ -20,6 +20,8 @@ const options: MbscEventcalendarOptions = {
     eventDelete: true,
     externalDrop: true,
     showControls: false,
+    theme: 'ios',
+    themeVariant: 'dark',
     timezonePlugin: luxonTimezone,
     view: {schedule: {type: 'day', days: false}},
 };
