@@ -1,6 +1,7 @@
 import '../styles';
 import App from './Options.vue';
 import {PiniaSharedState} from 'pinia-shared-state';
+import VueTippy from 'vue-tippy';
 import {createApp} from 'vue';
 import {createPinia} from 'pinia';
 import router from '~/options/pages/_router';
@@ -13,6 +14,13 @@ setupApp(app);
 const pinia = createPinia();
 pinia.use(PiniaSharedState({}));
 app.use(pinia);
+app.use(VueTippy, {
+    defaultProps: {
+        allowHTML: true,
+        delay: 200,
+        duration: 180,
+    },
+});
 
 app.use(router);
 app.directive('on-click-outside', vOnClickOutside);

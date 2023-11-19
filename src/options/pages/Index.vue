@@ -35,9 +35,13 @@ const isCalendarVisible = ref(true);
 
                         <Button
                             id="btn-new-task"
+                            v-tippy="{
+                                content: 'New task <code>N</code>',
+                                placement: 'bottom',
+                                offset: [0, 6],
+                            }"
                             class="text-indigo-400"
                             size="square"
-                            :title="$t('newTaskTooltip')"
                             variant="ghost"
                             @click="taskCreateDialogIsOpen = true"
                         >

@@ -56,8 +56,12 @@ const hasSubtasks = computed(() => {
                         class="flex justify-end gap-2 px-3"
                     >
                         <button
+                            v-tippy="{
+                                content: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
+                                placement: 'bottom',
+                                offset: [0, 6],
+                            }"
                             class="border-gray-600 bg-gray-750 btn-icon"
-                            :title="$t('createSubtaskTooltip')"
                             @click="createSubtask"
                         >
                             <MaterialSymbolsChecklist class="h-4 w-4 text-gray-350" />

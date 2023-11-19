@@ -41,7 +41,6 @@
             <Button
                 id="btn-new-task"
                 size="square"
-                :title="$t('newTaskTooltip')"
             >
                 <MaterialSymbolsAdd />
             </Button>
