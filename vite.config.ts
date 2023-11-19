@@ -71,6 +71,7 @@ export const sharedConfig: UserConfig = {
             compositionOnly: true,
             fullInstall: true,
             include: [r('src/i18n/locales/**')],
+            strictMessage: false, // Allow HTML in locale messages.
         }),
 
         // rewrite assets to use relative path
