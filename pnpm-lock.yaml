@@ -206,6 +206,9 @@ devDependencies:
   vue-router:
     specifier: '4'
     version: 4.2.5(vue@3.3.8)
+  vue-tippy:
+    specifier: v6
+    version: 6.3.1(vue@3.3.8)
   vue-tsc:
     specifier: ^1.8.8
     version: 1.8.22(typescript@5.2.2)
@@ -8493,6 +8496,15 @@ packages:
     dependencies:
       de-indent: 1.0.2
       he: 1.2.0
+    dev: true
+
+  /vue-tippy@6.3.1(vue@3.3.8):
+    resolution: {integrity: sha512-U2jpGwmwg+u/a36/XDnGlOF+W944xHGlVELsrTNWmZ0nUi2E/VW0c/buBkzntFUwRh6BHwFWcKL8BHcyG2mogQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      tippy.js: 6.3.7
+      vue: 3.3.8(typescript@5.2.2)
     dev: true
 
   /vue-tsc@1.8.22(typescript@5.2.2):

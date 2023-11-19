@@ -138,3 +138,15 @@ input[type=checkbox].subtask-checkbox {
 [role=dialog][aria-modal=true] {
     @apply relative z-20;
 }
+
+.tippy-box {
+    @apply bg-gray-750 px-2 py-0.25 rounded-[4px] border-1 border-gray-500/40;
+}
+
+.tippy-content {
+    @apply text-[13.5px] text-gray-350;
+}
+
+.tippy-content code {
+    @apply shadow-keyboard text-gray-200 bg-gray-600 px-1 text-[13px]  m-l-1 font-extralight;
+}

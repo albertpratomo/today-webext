@@ -22,6 +22,7 @@ export default defineConfig({
             'indigo-emerald': '-4px -4px 4px 0px rgba(55, 48, 163, 0.12), 4px 4px 4px 0px rgba(6, 95, 70, 0.12)',
             'button': '0px 1px 2px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 0.5px 0px 0.5px rgba(255, 255, 255, 0.15) inset',
             'button-clicked': '0px -0.8px 0px 0px rgba(255, 255, 255, 0.20) inset, 0px 2px 2px 0.5px rgba(0, 0, 0, 0.25) inset',
+            'keyboard': '0px 1px 0px 0.25px rgba(0, 0, 0, 0.25), 0px 0.75px 0px 0.25px rgba(255, 255, 255, 0.12) inset;',
         },
         colors: {
             gray: {
