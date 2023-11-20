@@ -24,7 +24,7 @@ const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, d
 const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
 
 const parentTasks = computed(() => {
-    return tasks.value.filter(task => task.parent === props.taskParent);
+    return tasks.value.filter(task => task.parent === props.taskParent || (typeof task.parent === 'undefined' && props.taskParent === 'today'));
 });
 
 const parentDoneTasks = computed(() => {
