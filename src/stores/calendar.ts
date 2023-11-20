@@ -120,7 +120,16 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
 
     async function deleteEvent(args: MbscEventDeletedEvent) {
-        events.value = events.value.filter(e => e.id !== args.event.id);
+        const id = args.event.id;
+
+        if (!id)
+            return;
+
+        // Delete the event from local events.
+        events.value = events.value.filter(e => e.id !== id);
+
+        if (authToken.value)
+            await useGcalApi(`calendars/primary/events/${id}`).delete();
     }
 
     return {
