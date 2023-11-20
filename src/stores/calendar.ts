@@ -1,8 +1,8 @@
-import type {FcEvent, GcalEvent} from '~/models/Event';
+import type {Event, GcalEvent} from '~/models/Event';
 import type {MbscCalendarEvent, MbscEventCreatedEvent, MbscEventDeletedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
-import {formatFcEvent, formatGcalEvent} from '~/models/Event';
+import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
 import {getTimeOfDay} from '~/utils/date';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
@@ -16,7 +16,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     // The email account who owns the calendars.
     const calendarEmail = useLocalStorage<string>('calendarEmail', '');
 
-    const events = useStorageLocal<MbscCalendarEvent[]>('events', []);
+    const events = useStorageLocal<Event[]>('events', []);
 
     async function getAuthToken() {
         // `chrome.identity.getAuthToken` didn't work in Arc. This is a work-around
@@ -98,15 +98,15 @@ export const useCalendarStore = defineStore('calendar', () => {
         events.value.push(args.event);
     }
 
-    async function updateEvent(fcEvent: FcEvent) {
-        // Update local events with the updated fcEvent.
-        const index = events.value.findIndex(e => e.id === fcEvent.id);
-        events.value[index] = formatFcEvent(fcEvent);
+    async function updateEvent(mbscEvent: MbscCalendarEvent) {
+        // Update local events with the updated mbscEvent.
+        const index = events.value.findIndex(e => e.id === mbscEvent.id);
+        events.value[index] = formatMbscEvent(mbscEvent);
 
         if (authToken.value) {
-            await useGcalApi(`calendars/primary/events/${fcEvent.id}`).patch({
-                start: {dateTime: fcEvent.startStr},
-                end: {dateTime: fcEvent.endStr},
+            await useGcalApi(`calendars/primary/events/${mbscEvent.id}`).patch({
+                start: {dateTime: mbscEvent.startStr},
+                end: {dateTime: mbscEvent.endStr},
             }).json();
         }
     }
