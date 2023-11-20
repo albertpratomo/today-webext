@@ -42,7 +42,7 @@ const hasSubtasks = computed(() => {
                     <div class="px-5 py-4 pb-5">
                         <TaskTitleInput
                             v-model="draftCreateTask.title"
-                            @keyup.enter="() => draftCreateTaskHasContent ? createTask() : close()"
+                            @enter="draftCreateTaskHasContent && createTask()"
                         />
 
                         <TaskNoteInput
