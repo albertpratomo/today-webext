@@ -7,6 +7,8 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
+    const taskParent = useStorageLocal<string>('taskParent', 'today');
+
     const tasks = useStorageLocal<Task[]>('tasks', generateTasks([
         'Press <code>N</code> to create a new task ✨',
         // 'Select me and press <code>space</code>',
@@ -23,6 +25,7 @@ export const useTasksStore = defineStore('tasks', () => {
     const lastTaskId = useStorageLocal<number>('lastTaskId', 4);
 
     const BLANK_TASK = Object.freeze({
+        parent: null,
         title: '',
         note: '',
         isDone: false,
@@ -51,6 +54,8 @@ export const useTasksStore = defineStore('tasks', () => {
         const index = selectedIndexes.value.length
             ? (selectedIndexes.value.at(-1) || 0) + 1
             : 0;
+
+        draftCreateTask.value.parent = taskParent.value;
 
         // Insert the new task there.
         tasks.value.splice(index, 0, draftCreateTask.value);
@@ -143,6 +148,7 @@ export const useTasksStore = defineStore('tasks', () => {
     };
 
     return {
+        taskParent,
         tasks,
         selectedIndexes,
         lastSelectedIndex,

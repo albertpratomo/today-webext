@@ -9,6 +9,7 @@ export const useTrashStore = defineStore('trash', () => {
 
     function trashTasks(sourceTasks: Ref<Task[]>, indexes: number[]) {
         indexes.forEach((i) => {
+            sourceTasks.value[i].parent = null;
             sourceTasks.value[i].deletedAt = new Date();
         });
 
