@@ -7,7 +7,7 @@ import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
 const {events} = storeToRefs(useCalendarStore());
-const {createEvent, deleteEvent} = useCalendarStore();
+const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
 
 luxonTimezone.luxon = luxon;
 
@@ -34,6 +34,7 @@ const options: MbscEventcalendarOptions = {
             :data="events"
             @event-created="createEvent"
             @event-deleted="deleteEvent"
+            @event-updated="updateEvent"
         />
 
         <Suspense>

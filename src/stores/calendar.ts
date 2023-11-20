@@ -1,5 +1,5 @@
 import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
-import type {MbscCalendarEvent, MbscEventCreatedEvent, MbscEventDeletedEvent} from '@mobiscroll/vue';
+import type {MbscEventCreatedEvent, MbscEventDeletedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
@@ -106,15 +106,13 @@ export const useCalendarStore = defineStore('calendar', () => {
         events.value.push(localEvent);
     }
 
-    async function updateEvent(mbscEvent: MbscCalendarEvent) {
-        // Update local events with the updated mbscEvent.
-        const index = events.value.findIndex(e => e.id === mbscEvent.id);
-        events.value[index] = formatMbscEvent(mbscEvent);
+    async function updateEvent(args: MbscEventUpdatedEvent) {
+        const event = formatMbscEvent(args.event);
 
         if (authToken.value) {
-            await useGcalApi(`calendars/primary/events/${mbscEvent.id}`).patch({
-                start: {dateTime: mbscEvent.startStr},
-                end: {dateTime: mbscEvent.endStr},
+            await useGcalApi(`calendars/primary/events/${event.id}`).patch({
+                start: {dateTime: event.start},
+                end: {dateTime: event.end},
             }).json();
         }
     }
