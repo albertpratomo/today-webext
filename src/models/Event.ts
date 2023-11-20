@@ -16,14 +16,22 @@ function generateEventId() {
     return `_${String(new Date().getTime())}`;
 }
 
-function formatMbscEvent(mbscEvent: MbscCalendarEvent): Event {
-    debugger;
+function dateToString(date?: string | object | Date): string {
+    if (typeof date === 'string')
+        return date;
 
+    if (date instanceof Date)
+        return date.toISOString();
+
+    return '';
+}
+
+function formatMbscEvent(mbscEvent: MbscCalendarEvent): Event {
     return {
         id: mbscEvent.id ? String(mbscEvent.id) : generateEventId(),
         title: mbscEvent.title!,
-        start: mbscEvent.start,
-        end: mbscEvent.endStr,
+        start: dateToString(mbscEvent.start),
+        end: dateToString(mbscEvent.end),
         allDay: mbscEvent.allDay || false,
     };
 }
@@ -40,4 +48,7 @@ function formatGcalEvent(gcalEvent: GcalEvent): Event {
     };
 };
 
-export {formatMbscEvent, formatGcalEvent, Event, GcalEvent};
+export {
+    formatMbscEvent, formatGcalEvent, generateEventId,
+    Event, GcalEvent,
+};
