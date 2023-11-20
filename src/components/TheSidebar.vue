@@ -12,13 +12,13 @@ const items = computed(() => {
         {
             icon: 'inbox',
             text: t('inbox'),
-            to: null,
+            to: {name: 'inbox'},
             isVisible: true,
         },
         {
             icon: 'today',
             text: t('today'),
-            to: {name: 'index'},
+            to: {name: 'today'},
             isVisible: true,
         },
         {

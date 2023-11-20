@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import {useDateFormat, useNow} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
+import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
 
-const {tasks, doneTasks, selectedIndexes, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
+const {taskParent, tasks, doneTasks, selectedIndexes, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
+
+const route = useRoute();
+const currentRouteName = computed(() => route.name);
 
 const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 
 const isCalendarVisible = ref(true);
+
+watch(currentRouteName, (newRouteName) => {
+    taskParent.value = typeof newRouteName == 'string' && ['inbox', 'today'].includes(newRouteName) ? newRouteName : 'today';
+});
 </script>
 
 <template>
@@ -26,9 +34,12 @@ const isCalendarVisible = ref(true);
                 <div class="max-w-[960px] min-w-0 grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
-                            {{ $t('today') }}
+                            {{ $t(taskParent) }}
 
-                            <span class="ml-1 text-gray-500">
+                            <span
+                                v-show="taskParent === 'today'"
+                                class="ml-1 text-gray-500"
+                            >
                                 {{ currentDate }}
                             </span>
                         </h1>
@@ -54,6 +65,7 @@ const isCalendarVisible = ref(true);
                         v-model:done-tasks="doneTasks"
                         v-model:selected-indexes="selectedIndexes"
                         class="mt-8 pb-10"
+                        :task-parent="taskParent"
                     />
                 </div>
             </div>

@@ -8,7 +8,12 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'index',
+            name: 'today',
+            component: Index,
+        },
+        {
+            path: '/inbox',
+            name: 'inbox',
             component: Index,
         },
         {
