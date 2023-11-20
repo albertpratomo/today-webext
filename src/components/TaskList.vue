@@ -6,6 +6,15 @@ import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
 
+const props = withDefaults(
+    defineProps<{
+        taskParent?: string | null
+    }>(),
+    {
+        taskParent: null,
+    },
+);
+
 const {t} = useI18n();
 
 const tasks = defineModel<Task[]>({required: true});
@@ -13,6 +22,14 @@ const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, default: []});
 
 const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
+
+const parentTasks = computed(() => {
+    return tasks.value.filter(task => task.parent === props.taskParent);
+});
+
+const parentDoneTasks = computed(() => {
+    return doneTasks.value.filter(task => task.parent === props.taskParent);
+});
 
 onMounted(() => useHistoryStore());
 
@@ -130,9 +147,9 @@ onKeyStroke(['Backspace'], () => {
             :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
         >
             <TaskItem
-                v-for="(task, i) in tasks"
+                v-for="(task, i) in parentTasks"
                 :key="task.id"
-                v-model="tasks[i]"
+                v-model="parentTasks[i]"
                 :aria-selected="selectedIndexes.includes(i)"
                 class="task-item"
                 :is-last-selected="lastSelectedIndex === i "
@@ -144,7 +161,7 @@ onKeyStroke(['Backspace'], () => {
         </div>
 
         <div
-            v-if="doneTasks.length"
+            v-if="parentDoneTasks.length"
             class="mt-12"
         >
             <Button
@@ -157,9 +174,9 @@ onKeyStroke(['Backspace'], () => {
 
             <template v-if="showDoneTasks">
                 <TaskItem
-                    v-for="(task, i) in doneTasks"
+                    v-for="(task, i) in parentDoneTasks"
                     :key="task.id"
-                    v-model="doneTasks[i]"
+                    v-model="parentDoneTasks[i]"
                     :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
                     @dblclick="editTask(task)"
                 />
