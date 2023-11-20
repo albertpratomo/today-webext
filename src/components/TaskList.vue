@@ -53,6 +53,10 @@ const onClickOutside = [
 ];
 
 onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
+    // If a dialog is open, ignore the arrow pressed event.
+    if (document.querySelector('[role=dialog][data-headlessui-state=open]'))
+        return;
+
     e.preventDefault();
 
     const taskLength = tasks.value.length;
