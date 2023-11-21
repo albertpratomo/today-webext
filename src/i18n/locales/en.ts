@@ -41,7 +41,7 @@ export default {
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
         newTask: 'New task <code>N</code>',
-        toggleSidebar: 'Toggle sidebar <code>⌘</code> <code>[</code>',
+        toggleSidebar: 'Toggle sidebar <code>[</code>',
     },
     trash: 'Trash',
 };
