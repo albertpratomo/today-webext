@@ -48,7 +48,7 @@ const isSettingsOpen = ref(false);
 </script>
 
 <template>
-    <div class="fixed bottom-1.5 top-1.5 mr-1.5 w-[220px] flex flex-col border border-gray-200/16 rounded-[6px] bg-gray-900 px-2 pb-2 pt-8 lg:relative lg:bottom-0 lg:top-0 md:w-56 lg:border-transparent lg:px-1.5 lg:pb-1">
+    <div class="fixed bottom-1.5 top-1.5 z-20 mr-1.5 w-[220px] flex flex-col border border-gray-200/16 rounded-[6px] bg-gray-900 px-2 pb-2 pt-8 lg:relative lg:bottom-0 lg:top-0 md:w-56 lg:border-transparent lg:px-1.5 lg:pb-1">
         <Button
             v-tippy="{
                 content: $t('tooltips.toggleSidebar'),
@@ -84,8 +84,12 @@ const isSettingsOpen = ref(false);
 
                 <div
                     v-else
-                    class="flex cursor-not-allowed items-center px-2 py-1.25 text-gray-500"
-                    :title="$t('comingSoon')"
+                    v-tippy="{
+                        content: $t('comingSoon'),
+                        placement: 'right',
+                        offset: [0, 6],
+                    }"
+                    class="flex cursor-default items-center px-2 py-1.25 text-gray-500"
                 >
                     <Icon
                         class="mr-1.5"
@@ -98,8 +102,12 @@ const isSettingsOpen = ref(false);
         </ul>
 
         <div
+            v-tippy="{
+                content: $t('comingSoon'),
+                placement: 'right-start',
+                offset: [0, 6],
+            }"
             class="mb-10 flex flex-grow justify-between pl-2.5 pr-1 text-gray-500"
-            :title="$t('comingSoon')"
         >
             <div class="text-xs">
                 {{ $t('projects') }}
