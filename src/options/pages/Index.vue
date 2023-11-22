@@ -14,7 +14,7 @@ const isCalendarVisible = ref(true);
     <LayoutSidebar>
         <div class="relative h-full min-w-0 flex">
             <Button
-                class="absolute right-2 top-2 z-1 text-gray-500"
+                class="absolute right-2 top-2 z-10 text-gray-500"
                 size="square"
                 variant="ghost"
                 @click="isCalendarVisible = !isCalendarVisible"

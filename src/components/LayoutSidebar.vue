@@ -39,7 +39,7 @@ onKeyStroke(['['], () => {
                     placement: 'right',
                     offset: [0, 6],
                 }"
-                class="absolute left-1 top-1 z-1 text-gray-400 transition-opacity duration-300"
+                class="absolute left-1 top-1 z-10 text-gray-400 transition-opacity duration-300"
                 :class="isSidebarVisible ? 'opacity-0' : ''"
                 size="square"
                 variant="ghost"
