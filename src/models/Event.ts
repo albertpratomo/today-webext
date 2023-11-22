@@ -1,4 +1,4 @@
-import {type EventApi as FcEvent} from '@fullcalendar/core';
+import type {MbscCalendarEvent} from '@mobiscroll/vue';
 import {type calendar_v3} from '@googleapis/calendar';
 
 interface Event {
@@ -6,6 +6,7 @@ interface Event {
     title: string
     start: string
     end: string
+    allDay: boolean
 }
 
 interface GcalEvent extends calendar_v3.Schema$Event {}
@@ -15,13 +16,23 @@ function generateEventId() {
     return `_${String(new Date().getTime())}`;
 }
 
-function formatFcEvent(fcEvent: FcEvent): Event {
+function dateToString(date?: string | object | Date): string {
+    if (typeof date === 'string')
+        return date;
+
+    if (date instanceof Date)
+        return date.toISOString();
+
+    return '';
+}
+
+function formatMbscEvent(mbscEvent: MbscCalendarEvent): Event {
     return {
-        // By default FC won't generate event id. We should generate it here, so the event has unique identifier.
-        id: fcEvent.id || generateEventId(),
-        title: fcEvent.title,
-        start: fcEvent.startStr,
-        end: fcEvent.endStr,
+        id: mbscEvent.id ? String(mbscEvent.id) : generateEventId(),
+        title: mbscEvent.title!,
+        start: dateToString(mbscEvent.start),
+        end: dateToString(mbscEvent.end),
+        allDay: mbscEvent.allDay || false,
     };
 }
 
@@ -32,7 +43,12 @@ function formatGcalEvent(gcalEvent: GcalEvent): Event {
         title: gcalEvent.summary || '',
         start: gcalEvent.start?.dateTime || gcalEvent.start?.date || '',
         end: gcalEvent.end?.dateTime || gcalEvent.end?.date || '',
+        // gcalEvent.start.date in 'yyyy-mm-dd' format indicates that this event is all day.
+        allDay: Boolean(gcalEvent.start?.date && gcalEvent.start.date.length === 10),
     };
 };
 
-export {formatFcEvent, formatGcalEvent, Event, FcEvent, GcalEvent};
+export {
+    formatMbscEvent, formatGcalEvent, generateEventId,
+    Event, GcalEvent,
+};

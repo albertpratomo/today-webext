@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {EditorContent, useEditor} from '@tiptap/vue-3';
+import {EditorContent, Extension, useEditor} from '@tiptap/vue-3';
 import Bold from '@tiptap/extension-bold';
 import Code from '@tiptap/extension-code';
 import History from '@tiptap/extension-history';
@@ -16,6 +16,8 @@ const props = withDefaults(
     },
 );
 
+const emit = defineEmits(['enter']);
+
 const {t} = useI18n();
 
 const modelValue = defineModel<string>({required: true});
@@ -24,6 +26,18 @@ const Document = Node.create({
     name: 'doc',
     topNode: true,
     content: 'text*',
+});
+
+const keyboard = Extension.create({
+    name: 'keyboard',
+    addKeyboardShortcuts() {
+        return {
+            Enter: () => {
+                emit('enter');
+                return true;
+            },
+        };
+    },
 });
 
 const editor = useEditor({
@@ -42,6 +56,7 @@ const editor = useEditor({
         History,
         Italic,
         Text,
+        keyboard,
     ],
     onUpdate({editor}) {
         modelValue.value = editor.getHTML();

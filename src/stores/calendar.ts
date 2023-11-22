@@ -1,8 +1,8 @@
-import type {FcEvent, GcalEvent} from '~/models/Event';
-import type {MbscCalendarEvent, MbscEventCreatedEvent, MbscEventDeletedEvent} from '@mobiscroll/vue';
+import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
+import type {MbscEventCreatedEvent, MbscEventDeletedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
-import {formatFcEvent, formatGcalEvent} from '~/models/Event';
+import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
 import {getTimeOfDay} from '~/utils/date';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
@@ -16,7 +16,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     // The email account who owns the calendars.
     const calendarEmail = useLocalStorage<string>('calendarEmail', '');
 
-    const events = useStorageLocal<MbscCalendarEvent[]>('events', []);
+    const events = useStorageLocal<Event[]>('events', []);
 
     async function getAuthToken() {
         // `chrome.identity.getAuthToken` didn't work in Arc. This is a work-around
@@ -92,27 +92,42 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
 
     async function createEvent(args: MbscEventCreatedEvent) {
-        // Generate unique id for the event.
-        args.event.id = new Date().getTime();
-
-        events.value.push(args.event);
-    }
-
-    async function updateEvent(fcEvent: FcEvent) {
-        // Update local events with the updated fcEvent.
-        const index = events.value.findIndex(e => e.id === fcEvent.id);
-        events.value[index] = formatFcEvent(fcEvent);
+        const localEvent = formatMbscEvent(args.event);
+        localEvent.id = generateEventId();
 
         if (authToken.value) {
-            await useGcalApi(`calendars/primary/events/${fcEvent.id}`).patch({
-                start: {dateTime: fcEvent.startStr},
-                end: {dateTime: fcEvent.endStr},
+            const result = await storeGcalEvent(localEvent.title, localEvent.start, localEvent.end);
+
+            if (!result.error.value && result.data.value)
+                // Set gcal generated id to the event instance.
+                localEvent.id = result.data.value.id!;
+        }
+
+        events.value.push(localEvent);
+    }
+
+    async function updateEvent(args: MbscEventUpdatedEvent) {
+        const event = formatMbscEvent(args.event);
+
+        if (authToken.value) {
+            await useGcalApi(`calendars/primary/events/${event.id}`).patch({
+                start: {dateTime: event.start},
+                end: {dateTime: event.end},
             }).json();
         }
     }
 
     async function deleteEvent(args: MbscEventDeletedEvent) {
-        events.value = events.value.filter(e => e.id !== args.event.id);
+        const id = args.event.id;
+
+        if (!id)
+            return;
+
+        // Delete the event from local events.
+        events.value = events.value.filter(e => e.id !== id);
+
+        if (authToken.value)
+            await useGcalApi(`calendars/primary/events/${id}`).delete();
     }
 
     return {

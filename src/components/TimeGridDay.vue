@@ -1,26 +1,20 @@
 <script setup lang="ts">
+// TODO: Remove this component once Mobiscroll is fully implemented.
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import {onClickOutside, useDateFormat} from '@vueuse/core';
 import type {CalendarOptions} from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/vue3';
 import {getDuration} from '~/utils/date';
-import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import {useCalendarStore} from '~/stores';
 
 const {events} = storeToRefs(useCalendarStore());
-const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
 
 const card = ref(null);
 
 const selectedEventId = ref('');
 onClickOutside(card, () => selectedEventId.value = '');
-
-onKeyStroke('Backspace', () => {
-    if (selectedEventId.value)
-        deleteEvent(selectedEventId.value);
-});
 
 const options: ComputedRef<CalendarOptions> = computed(() => ({
     events: events.value.map((e) => {
@@ -39,9 +33,7 @@ const options: ComputedRef<CalendarOptions> = computed(() => ({
     dayHeaders: false,
     droppable: true,
     editable: true,
-    eventChange: ({event}) => { updateEvent(event); },
     eventClick: ({event}) => { selectedEventId.value = event.id; },
-    eventReceive: ({event}) => { createEvent(event); },
     expandRows: true,
     headerToolbar: {
         start: 'title',

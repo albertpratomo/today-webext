@@ -29,43 +29,44 @@ const el = ref(null);
 </script>
 
 <template>
-    <div
-        ref="el"
-        class="group h-9 flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
-        :class="[
-            {'bg-indigo-950 hover:bg-indigo-950': isSelected},
-            isLastSelected ? 'border-indigo-900' : 'border-transparent',
-        ]"
-    >
-        <button
-            v-if="pomodoroIsEnabled"
-            class="mr-2 opacity-0 group-hover:opacity-100"
-            :class="{'invisible': task.isDone || task.deletedAt, 'opacity-100': isLastSelected}"
-            text="indigo-400 hover:indigo-300 active:indigo-500"
-            :title="$t('pomodoro.openWindowTooltip')"
-            @click="focusTask(task.id)"
-        >
-            <MaterialSymbolsPlayArrow />
-        </button>
-
-        <input
-            v-model="task.isDone"
-            class="mr-2 cursor-pointer border-2"
-            type="checkbox"
-            @click.stop
-            @dblclick.stop
-            @keyup.enter="task.isDone = !(task.isDone)"
-        >
-
+    <div ref="el">
         <div
-            class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
-            :class="{'text-gray-400': task.isDone}"
-            v-html="task.title"
-        />
+            class="group h-9 flex cursor-pointer select-none items-center border rounded p-2 hover:bg-gray-800"
+            :class="[
+                {'bg-indigo-950 hover:bg-indigo-950': isSelected},
+                isLastSelected ? 'border-indigo-900' : 'border-transparent',
+            ]"
+        >
+            <button
+                v-if="pomodoroIsEnabled"
+                class="mr-2 opacity-0 group-hover:opacity-100"
+                :class="{'invisible': task.isDone || task.deletedAt, 'opacity-100': isLastSelected}"
+                text="indigo-400 hover:indigo-300 active:indigo-500"
+                :title="$t('pomodoro.openWindowTooltip')"
+                @click="focusTask(task.id)"
+            >
+                <MaterialSymbolsPlayArrow />
+            </button>
 
-        <MbscDraggable
-            :drag-data="{title: task.title}"
-            :element="el"
-        />
+            <input
+                v-model="task.isDone"
+                class="mr-2 cursor-pointer border-2"
+                type="checkbox"
+                @click.stop
+                @dblclick.stop
+                @keyup.enter="task.isDone = !(task.isDone)"
+            >
+
+            <div
+                class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
+                :class="{'text-gray-400': task.isDone}"
+                v-html="task.title"
+            />
+
+            <MbscDraggable
+                :drag-data="{title: task.title}"
+                :element="el"
+            />
+        </div>
     </div>
 </template>
