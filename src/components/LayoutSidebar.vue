@@ -22,7 +22,7 @@ onKeyStroke(['['], () => {
 </script>
 
 <template>
-    <main class="h-screen flex p-1.5">
+    <main class="h-screen flex overflow-x-hidden p-1.5">
         <Transition name="slide-right-left">
             <TheSidebar
                 v-show="isSidebarVisible"
