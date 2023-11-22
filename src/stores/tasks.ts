@@ -7,20 +7,22 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
-    const tasks = useStorageLocal<Task[]>('tasks', generateTasks([
+    const initialTasks = [
         'Press <code>N</code> to create a new task ✨',
         // 'Select me and press <code>space</code>',
         'Connect your Google Calendar',
         'Drag and drop me to the calendar to plan your day',
         'ProTip: Use arrow keys to navigate',
-    ]));
+    ];
+
+    const tasks = useStorageLocal<Task[]>('tasks', generateTasks(initialTasks));
 
     const selectedIndexes = ref<number[]>([]);
     const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
 
     // Create Task ------------------------------------------------------------
 
-    const lastTaskId = useStorageLocal<number>('lastTaskId', 4);
+    const lastTaskId = useStorageLocal<number>('lastTaskId', initialTasks.length + 1);
 
     const BLANK_TASK = Object.freeze({
         title: '',
