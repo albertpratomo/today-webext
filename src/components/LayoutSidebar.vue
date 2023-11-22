@@ -16,9 +16,8 @@ function onClickOutsideSidebar() {
         isSidebarVisible.value = false;
 }
 
-onKeyStroke(['['], ({metaKey, ctrlKey}) => {
-    if (ctrlKey || metaKey)
-        toggleSidebar();
+onKeyStroke(['['], () => {
+    toggleSidebar();
 });
 </script>
 

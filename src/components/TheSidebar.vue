@@ -84,8 +84,12 @@ const isSettingsOpen = ref(false);
 
                 <div
                     v-else
-                    class="flex cursor-not-allowed items-center px-2 py-1.25 text-gray-500"
-                    :title="$t('comingSoon')"
+                    v-tippy="{
+                        content: $t('comingSoon'),
+                        placement: 'right',
+                        offset: [0, 6],
+                    }"
+                    class="flex cursor-default items-center px-2 py-1.25 text-gray-500"
                 >
                     <Icon
                         class="mr-1.5"
@@ -98,8 +102,12 @@ const isSettingsOpen = ref(false);
         </ul>
 
         <div
+            v-tippy="{
+                content: $t('comingSoon'),
+                placement: 'right-start',
+                offset: [0, 6],
+            }"
             class="mb-10 flex flex-grow justify-between pl-2.5 pr-1 text-gray-500"
-            :title="$t('comingSoon')"
         >
             <div class="text-xs">
                 {{ $t('projects') }}
