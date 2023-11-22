@@ -1,3 +1,38 @@
 $mbsc-ios-dark-background: #1C1D24;
 
 @import '@mobiscroll/vue/dist/css/mobiscroll.scss';
+
+.mbsc-ios {
+
+    // adjust the right padding of the event block
+    & .mbsc-schedule-events.mbsc-ltr {
+        right: 0.3rem;
+    }
+
+    // hover styling for event block
+    & .mbsc-schedule-event-hover  {
+        & .mbsc-schedule-event-background {
+            @apply opacity-100 bg-blueberry-650
+        }
+    }
+
+    // event block bg
+    & .mbsc-schedule-event-background {
+        @apply bg-blueberry-700 opacity-100;
+    }
+
+    // make the event bar gone for now
+    & .mbsc-schedule-event-bar {
+        @apply opacity-0
+    }
+
+    // event name
+    & .mbsc-schedule-event-title {
+        @apply text-blueberry-200
+    }
+
+    // time
+    & .mbsc-schedule-event-range {
+        @apply text-blueberry-200/60
+    }
+}
