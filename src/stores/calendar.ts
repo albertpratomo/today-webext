@@ -103,6 +103,7 @@ export const useCalendarStore = defineStore('calendar', () => {
                 localEvent.id = result.data.value.id!;
         }
 
+        args.event.id = localEvent.id;
         events.value.push(localEvent);
     }
 
