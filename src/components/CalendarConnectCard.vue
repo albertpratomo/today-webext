@@ -17,9 +17,13 @@ else if (authToken.value) {
 }
 
 async function _getEvents() {
-    const {error} = await fetchGcalEvents();
+    let response = await fetchGcalEvents();
 
-    isVisible.value = !!error.value;
+    // If authToken expired, authToken is refreshed in `useGcalApi`, then try fetch events again.
+    if (response.statusCode.value === 401)
+        response = await fetchGcalEvents();
+
+    isVisible.value = !!response.error.value;
 }
 
 async function connect() {

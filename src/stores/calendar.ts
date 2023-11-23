@@ -2,6 +2,7 @@ import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
 import type {MbscEventCreatedEvent, MbscEventDeletedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
+import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/gcal';
 import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
 import {getTimeOfDay} from '~/utils/date';
 import {useStorageLocal} from '~/utils/useStorageLocal';
@@ -11,7 +12,9 @@ export const useCalendarStore = defineStore('calendar', () => {
     // null -> user hasn't decided to connect or not
     // empty string '' -> user has chosen to disconnect
     // non-empty string ->  user has chosen to connnect
-    const authToken = useLocalStorage<string | null>('calendarAuthToken', null);
+    const authToken = useLocalStorage<string | null>('gcalAuthToken', null);
+
+    const refreshToken = useLocalStorage<string | null>('gcalRefreshToken', null);
 
     // The email account who owns the calendars.
     const calendarEmail = useLocalStorage<string>('calendarEmail', '');
@@ -19,24 +22,19 @@ export const useCalendarStore = defineStore('calendar', () => {
     const events = useStorageLocal<Event[]>('events', []);
 
     async function getAuthToken() {
-        // `chrome.identity.getAuthToken` didn't work in Arc. This is a work-around
-        // using `chrome.identity.launchWebAuthFlow`, as explained in
-        // https://github.com/GoogleChrome/developer.chrome.com/issues/7434
-        const url = new URL('https://accounts.google.com/o/oauth2/auth');
-        const manifest = chrome.runtime.getManifest();
-        url.searchParams.set('client_id', manifest.oauth2!.client_id);
-        url.searchParams.set('response_type', 'token');
-        url.searchParams.set('scope', manifest.oauth2!.scopes!.join(' '));
-        url.searchParams.set('redirect_uri', chrome.identity.getRedirectURL());
+        if (refreshToken.value) {
+            authToken.value = await refreshAccessToken(refreshToken.value);
+        }
+        else {
+            const code = await fetchAuthCode();
 
-        const response = await chrome.identity.launchWebAuthFlow({
-            interactive: true,
-            url: url.href,
-        });
+            const tokens = await fetchAccessToken(code);
 
-        const params = new URLSearchParams(response?.split('#')[1]);
+            authToken.value = tokens.access_token;
 
-        authToken.value = params.get('access_token');
+            if (tokens.refresh_token)
+                refreshToken.value = tokens.refresh_token;
+        }
     }
 
     const useGcalApi = createFetch({
@@ -51,6 +49,13 @@ export const useCalendarStore = defineStore('calendar', () => {
                 url += `${url.includes('?') ? '&' : '?'}key=AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo`;
 
                 return {url, options};
+            },
+            async onFetchError(ctx) {
+                // If error because authToken expired, refresh the authToken.
+                if (ctx.response?.status === 401)
+                    await getAuthToken();
+
+                return ctx;
             },
         },
     });
