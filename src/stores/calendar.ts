@@ -138,6 +138,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
     return {
         authToken,
+        refreshToken,
         calendarEmail,
         events,
 

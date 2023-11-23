@@ -53,3 +53,10 @@ export async function refreshAccessToken(refreshToken: string): Promise<string> 
 
     return data.value.access_token;
 }
+
+export async function revokeToken(token: string) {
+    const url = new URL('https://oauth2.googleapis.com/revoke');
+    url.searchParams.set('token', token);
+
+    return await useFetch(url.href).post().json();
+}

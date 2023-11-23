@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import {revokeToken} from '~/utils/gcal';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
-const {authToken, calendarEmail} = storeToRefs(useCalendarStore());
+const {authToken, refreshToken, calendarEmail} = storeToRefs(useCalendarStore());
 const {getAuthToken, fetchGcalEvents} = useCalendarStore();
 
 async function connect() {
@@ -13,8 +14,10 @@ async function connect() {
 
 function disconnect() {
     chrome.identity.removeCachedAuthToken({token: authToken.value!});
+    revokeToken(authToken.value!);
 
     authToken.value = '';
+    refreshToken.value = '';
 }
 </script>
 
