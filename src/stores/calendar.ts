@@ -8,15 +8,19 @@ import {getTimeOfDay} from '~/utils/date';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useCalendarStore = defineStore('calendar', () => {
-    // There are 3 possible states:
-    // null -> user hasn't decided to connect or not
-    // empty string '' -> user has chosen to disconnect
-    // non-empty string ->  user has chosen to connnect
+    /**
+     * There are 3 possible states:
+     * null -> user hasn't decided to connect or not
+     * empty string '' -> user has chosen to disconnect
+     * non-empty string ->  user has chosen to connnect
+     */
     const authToken = useLocalStorage<string | null>('gcalAuthToken', null);
 
     const refreshToken = useLocalStorage<string | null>('gcalRefreshToken', null);
 
-    // The email account who owns the calendars.
+    /**
+     * The email account who owns the calendars.
+     */
     const calendarEmail = useLocalStorage<string>('calendarEmail', '');
 
     const events = useStorageLocal<Event[]>('events', []);

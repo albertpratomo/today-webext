@@ -16,6 +16,7 @@ else if (authToken.value) {
     _getEvents();
 }
 
+// TODO: This component shouldn't be responsible to fetch events. Just connect to Gcal.
 async function _getEvents() {
     let response = await fetchGcalEvents();
 
