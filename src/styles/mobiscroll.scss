@@ -5,6 +5,8 @@ $mbsc-ios-accent: #3E3799;
 
 .mbsc-ios {
 
+    @apply font-sans;
+    
     // adjust the right padding of the event block
     &.mbsc-schedule-events.mbsc-ltr {
         right: 0.3rem;
@@ -29,12 +31,12 @@ $mbsc-ios-accent: #3E3799;
 
     // Event name label
     &.mbsc-schedule-event-title {
-        @apply text-blueberry-200;
+        @apply text-blueberry-200 text-[13px] mb-1 font-medium;
     }
 
     // Time label
     &.mbsc-schedule-event-range {
-        @apply text-blueberry-200/60;
+        @apply text-blueberry-200/60 text-[12px];
     }
 
     // Now indicator
@@ -45,4 +47,10 @@ $mbsc-ios-accent: #3E3799;
     &.mbsc-schedule-time-indicator {
         @apply border-red-400;
     }
+}
+
+// Row height
+.mbsc-schedule-time-wrapper,
+.mbsc-schedule-item {
+  height: 90px;
 }
