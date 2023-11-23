@@ -5,10 +5,6 @@ import fs from 'fs-extra';
 
 interface WebExtensionManifest extends Manifest.WebExtensionManifest {
     key: string
-    oauth2: {
-        client_id: string
-        scopes: string[]
-    }
 }
 
 export async function getManifest() {
@@ -50,10 +46,6 @@ export async function getManifest() {
             'storage',
             // 'activeTab',
         ],
-        oauth2: {
-            client_id: '1021613980165-d9mpvhig4v3i86eb4656j4p135ruedoi.apps.googleusercontent.com',
-            scopes: ['https://www.googleapis.com/auth/calendar'],
-        },
         // host_permissions: ['*://*/*'],
         // content_scripts: [
         //     {

@@ -1,9 +1,8 @@
 import {useFetch} from '@vueuse/core';
 
-const manifest = chrome.runtime.getManifest();
+const CLIENT_ID = '1021613980165-d9mpvhig4v3i86eb4656j4p135ruedoi.apps.googleusercontent.com';
 const CLIENT_SECRET = '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';
-const CLIENT_ID = manifest.oauth2!.client_id;
-const SCOPES = manifest.oauth2!.scopes!.join(' ');
+const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
 export async function fetchAuthCode(): Promise<string> {
     // `chrome.identity.getAuthToken` didn't work in Arc. This is a work-around
@@ -13,7 +12,7 @@ export async function fetchAuthCode(): Promise<string> {
     url.searchParams.set('client_id', CLIENT_ID);
     url.searchParams.set('response_type', 'code');
     url.searchParams.set('access_type', 'offline');
-    url.searchParams.set('scope', SCOPES);
+    url.searchParams.set('scope', SCOPES.join(' '));
     url.searchParams.set('redirect_uri', chrome.identity.getRedirectURL());
 
     const response = await chrome.identity.launchWebAuthFlow({
