@@ -7,15 +7,22 @@ import {useTasksStore} from '~/stores/tasks';
 const {taskParent, tasks, doneTasks, selectedIndexes, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
 
 const route = useRoute();
-const currentRouteName = computed(() => route.name);
+
+const currentParent = computed(() => {
+    return (typeof route.name === 'string' && ['inbox', 'today'].includes(route.name) ? route.name : 'today');
+});
+
+onMounted(() => {
+    taskParent.value = currentParent.value;
+});
+
+watch(currentParent, (newName) => {
+    taskParent.value = newName;
+});
 
 const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 
 const isCalendarVisible = ref(true);
-
-watch(currentRouteName, (newRouteName) => {
-    taskParent.value = typeof newRouteName == 'string' && ['inbox', 'today'].includes(newRouteName) ? newRouteName : 'today';
-});
 </script>
 
 <template>

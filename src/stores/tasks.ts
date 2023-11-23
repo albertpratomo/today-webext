@@ -7,7 +7,7 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
-    const taskParent = useStorageLocal<string>('taskParent', 'today');
+    const taskParent = ref<string>('today');
 
     const tasks = useStorageLocal<Task[]>('tasks', generateTasks([
         'Press <code>N</code> to create a new task ✨',

@@ -76,7 +76,7 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 
     e.preventDefault();
 
-    const taskLength = tasks.value.length;
+    const taskLength = parentTasks.value.length;
     const isArrowDown = e.key === 'ArrowDown';
 
     const lastIndex = lastSelectedIndex.value ?? (isArrowDown ? -1 : 0);
