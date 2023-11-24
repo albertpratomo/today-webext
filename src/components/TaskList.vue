@@ -23,14 +23,11 @@ const selectedTaskIds = defineModel<number[]>('selectedTaskIds', {local: true, d
 
 const lastSelectedTaskId = computed(() => selectedTaskIds.value.at(-1));
 
-const selectedTaskIndexes = computed(() => {
-    return selectedTaskIds.value.map(taskId =>
-        tasks.value.findIndex(task => task.id === taskId),
-    );
-});
-
 const parentTasks = computed(() => {
-    return tasks.value.filter(task => task.parent === props.tasksParent || (typeof task.parent === 'undefined' && props.tasksParent === 'today'));
+    if (props.tasksParent === null)
+        return tasks.value;
+    else
+        return tasks.value.filter(task => task.parent === props.tasksParent || (typeof task.parent === 'undefined' && props.tasksParent === 'today'));
 });
 
 const parentDoneTasks = computed(() => {
@@ -157,7 +154,11 @@ const toggleText = computed(() => {
 
 const {trashTasks} = useTrashStore();
 onKeyStroke(['Backspace'], () => {
-    trashTasks(tasks, selectedTaskIndexes.value);
+    const selectedTaskIndexes = selectedTaskIds.value.map(taskId =>
+        tasks.value.findIndex(task => task.id === taskId),
+    );
+
+    trashTasks(tasks, selectedTaskIndexes);
 
     if (selectedTaskIds.value.length > 1)
         selectTask(0);
