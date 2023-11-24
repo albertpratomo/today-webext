@@ -91,6 +91,7 @@ onKeyStroke('Enter', () => {
 
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
+    handle: '.drag-handle',
     onUpdate: async (e: SortableEvent) => {
         swapTask(e.oldIndex!, e.newIndex!);
     },

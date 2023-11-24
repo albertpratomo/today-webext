@@ -76,6 +76,8 @@ $mbsc-ios-accent: #3E3799;
     .mbsc-schedule-event-inner {
         @apply px-1.5 py-1;
     }
+}
 
-    
+.mbsc-drag-clone {
+    @apply bg-indigo-950 border-indigo-900;
 }
