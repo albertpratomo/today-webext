@@ -7,6 +7,18 @@ $mbsc-ios-accent: #3E3799;
 
     @apply font-sans;
 
+    // Calendar Panel Header
+    &.mbsc-schedule-date-header {
+        @apply bg-transparent border-none;
+    }
+    &.mbsc-schedule-header,
+    .mbsc-schedule-header-item { 
+        @apply border-none;
+    }
+    &.mbsc-schedule-date-header-text {
+        @apply text-left text-gray-400 font-medium text-sm;
+    }
+
     // Calendar block: Right padding
     &.mbsc-schedule-events.mbsc-ltr {
         right: 0.3rem;
