@@ -4,7 +4,7 @@ import {storeToRefs} from 'pinia';
 import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
 
-const {taskParent, tasks, doneTasks, selectedIndexes, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
+const {taskParent, tasks, doneTasks, selectedTaskIds, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
 
 const route = useRoute();
 
@@ -70,7 +70,7 @@ const isCalendarVisible = ref(true);
                     <TaskList
                         v-model="tasks"
                         v-model:done-tasks="doneTasks"
-                        v-model:selected-indexes="selectedIndexes"
+                        v-model:selected-task-ids="selectedTaskIds"
                         class="mt-8 pb-10"
                         :task-parent="taskParent"
                     />

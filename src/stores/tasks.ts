@@ -17,8 +17,8 @@ export const useTasksStore = defineStore('tasks', () => {
         'ProTip: Use arrow keys to navigate',
     ]));
 
-    const selectedIndexes = ref<number[]>([]);
-    const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
+    const selectedTaskIds = ref<number[]>([]);
+    const lastSelectedTaskId = computed(() => selectedTaskIds.value.at(-1));
 
     // Create Task ------------------------------------------------------------
 
@@ -51,8 +51,8 @@ export const useTasksStore = defineStore('tasks', () => {
             return;
 
         // Find the last selected index.
-        const index = selectedIndexes.value.length
-            ? (selectedIndexes.value.at(-1) || 0) + 1
+        const index = typeof lastSelectedTaskId.value === 'number'
+            ? tasks.value.findIndex(task => task.id === lastSelectedTaskId.value) + 1
             : 0;
 
         draftCreateTask.value.parent = taskParent.value;
@@ -62,7 +62,7 @@ export const useTasksStore = defineStore('tasks', () => {
         useHistoryStore().commit();
 
         // Highlight the newly created task.
-        selectedIndexes.value = [index];
+        selectedTaskIds.value = [draftCreateTask.value.id];
 
         draftCreateTask.value = {
             id: ++lastTaskId.value,
@@ -150,8 +150,7 @@ export const useTasksStore = defineStore('tasks', () => {
     return {
         taskParent,
         tasks,
-        selectedIndexes,
-        lastSelectedIndex,
+        selectedTaskIds,
 
         lastTaskId,
         draftCreateTask,
