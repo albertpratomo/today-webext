@@ -2,12 +2,13 @@
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
 import {MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
+import {useCalendarStore, useTasksStore} from '~/stores';
 import {luxonTimezone} from '@mobiscroll/vue';
 import {storeToRefs} from 'pinia';
-import {useCalendarStore} from '~/stores';
 
 const {events} = storeToRefs(useCalendarStore());
 const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
+const {taskById} = useTasksStore();
 
 luxonTimezone.luxon = luxon;
 
@@ -25,6 +26,16 @@ const options: MbscEventcalendarOptions = {
     timezonePlugin: luxonTimezone,
     view: {schedule: {type: 'day', days: false}},
 };
+
+function _createEvent(args: any) {
+    createEvent(args);
+
+    if (typeof args.event.task_id === 'number') {
+        const taskToEdit = taskById(args.event.task_id);
+        if (taskToEdit)
+            taskToEdit.parent = 'today';
+    }
+}
 </script>
 
 <template>
@@ -32,7 +43,7 @@ const options: MbscEventcalendarOptions = {
         <MbscEventcalendar
             v-bind="options"
             :data="events"
-            @event-created="createEvent"
+            @event-created="_createEvent"
             @event-deleted="deleteEvent"
             @event-updated="updateEvent"
         />
