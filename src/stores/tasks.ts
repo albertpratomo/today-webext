@@ -17,6 +17,10 @@ export const useTasksStore = defineStore('tasks', () => {
         'ProTip: Use arrow keys to navigate',
     ]));
 
+    function taskById(id: number) {
+        return tasks.value.find(task => task.id === id);
+    }
+
     const selectedTaskIds = ref<number[]>([]);
     const lastSelectedTaskId = computed(() => selectedTaskIds.value.at(-1));
 
@@ -150,7 +154,9 @@ export const useTasksStore = defineStore('tasks', () => {
     return {
         tasksParent,
         tasks,
+        taskById,
         selectedTaskIds,
+        lastSelectedTaskId,
 
         lastTaskId,
         draftCreateTask,

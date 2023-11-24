@@ -120,10 +120,10 @@ onKeyStroke(['Esc', 'Escape'], () => {
     selectTask([]);
 });
 
-const {editTask} = useTasksStore();
+const {editTask, taskById} = useTasksStore();
 onKeyStroke('Enter', () => {
     if (typeof lastSelectedTaskId.value === 'number') {
-        const taskToEdit = parentTasks.value.find(task => task.id === lastSelectedTaskId.value);
+        const taskToEdit = taskById(lastSelectedTaskId.value);
         if (taskToEdit)
             editTask(taskToEdit);
     }
