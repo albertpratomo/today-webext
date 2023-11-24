@@ -101,19 +101,18 @@ const isSettingsOpen = ref(false);
             </li>
         </ul>
 
-        <div
-            v-tippy="{
-                content: $t('comingSoon'),
-                placement: 'right-start',
-                offset: [0, 6],
-            }"
-            class="mb-10 flex flex-grow justify-between pl-2.5 pr-1 text-gray-500"
-        >
+        <div class="mb-10 flex flex-grow justify-between pl-2.5 pr-1 text-gray-500">
             <div class="text-xs">
                 {{ $t('projects') }}
             </div>
 
-            <MaterialSymbolsAdd />
+            <MaterialSymbolsAdd
+                v-tippy="{
+                    content: $t('comingSoon'),
+                    placement: 'right-start',
+                    offset: [0, 6],
+                }"
+            />
         </div>
 
         <button
