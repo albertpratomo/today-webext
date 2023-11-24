@@ -4,7 +4,7 @@ import {storeToRefs} from 'pinia';
 import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
 
-const {taskParent, tasks, doneTasks, selectedTaskIds, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
+const {tasksParent, tasks, doneTasks, selectedTaskIds, taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
 
 const route = useRoute();
 
@@ -13,11 +13,11 @@ const currentParent = computed(() => {
 });
 
 onMounted(() => {
-    taskParent.value = currentParent.value;
+    tasksParent.value = currentParent.value;
 });
 
 watch(currentParent, (newName) => {
-    taskParent.value = newName;
+    tasksParent.value = newName;
 });
 
 const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
@@ -41,10 +41,10 @@ const isCalendarVisible = ref(true);
                 <div class="max-w-[960px] min-w-0 grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
-                            {{ $t(taskParent) }}
+                            {{ $t(tasksParent) }}
 
                             <span
-                                v-show="taskParent === 'today'"
+                                v-show="tasksParent === 'today'"
                                 class="ml-1 text-gray-500"
                             >
                                 {{ currentDate }}
@@ -72,7 +72,7 @@ const isCalendarVisible = ref(true);
                         v-model:done-tasks="doneTasks"
                         v-model:selected-task-ids="selectedTaskIds"
                         class="mt-8 pb-10"
-                        :task-parent="taskParent"
+                        :tasks-parent="tasksParent"
                     />
                 </div>
             </div>

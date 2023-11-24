@@ -8,10 +8,10 @@ import {pomodoroIsEnabled} from '~/utils/featureToggle';
 
 const props = withDefaults(
     defineProps<{
-        taskParent?: string | null
+        tasksParent?: string | null
     }>(),
     {
-        taskParent: null,
+        tasksParent: null,
     },
 );
 
@@ -30,11 +30,11 @@ const selectedTaskIndexes = computed(() => {
 });
 
 const parentTasks = computed(() => {
-    return tasks.value.filter(task => task.parent === props.taskParent || (typeof task.parent === 'undefined' && props.taskParent === 'today'));
+    return tasks.value.filter(task => task.parent === props.tasksParent || (typeof task.parent === 'undefined' && props.tasksParent === 'today'));
 });
 
 const parentDoneTasks = computed(() => {
-    return doneTasks.value.filter(task => task.parent === props.taskParent);
+    return doneTasks.value.filter(task => task.parent === props.tasksParent);
 });
 
 onMounted(() => useHistoryStore());
