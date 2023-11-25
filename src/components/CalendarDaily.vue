@@ -55,7 +55,7 @@ function getEventClass(event: Event) {
             <template #scheduleEvent="{allDay, original, title}">
                 <div
                     bg="blueberry-700 hover:blueberry-650 [.mbsc-schedule-event-active_&]:blueberry-600!"
-                    class="h-full items-center justify-between rounded px-2"
+                    class="h-full items-center justify-between border-r border-gray-850 rounded px-2"
                     :class="getEventClass(original)"
                 >
                     <div class="truncate text-2sm font-medium text-blueberry-200">

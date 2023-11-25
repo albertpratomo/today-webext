@@ -25,10 +25,7 @@ $mbsc-ios-accent: #3E3799;
     .mbsc-timeline-sidebar-col,
     .mbsc-schedule-time-col,
     .mbsc-schedule-time-wrapper {
-      width: 3.1em;
-    }
-    .mbsc-schedule-time-indicator-x.mbsc-ltr {
-        left: 3.3em;
+      width: 2.9em;
     }
 
     .mbsc-schedule-event-all-day {
@@ -46,12 +43,10 @@ $mbsc-ios-accent: #3E3799;
     // TODO: Nest this css classes
 
     .mbsc-schedule-events {
-        @apply right-0;
+        @apply right-0 left-1;
     }
 
     .mbsc-schedule-event {
-        @apply pl-1;
-
         .mbsc-schedule-event-resize {
             &:after {
                 @apply hidden;
@@ -63,14 +58,13 @@ $mbsc-ios-accent: #3E3799;
         @apply hidden;
     }
 
-    // Now indicator: text
-    &.mbsc-schedule-time-indicator-time {
-        @apply text-red-400;
-    }
-
-    // Now indicator: line
+    // Now Indicator
     &.mbsc-schedule-time-indicator {
-        @apply border-red-400;
+        @apply border-red-400 left-[2.9em];
+
+        .mbsc-schedule-time-indicator-time {
+            @apply text-red-400 pr-1 pl-0;
+        }
     }
 
     // Calendar time text
