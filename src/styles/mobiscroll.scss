@@ -25,38 +25,6 @@ $mbsc-ios-accent: #3E3799;
         right: 0.3rem;
     }
 
-    // Event block: Hover styling
-    &.mbsc-schedule-event-hover  {
-        & .mbsc-schedule-event-background {
-            @apply opacity-100 bg-blueberry-650;
-        }
-    }
-    &.mbsc-schedule-event-active  {
-        & .mbsc-schedule-event-background {
-            @apply opacity-100 bg-blueberry-600;
-        }
-    }
-
-    // Event block: Background
-    &.mbsc-schedule-event-background {
-        @apply bg-blueberry-700 opacity-100;
-    }
-
-    // Event block: Left stripe color
-    &.mbsc-schedule-event-bar {
-        @apply opacity-0;
-    }
-
-    // Event block: Event name label
-    &.mbsc-schedule-event-title {
-        @apply text-blueberry-200 text-[13px] mb-0.5 font-medium;
-    }
-
-    // Event block: Time label
-    &.mbsc-schedule-event-range {
-        @apply text-blueberry-200/60 text-[11.5px];
-    }
-
     // Now indicator: text
     &.mbsc-schedule-time-indicator-time {
         @apply text-red-400;
