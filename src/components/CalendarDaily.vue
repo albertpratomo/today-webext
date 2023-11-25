@@ -47,7 +47,7 @@ const options: MbscEventcalendarOptions = {
                         {{ title }}
                     </div>
 
-                    <div class="text-[11.5px] text-blueberry-200/60">
+                    <div class="text-xs text-blueberry-200/60">
                         {{ getDuration(original.start, original.end) }}
                     </div>
                 </div>

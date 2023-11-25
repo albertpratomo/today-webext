@@ -1,6 +1,7 @@
 $mbsc-ios-dark-background: #1C1D24;
 $mbsc-ios-accent: #3E3799;
 
+// TODO: Use modular scss
 @import '@mobiscroll/vue/dist/css/mobiscroll.scss';
 
 .mbsc-ios {
@@ -38,7 +39,7 @@ $mbsc-ios-accent: #3E3799;
     // Row height
     .mbsc-schedule-time-wrapper,
     .mbsc-schedule-item {
-    height: 80px;
+        @apply h-[100px];
     }
 
     // Event block: inner padding
