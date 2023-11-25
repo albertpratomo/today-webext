@@ -25,7 +25,10 @@ $mbsc-ios-accent: #3E3799;
     .mbsc-timeline-sidebar-col,
     .mbsc-schedule-time-col,
     .mbsc-schedule-time-wrapper {
-      width: 2.1em;
+      width: 3.1em;
+    }
+    .mbsc-schedule-time-indicator-x.mbsc-ltr {
+        left: 3.3em;
     }
 
     .mbsc-schedule-event-all-day {
