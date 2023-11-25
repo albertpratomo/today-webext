@@ -71,7 +71,7 @@ const el = ref(null);
         </div>
 
         <button
-            class="drag-handle absolute right-3 top-2 ml-1 mt-[2px] h-4 text-gray-350 opacity-0 group-hover:opacity-100"
+            class="drag-handle absolute bottom-0 right-0 top-0 px-3 text-gray-350 opacity-0 group-hover:opacity-100"
             :class="{'opacity-100': isSelected}"
             tabindex="-1"
         >
