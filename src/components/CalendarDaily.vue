@@ -2,6 +2,7 @@
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
 import {MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
+import {useDateFormat, useNow} from '@vueuse/core';
 import type {Event} from '~/models/Event';
 import {getDuration} from '~/utils/date';
 import {luxonTimezone} from '@mobiscroll/vue';
@@ -29,6 +30,8 @@ const options: MbscEventcalendarOptions = {
     view: {schedule: {type: 'day', days: false}},
 };
 
+const currentDate = useDateFormat(useNow(), 'DD MMM');
+
 function getEventClass(event: Event) {
     if (event.allDay)
         return '';
@@ -45,6 +48,10 @@ function getEventClass(event: Event) {
 
 <template>
     <div class="relative h-full">
+        <div class="mb-2 text-sm font-medium text-gray-500">
+            {{ currentDate }}
+        </div>
+
         <MbscEventcalendar
             v-bind="options"
             :data="events"

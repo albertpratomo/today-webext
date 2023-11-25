@@ -8,9 +8,9 @@ $mbsc-ios-accent: #3E3799;
 .mbsc-ios {
     @apply font-sans;
 
-    // Calendar Panel Header
+    // Header
     &.mbsc-schedule-date-header {
-        @apply bg-transparent border-none;
+        @apply hidden;
     }
     &.mbsc-schedule-header,
     .mbsc-schedule-header-item { 
