@@ -11,18 +11,6 @@ devDependencies:
   '@ffflorian/jszip-cli':
     specifier: ^3.4.1
     version: 3.5.0(typescript@5.2.2)
-  '@fullcalendar/core':
-    specifier: ^6.1.8
-    version: 6.1.9
-  '@fullcalendar/interaction':
-    specifier: ^6.1.9
-    version: 6.1.9(@fullcalendar/core@6.1.9)
-  '@fullcalendar/timegrid':
-    specifier: ^6.1.8
-    version: 6.1.9(@fullcalendar/core@6.1.9)
-  '@fullcalendar/vue3':
-    specifier: ^6.1.8
-    version: 6.1.9(@fullcalendar/core@6.1.9)(vue@3.3.8)
   '@googleapis/calendar':
     specifier: ^9.3.1
     version: 9.3.2
@@ -50,12 +38,6 @@ devDependencies:
   '@testing-library/vue':
     specifier: ^7.0.0
     version: 7.0.0(@vue/compiler-sfc@3.3.8)(vue@3.3.8)
-  '@tiptap/extension-task-item':
-    specifier: ^2.0.4
-    version: 2.1.12(@tiptap/core@2.1.12)(@tiptap/pm@2.1.12)
-  '@tiptap/extension-task-list':
-    specifier: ^2.0.4
-    version: 2.1.12(@tiptap/core@2.1.12)
   '@tiptap/pm':
     specifier: ^2.0.4
     version: 2.1.12
@@ -699,47 +681,6 @@ packages:
     engines: {node: '>=14.0.0', npm: '>=7.0.0'}
     dev: true
 
-  /@fullcalendar/core@6.1.9:
-    resolution: {integrity: sha512-eeG+z9BWerdsU9Ac6j16rpYpPnE0wxtnEHiHrh/u/ADbGTR3hCOjCD9PxQOfhOTHbWOVs7JQunGcksSPu5WZBQ==}
-    dependencies:
-      preact: 10.12.1
-    dev: true
-
-  /@fullcalendar/daygrid@6.1.9(@fullcalendar/core@6.1.9):
-    resolution: {integrity: sha512-o/6joH/7lmVHXAkbaa/tUbzWYnGp/LgfdiFyYPkqQbjKEeivNZWF1WhHqFbhx0zbFONSHtrvkjY2bjr+Ef2quQ==}
-    peerDependencies:
-      '@fullcalendar/core': ~6.1.9
-    dependencies:
-      '@fullcalendar/core': 6.1.9
-    dev: true
-
-  /@fullcalendar/interaction@6.1.9(@fullcalendar/core@6.1.9):
-    resolution: {integrity: sha512-I3FGnv0kKZpIwujg3HllbKrciNjTqeTYy3oJG226oAn7lV6wnrrDYMmuGmA0jPJAGN46HKrQqKN7ItxQRDec4Q==}
-    peerDependencies:
-      '@fullcalendar/core': ~6.1.9
-    dependencies:
-      '@fullcalendar/core': 6.1.9
-    dev: true
-
-  /@fullcalendar/timegrid@6.1.9(@fullcalendar/core@6.1.9):
-    resolution: {integrity: sha512-le7UV05wVE1Trdr054kgJXTwa+A1pEI8nlCBnPWdcyrL+dTLoPvQ4AWEVCnV7So+4zRYaCqnqGXfCJsj0RQa0g==}
-    peerDependencies:
-      '@fullcalendar/core': ~6.1.9
-    dependencies:
-      '@fullcalendar/core': 6.1.9
-      '@fullcalendar/daygrid': 6.1.9(@fullcalendar/core@6.1.9)
-    dev: true
-
-  /@fullcalendar/vue3@6.1.9(@fullcalendar/core@6.1.9)(vue@3.3.8):
-    resolution: {integrity: sha512-nuEEb/6uRhD0AH3PzU4Mtod3dD7S729nA1oYorMdCYMgUvXoHJlz2wOKK8w4LGZIn6K2R8Yzo8ol33ElBjHo3A==}
-    peerDependencies:
-      '@fullcalendar/core': ~6.1.9
-      vue: ^3.0.11
-    dependencies:
-      '@fullcalendar/core': 6.1.9
-      vue: 3.3.8(typescript@5.2.2)
-    dev: true
-
   /@googleapis/calendar@9.3.2:
     resolution: {integrity: sha512-iSdFn/T5s+Ht01PWVqRWABugNJBHdb4txQqQQJupsQrTQTbKUxO3DL2gTlIIlK1gBO+CEK7RjIU22IC5O8WEvw==}
     engines: {node: '>=12.0.0'}
@@ -1309,24 +1250,6 @@ packages:
 
   /@tiptap/extension-strike@2.1.12(@tiptap/core@2.1.12):
     resolution: {integrity: sha512-HlhrzIjYUT8oCH9nYzEL2QTTn8d1ECnVhKvzAe6x41xk31PjLMHTUy8aYjeQEkWZOWZ34tiTmslV1ce6R3Dt8g==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0
-    dependencies:
-      '@tiptap/core': 2.1.12(@tiptap/pm@2.1.12)
-    dev: true
-
-  /@tiptap/extension-task-item@2.1.12(@tiptap/core@2.1.12)(@tiptap/pm@2.1.12):
-    resolution: {integrity: sha512-uqrDTO4JwukZUt40GQdvB6S+oDhdp4cKNPMi0sbteWziQugkSMLlkYvxU0Hfb/YeziaWWwFI7ssPu/hahyk6dQ==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/core': 2.1.12(@tiptap/pm@2.1.12)
-      '@tiptap/pm': 2.1.12
-    dev: true
-
-  /@tiptap/extension-task-list@2.1.12(@tiptap/core@2.1.12):
-    resolution: {integrity: sha512-BUpYlEWK+Q3kw9KIiOqvhd0tUPhMcOf1+fJmCkluJok+okAxMbP1umAtCEQ3QkoCwLr+vpHJov7h3yi9+dwgeQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
@@ -6675,10 +6598,6 @@ packages:
       nanoid: 3.3.7
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
-
-  /preact@10.12.1:
-    resolution: {integrity: sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==}
     dev: true
 
   /prelude-ls@1.2.1:
