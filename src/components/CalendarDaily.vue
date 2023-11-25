@@ -24,11 +24,15 @@ const options: MbscEventcalendarOptions = {
     showControls: false,
     theme: 'ios',
     themeVariant: 'dark',
+    timeFormat: 'H', // TODO: seems not working
     timezonePlugin: luxonTimezone,
     view: {schedule: {type: 'day', days: false}},
 };
 
 function getEventClass(event: Event) {
+    if (event.allDay)
+        return '';
+
     const duration = getDuration(event.start, event.end);
 
     switch (duration) {
@@ -48,17 +52,20 @@ function getEventClass(event: Event) {
             @event-deleted="deleteEvent"
             @event-updated="updateEvent"
         >
-            <template #scheduleEvent="{title, original}">
+            <template #scheduleEvent="{allDay, original, title}">
                 <div
                     bg="blueberry-700 hover:blueberry-650 [.mbsc-schedule-event-active_&]:blueberry-600!"
-                    class="h-full items-center justify-between border-x border-gray-850 rounded px-2"
+                    class="h-full items-center justify-between rounded px-2"
                     :class="getEventClass(original)"
                 >
                     <div class="truncate text-2sm font-medium text-blueberry-200">
                         {{ title }}
                     </div>
 
-                    <div class="text-xs text-blueberry-200/60">
+                    <div
+                        v-if="!allDay"
+                        class="text-xs text-blueberry-200/60"
+                    >
                         {{ getDuration(original.start, original.end) }}
                     </div>
                 </div>
