@@ -2,6 +2,7 @@
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
 import {MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
+import type {Event} from '~/models/Event';
 import {getDuration} from '~/utils/date';
 import {luxonTimezone} from '@mobiscroll/vue';
 import {storeToRefs} from 'pinia';
@@ -26,6 +27,16 @@ const options: MbscEventcalendarOptions = {
     timezonePlugin: luxonTimezone,
     view: {schedule: {type: 'day', days: false}},
 };
+
+function getEventClass(event: Event) {
+    const duration = getDuration(event.start, event.end);
+
+    switch (duration) {
+        case '15m': return 'flex';
+        case '30m': return 'pt-.5';
+        default: return 'pt-1';
+    }
+}
 </script>
 
 <template>
@@ -40,8 +51,8 @@ const options: MbscEventcalendarOptions = {
             <template #scheduleEvent="{title, original}">
                 <div
                     bg="blueberry-700 hover:blueberry-650 [.mbsc-schedule-event-active_&]:blueberry-600!"
-                    class="h-full items-center justify-between border-x border-gray-850 rounded [.fc-timegrid-event-short_&]:flex [.fc-timegrid-event-short_&]:pt-0"
-                    p="x-2 t-1"
+                    class="h-full items-center justify-between border-x border-gray-850 rounded px-2"
+                    :class="getEventClass(original)"
                 >
                     <div class="truncate text-2sm font-medium text-blueberry-200">
                         {{ title }}

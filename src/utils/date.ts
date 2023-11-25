@@ -11,7 +11,7 @@ export function getDuration(startStr: string, endStr: string) {
     return [
         hours ? `${hours}h` : undefined,
         minutes ? `${minutes}m` : undefined,
-    ].join(' ');
+    ].join(' ').trim();
 };
 
 export function getTimeOfDay(date: Date, type: 'start' | 'end') {
