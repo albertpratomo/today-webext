@@ -23,7 +23,7 @@ onKeyStroke([']'], () => {
     <LayoutSidebar>
         <div class="relative h-full min-w-0 flex">
             <Button
-                class="absolute right-2 top-2 z-10 text-gray-500"
+                class="absolute right-1 top-1 z-10 text-gray-500"
                 size="square"
                 variant="ghost"
                 @click="toggleCalendar"
@@ -70,7 +70,7 @@ onKeyStroke([']'], () => {
             <Transition name="slide-left-right">
                 <div
                     v-show="isCalendarVisible"
-                    class="shrink-0 border-l border-gray-750 p-3 pt-4"
+                    class="shrink-0 border-l border-gray-750 p-3 py-2.5"
                     w="70 xl:80"
                 >
                     <CalendarDaily />

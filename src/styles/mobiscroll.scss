@@ -4,7 +4,6 @@ $mbsc-ios-accent: #3E3799;
 @import '@mobiscroll/vue/dist/css/mobiscroll.scss';
 
 .mbsc-ios {
-
     @apply font-sans;
 
     // Calendar Panel Header
@@ -16,15 +15,17 @@ $mbsc-ios-accent: #3E3799;
         @apply border-none;
     }
     &.mbsc-schedule-date-header-text {
-        @apply text-left text-gray-400 font-medium text-sm;
+        @apply text-left text-gray-400 font-medium text-sm p-0 mb-4;
     }
 
-    // Calendar block: Right padding
+    // TODO: Nest this css classes
+
+    // Event block: Right padding
     &.mbsc-schedule-events.mbsc-ltr {
         right: 0.3rem;
     }
 
-    // Calendar block: Hover styling
+    // Event block: Hover styling
     &.mbsc-schedule-event-hover  {
         & .mbsc-schedule-event-background {
             @apply opacity-100 bg-blueberry-650;
@@ -36,22 +37,22 @@ $mbsc-ios-accent: #3E3799;
         }
     }
 
-    // Calendar block: Background
+    // Event block: Background
     &.mbsc-schedule-event-background {
         @apply bg-blueberry-700 opacity-100;
     }
 
-    // Calendar block: Left stripe color
+    // Event block: Left stripe color
     &.mbsc-schedule-event-bar {
         @apply opacity-0;
     }
 
-    // Calendar block: Event name label
+    // Event block: Event name label
     &.mbsc-schedule-event-title {
         @apply text-blueberry-200 text-[13px] mb-0.5 font-medium;
     }
 
-    // Calendar block: Time label
+    // Event block: Time label
     &.mbsc-schedule-event-range {
         @apply text-blueberry-200/60 text-[11.5px];
     }
@@ -72,7 +73,7 @@ $mbsc-ios-accent: #3E3799;
     height: 80px;
     }
 
-    // Calendar block: inner padding
+    // Event block: inner padding
     .mbsc-schedule-event-inner {
         @apply px-1.5 py-1;
     }
