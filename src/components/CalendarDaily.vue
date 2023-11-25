@@ -48,36 +48,38 @@ function getEventClass(event: Event) {
 
 <template>
     <div class="relative h-full">
-        <div class="mb-2 text-sm font-medium text-gray-500">
-            {{ currentDate }}
-        </div>
+        <div class="h-full overflow-y-hidden">
+            <div class="mb-2 text-sm font-medium text-gray-500">
+                {{ currentDate }}
+            </div>
 
-        <MbscEventcalendar
-            v-bind="options"
-            :data="events"
-            @event-created="createEvent"
-            @event-deleted="deleteEvent"
-            @event-updated="updateEvent"
-        >
-            <template #scheduleEvent="{allDay, original, title}">
-                <div
-                    bg="blueberry-700 hover:blueberry-650 [.mbsc-schedule-event-active_&]:blueberry-600!"
-                    class="h-full items-center justify-between border-r border-gray-850 rounded px-2"
-                    :class="getEventClass(original)"
-                >
-                    <div class="truncate text-2sm font-medium text-blueberry-200">
-                        {{ title }}
-                    </div>
-
+            <MbscEventcalendar
+                v-bind="options"
+                :data="events"
+                @event-created="createEvent"
+                @event-deleted="deleteEvent"
+                @event-updated="updateEvent"
+            >
+                <template #scheduleEvent="{allDay, original, title}">
                     <div
-                        v-if="!allDay"
-                        class="text-xs text-blueberry-200/60"
+                        bg="blueberry-700 hover:blueberry-650 [.mbsc-schedule-event-active_&]:blueberry-600!"
+                        class="h-full items-center justify-between border-r border-gray-850 rounded px-2"
+                        :class="getEventClass(original)"
                     >
-                        {{ getDuration(original.start, original.end) }}
+                        <div class="truncate text-2sm font-medium text-blueberry-200">
+                            {{ title }}
+                        </div>
+
+                        <div
+                            v-if="!allDay"
+                            class="text-xs text-blueberry-200/60"
+                        >
+                            {{ getDuration(original.start, original.end) }}
+                        </div>
                     </div>
-                </div>
-            </template>
-        </MbscEventcalendar>
+                </template>
+            </MbscEventcalendar>
+        </div>
 
         <Suspense>
             <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />

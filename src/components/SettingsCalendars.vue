@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {notify} from 'notiwind';
 import {revokeToken} from '~/utils/gcal';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
@@ -6,18 +7,29 @@ import {useCalendarStore} from '~/stores';
 const {authToken, refreshToken, calendarEmail} = storeToRefs(useCalendarStore());
 const {getAuthToken, fetchGcalEvents} = useCalendarStore();
 
+const {t} = useI18n();
+
 async function connect() {
     await getAuthToken();
 
-    fetchGcalEvents();
+    const response = await fetchGcalEvents();
+
+    if (!response.error.value && response.data.value) {
+        notify({
+            group: 'general',
+            text: t('settingsCalendars.gcal.connect.successMessage'),
+            isCloseable: true,
+        }, 4000);
+    }
 }
 
 function disconnect() {
     chrome.identity.removeCachedAuthToken({token: authToken.value!});
     revokeToken(authToken.value!);
 
-    authToken.value = '';
-    refreshToken.value = '';
+    // Set authToken to null, so CalendarConnectCard is shown again.
+    authToken.value = null;
+    refreshToken.value = null;
 }
 </script>
 

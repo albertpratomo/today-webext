@@ -6,4 +6,6 @@ import {pomodoroIsEnabled} from '~/utils/featureToggle';
     <RouterView />
 
     <PomodoroWindow v-if="pomodoroIsEnabled" />
+
+    <NotificationToasts />
 </template>

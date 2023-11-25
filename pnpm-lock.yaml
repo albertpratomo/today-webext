@@ -131,6 +131,9 @@ devDependencies:
   luxon:
     specifier: ^3.4.4
     version: 3.4.4
+  notiwind:
+    specifier: ^2.0.2
+    version: 2.0.2(vue@3.3.8)
   npm-run-all:
     specifier: ^4.1.5
     version: 4.1.5
@@ -5863,6 +5866,10 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
 
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: true
+
   /mkdirp@0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
@@ -6052,6 +6059,15 @@ packages:
   /normalize-url@8.0.0:
     resolution: {integrity: sha512-uVFpKhj5MheNBJRTiMZ9pE/7hD1QTeEvugSJW/OmLzAp78PB5O6adfMNTvmfKhXBkvCzC+rqifWcVYpGFwTjnw==}
     engines: {node: '>=14.16'}
+    dev: true
+
+  /notiwind@2.0.2(vue@3.3.8):
+    resolution: {integrity: sha512-wMCf+07E093d0Q78C5UHroT9GQHm4mIGerhg7dGLJ0GN6zONqKj8nTR3clkq/Y44On9k28/0DtDNwOX7FT5p/A==}
+    peerDependencies:
+      vue: ^3.3.4
+    dependencies:
+      mitt: 3.0.1
+      vue: 3.3.8(typescript@5.2.2)
     dev: true
 
   /npm-run-all@4.1.5:

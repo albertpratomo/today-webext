@@ -32,6 +32,7 @@ export default {
         gcal: {
             connect: {
                 subtitle: 'See events from your Google Calendar',
+                successMessage: 'Your Google Calendar is connected.',
                 title: 'Connect Google Calendar',
             },
         },

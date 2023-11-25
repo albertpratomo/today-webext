@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {notify} from 'notiwind';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
@@ -6,6 +7,8 @@ const isVisible = ref(false);
 
 const {authToken} = storeToRefs(useCalendarStore());
 const {getAuthToken, fetchGcalEvents} = useCalendarStore();
+
+const {t} = useI18n();
 
 if (authToken.value === null) {
     isVisible.value = true;
@@ -25,12 +28,22 @@ async function _getEvents() {
         response = await fetchGcalEvents();
 
     isVisible.value = !!response.error.value;
+
+    return response;
 }
 
 async function connect() {
     await getAuthToken();
 
-    _getEvents();
+    const response = await _getEvents();
+
+    if (!response.error.value && response.data.value) {
+        notify({
+            group: 'general',
+            text: t('settingsCalendars.gcal.connect.successMessage'),
+            isCloseable: true,
+        }, 4000);
+    }
 }
 
 function close() {

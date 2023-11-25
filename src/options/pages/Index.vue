@@ -70,7 +70,7 @@ onKeyStroke([']'], () => {
             <Transition name="slide-left-right">
                 <div
                     v-show="isCalendarVisible"
-                    class="shrink-0 overflow-y-hidden border-l border-gray-750 p-2.5"
+                    class="shrink-0 border-l border-gray-750 p-2.5"
                     w="70 xl:80"
                 >
                     <CalendarDaily />
