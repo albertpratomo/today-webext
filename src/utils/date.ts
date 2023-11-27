@@ -1,3 +1,5 @@
+import {DateTime} from 'luxon';
+
 export function getDuration(startStr: string, endStr: string) {
     const start = new Date(startStr);
     const end = new Date(endStr);
@@ -21,4 +23,17 @@ export function getTimeOfDay(date: Date, type: 'start' | 'end') {
         date.setHours(23, 59, 59, 999);
 
     return date.toISOString();
+}
+
+export function toDateTime(date: string | Date | object): DateTime {
+    if (date instanceof Date)
+        return DateTime.fromJSDate(date);
+
+    if (typeof date === 'string')
+        return DateTime.fromISO(date);
+
+    if (typeof date === 'object')
+        return DateTime.fromObject(date);
+
+    throw new Error('Error during conversion to luxon DateTime');
 }
