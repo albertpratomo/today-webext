@@ -9,8 +9,6 @@ import {watchDebounced} from '@vueuse/core';
 export const useTasksStore = defineStore('tasks', () => {
     const tasksParent = ref<string>('today');
 
-    const tasks = useStorageLocal<Task[]>('tasks', generateTasks([
-
     const initialTasks = [
         'Press <code>N</code> to create a new task ✨',
         // 'Select me and press <code>space</code>',
