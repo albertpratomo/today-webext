@@ -10,12 +10,16 @@ export const useTasksStore = defineStore('tasks', () => {
     const tasksParent = ref<string>('today');
 
     const tasks = useStorageLocal<Task[]>('tasks', generateTasks([
+
+    const initialTasks = [
         'Press <code>N</code> to create a new task ✨',
         // 'Select me and press <code>space</code>',
         'Connect your Google Calendar',
         'Drag and drop me to the calendar to plan your day',
         'ProTip: Use arrow keys to navigate',
-    ]));
+    ];
+
+    const tasks = useStorageLocal<Task[]>('tasks', generateTasks(initialTasks));
 
     function taskById(id: number) {
         return tasks.value.find(task => task.id === id);
@@ -26,7 +30,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
     // Create Task ------------------------------------------------------------
 
-    const lastTaskId = useStorageLocal<number>('lastTaskId', 4);
+    const lastTaskId = useStorageLocal<number>('lastTaskId', initialTasks.length + 1);
 
     const BLANK_TASK = Object.freeze({
         parent: null,

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useDateFormat, useNow} from '@vueuse/core';
+import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
@@ -23,21 +24,29 @@ watch(currentParent, (newName) => {
 const currentDate = useDateFormat(useNow(), 'DD MMM YYYY');
 
 const isCalendarVisible = ref(true);
+
+function toggleCalendar() {
+    isCalendarVisible.value = !isCalendarVisible.value;
+}
+
+onKeyStroke([']'], () => {
+    toggleCalendar();
+});
 </script>
 
 <template>
     <LayoutSidebar>
         <div class="relative h-full min-w-0 flex">
             <Button
-                class="absolute right-2 top-2 z-1 text-gray-500"
+                class="absolute right-1 top-1 z-10 text-gray-500"
                 size="square"
                 variant="ghost"
-                @click="isCalendarVisible = !isCalendarVisible"
+                @click="toggleCalendar"
             >
                 <MaterialSymbolsCalendarTodayOutline />
             </Button>
 
-            <div class="min-w-0 flex grow justify-center overflow-y-scroll px-8 py-10 md:px-11">
+            <div class="min-w-0 flex grow justify-center overflow-y-auto px-8 py-10 md:px-11">
                 <div class="max-w-[960px] min-w-0 grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
@@ -80,7 +89,7 @@ const isCalendarVisible = ref(true);
             <Transition name="slide-left-right">
                 <div
                     v-show="isCalendarVisible"
-                    class="shrink-0 border-l border-gray-750 p-3 pt-4"
+                    class="shrink-0 border-l border-gray-750 p-2.5"
                     w="70 xl:80"
                 >
                     <CalendarDaily />

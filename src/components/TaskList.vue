@@ -131,6 +131,7 @@ onKeyStroke('Enter', () => {
 
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
+    handle: '.drag-handle',
     onUpdate: async (e: SortableEvent) => {
         swapTask(e.oldIndex!, e.newIndex!);
     },
@@ -168,7 +169,6 @@ onKeyStroke(['Backspace'], () => {
 <template>
     <div>
         <div
-            id="undone-task-list"
             ref="list"
             v-on-click-outside="onClickOutside"
             :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"

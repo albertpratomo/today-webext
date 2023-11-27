@@ -1,5 +1,6 @@
 import '../styles';
 import App from './Options.vue';
+import Notifications from 'notiwind';
 import {PiniaSharedState} from 'pinia-shared-state';
 import VueTippy from 'vue-tippy';
 import {createApp} from 'vue';
@@ -10,6 +11,8 @@ import {vOnClickOutside} from '@vueuse/components';
 
 const app = createApp(App);
 setupApp(app);
+
+app.use(Notifications);
 
 const pinia = createPinia();
 pinia.use(PiniaSharedState({}));
