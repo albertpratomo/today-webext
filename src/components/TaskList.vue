@@ -114,11 +114,17 @@ const toggleText = computed(() => {
 });
 
 const {trashTasks} = useTrashStore();
-onKeyStroke(['Backspace'], () => {
-    trashTasks(tasks, selectedIndexes.value);
+onKeyStroke(['Backspace', 'Delete'], () => {
+    // If a dialog is open, don't delete any task.
+    if (document.querySelector('[role=dialog][data-headlessui-state=open]'))
+        return;
 
-    if (selectedIndexes.value.length > 1)
-        selectTask(0);
+    if (selectedIndexes.value.length) {
+        trashTasks(tasks, selectedIndexes.value);
+
+        if (selectedIndexes.value.length > 1)
+            selectTask(0);
+    }
 });
 </script>
 
