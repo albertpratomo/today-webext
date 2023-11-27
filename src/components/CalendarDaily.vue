@@ -31,7 +31,6 @@ const options: MbscEventcalendarOptions = {
     view: {schedule: {type: 'day', days: false}},
 };
 
-
 function _createEvent(args: any) {
     createEvent(args);
 
@@ -68,7 +67,7 @@ function getEventClass(event: Event) {
             <MbscEventcalendar
                 v-bind="options"
                 :data="events"
-                @event-created="createEvent"
+                @event-created="_createEvent"
                 @event-deleted="deleteEvent"
                 @event-updated="updateEvent"
             >
