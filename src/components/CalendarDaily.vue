@@ -7,11 +7,14 @@ import {useDateFormat, useNow} from '@vueuse/core';
 import type {Event} from '~/models/Event';
 import {getDuration} from '~/utils/date';
 import {luxonTimezone} from '@mobiscroll/vue';
+import {notify} from 'notiwind';
 import {storeToRefs} from 'pinia';
 
 const {events} = storeToRefs(useCalendarStore());
 const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
 const {taskById} = useTasksStore();
+
+const {t} = useI18n();
 
 luxonTimezone.luxon = luxon;
 
@@ -36,8 +39,19 @@ function _createEvent(args: any) {
 
     if (typeof args.event.task_id === 'number') {
         const taskToEdit = taskById(args.event.task_id);
-        if (taskToEdit)
+        if (taskToEdit) {
+            const oldParent = (typeof taskToEdit.parent == 'string' ? taskToEdit.parent : 'today');
+
             taskToEdit.parent = 'today';
+
+            if (oldParent !== 'today') {
+                notify({
+                    group: 'general',
+                    text: t('actions.moveTask', {parent: t(oldParent)}),
+                    isCloseable: true,
+                }, 4000);
+            }
+        }
     }
 }
 
