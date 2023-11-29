@@ -35,7 +35,7 @@ onKeyStroke([']'], () => {
                 <div class="max-w-[960px] min-w-0 grow">
                     <div class="h-8 flex justify-between">
                         <h1 class="text-xl font-medium">
-                            {{ $t('today') }}
+                            {{ $t('pageTitle.today') }}
 
                             <span class="ml-1 text-gray-500">
                                 {{ currentDate }}

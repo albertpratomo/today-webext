@@ -11,31 +11,31 @@ const items = computed(() => {
     const items = [
         {
             icon: 'inbox',
-            text: t('inbox'),
+            text: t('sidebar.inbox'),
             to: null,
             isVisible: true,
         },
         {
             icon: 'today',
-            text: t('today'),
+            text: t('sidebar.today'),
             to: {name: 'index'},
             isVisible: true,
         },
         {
             icon: 'calendar',
-            text: t('calendar'),
+            text: t('sidebar.calendar'),
             to: null,
             isVisible: true,
         },
         {
             icon: 'later',
-            text: t('later'),
+            text: t('sidebar.later'),
             to: null,
             isVisible: true,
         },
         {
             icon: 'trash',
-            text: t('trash'),
+            text: t('sidebar.trash'),
             to: {name: 'trash'},
             isVisible: !!tasks.value.length,
         },
@@ -103,7 +103,7 @@ const isSettingsOpen = ref(false);
 
         <div class="mb-10 flex flex-grow justify-between pl-2.5 pr-1 text-gray-500">
             <div class="text-xs">
-                {{ $t('projects') }}
+                {{ $t('sidebar.projects') }}
             </div>
 
             <MaterialSymbolsAdd
@@ -122,7 +122,7 @@ const isSettingsOpen = ref(false);
         >
             <MaterialSymbolsChatBubble class="mr-1.5 opacity-80" />
 
-            {{ $t('slack') }}
+            {{ $t('sidebar.slack') }}
         </button>
 
         <button
@@ -132,7 +132,7 @@ const isSettingsOpen = ref(false);
         >
             <MaterialSymbolsSettings class="mr-1.5 opacity-80" />
 
-            {{ $t('settings') }}
+            {{ $t('sidebar.settings') }}
         </button>
 
         <SettingsDialog v-model="isSettingsOpen" />

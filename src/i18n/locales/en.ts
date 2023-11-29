@@ -9,7 +9,6 @@ export default {
         remove: 'Remove',
         showCompletedTasks: 'Show completed tasks',
     },
-    calendar: 'Calendar',
     calendarConnectCard: {
         body: 'Sign in to your calendar and see your events here. Or you can do it later in settings.',
         title: 'Connect your Google Calendar',
@@ -19,15 +18,15 @@ export default {
         taskNote: {placeholder: 'Notes'},
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},
     },
-    inbox: 'Inbox',
-    later: 'Later',
+    pageTitle: {
+        today: 'Today',
+        trash: 'Trash',
+    },
     pomodoro: {
         breakMessage: 'Take a break',
         doneMessage: 'You\'re all done!',
         openWindowTooltip: 'Start pomo [space]',
     },
-    projects: 'Projects',
-    settings: 'Settings',
     settingsCalendars: {
         gcal: {
             connect: {
@@ -38,12 +37,19 @@ export default {
         },
         title: 'Calendars',
     },
-    slack: 'Join Slack',
-    today: 'Today',
+    sidebar: {
+        calendar: 'Calendar',
+        inbox: 'Inbox',
+        later: 'Later',
+        projects: 'Projects',
+        settings: 'Settings',
+        slack: 'Join Slack',
+        today: 'Today',
+        trash: 'Trash',
+    },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
         newTask: 'New task <code>N</code>',
         toggleSidebar: 'Toggle sidebar <code>[</code>',
     },
-    trash: 'Trash',
 };
