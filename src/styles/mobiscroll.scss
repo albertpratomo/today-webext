@@ -1,93 +1,73 @@
 $mbsc-ios-theme: true;
 $mbsc-eventcalendar: true;
 $mbsc-ios-dark-background: #1C1D24;
-$mbsc-ios-accent: #3E3799;
 
 @import '@mobiscroll/vue/dist/css/mobiscroll.modular.scss';
 
-.mbsc-ios {
+.mbsc-eventcalendar-schedule {
     @apply font-sans;
 
     // Header
-    &.mbsc-schedule-date-header {
+    .mbsc-schedule-date-header {
         @apply hidden;
-    }
-    &.mbsc-schedule-header,
-    .mbsc-schedule-header-item { 
-        @apply border-none;
-    }
-    &.mbsc-schedule-date-header-text {
-        @apply text-left text-gray-400 font-medium text-sm p-0 mb-4;
+
+        .mbsc-schedule-date-header-text {
+            @apply text-left text-gray-400 font-medium text-sm p-0 mb-4;
+        }
     }
 
-    .mbsc-timeline-resource-col,
-    .mbsc-timeline-date-col,
-    .mbsc-timeline-sidebar-col,
+    // All-day
+    .mbsc-schedule-all-day-wrapper {
+        @apply border-gray-750/80;
+
+        .mbsc-schedule-event-all-day {
+            @apply pr-0;
+        }
+
+        .mbsc-ios.mbsc-schedule-all-day-text {
+            @apply hidden;
+        }
+    }
+
+    // Time Column
     .mbsc-schedule-time-col,
     .mbsc-schedule-time-wrapper {
-      width: 2.9em;
+        width: 2.9em;
+
+        .mbsc-schedule-time {
+            @apply pl-0 pr-1 text-gray-400;
+        }
     }
 
-    .mbsc-schedule-event-all-day {
-        @apply pr-0;
+    // Time Cell
+    .mbsc-schedule-time-wrapper,
+    .mbsc-schedule-item {
+        @apply h-[88px] border-gray-750/80;
     }
 
-    &.mbsc-ios.mbsc-schedule-all-day-text {
-        @apply hidden;
-    }
-
-    &.mbsc-schedule-time {
-        @apply pl-0 pr-1;
-    }
-
-    // TODO: Nest this css classes
-
+    // Events
     .mbsc-schedule-events {
         @apply right-0 left-1;
-    }
 
-    .mbsc-schedule-event {
-        .mbsc-schedule-event-resize {
-            &:after {
-                @apply hidden;
+        .mbsc-schedule-event {
+            .mbsc-schedule-event-resize {
+                &:after {
+                    @apply hidden;
+                }
             }
         }
     }
 
-    .mbsc-schedule-cursor-time {
-        @apply hidden;
-    }
-
-    // Now Indicator
-    &.mbsc-schedule-time-indicator {
+    // Time Indicator
+    .mbsc-schedule-time-indicator {
         @apply border-red-400 left-[2.9em];
 
         .mbsc-schedule-time-indicator-time {
             @apply text-red-400 pr-1 pl-0;
         }
     }
-
-    // Calendar time text
-    &.mbsc-schedule-time,
-    &.mbsc-schedule-all-day-text {
-        @apply text-gray-400;
-    }
-
-    // Row height
-    .mbsc-schedule-time-wrapper,
-    .mbsc-schedule-item {
-        @apply h-[88px];
-    }
-
-    // Event block: inner padding
-    .mbsc-schedule-event-inner {
-        @apply px-1.5 py-1;
-    }
-
-    // border on grid
-    &.mbsc-schedule-item.mbsc-flex-1-0.mbsc-ios-dark.mbsc-ios,
-    &.mbsc-ios-dark.mbsc-schedule-all-day-wrapper {
-        @apply border-gray-750/80;
+    .mbsc-schedule-cursor-time {
+        @apply hidden;
     }
 }
 

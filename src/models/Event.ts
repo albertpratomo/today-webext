@@ -1,5 +1,6 @@
 import type {MbscCalendarEvent} from '@mobiscroll/vue';
 import {type calendar_v3} from '@googleapis/calendar';
+import {toDateTime} from '~/utils/date';
 
 interface Event {
     id: string
@@ -16,23 +17,18 @@ function generateEventId() {
     return `_${String(new Date().getTime())}`;
 }
 
-function dateToString(date?: string | object | Date): string {
-    if (typeof date === 'string')
-        return date;
-
-    if (date instanceof Date)
-        return date.toISOString();
-
-    return '';
-}
-
 function formatMbscEvent(mbscEvent: MbscCalendarEvent): Event {
+    const start = toDateTime(mbscEvent.start!);
+    const end = toDateTime(mbscEvent.end!);
+    const allDay = mbscEvent.allDay || false;
+
     return {
         id: mbscEvent.id ? String(mbscEvent.id) : generateEventId(),
         title: mbscEvent.title!,
-        start: dateToString(mbscEvent.start),
-        end: dateToString(mbscEvent.end),
-        allDay: mbscEvent.allDay || false,
+        start: allDay ? start.toISODate()! : start.toISO()!,
+        // If allDay, plus 1 day to end, so Gcal knows it's an allDay event.
+        end: allDay ? end.plus({day: 1}).toISODate()! : end.toISO()!,
+        allDay,
     };
 }
 

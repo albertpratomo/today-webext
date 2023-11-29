@@ -68,7 +68,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         // Store local events (unsynced) to Gcal.
         const localEvents = events.value.filter(e => e.id.startsWith('_'));
         for (const localEvent of localEvents)
-            await storeGcalEvent(localEvent.title, localEvent.start, localEvent.end);
+            await storeGcalEvent(localEvent);
 
         // Fetch Gcal events.
         const params = new URLSearchParams({
@@ -92,11 +92,13 @@ export const useCalendarStore = defineStore('calendar', () => {
         return result;
     }
 
-    async function storeGcalEvent(summary: string, start: string, end: string) {
+    async function storeGcalEvent(event: Event) {
+        const key = event.allDay ? 'date' : 'dateTime';
+
         return await useGcalApi('calendars/primary/events').post({
-            summary,
-            start: {dateTime: start},
-            end: {dateTime: end},
+            summary: event.title,
+            start: {[key]: event.start},
+            end: {[key]: event.end},
         }).json<GcalEvent>();
     }
 
@@ -105,7 +107,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         localEvent.id = generateEventId();
 
         if (authToken.value) {
-            const result = await storeGcalEvent(localEvent.title, localEvent.start, localEvent.end);
+            const result = await storeGcalEvent(localEvent);
 
             if (!result.error.value && result.data.value)
                 // Set gcal generated id to the event instance.
@@ -121,8 +123,14 @@ export const useCalendarStore = defineStore('calendar', () => {
 
         if (authToken.value) {
             await useGcalApi(`calendars/primary/events/${event.id}`).patch({
-                start: {dateTime: event.start},
-                end: {dateTime: event.end},
+                start: {
+                    date: event.allDay ? event.start : null,
+                    dateTime: event.allDay ? null : event.start,
+                },
+                end: {
+                    date: event.allDay ? event.end : null,
+                    dateTime: event.allDay ? null : event.end,
+                },
             }).json();
         }
     }
