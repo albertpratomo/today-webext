@@ -114,16 +114,20 @@ const isSettingsOpen = ref(false);
                 }"
             />
         </div>
-        <!--  -->
-        <button
-            class="flex items-center rounded px-2 py-1 font-medium hover:bg-gray-800"
-            onclick="location.href='https://join.slack.com/t/today-members/shared_invite/zt-25wg6v1hd-PhsEs63zHRMd61Mwf5vi8A'"
-            text="sm gray-350"
-        >
-            <MaterialSymbolsChatBubble class="mr-1.5 opacity-80" />
 
-            {{ $t('sidebar.slack') }}
-        </button>
+        <a
+            class="flex hover:bg-gray-800"
+            href="https://join.slack.com/t/today-members/shared_invite/zt-25wg6v1hd-PhsEs63zHRMd61Mwf5vi8A"
+        >
+            <button
+                class="flex items-center rounded px-2 py-1 font-medium"
+                text="sm gray-350"
+            >
+                <MaterialSymbolsChatBubble class="mr-1.5 opacity-80" />
+
+                {{ $t('sidebar.slack') }}
+            </button>
+        </a>
 
         <button
             class="flex items-center rounded px-2 py-1 font-medium hover:bg-gray-800"
