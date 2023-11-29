@@ -38,6 +38,7 @@ export default {
         },
         title: 'Calendars',
     },
+    slack: 'Join Slack',
     today: 'Today',
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
