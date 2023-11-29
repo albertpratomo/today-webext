@@ -8,11 +8,36 @@ import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
     const initialTasks = [
-        'Press <code>N</code> to create a new task ✨',
-        // 'Select me and press <code>space</code>',
-        'Connect your Google Calendar',
-        'Drag and drop me to the calendar to plan your day',
-        'ProTip: Use arrow keys to navigate',
+        {
+            title: 'Press <code>N</code> to create a new task ✨',
+            note: '',
+            subtasks: [],
+        },
+        // {
+        //     'title': 'Select me and press <code>space</code>',
+        //     'note': null,
+        //     'subtasks': [],
+        // },
+        {
+            title: 'Connect your Google Calendar',
+            note: '',
+            subtasks: [],
+        },
+        {
+            title: 'Drag and drop me to the calendar to plan your day',
+            note: '',
+            subtasks: [],
+        },
+        {
+            title: 'ProTip: Use arrow keys to navigate',
+            note: '',
+            subtasks: [],
+        },
+        {
+            title: 'Clarify the fuzzy task with subtasks',
+            note: 'Break a task into smaller steps with subtasks. You can use it to make the grocery list or define steps to finish the task. Or make a list you need to pack for your next trip:',
+            subtasks: ['Passport', 'Charger', 'Sunscreen', 'Toothbrush'],
+        },
     ];
 
     const tasks = useStorageLocal<Task[]>('tasks', generateTasks(initialTasks));
