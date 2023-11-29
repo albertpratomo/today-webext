@@ -35,7 +35,7 @@ export const useTasksStore = defineStore('tasks', () => {
         },
         {
             title: 'Clarify the fuzzy task with subtasks',
-            note: 'Break a task into smaller steps with subtasks. You can use it to make the grocery list or define steps to finish the task. Or make a list you need to pack for your next trip:',
+            note: 'Break a task into smaller steps with subtasks. You can use it to make the grocery list or define steps to finish a task. Or list down items to bring for your trip 🏝️:',
             subtasks: ['Passport', 'Charger', 'Sunscreen', 'Toothbrush'],
         },
     ];
