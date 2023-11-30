@@ -1,12 +1,14 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
+import {notify} from 'notiwind';
 import {remove} from 'lodash-es';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
+    const {t} = useI18n();
     const tasksParent = ref<string>('today');
 
     const initialTasks = [
@@ -84,6 +86,25 @@ export const useTasksStore = defineStore('tasks', () => {
 
     function editTask(task: Task) {
         draftEditTask.value = task;
+    }
+
+    // Move Task --------------------------------------------------------------
+
+    function moveTask(taskId: number, parent: string) {
+        const taskToEdit = taskById(taskId);
+        if (taskToEdit) {
+            const oldParent = (typeof taskToEdit.parent == 'string' ? taskToEdit.parent : 'today');
+
+            taskToEdit.parent = parent;
+
+            if (oldParent !== 'today') {
+                notify({
+                    group: 'general',
+                    text: t('actions.moveTask', {parent: t(oldParent)}),
+                    isCloseable: true,
+                }, 4000);
+            }
+        }
     }
 
     // Focus Task -------------------------------------------------------------
@@ -168,6 +189,8 @@ export const useTasksStore = defineStore('tasks', () => {
 
         draftEditTask,
         editTask,
+
+        moveTask,
 
         focusedTask,
         focusTask,
