@@ -10,28 +10,18 @@ export const useTasksStore = defineStore('tasks', () => {
     const initialTasks = [
         {
             title: 'Press <code>N</code> to create a new task ✨',
-            note: '',
-            subtasks: [],
         },
         // {
         //     'title': 'Select me and press <code>space</code>',
-        //     'note': null,
-        //     'subtasks': [],
         // },
         {
             title: 'Connect your Google Calendar',
-            note: '',
-            subtasks: [],
         },
         {
             title: 'Drag and drop me to the calendar to plan your day',
-            note: '',
-            subtasks: [],
         },
         {
             title: 'ProTip: Use arrow keys to navigate',
-            note: '',
-            subtasks: [],
         },
         {
             title: 'Clarify the fuzzy task with subtasks',
