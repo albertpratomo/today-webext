@@ -45,6 +45,8 @@ const items = computed(() => {
 });
 
 const isSettingsOpen = ref(false);
+
+const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-medium text-gray-350 hover:bg-gray-800';
 </script>
 
 <template>
@@ -116,25 +118,20 @@ const isSettingsOpen = ref(false);
         </div>
 
         <a
-            class="flex hover:bg-gray-800"
+            :class="settingsClass"
             href="https://join.slack.com/t/today-members/shared_invite/zt-25wg6v1hd-PhsEs63zHRMd61Mwf5vi8A"
+            target="_blank"
         >
-            <button
-                class="flex items-center rounded px-2 py-1 font-medium"
-                text="sm gray-350"
-            >
-                <MaterialSymbolsChatBubble class="mr-1.5 opacity-80" />
+            <MaterialSymbolsChatBubble class="opacity-80" />
 
-                {{ $t('sidebar.slack') }}
-            </button>
+            {{ $t('sidebar.slack') }}
         </a>
 
         <button
-            class="flex items-center rounded px-2 py-1 font-medium hover:bg-gray-800"
-            text="sm gray-350"
+            :class="settingsClass"
             @click="isSettingsOpen = true"
         >
-            <MaterialSymbolsSettings class="mr-1.5 opacity-80" />
+            <MaterialSymbolsSettings class="opacity-80" />
 
             {{ $t('sidebar.settings') }}
         </button>
