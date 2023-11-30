@@ -11,7 +11,7 @@ const {tasks} = storeToRefs(useTrashStore());
             <div class="min-w-0 flex grow justify-center px-8 py-10 pb-3 md:px-11">
                 <div class="max-w-[960px] min-w-0 grow">
                     <h1 class="h-8 text-xl font-medium">
-                        {{ $t('pageTitle.trash') }}
+                        {{ $t('sidebar.trash') }}
                     </h1>
 
                     <TaskList

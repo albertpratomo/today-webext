@@ -18,10 +18,6 @@ export default {
         taskNote: {placeholder: 'Notes'},
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},
     },
-    pageTitle: {
-        today: 'Today',
-        trash: 'Trash',
-    },
     pomodoro: {
         breakMessage: 'Take a break',
         doneMessage: 'You\'re all done!',
