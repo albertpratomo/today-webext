@@ -11,7 +11,7 @@ function openOptionsPage() {
         <SharedSubtitle />
 
         <button
-            class="mt-2 btn"
+            class="mt-2"
             @click="openOptionsPage"
         >
             Open Options

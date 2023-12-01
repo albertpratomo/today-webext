@@ -10,11 +10,26 @@ export const useTasksStore = defineStore('tasks', () => {
     const tasksParent = ref<string>('today');
 
     const initialTasks = [
-        'Press <code>N</code> to create a new task ✨',
-        // 'Select me and press <code>space</code>',
-        'Connect your Google Calendar',
-        'Drag and drop me to the calendar to plan your day',
-        'ProTip: Use arrow keys to navigate',
+        {
+            title: 'Press <code>N</code> to create a new task ✨',
+        },
+        // {
+        //     'title': 'Select me and press <code>space</code>',
+        // },
+        {
+            title: 'Connect your Google Calendar',
+        },
+        {
+            title: 'Drag and drop me to the calendar to plan your day',
+        },
+        {
+            title: 'ProTip: Use arrow keys to navigate',
+        },
+        {
+            title: 'Clarify the fuzzy task with subtasks',
+            note: 'Break a task into smaller steps with subtasks. You can use it to make the grocery list or define steps to finish a task. Or list down items to bring for your trip 🏝️:',
+            subtasks: ['Passport', 'Charger', 'Sunscreen', 'Toothbrush'],
+        },
     ];
 
     const tasks = useStorageLocal<Task[]>('tasks', generateTasks(initialTasks));

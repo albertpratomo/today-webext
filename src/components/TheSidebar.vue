@@ -11,31 +11,31 @@ const items = computed(() => {
     const items = [
         {
             icon: 'inbox',
-            text: t('inbox'),
+            text: t('sidebar.inbox'),
             to: {name: 'inbox'},
             isVisible: true,
         },
         {
             icon: 'today',
-            text: t('today'),
+            text: t('sidebar.today'),
             to: {name: 'today'},
             isVisible: true,
         },
         {
             icon: 'calendar',
-            text: t('calendar'),
+            text: t('sidebar.calendar'),
             to: null,
             isVisible: true,
         },
         {
             icon: 'later',
-            text: t('later'),
+            text: t('sidebar.later'),
             to: null,
             isVisible: true,
         },
         {
             icon: 'trash',
-            text: t('trash'),
+            text: t('sidebar.trash'),
             to: {name: 'trash'},
             isVisible: !!tasks.value.length,
         },
@@ -45,6 +45,8 @@ const items = computed(() => {
 });
 
 const isSettingsOpen = ref(false);
+
+const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-medium text-gray-350 hover:bg-gray-800';
 </script>
 
 <template>
@@ -103,7 +105,7 @@ const isSettingsOpen = ref(false);
 
         <div class="mb-10 flex flex-grow justify-between pl-2.5 pr-1 text-gray-500">
             <div class="text-xs">
-                {{ $t('projects') }}
+                {{ $t('sidebar.projects') }}
             </div>
 
             <MaterialSymbolsAdd
@@ -115,14 +117,23 @@ const isSettingsOpen = ref(false);
             />
         </div>
 
+        <a
+            :class="settingsClass"
+            href="https://join.slack.com/t/today-members/shared_invite/zt-25wg6v1hd-PhsEs63zHRMd61Mwf5vi8A"
+            target="_blank"
+        >
+            <MaterialSymbolsChatBubble class="opacity-80" />
+
+            {{ $t('sidebar.slack') }}
+        </a>
+
         <button
-            class="flex items-center rounded px-2 py-1 font-medium hover:bg-gray-800"
-            text="sm gray-300"
+            :class="settingsClass"
             @click="isSettingsOpen = true"
         >
-            <MaterialSymbolsSettings class="mr-1.5 opacity-80" />
+            <MaterialSymbolsSettings class="opacity-80" />
 
-            {{ $t('settings') }}
+            {{ $t('sidebar.settings') }}
         </button>
 
         <SettingsDialog v-model="isSettingsOpen" />
