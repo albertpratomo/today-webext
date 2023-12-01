@@ -13,8 +13,6 @@ export default defineConfig({
         transformerDirectives(),
     ],
     shortcuts: {
-        'btn': 'inline-block px-4 py-1.5 rounded text-sm font-medium disabled:opacity-60',
-        'btn-icon': 'inline-block px-2 py-1 bg-gray-700 border rounded disabled:opacity-60',
         'inset-center': 'absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2',
     },
     theme: {
