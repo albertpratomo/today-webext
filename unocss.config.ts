@@ -144,6 +144,11 @@ export default defineConfig({
                 200: '#E2B2F7', // text
                 600: '#7C4F90', // bg
             },
+            critical: {
+                default: '#C84345',
+                hover: '#AE3436',
+                pressed: '#802320',
+            },
         },
         fontFamily: {
             sans: ['Inter', 'ui-sans-serif', 'system-ui'],

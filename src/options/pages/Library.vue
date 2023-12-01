@@ -5,38 +5,74 @@
 <template>
     <div class="m-auto w-50 pt-20">
         <div class="flex-initial space-y-5">
-            <Button variant="primary">
-                Primary
-            </Button>
+            <div class="flex gap-3">
+                <Button variant="primary">
+                    Primary
+                </Button>
 
-            <Button
-                disabled
-                variant="primary"
-            >
-                Primary
-            </Button>
+                <Button
+                    disabled
+                    variant="primary"
+                >
+                    Primary
+                </Button>
+            </div>
 
-            <Button variant="secondary">
-                Secondary
-            </Button>
+            <div class="flex gap-3">
+                <Button
+                    size="sm"
+                    variant="primary"
+                >
+                    Primary
+                </Button>
 
-            <Button
-                disabled
-                variant="secondary"
-            >
-                Secondary
-            </Button>
+                <Button
+                    disabled
+                    size="sm"
+                    variant="primary"
+                >
+                    Primary
+                </Button>
+            </div>
 
-            <Button variant="outline">
-                Outline
-            </Button>
+            <div class="flex gap-3">
+                <Button variant="secondary">
+                    Secondary
+                </Button>
 
-            <Button
-                disabled
-                variant="outline"
-            >
-                Outline
-            </Button>
+                <Button
+                    disabled
+                    variant="secondary"
+                >
+                    Secondary
+                </Button>
+            </div>
+
+            <div class="flex gap-3">
+                <Button variant="critical">
+                    Critical
+                </Button>
+
+                <Button
+                    disabled
+                    variant="critical"
+                >
+                    Critical
+                </Button>
+            </div>
+
+            <div class="flex gap-3">
+                <Button variant="outline">
+                    Outline
+                </Button>
+
+                <Button
+                    disabled
+                    variant="outline"
+                >
+                    Outline
+                </Button>
+            </div>
 
             <Button
                 id="btn-new-task"
