@@ -21,6 +21,8 @@ async function connect() {
             text: t('settingsCalendars.gcal.connect.successMessage'),
             isCloseable: true,
         }, 4000);
+
+        trackGa('calendar_connected', {calendar_email: calendarEmail.value});
     }
 }
 
