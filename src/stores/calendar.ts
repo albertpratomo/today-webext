@@ -2,7 +2,7 @@ import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
 import type {MbscEventCreatedEvent, MbscEventDeletedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
-import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/gcal';
+import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/googleCalendar';
 import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
 import {getTimeOfDay} from '~/utils/date';
 import {useStorageLocal} from '~/utils/useStorageLocal';
