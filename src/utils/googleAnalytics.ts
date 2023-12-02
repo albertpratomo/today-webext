@@ -1,3 +1,5 @@
+// Tutorial: https://developer.chrome.com/docs/extensions/mv3/tut_analytics/
+
 const API_SECRET = 'zugTlnEWSA-t2FGoSp-H5g';
 const MEASUREMENT_ID = 'G-44GSBY88E1';
 
@@ -17,8 +19,44 @@ async function getOrCreateClientId(): Promise<string> {
 
     return clientId;
 }
-
 const client_id = await getOrCreateClientId();
+
+async function getOrCreateSessionId() {
+    const SESSION_EXPIRATION_IN_MIN = 30;
+
+    // Store session in memory storage.
+    let {sessionData} = await chrome.storage.session.get('sessionData');
+
+    // Check if session exists and is still valid.
+    const currentTimeInMs = Date.now();
+
+    if (sessionData && sessionData.timestamp) {
+        // Calculate how long ago the session was last updated.
+        const durationInMin = (currentTimeInMs - sessionData.timestamp) / 60000;
+
+        // Check if last update lays past the session expiration threshold.
+        if (durationInMin > SESSION_EXPIRATION_IN_MIN) {
+            // Delete old session id to start a new session.
+            sessionData = null;
+        }
+        else {
+            // Update timestamp to keep session alive.
+            sessionData.timestamp = currentTimeInMs;
+            await chrome.storage.session.set({sessionData});
+        }
+    }
+
+    if (!sessionData) {
+        // Create and store a new session.
+        sessionData = {
+            session_id: currentTimeInMs.toString(),
+            timestamp: currentTimeInMs.toString(),
+        };
+        await chrome.storage.session.set({sessionData});
+    }
+
+    return sessionData.session_id;
+}
 
 // TODO: Maybe store this user email in pinia store.
 let user_email = '';
@@ -38,6 +76,8 @@ export async function trackGa(name: string, params?: Record<string, any>) {
                     {
                         name,
                         params: {
+                            session_id: await getOrCreateSessionId(),
+                            engagement_time_msec: 100,
                             user_email,
                             ...params,
                         },
