@@ -2,6 +2,7 @@
 import {notify} from 'notiwind';
 import {revokeToken} from '~/utils/googleCalendar';
 import {storeToRefs} from 'pinia';
+import {trackGa} from '~/utils/googleAnalytics';
 import {useCalendarStore} from '~/stores';
 
 const {authToken, refreshToken, calendarEmail} = storeToRefs(useCalendarStore());
@@ -30,6 +31,8 @@ function disconnect() {
     // Set authToken to null, so CalendarConnectCard is shown again.
     authToken.value = null;
     refreshToken.value = null;
+
+    trackGa('calendar_disconnected', {calendar_email: calendarEmail.value});
 }
 </script>
 
