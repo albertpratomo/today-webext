@@ -9,11 +9,15 @@ $mbsc-ios-dark-background: #1C1D24;
 
     // Header
     .mbsc-schedule-date-header {
-        @apply hidden;
+        @apply bg-transparent border-b-0;
 
         .mbsc-schedule-date-header-text {
-            @apply text-left text-gray-400 font-medium text-sm p-0 mb-4;
+            @apply text-left text-gray-500 font-medium text-sm p-0 mb-3;
         }
+    }
+
+    .mbsc-schedule-header {
+        @apply hidden;
     }
 
     // All-day
@@ -32,7 +36,7 @@ $mbsc-ios-dark-background: #1C1D24;
     // Time Column
     .mbsc-schedule-time-col,
     .mbsc-schedule-time-wrapper {
-        width: 2.9em;
+        width: 1em;
 
         .mbsc-schedule-time {
             @apply pl-0 pr-1 text-gray-400;
@@ -48,22 +52,20 @@ $mbsc-ios-dark-background: #1C1D24;
     // Events
     .mbsc-schedule-events {
         @apply right-0 left-1;
+    }
 
-        .mbsc-schedule-event {
-            .mbsc-schedule-event-resize {
-                &:after {
-                    @apply hidden;
-                }
-            }
+    .mbsc-schedule-event-resize {
+        &:after {
+            @apply hidden;
         }
     }
 
     // Time Indicator
     .mbsc-schedule-time-indicator {
-        @apply border-red-400 left-[2.9em];
+        @apply border-red-400 left-[1em];
 
         .mbsc-schedule-time-indicator-time {
-            @apply text-red-400 pr-1 pl-0;
+            @apply text-transparent p-0 w-1.5 h-1.5 right-[97.3%] top-[-0.35em] bg-red-400 rounded-full;
         }
     }
     .mbsc-schedule-cursor-time {
