@@ -5,6 +5,7 @@ import {createFetch, useLocalStorage} from '@vueuse/core';
 import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/googleCalendar';
 import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
 import {getTimeOfDay} from '~/utils/date';
+import {trackGa} from '~/utils/googleAnalytics';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useCalendarStore = defineStore('calendar', () => {
@@ -116,6 +117,8 @@ export const useCalendarStore = defineStore('calendar', () => {
 
         args.event.id = localEvent.id;
         events.value.push(localEvent);
+
+        trackGa('event_created');
     }
 
     async function updateEvent(args: MbscEventUpdatedEvent) {
