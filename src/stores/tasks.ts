@@ -2,6 +2,7 @@ import {acceptHMRUpdate, defineStore} from 'pinia';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {remove} from 'lodash-es';
+import {trackGa} from '~/utils/googleAnalytics';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 import {watchDebounced} from '@vueuse/core';
@@ -72,6 +73,8 @@ export const useTasksStore = defineStore('tasks', () => {
         // Insert the new task there.
         tasks.value.splice(index, 0, draftCreateTask.value);
         useHistoryStore().commit();
+
+        trackGa('task_created');
 
         // Highlight the newly created task.
         selectedIndexes.value = [index];
