@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {notify} from 'notiwind';
-import {revokeToken} from '~/utils/gcal';
+import {revokeToken} from '~/utils/googleCalendar';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
