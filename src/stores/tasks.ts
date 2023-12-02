@@ -158,6 +158,8 @@ export const useTasksStore = defineStore('tasks', () => {
             ...BLANK_SUBTASK,
         });
 
+        trackGa('subtask_created');
+
         // Highlight the newly created subtask.
         selectedSubtasks.value = [index];
     };
