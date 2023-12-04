@@ -3,6 +3,7 @@ import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {notify} from 'notiwind';
 import {remove} from 'lodash-es';
+import {trackGa} from '~/utils/googleAnalytics';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 import {watchDebounced} from '@vueuse/core';
@@ -84,6 +85,8 @@ export const useTasksStore = defineStore('tasks', () => {
         tasks.value.splice(index, 0, draftCreateTask.value);
         useHistoryStore().commit();
 
+        trackGa('task_created');
+
         // Highlight the newly created task.
         selectedTaskIds.value = [draftCreateTask.value.id];
 
@@ -120,14 +123,6 @@ export const useTasksStore = defineStore('tasks', () => {
                 }, 4000);
             }
         }
-    }
-
-    // Focus Task -------------------------------------------------------------
-
-    const focusedTask = ref<Task | null>(null);
-
-    function focusTask(task: Task) {
-        focusedTask.value = task;
     }
 
     // Done Task --------------------------------------------------------------
@@ -185,6 +180,8 @@ export const useTasksStore = defineStore('tasks', () => {
             ...BLANK_SUBTASK,
         });
 
+        trackGa('subtask_created');
+
         // Highlight the newly created subtask.
         selectedSubtasks.value = [index];
     };
@@ -206,9 +203,6 @@ export const useTasksStore = defineStore('tasks', () => {
         editTask,
 
         moveTask,
-
-        focusedTask,
-        focusTask,
 
         doneTasks,
         isAllDone,

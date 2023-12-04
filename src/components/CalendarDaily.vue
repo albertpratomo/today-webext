@@ -3,7 +3,6 @@ import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
 import {MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
 import {useCalendarStore, useTasksStore} from '~/stores';
-import {useDateFormat, useNow} from '@vueuse/core';
 import type {Event} from '~/models/Event';
 import {getDuration} from '~/utils/date';
 import {luxonTimezone} from '@mobiscroll/vue';
@@ -18,7 +17,7 @@ luxonTimezone.luxon = luxon;
 const options: MbscEventcalendarOptions = {
     dataTimezone: 'utc',
     displayTimezone: 'local',
-    dateFormatLong: 'DD MMM', // TODO: seems not working
+    dateFormatLong: 'DD MMM',
     dragToMove: true,
     dragToResize: true,
     eventDelete: true,
@@ -26,7 +25,7 @@ const options: MbscEventcalendarOptions = {
     showControls: false,
     theme: 'ios',
     themeVariant: 'dark',
-    timeFormat: 'H', // TODO: seems not working
+    timeFormat: 'H',
     timezonePlugin: luxonTimezone,
     view: {schedule: {type: 'day', days: false}},
 };
@@ -37,8 +36,6 @@ function _createEvent(args: any) {
     if (typeof args.event.task_id === 'number')
         moveTask(args.event.task_id, 'today');
 }
-
-const currentDate = useDateFormat(useNow(), 'DD MMM');
 
 function getEventClass(event: Event) {
     if (event.allDay)
@@ -57,10 +54,6 @@ function getEventClass(event: Event) {
 <template>
     <div class="relative h-full">
         <div class="h-full overflow-y-hidden">
-            <div class="mb-2 text-sm font-medium text-gray-500">
-                {{ currentDate }}
-            </div>
-
             <MbscEventcalendar
                 v-bind="options"
                 :data="events"

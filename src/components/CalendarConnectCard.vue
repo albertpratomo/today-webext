@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {notify} from 'notiwind';
 import {storeToRefs} from 'pinia';
+import {trackGa} from '~/utils/googleAnalytics';
 import {useCalendarStore} from '~/stores';
 
 const isVisible = ref(false);
 
-const {authToken} = storeToRefs(useCalendarStore());
+const {authToken, calendarEmail} = storeToRefs(useCalendarStore());
 const {getAuthToken, fetchGcalEvents} = useCalendarStore();
 
 const {t} = useI18n();
@@ -43,6 +44,8 @@ async function connect() {
             text: t('settingsCalendars.gcal.connect.successMessage'),
             isCloseable: true,
         }, 4000);
+
+        trackGa('calendar_connected', {calendar_email: calendarEmail.value});
     }
 }
 
