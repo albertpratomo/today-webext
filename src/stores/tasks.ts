@@ -95,14 +95,6 @@ export const useTasksStore = defineStore('tasks', () => {
         draftEditTask.value = task;
     }
 
-    // Focus Task -------------------------------------------------------------
-
-    const focusedTask = ref<Task | null>(null);
-
-    function focusTask(task: Task) {
-        focusedTask.value = task;
-    }
-
     // Done Task --------------------------------------------------------------
 
     const doneTasks = useStorageLocal<Task[]>('doneTasks', []);
@@ -177,9 +169,6 @@ export const useTasksStore = defineStore('tasks', () => {
 
         draftEditTask,
         editTask,
-
-        focusedTask,
-        focusTask,
 
         doneTasks,
         isAllDone,
