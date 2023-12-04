@@ -1,9 +1,5 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-    <div class="m-auto w-50 pt-20">
+    <div class="px-8 pt-20 space-y-8">
         <div class="flex-initial space-y-5">
             <Button variant="primary">
                 Primary
@@ -51,6 +47,10 @@
             >
                 Show completed
             </Button>
+        </div>
+
+        <div>
+            <TaskMenu />
         </div>
     </div>
 </template>
