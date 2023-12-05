@@ -46,65 +46,100 @@ export default defineConfig({
             green: {
                 900: '#133122',
             },
+            red: {
+                500: '#C84345',
+                550: '#AE3436',
+                600: '#802320',
+            },
             cocoa: {
-                200: '#F7CEBC', // text
-                600: '#5C3E31', // bg
+                200: '#E0BCAD', // text
+                600: '#50372C', // bg pressed
+                650: '#422E26', // bg hover
+                700: '#3C2921', // bg default
             },
             flamingo: {
                 200: '#FFC3CF', // text
-                600: '#94383E', // bg
+                600: '#94383E', // bg pressed
+                650: '#75323F', // bg hover
+                700: '#692A35', // bg default
             },
             tomato: {
                 200: '#EFB4B4', // text
-                600: '#5C2121', // bg
+                600: '#7D1F1F', // bg pressed
+                650: '#5E2121', // bg hover
+                700: '#4F1A1A', // bg default
             },
             tangerine: {
                 200: '#F7CDB5', // text
                 600: '#AB4729', // bg
+                650: '#662F1F', // bg hover
+                700: '#57291C', // bg default
             },
             pumpkin: {
                 200: '#F8D1B5', // text
                 600: '#A35B24', // bg
+                650: '#633D20', // bg hover
+                700: '#59381F', // bg default
             },
             mango: {
                 200: '#FBE6BD', // text
                 600: '#CC801B', // bg
+                650: '#805617', // bg hover
+                700: '#6B4915', // bg default
             },
             eucalyptus: {
                 200: '#A5D0BC', // text
                 600: '#256B49', // bg
+                650: '#26523D', // bg hover
+                700: '#244737', // bg default
             },
             basil: {
                 200: '#B6F0C5', // text
                 600: '#376643', // bg
+                650: '#31523A', // bg hover
+                700: '#2C4733', // bg default
             },
             pistachio: {
                 200: '#C4EEB5', // text
                 600: '#31711B', // bg
+                650: '#2F5424', // bg hover
+                700: '#2E4F23', // bg default
             },
             avocado: {
                 200: '#EDF1B3', // text
                 600: '#78821F', // bg
+                650: '#5A5E2F', // bg hover
+                700: '#4F522A', // bg default
             },
             citron: {
                 200: '#F1E5B2', // text
                 600: '#997B04', // bg
+                650: '#635516', // bg hover
+                700: '#594C15', // bg default
             },
             banana: {
-                200: '#F7E5B7', // text
-                600: '#AC8B17', // bg
+                200: '#FCF5E1', // text
+                600: '#8A6C1F', // bg
+                650: '#6E570B', // bg hover
+                700: '#634D03', // bg default
             },
             sage: {
                 200: '#AEEBE7', // text
                 600: '#216C60', // bg
+                650: '#1E5953', // bg hover
+                700: '#1C524C', // bg default
             },
             peacock: {
                 200: '#BDD6FC', // text
                 600: '#2F5FA8', // bg
+                650: '#193F6B', // bg hover
+                700: '#183D61', // bg default
             },
             cobalt: {
-                200: '#B2C3FF', // text
+                200: '#CAD5FC', // text
                 600: '#3858C9', // bg
+                650: '#29398A', // bg hover
+                700: '#222F73', // bg default
             },
             blueberry: {
                 200: '#D8D5FA', // text
@@ -113,42 +148,54 @@ export default defineConfig({
                 700: '#322D64', // bg default
             },
             lavender: {
-                200: '#BCB6FA', // text
-                600: '#544EA1', // bg
+                200: '#D5D2FC', // text
+                600: '#4F3F9E', // bg
+                650: '#433778', // bg hover
+                700: '#3A3066', // bg default
             },
             wisteria: {
                 200: '#CFAEF9', // text
                 600: '#836BB7', // bg
+                650: '#4A387A', // bg hover
+                700: '#403266', // bg default
             },
             graphite: {
-                200: '#C6C6C6', // text
+                200: '#C4C4C4', // text
                 600: '#5B5B5B', // bg
+                650: '#353536', // bg hover
+                700: '#2E2E2E', // bg default
             },
             birch: {
                 200: '#F3DDC2', // text
                 600: '#85755F', // bg
+                650: '#614E38', // bg hover
+                700: '#544532', // bg default
             },
             radicchio: {
                 200: '#FFC5DC', // text
                 600: '#AB3A67', // bg
+                650: '#6B1F3B', // bg hover
+                700: '#611E39', // bg default
             },
             cherry: {
                 200: '#FEBDD2', // text
                 600: '#AE4163', // bg
+                650: '#73253F', // bg hover
+                700: '#6B243C', // bg default
             },
             grape: {
                 200: '#CDAFF1', // text
                 600: '#5A2E8F', // bg
+                650: '#3E2069', // bg hover
+                700: '#3D2061', // bg default
             },
             amethyst: {
                 200: '#E2B2F7', // text
                 600: '#7C4F90', // bg
+                650: '#4D2E5C', // bg hover
+                700: '#452A52', // bg default
             },
-            red: {
-                500: '#C84345',
-                550: '#AE3436',
-                600: '#802320',
-            },
+
         },
         fontFamily: {
             sans: ['Inter', 'ui-sans-serif', 'system-ui'],
