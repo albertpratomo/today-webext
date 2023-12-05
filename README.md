@@ -35,3 +35,9 @@ Example: `feat(TaskList): add done tasks toggle`
 4. Go to Items -> Today -> Package -> click "Upload new package" -> Select the `extension.zip` file.
 5. Review the draft Store listing submission, also the promotional assets.
 6. Click "Submit for review".
+
+## How to import icon for sidebar
+1. Find the icon on Figma and export it as SVG
+2. Drop the SVG icon to https://svgomg.net/
+3. Go to markup and copy the <path>
+4. Go to Icon.vue and create a new one

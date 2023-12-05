@@ -22,14 +22,20 @@ const items = computed(() => {
             isVisible: true,
         },
         {
-            icon: 'calendar',
-            text: t('sidebar.calendar'),
+            icon: 'active',
+            text: t('sidebar.active'),
             to: null,
             isVisible: true,
         },
         {
             icon: 'later',
             text: t('sidebar.later'),
+            to: null,
+            isVisible: true,
+        },
+        {
+            icon: 'calendar',
+            text: t('sidebar.calendar'),
             to: null,
             isVisible: true,
         },
