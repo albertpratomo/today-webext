@@ -144,10 +144,10 @@ export default defineConfig({
                 200: '#E2B2F7', // text
                 600: '#7C4F90', // bg
             },
-            critical: {
-                default: '#C84345',
-                hover: '#AE3436',
-                pressed: '#802320',
+            red: {
+                500: '#C84345',
+                550: '#AE3436',
+                600: '#802320',
             },
         },
         fontFamily: {

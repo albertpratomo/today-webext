@@ -45,9 +45,9 @@ const button = cva([
                 'text-gray-300',
             ],
             critical: [
-                'bg-critical-default',
-                'enabled:hover:bg-critical-hover',
-                'enabled:active:bg-critical-pressed',
+                'bg-red-500',
+                'enabled:hover:bg-red-550',
+                'enabled:active:bg-red-600',
                 'shadow-button',
                 'enabled:active:shadow-button-clicked',
                 'text-gray-300',
