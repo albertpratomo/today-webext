@@ -1,92 +1,68 @@
 <script setup lang="ts">
-
+const buttons = ref([
+    {
+        variant: 'primary',
+        label: 'Primary',
+    },
+    {
+        variant: 'primary',
+        label: 'Primary',
+        size: 'sm',
+    },
+    {
+        variant: 'secondary',
+        label: 'Secondary',
+    },
+    {
+        variant: 'critical',
+        label: 'Critcal',
+        sze: 'sm',
+    },
+    {
+        variant: 'outline',
+        label: 'Outline',
+    },
+    {
+        variant: 'outline',
+        label: 'Outline',
+        size: 'sm',
+    },
+    {
+        variant: 'ghost',
+        label: 'Ghost',
+    },
+    {
+        variant: 'ghost',
+        label: 'Ghost',
+        size: 'sm',
+    },
+]);
 </script>
 
 <template>
-    <div class="m-auto w-50 pt-20">
-        <div class="flex-initial space-y-5">
-            <div class="flex gap-3">
-                <Button variant="primary">
-                    Primary
-                </Button>
-
-                <Button
-                    disabled
-                    variant="primary"
-                >
-                    Primary
-                </Button>
-            </div>
-
-            <div class="flex gap-3">
-                <Button
-                    size="sm"
-                    variant="primary"
-                >
-                    Primary
-                </Button>
-
-                <Button
-                    disabled
-                    size="sm"
-                    variant="primary"
-                >
-                    Primary
-                </Button>
-            </div>
-
-            <div class="flex gap-3">
-                <Button variant="secondary">
-                    Secondary
-                </Button>
-
-                <Button
-                    disabled
-                    variant="secondary"
-                >
-                    Secondary
-                </Button>
-            </div>
-
-            <div class="flex gap-3">
-                <Button variant="critical">
-                    Critical
-                </Button>
-
-                <Button
-                    disabled
-                    variant="critical"
-                >
-                    Critical
-                </Button>
-            </div>
-
-            <div class="flex gap-3">
-                <Button variant="outline">
-                    Outline
-                </Button>
-
-                <Button
-                    disabled
-                    variant="outline"
-                >
-                    Outline
-                </Button>
-            </div>
-
-            <Button
-                id="btn-new-task"
-                size="square"
+    <div class="m-auto w-1/2 p-30">
+        <ul class="space-5 flex flex-wrap gap-3">
+            <li
+                v-for="(button, i) in buttons"
+                :key="i"
+                class="w-6/12 flex gap-3"
             >
-                <MaterialSymbolsAdd />
-            </Button>
+                <Button
+                    :disabled="false"
+                    :size="button.size"
+                    :variant="button.variant"
+                >
+                    {{ button.label }}
+                </Button>
 
-            <Button
-                class="p-2 text-gray-400"
-                variant="ghost"
-            >
-                Show completed
-            </Button>
-        </div>
+                <Button
+                    :disabled="true"
+                    :size="button.size"
+                    :variant="button.variant"
+                >
+                    {{ button.label }}
+                </Button>
+            </li>
+        </ul>
     </div>
 </template>
