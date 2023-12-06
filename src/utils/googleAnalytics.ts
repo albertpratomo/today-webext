@@ -22,7 +22,6 @@ async function getOrCreateClientId(): Promise<string> {
 
     return clientId;
 }
-const client_id = await getOrCreateClientId();
 
 async function getOrCreateSessionId() {
     const SESSION_EXPIRATION_IN_MIN = 30;
@@ -62,11 +61,14 @@ async function getOrCreateSessionId() {
 }
 
 // TODO: Maybe store this user email in pinia store.
-let user_email = '';
-if (chrome.identity) {
-    await chrome.identity.getProfileUserInfo(({email}) => {
-        user_email = email;
-    });
+async function getUserEmail() {
+    if (chrome.identity) {
+        const {email} = await chrome.identity.getProfileUserInfo({});
+
+        return email;
+    }
+
+    return '';
 }
 
 const user_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -78,14 +80,14 @@ export async function trackGa(name: string, params?: Record<string, any>) {
             method: 'POST',
             // To be consistent with GA convention, payload should be in snake_case.
             body: JSON.stringify({
-                client_id,
+                client_id: await getOrCreateClientId(),
                 events: [
                     {
                         name,
                         params: {
                             session_id: await getOrCreateSessionId(),
                             engagement_time_msec: 100,
-                            user_email,
+                            user_email: await getUserEmail(),
                             user_timezone,
                             ...params,
                         },
