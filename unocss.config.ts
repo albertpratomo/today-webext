@@ -107,13 +107,13 @@ export default defineConfig({
             },
             avocado: {
                 200: '#FFFFB8', // text
-                600: '#78821F', // bg
+                600: '#6D781D', // bg
                 650: '#5A5E2F', // bg hover
                 700: '#4F522A', // bg default
             },
             citron: {
                 200: '#FFFFBF', // text
-                600: '#8F7303', // bg
+                600: '#8C7000', // bg
                 650: '#635516', // bg hover
                 700: '#594C15', // bg default
             },
@@ -167,7 +167,7 @@ export default defineConfig({
             },
             birch: {
                 200: '#FFFFF8', // text
-                600: '#85755F', // bg
+                600: '#806B50', // bg
                 650: '#614E38', // bg hover
                 700: '#544532', // bg default
             },
