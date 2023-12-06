@@ -13,14 +13,9 @@ defineProps({
     >
         <g v-if="name === 'calendar'">
             <path
-                d="M6 9H4v2h2V9ZM7 6h2v2H7V6ZM9 9H7v2h2V9ZM10 6h2v2h-2V6Z"
-                fill="#CA8A04"
-            />
-
-            <path
                 clip-rule="evenodd"
-                d="M0 5a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V5Zm2.268-1A1.99 1.99 0 0 0 2 5v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a1.99 1.99 0 0 0-.268-1H2.268Z"
-                fill="#CA8A04"
+                d="M1.818 4c-.14.304-.218.643-.218 1v6A2.4 2.4 0 0 0 4 13.4h8a2.4 2.4 0 0 0 2.4-2.4V5c0-.357-.078-.696-.218-1H1.818ZM0 5a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V5Zm7.962.477L6.69 6.75l1.273 1.273L9.235 6.75 7.962 5.477ZM2.69 10.75l1.273-1.273 1.273 1.273-1.273 1.273L2.69 10.75Zm8.984-5.273L10.4 6.75l1.273 1.273 1.273-1.273-1.273-1.273ZM6.4 10.75l1.273-1.273 1.273 1.273-1.273 1.273L6.4 10.75Z"
+                fill="#CD6987"
                 fill-rule="evenodd"
             />
         </g>
@@ -30,6 +25,15 @@ defineProps({
                 clip-rule="evenodd"
                 d="M1 5a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V5Zm4-2h6a2 2 0 0 1 2 2v4h-1a2 2 0 0 0-2 2v1H6v-1a2 2 0 0 0-2-2H3V5a2 2 0 0 1 2-2Z"
                 fill="#69A3EB"
+                fill-rule="evenodd"
+            />
+        </g>
+
+        <g v-else-if="name === 'active'">
+            <path
+                clip-rule="evenodd"
+                d="M14.4 8A6.4 6.4 0 1 1 1.6 8a6.4 6.4 0 0 1 12.8 0ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM9 3.5H8v1h1v-1Zm-1 2h1v1H8v-1Zm1 2H8v1h1v-1Zm-1 2h1v1H8v-1Zm1 2H8v1h1v-1Zm1-2h1v1h-1v-1Zm1 2h-1v1h1v-1Zm-1-4h1v1h-1v-1Zm3 0h-1v1h1v-1Zm-1 2h1v1h-1v-1Zm-1-4h-1v1h1v-1Zm1 0h1v1h-1v-1Zm-1-2h-1v1h1v-1Z"
+                fill="#BF8455"
                 fill-rule="evenodd"
             />
         </g>

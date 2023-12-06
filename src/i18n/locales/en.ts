@@ -35,6 +35,7 @@ export default {
         title: 'Calendars',
     },
     sidebar: {
+        active: 'Active',
         calendar: 'Calendar',
         inbox: 'Inbox',
         later: 'Later',
