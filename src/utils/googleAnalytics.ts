@@ -8,6 +8,9 @@ gaUrl.searchParams.set('measurement_id', MEASUREMENT_ID);
 gaUrl.searchParams.set('api_secret', API_SECRET);
 
 async function getOrCreateClientId(): Promise<string> {
+    if (!chrome.storage)
+        return 'localhost';
+
     const result = await chrome.storage.local.get('clientId');
     let clientId = result.clientId;
 
@@ -60,9 +63,11 @@ async function getOrCreateSessionId() {
 
 // TODO: Maybe store this user email in pinia store.
 let user_email = '';
-await chrome.identity.getProfileUserInfo(({email}) => {
-    user_email = email;
-});
+if (chrome.identity) {
+    await chrome.identity.getProfileUserInfo(({email}) => {
+        user_email = email;
+    });
+}
 
 export async function trackGa(name: string, params?: Record<string, any>) {
     fetch(
