@@ -1,3 +1,5 @@
+import {trackGa} from '~/utils/googleAnalytics';
+
 // import type {Tabs} from 'webextension-polyfill';
 
 // only on dev mode
@@ -12,9 +14,13 @@ browser.action.onClicked.addListener(() => {
     browser.runtime.openOptionsPage();
 });
 
-// browser.runtime.onInstalled.addListener((): void => {
-//     // console.log('Extension installed');
-// });
+browser.runtime.onInstalled.addListener(({reason}): void => {
+    if (reason === 'install')
+        trackGa('extension_installed');
+
+    else if (reason === 'update')
+        trackGa('extension_updated');
+});
 
 // const previousTabId = 0;
 
