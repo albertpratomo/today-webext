@@ -1,4 +1,4 @@
-// Tutorial: https://developer.chrome.com/docs/extensions/mv3/tut_analytics/
+// Tutorial: https://developer.chrome.com/docs/extensions/mv3/tut_analytics
 
 const API_SECRET = 'zugTlnEWSA-t2FGoSp-H5g';
 const MEASUREMENT_ID = 'G-44GSBY88E1';
