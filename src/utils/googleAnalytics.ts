@@ -69,6 +69,8 @@ if (chrome.identity) {
     });
 }
 
+const user_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 export async function trackGa(name: string, params?: Record<string, any>) {
     fetch(
         gaUrl.href,
@@ -84,6 +86,7 @@ export async function trackGa(name: string, params?: Record<string, any>) {
                             session_id: await getOrCreateSessionId(),
                             engagement_time_msec: 100,
                             user_email,
+                            user_timezone,
                             ...params,
                         },
                     },
