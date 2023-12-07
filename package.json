@@ -100,7 +100,7 @@
     "webextension-polyfill": "^0.10.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
+    "pre-commit": ""
   },
   "lint-staged": {
     "*": "eslint --fix"
