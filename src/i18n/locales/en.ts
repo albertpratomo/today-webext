@@ -6,7 +6,6 @@ export default {
         connect: 'Connect',
         createTask: 'Create task',
         hideCompletedTasks: 'Hide completed tasks',
-        moveTask: '1 task is moved out of {parent}',
         remove: 'Remove',
         showCompletedTasks: 'Show completed tasks',
     },
@@ -44,6 +43,9 @@ export default {
         slack: 'Join Slack',
         today: 'Today',
         trash: 'Trash',
+    },
+    tasks: {
+        taskScheduledMessage: '{taskTitle} was scheduled for {destination}',
     },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',

@@ -1,4 +1,5 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
+import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {notify} from 'notiwind';
@@ -6,7 +7,6 @@ import {remove} from 'lodash-es';
 import {trackGa} from '~/utils/googleAnalytics';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
-import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
     const {t} = useI18n();
@@ -123,6 +123,27 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
+    function scheduleTask(task: Task, when: Date) { /* to be supported: ... | 'today' | 'tomorrow' | 'unschedule' */
+        let date;
+        if (when instanceof Date)
+            date = when;
+        else
+            date = useNow();
+
+        const scheduledDate = useDateFormat(date, 'YYYY-MM-DD');
+        const oldScheduledFor = task.scheduledFor;
+
+        task.scheduledFor = scheduledDate.value;
+
+        if (oldScheduledFor !== scheduledDate.value) {
+            notify({
+                group: 'general',
+                text: t('tasks.taskScheduledMessage', {taskTitle: task.title, destination: t('sidebar.today')}),
+                isCloseable: true,
+            }, 4000);
+        }
+    }
+
     // Done Task --------------------------------------------------------------
 
     const doneTasks = useStorageLocal<Task[]>('doneTasks', []);
@@ -200,6 +221,7 @@ export const useTasksStore = defineStore('tasks', () => {
         editTask,
 
         moveTask,
+        scheduleTask,
 
         doneTasks,
         isAllDone,

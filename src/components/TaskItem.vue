@@ -65,7 +65,7 @@ const el = ref(null);
             />
 
             <MbscDraggable
-                :drag-data="{title: task.title, task_id: task.id}"
+                :drag-data="{title: task.title, task}"
                 :element="el"
             />
         </div>
