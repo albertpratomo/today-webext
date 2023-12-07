@@ -5,7 +5,7 @@ import {useTrashStore} from '~/stores';
 const emit = defineEmits(['toggleSidebar']);
 
 const {t} = useI18n();
-const {tasks} = storeToRefs(useTrashStore());
+const {trashTasks} = storeToRefs(useTrashStore());
 
 const items = computed(() => {
     const items = [
@@ -43,7 +43,7 @@ const items = computed(() => {
             icon: 'trash',
             text: t('sidebar.trash'),
             to: {name: 'trash'},
-            isVisible: !!tasks.value.length,
+            isVisible: !!trashTasks.value.length,
         },
     ];
 
