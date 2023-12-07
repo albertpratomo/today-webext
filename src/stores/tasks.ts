@@ -10,7 +10,6 @@ import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
     const {t} = useI18n();
-    const tasksParent = ref<string>('today');
 
     const initialTasks = [
         {
@@ -49,12 +48,13 @@ export const useTasksStore = defineStore('tasks', () => {
     const lastTaskId = useStorageLocal<number>('lastTaskId', initialTasks.length + 1);
 
     const BLANK_TASK = Object.freeze({
-        parent: null,
         title: '',
         note: '',
         isDone: false,
         deletedAt: null,
         subtasks: [],
+        scheduledFor: null,
+        projectId: null,
     });
 
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {
@@ -78,8 +78,6 @@ export const useTasksStore = defineStore('tasks', () => {
         const index = typeof lastSelectedTaskId.value === 'number'
             ? tasks.value.findIndex(task => task.id === lastSelectedTaskId.value) + 1
             : 0;
-
-        draftCreateTask.value.parent = tasksParent.value;
 
         // Insert the new task there.
         tasks.value.splice(index, 0, draftCreateTask.value);
@@ -187,7 +185,6 @@ export const useTasksStore = defineStore('tasks', () => {
     };
 
     return {
-        tasksParent,
         tasks,
         taskById,
         selectedTaskIds,
