@@ -5,34 +5,16 @@ import type {SortableEvent} from 'sortablejs';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
-
-const props = withDefaults(
-    defineProps<{
-        tasksParent?: string | null
-    }>(),
-    {
-        tasksParent: null,
-    },
-);
+import {storeToRefs} from 'pinia';
 
 const {t} = useI18n();
 
 const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
-const selectedTaskIds = defineModel<number[]>('selectedTaskIds', {local: true, default: []});
+
+const {selectedTaskIds} = storeToRefs(useTasksStore());
 
 const lastSelectedTaskId = computed(() => selectedTaskIds.value.at(-1));
-
-const parentTasks = computed(() => {
-    if (props.tasksParent === null)
-        return tasks.value;
-    else
-        return tasks.value.filter(task => task.parent === props.tasksParent || (typeof task.parent === 'undefined' && props.tasksParent === 'today'));
-});
-
-const parentDoneTasks = computed(() => {
-    return doneTasks.value.filter(task => task.parent === props.tasksParent);
-});
 
 onMounted(() => useHistoryStore());
 
@@ -51,15 +33,15 @@ function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent
             : selectedTaskIds.value.push(clicked);
     }
     else if (shiftKey && typeof lastSelectedTaskId.value === 'number') {
-        const clickedIndex = parentTasks.value.findIndex(task => task.id === clicked);
+        const clickedIndex = tasks.value.findIndex(task => task.id === clicked);
         const lastIndex = lastSelectedTaskId.value !== null
-            ? parentTasks.value.findIndex(task => task.id === lastSelectedTaskId.value)
+            ? tasks.value.findIndex(task => task.id === lastSelectedTaskId.value)
             : clickedIndex; // Fallback to clickedIndex if lastSelectedTaskId is null
 
         const minIndex = Math.min(clickedIndex, lastIndex);
         const maxIndex = Math.max(clickedIndex, lastIndex);
 
-        const rangeTaskIds = parentTasks.value.slice(minIndex, maxIndex + 1).map(task => task.id);
+        const rangeTaskIds = tasks.value.slice(minIndex, maxIndex + 1).map(task => task.id);
 
         // Combine existing selectedTaskIds with new range
         selectedTaskIds.value = Array.from(new Set([...selectedTaskIds.value, ...rangeTaskIds]));
@@ -84,13 +66,13 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 
     e.preventDefault();
 
-    const taskLength = parentTasks.value.length;
+    const taskLength = tasks.value.length;
     const isArrowDown = e.key === 'ArrowDown';
-    const currentTaskId = lastSelectedTaskId.value ?? (parentTasks.value[isArrowDown ? 0 : taskLength - 1].id);
+    const currentTaskId = lastSelectedTaskId.value ?? (tasks.value[isArrowDown ? 0 : taskLength - 1].id);
 
     let currentIndex;
     if (typeof lastSelectedTaskId.value === 'number')
-        currentIndex = parentTasks.value.findIndex(task => task.id === lastSelectedTaskId.value);
+        currentIndex = tasks.value.findIndex(task => task.id === lastSelectedTaskId.value);
     else
         currentIndex = isArrowDown ? -1 : taskLength;
 
@@ -98,7 +80,7 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     if (nextIndex < 0 || nextIndex >= taskLength)
         return;
 
-    const nextTaskId = parentTasks.value[nextIndex].id;
+    const nextTaskId = tasks.value[nextIndex].id;
 
     if (e.shiftKey && (e.metaKey || e.ctrlKey) && selectedTaskIds.value.length === 1) {
         // const oldIndex = selectedIndexes.value[0];
@@ -123,9 +105,9 @@ onKeyStroke(['Esc', 'Escape'], () => {
 const {editTask, taskById} = useTasksStore();
 onKeyStroke('Enter', () => {
     if (typeof lastSelectedTaskId.value === 'number') {
-        const taskToEdit = taskById(lastSelectedTaskId.value);
-        if (taskToEdit)
-            editTask(taskToEdit);
+        const task = taskById(lastSelectedTaskId.value);
+        if (task)
+            editTask(task);
     }
 }, {eventName: 'keyup'});
 
@@ -180,9 +162,9 @@ onKeyStroke(['Backspace', 'Delete'], () => {
             :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
         >
             <TaskItem
-                v-for="(task, i) in parentTasks"
+                v-for="(task, i) in tasks"
                 :key="task.id"
-                v-model="parentTasks[i]"
+                v-model="tasks[i]"
                 :aria-selected="selectedTaskIds.includes(task.id)"
                 class="task-item"
                 :is-last-selected="lastSelectedTaskId === task.id"
@@ -194,7 +176,7 @@ onKeyStroke(['Backspace', 'Delete'], () => {
         </div>
 
         <div
-            v-if="parentDoneTasks.length"
+            v-if="doneTasks.length"
             class="mt-12"
         >
             <Button
@@ -207,9 +189,9 @@ onKeyStroke(['Backspace', 'Delete'], () => {
 
             <template v-if="showDoneTasks">
                 <TaskItem
-                    v-for="(task, i) in parentDoneTasks"
+                    v-for="(task, i) in doneTasks"
                     :key="task.id"
-                    v-model="parentDoneTasks[i]"
+                    v-model="doneTasks[i]"
                     :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
                     @dblclick="editTask(task)"
                 />
