@@ -24,7 +24,7 @@ const items = computed(() => {
         {
             icon: 'active',
             text: t('sidebar.active'),
-            to: null,
+            to: {name: 'active'},
             isVisible: true,
         },
         {
