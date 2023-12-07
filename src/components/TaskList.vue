@@ -135,21 +135,16 @@ const toggleText = computed(() => {
     return t(`actions.${key}CompletedTasks`);
 });
 
-const {trashTasks} = useTrashStore();
+const {removeTasks} = useTrashStore();
 onKeyStroke(['Backspace', 'Delete'], () => {
     // If a dialog is open, don't delete any task.
     if (document.querySelector('[role=dialog][data-headlessui-state=open]'))
         return;
 
     if (selectedTaskIds.value.length) {
-        const selectedTaskIndexes = selectedTaskIds.value.map(taskId =>
-            tasks.value.findIndex(task => task.id === taskId),
-        );
+        removeTasks(selectedTaskIds.value);
 
-        trashTasks(tasks, selectedTaskIndexes);
-
-        if (selectedTaskIds.value.length > 1)
-            selectTask(0);
+        selectTask([]);
     }
 });
 </script>

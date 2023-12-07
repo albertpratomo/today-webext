@@ -1,28 +1,33 @@
-import {acceptHMRUpdate, defineStore} from 'pinia';
+import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
 import type Task from '~/models/Task';
 import {pullAt} from 'lodash-es';
 import {useHistoryStore} from './history';
 import {useStorageLocal} from '~/utils/useStorageLocal';
+import {useTasksStore} from '~/stores/tasks';
 
 export const useTrashStore = defineStore('trash', () => {
-    const tasks = useStorageLocal<Task[]>('trashTasks', []);
+    const {tasks} = storeToRefs(useTasksStore());
+    const trashTasks = useStorageLocal<Task[]>('trashTasks', []);
 
-    function trashTasks(sourceTasks: Ref<Task[]>, indexes: number[]) {
+    function removeTasks(taskIds: number[]) {
+        const indexes = taskIds.map(taskId =>
+            tasks.value.findIndex(task => task.id === taskId),
+        );
+
         indexes.forEach((i) => {
-            sourceTasks.value[i].parent = null;
-            sourceTasks.value[i].deletedAt = new Date();
+            tasks.value[i].deletedAt = new Date();
         });
 
-        const removed = pullAt(sourceTasks.value, indexes);
+        const removed = pullAt(tasks.value, indexes);
 
-        tasks.value.push(...removed);
+        trashTasks.value.push(...removed);
 
         useHistoryStore().commit();
     }
 
     return {
-        tasks,
         trashTasks,
+        removeTasks,
     };
 });
 

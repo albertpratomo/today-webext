@@ -2,7 +2,7 @@
 import {storeToRefs} from 'pinia';
 import {useTrashStore} from '~/stores/trash';
 
-const {tasks} = storeToRefs(useTrashStore());
+const {trashTasks} = storeToRefs(useTrashStore());
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const {tasks} = storeToRefs(useTrashStore());
                     </h1>
 
                     <TaskList
-                        v-model="tasks"
+                        v-model="trashTasks"
                         class="mt-8 pb-10"
                     />
                 </div>
