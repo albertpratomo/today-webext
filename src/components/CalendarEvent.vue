@@ -5,14 +5,16 @@ import {getEventColor} from '~/utils/googleCalendarColors';
 
 const {event} = defineProps<{event: Event}>();
 
-const color = getEventColor('5');
+const cssVariables = computed(() => {
+    const color = getEventColor(event.colorId);
 
-const cssVariables = {
-    '--text': color[200],
-    '--active-bg': color[600],
-    '--hover-bg': color[650],
-    '--bg': color[700],
-};
+    return {
+        '--text': color[200],
+        '--active-bg': color[600],
+        '--hover-bg': color[650],
+        '--bg': color[700],
+    };
+});
 
 const _class = computed(() => {
     if (event.allDay)

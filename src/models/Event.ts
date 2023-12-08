@@ -4,6 +4,7 @@ import {toDateTime} from '~/utils/date';
 
 interface Event {
     id: string
+    colorId?: string
     title: string
     start: string
     end: string
@@ -36,6 +37,7 @@ function formatGcalEvent(gcalEvent: GcalEvent): Event {
     return {
         // Most of the time gcalEvent will have an id. In the rare case it doesn't, generate event id.
         id: gcalEvent.id || generateEventId(),
+        colorId: gcalEvent.colorId || undefined,
         title: gcalEvent.summary || '',
         start: gcalEvent.start?.dateTime || gcalEvent.start?.date || '',
         end: gcalEvent.end?.dateTime || gcalEvent.end?.date || '',

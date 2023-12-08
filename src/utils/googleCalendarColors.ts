@@ -221,9 +221,11 @@ const eventColors: Color[] = calendarColors
         id: c.eventColorId,
     }));
 
-export function getEventColor(id: string): Color {
-    const color = eventColors.find(c => c.id === id);
+const defaultEventColor = eventColors.find(c => c.name === 'blueberry')!;
 
-    // Use blueberry color as fallback.
-    return color || eventColors.find(c => c.name === 'blueberry')!;
+export function getEventColor(id?: string): Color {
+    if (!id)
+        return defaultEventColor;
+
+    return eventColors.find(c => c.id === id) || defaultEventColor;
 }
