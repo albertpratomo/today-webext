@@ -58,6 +58,7 @@ const button = cva([
             ],
         },
         size: {
+            xs: 'px-2 py-1 text-xs',
             sm: 'px-3 py-1 text-sm',
             md: 'px-4 py-1.5 text-sm leading-5',
             square: 'p-1.5',
