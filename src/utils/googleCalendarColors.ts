@@ -218,14 +218,21 @@ const eventColors: Color[] = calendarColors
     .filter(c => c.eventColorId)
     .map(c => ({
         ...c,
-        id: c.eventColorId,
+        id: c.eventColorId!,
     }));
 
-const defaultEventColor = eventColors.find(c => c.name === 'blueberry')!;
+const defaultColor = eventColors.find(c => c.name === 'blueberry')!;
+
+export function getCalendarColor(id?: string): Color {
+    if (!id)
+        return defaultColor;
+
+    return calendarColors.find(c => c.id === id) || defaultColor;
+}
 
 export function getEventColor(id?: string): Color {
     if (!id)
-        return defaultEventColor;
+        return defaultColor;
 
-    return eventColors.find(c => c.id === id) || defaultEventColor;
+    return eventColors.find(c => c.id === id) || defaultColor;
 }

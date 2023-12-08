@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import {getCalendarColor, getEventColor} from '~/utils/googleCalendarColors';
 import type {Event} from '~/models/Event';
 import {getDuration} from '~/utils/date';
-import {getEventColor} from '~/utils/googleCalendarColors';
 
-const {event} = defineProps<{event: Event}>();
+interface Props {
+    calendarColorId?: string
+    event: Event
+}
+
+const {calendarColorId, event} = defineProps<Props>();
 
 const cssVariables = computed(() => {
-    const color = getEventColor(event.colorId);
+    const color = event.colorId
+        ? getEventColor(event.colorId)
+        : getCalendarColor(calendarColorId);
 
     return {
         '--text': color[200],

@@ -6,7 +6,7 @@ import {luxonTimezone} from '@mobiscroll/vue';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
-const {events} = storeToRefs(useCalendarStore());
+const {calendarColorId, events} = storeToRefs(useCalendarStore());
 const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
 
 luxonTimezone.luxon = luxon;
@@ -39,7 +39,10 @@ const options: MbscEventcalendarOptions = {
                 @event-updated="updateEvent"
             >
                 <template #scheduleEvent="{original}">
-                    <CalendarEvent :event="original" />
+                    <CalendarEvent
+                        :calendar-color-id="calendarColorId"
+                        :event="original"
+                    />
                 </template>
             </MbscEventcalendar>
         </div>
