@@ -33,19 +33,24 @@ const _class = computed(() => {
 <template>
     <div
         bg="[--bg] hover:[--hover-bg] [.mbsc-schedule-event-active_&]:[--active-bg]!"
-        class="h-full items-center justify-between border-r border-gray-850 rounded px-2"
-        :class="_class"
+        class="h-full border-r border-gray-850 rounded"
         :style="cssVariables"
     >
-        <div class="truncate text-2sm font-medium text-[--text]">
-            {{ event.title }}
-        </div>
-
         <div
-            v-if="!event.allDay"
-            class="text-xs text-[--text] opacity-60"
+            class="items-center justify-between px-2"
+            :class="_class"
+            un-opacity="75 [.mbsc-schedule-event-active_&]:100"
         >
-            {{ getDuration(event.start, event.end) }}
+            <div class="truncate text-2sm font-medium text-[--text]">
+                {{ event.title }}
+            </div>
+
+            <div
+                v-if="!event.allDay"
+                class="text-xs text-[--text] opacity-60"
+            >
+                {{ getDuration(event.start, event.end) }}
+            </div>
         </div>
     </div>
 </template>
