@@ -2,13 +2,11 @@
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
 import {MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
-import type {Event} from '~/models/Event';
-import {getDuration} from '~/utils/date';
 import {luxonTimezone} from '@mobiscroll/vue';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
-const {events} = storeToRefs(useCalendarStore());
+const {calendarColorId, events} = storeToRefs(useCalendarStore());
 const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
 
 luxonTimezone.luxon = luxon;
@@ -28,19 +26,6 @@ const options: MbscEventcalendarOptions = {
     timezonePlugin: luxonTimezone,
     view: {schedule: {type: 'day', days: false}},
 };
-
-function getEventClass(event: Event) {
-    if (event.allDay)
-        return '';
-
-    const duration = getDuration(event.start, event.end);
-
-    switch (duration) {
-        case '15m': return 'flex';
-        case '30m': return 'pt-.5';
-        default: return 'pt-1';
-    }
-}
 </script>
 
 <template>
@@ -53,23 +38,11 @@ function getEventClass(event: Event) {
                 @event-deleted="deleteEvent"
                 @event-updated="updateEvent"
             >
-                <template #scheduleEvent="{allDay, original, title}">
-                    <div
-                        bg="blueberry-700 hover:blueberry-650 [.mbsc-schedule-event-active_&]:blueberry-600!"
-                        class="h-full items-center justify-between border-r border-gray-850 rounded px-2"
-                        :class="getEventClass(original)"
-                    >
-                        <div class="truncate text-2sm font-medium text-blueberry-200">
-                            {{ title }}
-                        </div>
-
-                        <div
-                            v-if="!allDay"
-                            class="text-xs text-blueberry-200/60"
-                        >
-                            {{ getDuration(original.start, original.end) }}
-                        </div>
-                    </div>
+                <template #scheduleEvent="{original}">
+                    <CalendarEvent
+                        :calendar-color-id="calendarColorId"
+                        :event="original"
+                    />
                 </template>
             </MbscEventcalendar>
         </div>
