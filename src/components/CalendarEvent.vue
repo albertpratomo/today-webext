@@ -46,15 +46,15 @@ const _class = computed(() => {
         <div
             class="items-center justify-between px-2"
             :class="_class"
-            un-opacity="75 [.mbsc-schedule-event-active_&]:100"
+            un-opacity="85 [.mbsc-schedule-event-active_&]:100"
         >
-            <div class="truncate text-2sm font-medium text-[--text]">
+            <div class="truncate text-xs tracking-[0.2px] text-[--text]">
                 {{ event.title }}
             </div>
 
             <div
                 v-if="!event.allDay"
-                class="text-xs text-[--text] opacity-60"
+                class="text-2xs tracking-[0.35px] text-[--text] opacity-60"
             >
                 {{ getDuration(event.start, event.end) }}
             </div>

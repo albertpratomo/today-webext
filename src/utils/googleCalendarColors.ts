@@ -32,8 +32,8 @@ const calendarColors: Color[] = [
         name: 'tomato',
         200: '#FADBD7', // text
         600: '#7D1F1F', // bg pressed
-        650: '#5E2121', // bg hover
-        700: '#4F1A1A', // bg default
+        650: '#5C2A2A', // bg hover
+        700: '#4F2626', // bg default
     },
     {
         id: '4',
@@ -125,7 +125,7 @@ const calendarColors: Color[] = [
         name: 'peacock',
         200: '#E3F5FC', // text
         600: '#2F5FA8', // bg
-        650: '#193F6B', // bg hover
+        650: '#1A4470', // bg hover
         700: '#183D61', // bg default
     },
     {
@@ -151,8 +151,8 @@ const calendarColors: Color[] = [
         name: 'lavender',
         200: '#E8D8FF', // text
         600: '#4F3F9E', // bg
-        650: '#433778', // bg hover
-        700: '#3A3066', // bg default
+        650: '#443A70', // bg hover
+        700: '#3C3461', // bg default
     },
     {
         id: '18',
