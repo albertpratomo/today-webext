@@ -25,6 +25,14 @@ export function getTimeOfDay(date: Date, type: 'start' | 'end') {
     return date.toISOString();
 }
 
+export function getTomorrow() {
+    const currentDate = new Date();
+    const tomorrow = new Date(currentDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    return tomorrow;
+}
+
 export function toDateTime(date: string | Date | object): DateTime {
     if (date instanceof Date)
         return DateTime.fromJSDate(date);

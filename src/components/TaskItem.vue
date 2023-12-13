@@ -58,6 +58,8 @@ const el = ref(null);
                 @keyup.enter="task.isDone = !(task.isDone)"
             >
 
+            <TaskMenu v-model="task" />
+
             <div
                 class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
                 :class="{'text-gray-400': task.isDone}"
