@@ -38,8 +38,23 @@ const button = cva([
             ],
             secondary: [
                 'bg-gray-600',
-                'enabled:hover:bg-gray-750',
+                'enabled:hover:bg-gray-700',
                 'enabled:active:bg-gray-800',
+                'shadow-button',
+                'enabled:active:shadow-button-clicked',
+                'text-gray-300',
+            ],
+            toolbar: [
+                'bg-gray-750',
+                'enabled:hover:bg-gray-800',
+                'border-gray-700',
+                'border',
+                'text-gray-300',
+            ],
+            critical: [
+                'bg-red-500',
+                'enabled:hover:bg-red-550',
+                'enabled:active:bg-red-600',
                 'shadow-button',
                 'enabled:active:shadow-button-clicked',
                 'text-gray-300',
@@ -58,6 +73,7 @@ const button = cva([
             ],
         },
         size: {
+            xs: 'px-2 py-1 text-xs',
             sm: 'px-3 py-1 text-sm',
             md: 'px-4 py-1.5 text-sm leading-5',
             square: 'p-1.5',

@@ -61,7 +61,7 @@ const hasSubtasks = computed(() => {
                                 placement: 'bottom',
                                 offset: [0, 6],
                             }"
-                            size="sm"
+                            size="xs"
                             variant="secondary"
                             @click="createSubtask"
                         >
