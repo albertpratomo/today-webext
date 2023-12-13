@@ -30,7 +30,7 @@ const items = computed(() => {
         {
             icon: 'later',
             text: t('sidebar.later'),
-            to: null,
+            to: {name: 'later'},
             isVisible: true,
         },
         {

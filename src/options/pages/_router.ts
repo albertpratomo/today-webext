@@ -1,6 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import Active from './Active.vue';
 import Inbox from './Inbox.vue';
+import Later from './Later.vue';
 import Library from './Library.vue';
 import Today from './Today.vue';
 import Trash from './Trash.vue';
@@ -22,6 +23,11 @@ const router = createRouter({
             path: '/active',
             name: 'active',
             component: Active,
+        },
+        {
+            path: '/later',
+            name: 'later',
+            component: Later,
         },
         {
             path: '/trash',

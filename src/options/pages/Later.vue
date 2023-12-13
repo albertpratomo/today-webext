@@ -7,22 +7,14 @@ const {tasks, doneTasks} = storeToRefs(useTasksStore());
 const _tasks = computed(() => {
     return tasks.value.filter(task =>
         task.isDone === false
-        && task.projectId !== 'inbox'
-        && (
-            task.scheduledFor === null
-            || task.scheduledFor !== 'later'
-        ),
+        && task.scheduledFor === 'later',
     );
 });
 
 const _doneTasks = computed(() => {
     return doneTasks.value.filter(task =>
         task.isDone === true
-        && task.projectId !== 'inbox'
-        && (
-            task.scheduledFor === null
-            || task.scheduledFor !== 'later'
-        ),
+        && task.scheduledFor === 'later',
     );
 });
 </script>
@@ -34,7 +26,7 @@ const _doneTasks = computed(() => {
             v-model:done-tasks="_doneTasks"
         >
             <template #header>
-                {{ $t(`sidebar.active`) }}
+                {{ $t(`sidebar.later`) }}
             </template>
         </TaskListCalendarDaily>
     </LayoutSidebar>
