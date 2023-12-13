@@ -133,9 +133,9 @@ export const useTasksStore = defineStore('tasks', () => {
         const scheduledDate = useDateFormat(date, 'YYYY-MM-DD');
         const oldScheduledFor = task.scheduledFor;
 
-        task.scheduledFor = scheduledDate.value;
-
         if (oldScheduledFor !== scheduledDate.value) {
+            task.scheduledFor = scheduledDate.value;
+
             notify({
                 group: 'general',
                 text: t('tasks.taskScheduledMessage', {taskTitle: task.title, destination: t('sidebar.today')}),
