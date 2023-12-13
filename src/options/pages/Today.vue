@@ -3,21 +3,21 @@ import {useDateFormat, useNow} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const {tasks: allTasks, doneTasks: allDoneTasks} = storeToRefs(useTasksStore());
+const {tasks, doneTasks} = storeToRefs(useTasksStore());
 
 const currentDate = useNow();
 const titleDate = useDateFormat(currentDate, 'DD MMM YYYY');
 
-const tasks = computed(() => {
-    return allTasks.value.filter(task =>
+const _tasks = computed(() => {
+    return tasks.value.filter(task =>
         task.isDone === false
         && task.scheduledFor != null
         && new Date(task.scheduledFor) <= currentDate.value,
     );
 });
 
-const doneTasks = computed(() => {
-    return allDoneTasks.value.filter(task =>
+const _doneTasks = computed(() => {
+    return doneTasks.value.filter(task =>
         task.isDone === true
         && task.scheduledFor != null
         && new Date(task.scheduledFor) <= currentDate.value,
@@ -28,8 +28,8 @@ const doneTasks = computed(() => {
 <template>
     <LayoutSidebar>
         <TaskListCalendarDaily
-            v-model="tasks"
-            v-model:done-tasks="doneTasks"
+            v-model="_tasks"
+            v-model:done-tasks="_doneTasks"
         >
             <template #header>
                 {{ $t(`sidebar.today`) }}
