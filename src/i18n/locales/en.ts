@@ -42,10 +42,12 @@ export default {
         settings: 'Settings',
         slack: 'Join Slack',
         today: 'Today',
+        tomorrow: 'Tomorrow',
         trash: 'Trash',
     },
     tasks: {
-        taskScheduledMessage: '{taskTitle} was scheduled for {destination}',
+        taskMovedMessage: '{taskTitle} was moved to {destination}',
+        taskScheduledMessage: '{taskTitle} was scheduled for {when}',
     },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',

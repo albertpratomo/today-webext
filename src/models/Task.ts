@@ -8,8 +8,8 @@ interface Task {
     // TODO: Parse string to Date from localStorage.
     deletedAt: Date | null
     subtasks: Subtask[]
-    scheduledFor?: string
-    projectId?: string
+    scheduledFor: string | null
+    projectId: string | null
 }
 
 export default Task;

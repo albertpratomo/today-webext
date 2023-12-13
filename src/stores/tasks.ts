@@ -2,6 +2,7 @@ import {acceptHMRUpdate, defineStore} from 'pinia';
 import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
+import {getTomorrow} from '~/utils/date';
 import {notify} from 'notiwind';
 import {remove} from 'lodash-es';
 import {trackGa} from '~/utils/googleAnalytics';
@@ -106,39 +107,49 @@ export const useTasksStore = defineStore('tasks', () => {
 
     // Move Task --------------------------------------------------------------
 
-    function moveTask(taskId: number, parent: string) {
-        const taskToEdit = taskById(taskId);
-        if (taskToEdit) {
-            const oldParent = (typeof taskToEdit.parent == 'string' ? taskToEdit.parent : 'today');
-
-            taskToEdit.parent = parent;
-
-            if (oldParent !== 'today') {
-                notify({
-                    group: 'general',
-                    text: t('actions.moveTask', {parent: t(oldParent)}),
-                    isCloseable: true,
-                }, 4000);
-            }
+    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later') {
+        if (destination === 'inbox') {
+            task.projectId = 'inbox';
+            task.scheduledFor = null;
         }
+        else if (destination === 'active') {
+            if (task.projectId === 'inbox')
+                task.projectId = null;
+
+            task.scheduledFor = null;
+        }
+        else if (destination === 'later') {
+            if (task.projectId === 'inbox')
+                task.projectId = null;
+
+            task.scheduledFor = 'later';
+        }
+
+        notify({
+            group: 'general',
+            text: t('tasks.taskMovedMessage', {taskTitle: task.title, destination: t(`sidebar.${destination}`)}),
+            isCloseable: true,
+        }, 4000);
     }
 
-    function scheduleTask(task: Task, when: Date) { /* to be supported: ... | 'today' | 'tomorrow' | 'unschedule' */
+    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow') {
         let date;
+
         if (when instanceof Date)
             date = when;
-        else
+        else if (when === 'today')
             date = useNow();
+        else if (when === 'tomorrow')
+            date = getTomorrow();
 
-        const scheduledDate = useDateFormat(date, 'YYYY-MM-DD');
-        const oldScheduledFor = task.scheduledFor;
+        const scheduledDate = useDateFormat(date, 'YYYY-MM-DD').value;
 
-        if (oldScheduledFor !== scheduledDate.value) {
-            task.scheduledFor = scheduledDate.value;
+        if (task.scheduledFor !== scheduledDate) {
+            task.scheduledFor = scheduledDate;
 
             notify({
                 group: 'general',
-                text: t('tasks.taskScheduledMessage', {taskTitle: task.title, destination: t('sidebar.today')}),
+                text: t('tasks.taskScheduledMessage', {taskTitle: task.title, when: t(`sidebar.${when}`)}),
                 isCloseable: true,
             }, 4000);
         }
