@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import {useDateFormat, useNow} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
-import {useNow} from '@vueuse/core';
 import {useTasksStore} from '~/stores/tasks';
-
-const collection = 'today';
 
 const {tasks: allTasks, doneTasks: allDoneTasks} = storeToRefs(useTasksStore());
 
 const currentDate = useNow();
+const titleDate = useDateFormat(currentDate, 'DD MMM YYYY');
 
 const tasks = computed(() => {
     return allTasks.value.filter(task =>
@@ -31,8 +30,13 @@ const doneTasks = computed(() => {
         <TaskListCalendarDaily
             v-model="tasks"
             v-model:done-tasks="doneTasks"
-            :collection="collection"
-            :date="currentDate"
-        />
+        >
+            <template #header>
+                {{ $t(`sidebar.today`) }}
+                <span class="ml-1 text-gray-500">
+                    {{ titleDate }}
+                </span>
+            </template>
+        </TaskListCalendarDaily>
     </LayoutSidebar>
 </template>

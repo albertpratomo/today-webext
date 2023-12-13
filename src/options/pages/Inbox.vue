@@ -2,8 +2,6 @@
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
-const collection = 'inbox';
-
 const {tasks: allTasks, doneTasks: allDoneTasks} = storeToRefs(useTasksStore());
 
 const tasks = computed(() => {
@@ -28,7 +26,10 @@ const doneTasks = computed(() => {
         <TaskListCalendarDaily
             v-model="tasks"
             v-model:done-tasks="doneTasks"
-            :collection="collection"
-        />
+        >
+            <template #header>
+                {{ $t(`sidebar.inbox`) }}
+            </template>
+        </TaskListCalendarDaily>
     </LayoutSidebar>
 </template>

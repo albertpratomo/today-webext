@@ -1,25 +1,13 @@
 <script setup lang="ts">
+import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
-import {useDateFormat} from '@vueuse/core';
 import {useTasksStore} from '~/stores';
-
-const props = withDefaults(
-    defineProps<{
-        collection: string
-        date?: Date | null
-    }>(),
-    {
-        date: null,
-    },
-);
 
 const {taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
 
 const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
-
-const currentDate = (props.date ? useDateFormat(props.date, 'DD MMM YYYY') : null);
 
 const isCalendarVisible = ref(true);
 
@@ -47,14 +35,7 @@ onKeyStroke([']'], () => {
             <div class="max-w-[960px] min-w-0 grow">
                 <div class="h-8 flex justify-between">
                     <h1 class="text-xl font-medium">
-                        {{ $t(`sidebar.${collection}`) }}
-
-                        <span
-                            v-if="currentDate"
-                            class="ml-1 text-gray-500"
-                        >
-                            {{ currentDate }}
-                        </span>
+                        <slot name="header" />
                     </h1>
 
                     <Button
