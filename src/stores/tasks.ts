@@ -147,6 +147,9 @@ export const useTasksStore = defineStore('tasks', () => {
         if (task.scheduledFor !== scheduledDate) {
             task.scheduledFor = scheduledDate;
 
+            if (task.projectId === 'inbox')
+                task.projectId = null;
+
             notify({
                 group: 'general',
                 text: t('tasks.taskScheduledMessage', {taskTitle: task.title, when: t(`sidebar.${when}`)}),

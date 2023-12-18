@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import {useDateFormat, useNow} from '@vueuse/core';
+import {usePomodoroStore, useTasksStore, useTrashStore} from '~/stores';
 import {MbscDraggable} from '@mobiscroll/vue';
 import type Task from '~/models/Task';
+import {getTomorrow} from '~/utils/date';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
-import {usePomodoroStore} from '~/stores';
 
 const props = withDefaults(
     defineProps<{
@@ -16,6 +18,11 @@ const props = withDefaults(
     },
 );
 
+const {editTask, moveTask, scheduleTask} = useTasksStore();
+const {removeTasks} = useTrashStore();
+
+const {t} = useI18n();
+
 const task = defineModel<Task>({required: true});
 
 onKeyStroke(['d', 'D'], () => {
@@ -24,6 +31,71 @@ onKeyStroke(['d', 'D'], () => {
 }, {dedupe: false});
 
 const {focusTask} = usePomodoroStore();
+
+const currentDate = useNow();
+const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD'); ;
+
+const menuItems = [
+    {
+        text: 'Move to',
+        submenu: {
+            text: 'Buckets',
+            items: [
+                {
+                    icon: 'inbox',
+                    text: t('sidebar.inbox'),
+                    action: () => moveTask(task.value, 'inbox'),
+                    selected: computed(() => (task.value.projectId === 'inbox')),
+                },
+                {
+                    icon: 'active',
+                    text: t('sidebar.active'),
+                    action: () => moveTask(task.value, 'active'),
+                    selected: computed(() => (task.value.projectId !== 'inbox' && (task.value.scheduledFor === null || task.value.scheduledFor !== 'later'))),
+                },
+                {
+                    icon: 'later',
+                    text: t('sidebar.later'),
+                    action: () => moveTask(task.value, 'later'),
+                    selected: computed(() => (task.value.scheduledFor === 'later')),
+                },
+            ],
+        },
+    },
+    {
+        text: 'Schedule',
+        submenu: {
+            text: 'Schedule',
+            items: [
+                {
+                    text: t('sidebar.today'),
+                    action: () => scheduleTask(task.value, 'today'),
+                    selected: computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value)),
+                },
+                {
+                    text: t('sidebar.tomorrow'),
+                    action: () => scheduleTask(task.value, 'tomorrow'),
+                    selected: computed(() => (task.value.scheduledFor === tomorrowsDate.value)),
+                },
+            ],
+        },
+    },
+    {
+        text: 'Edit',
+        action: () => editTask(task.value),
+    },
+    {
+        divider: true,
+        text: 'Remove',
+        action: () => removeTasks([task.value.id]),
+    },
+];
+
+const contextMenu = ref(null);
+function handleContextMenu(event: MouseEvent) {
+    if (contextMenu.value)
+        contextMenu.value.openContextMenu(event);
+};
 
 const el = ref(null);
 </script>
@@ -37,6 +109,7 @@ const el = ref(null);
                 {'bg-indigo-950 group-hover:bg-indigo-950': isSelected},
                 isLastSelected ? 'border-indigo-900' : 'border-transparent',
             ]"
+            @contextmenu.prevent="handleContextMenu($event)"
         >
             <button
                 v-if="pomodoroIsEnabled"
@@ -58,7 +131,11 @@ const el = ref(null);
                 @keyup.enter="task.isDone = !(task.isDone)"
             >
 
-            <TaskMenu v-model="task" />
+            <ContextMenu
+                ref="contextMenu"
+                :menu-items="menuItems"
+                :parent-element="el"
+            />
 
             <div
                 class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
