@@ -91,23 +91,23 @@ defineExpose({openContextMenu});
         :style="menuPosition"
         @click="closeContextMenu"
     >
-        <div class="w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 p-1">
+        <div class="w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 py-1">
             <div
                 v-for="(item, i) in menuItems"
                 :key="i"
             >
                 <div
                     v-if="item.divider"
-                    class="mx-2 my-[1px] border-t"
+                    class="mx-2 my-1 border-t"
                 />
 
                 <div
-                    class="relative text-xs"
+                    class="relative flex text-xs"
                     @mouseenter="setActive(i, true)"
                     @mouseleave="setActive(i, false)"
                 >
                     <button
-                        class="w-full flex rounded p-2 text-left text-gray-300"
+                        class="mx-1 flex grow rounded p-2 text-left text-gray-300"
                         :class="{'bg-gray-750': item.active}"
                         @click="item.action"
                     >
@@ -120,20 +120,23 @@ defineExpose({openContextMenu});
                         </div>
                     </button>
 
-                    <Transition name="fade-up">
+                    <Transition name="fade">
                         <div
                             v-if="item.submenu"
                             v-show="item.active"
-                            class="absolute left-full top-0 min-w-40 border border-color-[#39394D] rounded bg-gray-800 p-1 text-gray-200"
+                            class="absolute left-full top-[-5px] min-w-40 border border-color-[#39394D] rounded bg-gray-800 p-1 text-gray-200"
                         >
-                            <div class="p-[6px] text-gray-400">
+                            <div
+                                v-if="item.submenu.text"
+                                class="p-[6px] text-gray-400"
+                            >
                                 {{ item.submenu.text }}
                             </div>
 
                             <button
                                 v-for="(submenuItem, ii) in item.submenu.items"
                                 :key="ii"
-                                class="block w-full flex p-2 pl-[2px] text-left"
+                                class="block w-full flex rounded p-2 pl-[2px] text-left hover:bg-gray-750"
                                 @click="submenuItem.action"
                             >
                                 <div class="mr-1 h-4 w-4 flex items-center text-gray-400">
