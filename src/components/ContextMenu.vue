@@ -91,7 +91,7 @@ defineExpose({openContextMenu});
         :style="menuPosition"
         @click="closeContextMenu"
     >
-        <div class="w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 py-1">
+        <div class="w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 py-1 shadow-sm">
             <div
                 v-for="(item, i) in menuItems"
                 :key="i"
@@ -124,7 +124,7 @@ defineExpose({openContextMenu});
                         <div
                             v-if="item.submenu"
                             v-show="item.active"
-                            class="absolute left-full top-[-5px] min-w-40 border border-color-[#39394D] rounded bg-gray-800 p-1 text-gray-200"
+                            class="absolute left-full top-[-5px] min-w-40 border border-color-[#39394D] rounded bg-gray-800 p-1 text-gray-200 shadow-sm"
                         >
                             <div
                                 v-if="item.submenu.text"
