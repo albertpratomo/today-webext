@@ -132,7 +132,7 @@ export const useTasksStore = defineStore('tasks', () => {
         }, 4000);
     }
 
-    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow') {
+    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow', showToas: boolean = true) {
         let date;
 
         if (when instanceof Date)
@@ -150,11 +150,13 @@ export const useTasksStore = defineStore('tasks', () => {
             if (task.projectId === 'inbox')
                 task.projectId = null;
 
-            notify({
-                group: 'general',
-                text: t('tasks.taskScheduledMessage', {taskTitle: task.title, when: t(`sidebar.${when}`)}),
-                isCloseable: true,
-            }, 4000);
+            if (showToas) {
+                notify({
+                    group: 'general',
+                    text: t('tasks.taskScheduledMessage', {taskTitle: task.title, when: t(`sidebar.${when}`)}),
+                    isCloseable: true,
+                }, 4000);
+            }
         }
     }
 

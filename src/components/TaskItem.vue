@@ -37,9 +37,9 @@ const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD'); ;
 
 const menuItems = [
     {
-        text: 'Move to',
+        text: t('actions.moveTo'),
         submenu: {
-            text: 'Buckets',
+            text: t('tasks.contextMenu.buckets'),
             items: [
                 {
                     icon: 'inbox',
@@ -63,9 +63,8 @@ const menuItems = [
         },
     },
     {
-        text: 'Schedule',
+        text: t('actions.schedule'),
         submenu: {
-            text: 'Schedule',
             items: [
                 {
                     text: t('sidebar.today'),
@@ -81,12 +80,12 @@ const menuItems = [
         },
     },
     {
-        text: 'Edit',
+        text: t('actions.edit'),
         action: () => editTask(task.value),
     },
     {
         divider: true,
-        text: 'Remove',
+        text: t('actions.delete'),
         action: () => removeTasks([task.value.id]),
     },
 ];

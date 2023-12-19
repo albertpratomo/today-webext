@@ -5,8 +5,12 @@ export default {
         cancel: 'Cancel',
         connect: 'Connect',
         createTask: 'Create task',
+        delete: 'Delete',
+        edit: 'Edit',
         hideCompletedTasks: 'Hide completed tasks',
+        moveTo: 'Move to',
         remove: 'Remove',
+        schedule: 'Schedule',
         showCompletedTasks: 'Show completed tasks',
     },
     calendarConnectCard: {
@@ -46,8 +50,11 @@ export default {
         trash: 'Trash',
     },
     tasks: {
-        taskMovedMessage: '{taskTitle} was moved to {destination}',
-        taskScheduledMessage: '{taskTitle} was scheduled for {when}',
+        contextMenu: {
+            buckets: 'Buckets',
+        },
+        taskMovedMessage: 'Task was moved to {destination}',
+        taskScheduledMessage: 'Task was scheduled for {when}',
     },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',

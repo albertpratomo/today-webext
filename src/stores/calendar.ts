@@ -122,7 +122,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
         if (localEvent.start) {
             const scheduleDate = new Date(localEvent.start);
-            scheduleTask(args.event.task, scheduleDate);
+            scheduleTask(args.event.task, scheduleDate, false);
         }
 
         trackGa('event_created');
