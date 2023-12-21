@@ -51,11 +51,13 @@ const hasSubtasks = computed(() => {
                         />
                     </div>
 
-                    <div
-                        v-if="!hasSubtasks"
-                        class="flex justify-end gap-2 px-3"
-                    >
+                    <div class="flex justify-end gap-2 px-3">
+                        <TaskButtonMoveTo v-model="draftCreateTask" />
+
+                        <TaskButtonSchedule v-model="draftCreateTask" />
+
                         <Button
+                            v-if="!hasSubtasks"
                             v-tippy="{
                                 content: $t('tooltips.addSubtasks'),
                                 placement: 'bottom',
