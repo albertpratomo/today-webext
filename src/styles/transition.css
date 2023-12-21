@@ -1,7 +1,7 @@
 /* fade */
 .fade-enter-active,
 .fade-leave-active {
-    @apply transition duration-200 ease-in;
+    @apply transition duration-150 ease-in;
 }
 
 .fade-enter-from,
