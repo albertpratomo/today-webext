@@ -38,11 +38,11 @@ const currentBucket = computed(() => menu[0].items.find(item => item.selected.va
 </script>
 
 <template>
-    <Menu
-        as="div"
-        class="relative inline-block"
-    >
-        <MenuButton class="text-indigo-400">
+    <Menu as="div">
+        <MenuButton
+            as="div"
+            class="text-indigo-400"
+        >
             <Button
                 size="xs"
                 variant="secondary"
@@ -56,7 +56,7 @@ const currentBucket = computed(() => menu[0].items.find(item => item.selected.va
             </Button>
         </MenuButton>
 
-        <MenuItems class="absolute z-10 w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 p-1 text-xs shadow-sm">
+        <MenuItems class="absolute z-10 mt-1 w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 p-1 text-xs shadow-sm">
             <div
                 v-for="(categories, i) in menu"
                 :key="i"

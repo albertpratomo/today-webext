@@ -67,11 +67,13 @@ const menuItems = [
         submenu: {
             items: [
                 {
+                    icon: 'schedule',
                     text: t('sidebar.today'),
                     action: () => scheduleTask(task.value, 'today'),
                     selected: computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value)),
                 },
                 {
+                    icon: 'schedule',
                     text: t('sidebar.tomorrow'),
                     action: () => scheduleTask(task.value, 'tomorrow'),
                     selected: computed(() => (task.value.scheduledFor === tomorrowsDate.value)),

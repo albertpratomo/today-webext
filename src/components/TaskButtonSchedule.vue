@@ -18,11 +18,13 @@ const menu = [
         text: t('actions.schedule'),
         items: [
             {
+                icon: 'schedule',
                 text: t('sidebar.today'),
                 action: () => scheduleTask(task.value, 'today', false),
                 selected: computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value)),
             },
             {
+                icon: 'schedule',
                 text: t('sidebar.tomorrow'),
                 action: () => scheduleTask(task.value, 'tomorrow', false),
                 selected: computed(() => (task.value.scheduledFor === tomorrowsDate.value)),
@@ -35,11 +37,11 @@ const currentBucket = computed(() => menu[0].items.find(item => item.selected.va
 </script>
 
 <template>
-    <Menu
-        as="div"
-        class="relative inline-block"
-    >
-        <MenuButton class="flex">
+    <Menu as="div">
+        <MenuButton
+            as="div"
+            class="flex"
+        >
             <Button
                 size="xs"
                 variant="secondary"
@@ -91,7 +93,7 @@ const currentBucket = computed(() => menu[0].items.find(item => item.selected.va
             </Button>
         </MenuButton>
 
-        <MenuItems class="absolute z-10 w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 p-1 text-xs shadow-sm">
+        <MenuItems class="absolute z-10 ma-1 w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 p-1 text-xs shadow-sm">
             <div
                 v-for="(categories, i) in menu"
                 :key="i"
