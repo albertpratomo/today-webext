@@ -10,8 +10,8 @@ const titleDate = useDateFormat(currentDate, 'DD MMM YYYY');
 
 const _tasks = computed(() => {
     return tasks.value.filter(task =>
-        task.isDone === false
-        && task.scheduledFor != null
+        // task.isDone === false &&
+        task.scheduledFor != null
         && new Date(task.scheduledFor) <= currentDate.value,
     );
 });

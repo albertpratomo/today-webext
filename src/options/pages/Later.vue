@@ -6,8 +6,8 @@ const {tasks, doneTasks} = storeToRefs(useTasksStore());
 
 const _tasks = computed(() => {
     return tasks.value.filter(task =>
-        task.isDone === false
-        && task.scheduledFor === 'later',
+        // task.isDone === false &&
+        task.scheduledFor === 'later',
     );
 });
 
