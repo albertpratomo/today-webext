@@ -48,7 +48,14 @@ const hasSubtasks = computed(() => {
                         />
                     </div>
 
-                    <div class="flex justify-end gap-2 px-3">
+                    <SubtaskList
+                        v-model="draftEditTask.subtasks"
+                        v-model:selected-subtasks="selectedSubtasks"
+                        class="px-3"
+                        :class="{'pb-5': hasSubtasks}"
+                    />
+
+                    <div class="flex justify-end gap-2 p-3 pt-0">
                         <TaskButtonMoveTo v-model="draftEditTask" />
 
                         <TaskButtonSchedule v-model="draftEditTask" />
@@ -67,13 +74,6 @@ const hasSubtasks = computed(() => {
                             <MaterialSymbolsChecklist class="h-4 w-4 text-gray-350" />
                         </Button>
                     </div>
-
-                    <SubtaskList
-                        v-model="draftEditTask.subtasks"
-                        v-model:selected-subtasks="selectedSubtasks"
-                        class="px-3"
-                        :class="[hasSubtasks ? 'pb-5' : 'pb-3']"
-                    />
                 </div>
             </DialogPanel>
         </div>
