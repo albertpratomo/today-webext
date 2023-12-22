@@ -102,7 +102,7 @@ onKeyStroke(['Esc', 'Escape'], () => {
     selectTask([]);
 });
 
-const {editTask, taskById} = useTasksStore();
+const {editTask, taskById, scheduleTask} = useTasksStore();
 onKeyStroke('Enter', () => {
     if (typeof lastSelectedTaskId.value === 'number') {
         const task = taskById(lastSelectedTaskId.value);
@@ -110,6 +110,20 @@ onKeyStroke('Enter', () => {
             editTask(task);
     }
 }, {eventName: 'keyup'});
+
+onKeyStroke(['t', 'T'], () => {
+    // If a dialog is open, ignore
+    if (document.querySelector('[role=dialog][data-headlessui-state=open]'))
+        return;
+
+    if (selectedTaskIds.value.length) {
+        selectedTaskIds.value.forEach((taskId) => {
+            const task = taskById(taskId);
+            if (task)
+                scheduleTask(task, 'today');
+        });
+    }
+});
 
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
