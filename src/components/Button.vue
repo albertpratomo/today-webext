@@ -37,7 +37,7 @@ const button = cva([
                 'text-gray-300',
             ],
             secondary: [
-                'bg-gray-600',
+                'bg-gray-750',
                 'enabled:hover:bg-gray-700',
                 'enabled:active:bg-gray-800',
                 'shadow-button',
