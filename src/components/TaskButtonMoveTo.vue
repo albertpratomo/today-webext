@@ -42,14 +42,14 @@ const currentBucket = computed(() => menu[0].items.find(item => item.selected.va
         as="div"
         class="relative inline-block"
     >
-        <MenuButton class="p-1 text-indigo-400">
+        <MenuButton class="text-indigo-400">
             <Button
                 size="xs"
                 variant="secondary"
             >
                 <Icon
                     v-if="currentBucket?.icon"
-                    class="mr-2"
+                    class="mr-0.5"
                     :name="currentBucket.icon"
                 />
                 {{ currentBucket?.text }}
