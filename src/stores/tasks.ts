@@ -89,9 +89,14 @@ export const useTasksStore = defineStore('tasks', () => {
         // Highlight the newly created task.
         selectedTaskIds.value = [draftCreateTask.value.id];
 
+        const newdraftCreateTask = Object.assign({}, JSON.parse(JSON.stringify(BLANK_TASK)), {
+            projectId: draftCreateTask.value.projectId,
+            scheduledFor: draftCreateTask.value.scheduledFor,
+        });
+
         draftCreateTask.value = {
             id: ++lastTaskId.value,
-            ...JSON.parse(JSON.stringify(BLANK_TASK)),
+            ...newdraftCreateTask,
         };
     };
 
