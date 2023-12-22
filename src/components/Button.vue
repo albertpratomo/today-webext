@@ -19,12 +19,12 @@ const button = cva([
     'items-center',
     'justify-center',
     'rounded',
-    'font-medium',
+    'font-normal',
     'focus-visible:ring',
     'focus:outline-none',
     'enabled:active:text-opacity-70',
     'focus:ring-indigo-200',
-    'disabled:opacity-60',
+    'disabled:opacity-50',
 ], {
     variants: {
         variant: {
@@ -61,9 +61,10 @@ const button = cva([
             ],
             outline: [
                 'border',
-                '',
+                'enabled:hover:text-gray-300',
+                'enabled:hover:bg-gray-800/30',
                 'border-gray-750',
-                'text-gray-300',
+                'text-gray-300/70',
             ],
             ghost: [
                 'bg-transparent',
@@ -74,7 +75,7 @@ const button = cva([
         },
         size: {
             xs: 'px-2 py-1 text-xs',
-            sm: 'px-3 py-1 text-sm',
+            sm: 'px-3 py-1.5 text-2sm',
             md: 'px-4 py-1.5 text-sm leading-5',
             square: 'p-1.5',
         },

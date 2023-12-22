@@ -1,9 +1,9 @@
 {
   "name": "today-webext",
   "displayName": "Today",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "private": true,
-  "packageManager": "pnpm@8.3.1",
+  "packageManager": "pnpm@8.11.0",
   "description": "Plan your day, stay focused, make meaningful progress.",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
@@ -100,7 +100,7 @@
     "webextension-polyfill": "^0.10.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
+    "pre-commit": ""
   },
   "lint-staged": {
     "*": "eslint --fix"

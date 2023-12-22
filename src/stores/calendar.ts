@@ -20,6 +20,8 @@ export const useCalendarStore = defineStore('calendar', () => {
 
     const refreshToken = useLocalStorage<string | null>('gcalRefreshToken', null);
 
+    const calendarColorId = useLocalStorage<string | undefined>('calendarColorId', undefined);
+
     /**
      * The email account who owns the calendars.
      */
@@ -89,9 +91,17 @@ export const useCalendarStore = defineStore('calendar', () => {
 
             // Store the email of the Gcal account.
             calendarEmail.value = result.data.value.summary;
+
+            fetchGcalCalendarColorId();
         }
 
         return result;
+    }
+
+    async function fetchGcalCalendarColorId() {
+        const {data} = await useGcalApi('users/me/calendarList/primary').get().json();
+
+        calendarColorId.value = data.value.colorId;
     }
 
     async function storeGcalEvent(event: Event) {
@@ -161,6 +171,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     return {
         authToken,
         refreshToken,
+        calendarColorId,
         calendarEmail,
         events,
 

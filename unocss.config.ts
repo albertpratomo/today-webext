@@ -40,110 +40,17 @@ export default defineConfig({
                 900: '#16171F',
                 950: '#12131A',
             },
+            green: {
+                900: '#133122',
+            },
             indigo: {
                 150: '#CFD8FC',
                 950: '#22223F',
             },
-            green: {
-                900: '#133122',
-            },
-            cocoa: {
-                200: '#F7CEBC', // text
-                600: '#5C3E31', // bg
-            },
-            flamingo: {
-                200: '#FFC3CF', // text
-                600: '#94383E', // bg
-            },
-            tomato: {
-                200: '#EFB4B4', // text
-                600: '#5C2121', // bg
-            },
-            tangerine: {
-                200: '#F7CDB5', // text
-                600: '#AB4729', // bg
-            },
-            pumpkin: {
-                200: '#F8D1B5', // text
-                600: '#A35B24', // bg
-            },
-            mango: {
-                200: '#FBE6BD', // text
-                600: '#CC801B', // bg
-            },
-            eucalyptus: {
-                200: '#A5D0BC', // text
-                600: '#256B49', // bg
-            },
-            basil: {
-                200: '#B6F0C5', // text
-                600: '#376643', // bg
-            },
-            pistachio: {
-                200: '#C4EEB5', // text
-                600: '#31711B', // bg
-            },
-            avocado: {
-                200: '#EDF1B3', // text
-                600: '#78821F', // bg
-            },
-            citron: {
-                200: '#F1E5B2', // text
-                600: '#997B04', // bg
-            },
-            banana: {
-                200: '#F7E5B7', // text
-                600: '#AC8B17', // bg
-            },
-            sage: {
-                200: '#AEEBE7', // text
-                600: '#216C60', // bg
-            },
-            peacock: {
-                200: '#BDD6FC', // text
-                600: '#2F5FA8', // bg
-            },
-            cobalt: {
-                200: '#B2C3FF', // text
-                600: '#3858C9', // bg
-            },
-            blueberry: {
-                200: '#D8D5FA', // text
-                600: '#3E3799', // bg active
-                650: '#352F70', // bg hover
-                700: '#322D64', // bg default
-            },
-            lavender: {
-                200: '#BCB6FA', // text
-                600: '#544EA1', // bg
-            },
-            wisteria: {
-                200: '#CFAEF9', // text
-                600: '#836BB7', // bg
-            },
-            graphite: {
-                200: '#C6C6C6', // text
-                600: '#5B5B5B', // bg
-            },
-            birch: {
-                200: '#F3DDC2', // text
-                600: '#85755F', // bg
-            },
-            radicchio: {
-                200: '#FFC5DC', // text
-                600: '#AB3A67', // bg
-            },
-            cherry: {
-                200: '#FEBDD2', // text
-                600: '#AE4163', // bg
-            },
-            grape: {
-                200: '#CDAFF1', // text
-                600: '#5A2E8F', // bg
-            },
-            amethyst: {
-                200: '#E2B2F7', // text
-                600: '#7C4F90', // bg
+            red: {
+                500: '#C84345',
+                550: '#AE3436',
+                600: '#802320',
             },
         },
         fontFamily: {
