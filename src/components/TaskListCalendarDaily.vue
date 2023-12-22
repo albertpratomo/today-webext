@@ -26,6 +26,11 @@ onKeyStroke([']'], () => {
 <template>
     <div class="relative h-full min-w-0 flex">
         <Button
+            v-tippy="{
+                content: $t('tooltips.toggleCalendarDaily'),
+                placement: 'left',
+                offset: [0, 6],
+            }"
             class="absolute right-1 top-1 z-10 text-gray-500"
             size="square"
             variant="ghost"
