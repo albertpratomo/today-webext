@@ -64,5 +64,29 @@ defineProps({
                 fill-rule="evenodd"
             />
         </g>
+
+        <g v-else-if="name === 'calendar-plain'">
+            <path
+                clip-rule="evenodd"
+                d="M0 4a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V4Zm2.5 0a1 1 0 0 0-1 1v7A1.5 1.5 0 0 0 3 13.5h10a1.5 1.5 0 0 0 1.5-1.5V5a1 1 0 0 0-1-1h-11Z"
+                fill="#D9D9D9"
+                fill-rule="evenodd"
+            />
+        </g>
+
+        <g v-else-if="name === 'schedule'">
+            <path
+                d="m11 11 1-1 1 1-1 1-1-1ZM9 10l-1 1 1 1 1-1-1-1Z"
+                fill="#D9D9D9"
+            />
+
+            <path
+                clip-rule="evenodd"
+                d="M0 4a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V4Zm2.5 0a1 1 0 0 0-1 1v7A1.5 1.5 0 0 0 3 13.5h10a1.5 1.5 0 0 0 1.5-1.5V5a1 1 0 0 0-1-1h-11Z"
+                fill="#D9D9D9"
+                fill-rule="evenodd"
+            />
+        </g>
+
     </svg>
 </template>
