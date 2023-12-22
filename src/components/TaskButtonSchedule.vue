@@ -39,7 +39,7 @@ const currentBucket = computed(() => menu[0].items.find(item => item.selected.va
         as="div"
         class="relative inline-block"
     >
-        <MenuButton class="flex p-1">
+        <MenuButton class="flex">
             <Button
                 size="xs"
                 variant="secondary"
