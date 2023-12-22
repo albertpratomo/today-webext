@@ -2,7 +2,11 @@
 import {Dialog, DialogPanel} from '@headlessui/vue';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
+import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
+
+const route = useRoute();
+const routeName = route.name as string;
 
 const {
     draftCreateTask,
@@ -10,10 +14,10 @@ const {
     taskCreateDialogIsOpen,
     selectedSubtasks,
 } = storeToRefs(useTasksStore());
-const {createTask, createSubtask} = useTasksStore();
+const {createTask, createSubtask, openTaskCreateDialog} = useTasksStore();
 
 onKeyStroke(['n', 'N'], () => {
-    taskCreateDialogIsOpen.value = true;
+    openTaskCreateDialog(routeName);
 }, {dedupe: false});
 
 function close() {

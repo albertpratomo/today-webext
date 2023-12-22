@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
-import {storeToRefs} from 'pinia';
+import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores';
 
-const {taskCreateDialogIsOpen} = storeToRefs(useTasksStore());
+const route = useRoute();
+const routeName = route.name as string;
+
+const {openTaskCreateDialog} = useTasksStore();
 
 const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
@@ -48,7 +51,7 @@ onKeyStroke([']'], () => {
                         class="text-indigo-400"
                         size="square"
                         variant="ghost"
-                        @click="taskCreateDialogIsOpen = true"
+                        @click="openTaskCreateDialog(routeName)"
                     >
                         <MaterialSymbolsAdd />
                     </Button>

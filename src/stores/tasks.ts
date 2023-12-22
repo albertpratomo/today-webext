@@ -96,6 +96,21 @@ export const useTasksStore = defineStore('tasks', () => {
     };
 
     const taskCreateDialogIsOpen = ref(false);
+    function openTaskCreateDialog(bucket: string) {
+        switch (bucket) {
+            case 'active':
+            case 'inbox':
+            case 'later':
+                moveTask(draftCreateTask.value, bucket, false);
+                break;
+
+            default:
+                scheduleTask(draftCreateTask.value, 'today', false);
+                break;
+        }
+
+        taskCreateDialogIsOpen.value = true;
+    }
 
     // Edit Task --------------------------------------------------------------
 
@@ -234,6 +249,7 @@ export const useTasksStore = defineStore('tasks', () => {
         draftCreateTaskHasContent,
         createTask,
         taskCreateDialogIsOpen,
+        openTaskCreateDialog,
 
         draftEditTask,
         editTask,
