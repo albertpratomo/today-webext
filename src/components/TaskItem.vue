@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import {useDateFormat, useNow} from '@vueuse/core';
-import {usePomodoroStore, useTasksStore, useTrashStore} from '~/stores';
-import type ContextMenuItem from '~/models/ContextMenuItem';
 import {MbscDraggable} from '@mobiscroll/vue';
 import type Task from '~/models/Task';
-import {getTomorrow} from '~/utils/date';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
+import {usePomodoroStore} from '~/stores';
 
 const props = withDefaults(
     defineProps<{
@@ -19,11 +16,6 @@ const props = withDefaults(
     },
 );
 
-const {editTask, moveTask, scheduleTask} = useTasksStore();
-const {removeTasks} = useTrashStore();
-
-const {t} = useI18n();
-
 const task = defineModel<Task>({required: true});
 
 onKeyStroke(['d', 'D'], () => {
@@ -32,66 +24,6 @@ onKeyStroke(['d', 'D'], () => {
 }, {dedupe: false});
 
 const {focusTask} = usePomodoroStore();
-
-const currentDate = useNow();
-const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD'); ;
-
-const menuItems: ContextMenuItem[] = [
-    {
-        text: t('actions.moveTo'),
-        submenu: {
-            text: t('tasks.contextMenu.buckets'),
-            items: [
-                {
-                    icon: 'inbox',
-                    text: t('sidebar.inbox'),
-                    action: () => moveTask(task.value, 'inbox'),
-                    selected: computed(() => (task.value.projectId === 'inbox')),
-                },
-                {
-                    icon: 'active',
-                    text: t('sidebar.active'),
-                    action: () => moveTask(task.value, 'active'),
-                    selected: computed(() => (task.value.projectId !== 'inbox' && (task.value.scheduledFor === null || task.value.scheduledFor !== 'later'))),
-                },
-                {
-                    icon: 'later',
-                    text: t('sidebar.later'),
-                    action: () => moveTask(task.value, 'later'),
-                    selected: computed(() => (task.value.scheduledFor === 'later')),
-                },
-            ],
-        },
-    },
-    {
-        text: t('actions.schedule'),
-        submenu: {
-            items: [
-                {
-                    icon: 'schedule',
-                    text: t('sidebar.today'),
-                    action: () => scheduleTask(task.value, 'today'),
-                    selected: computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value)),
-                },
-                {
-                    icon: 'schedule',
-                    text: t('sidebar.tomorrow'),
-                    action: () => scheduleTask(task.value, 'tomorrow'),
-                    selected: computed(() => (task.value.scheduledFor === tomorrowsDate.value)),
-                },
-            ],
-        },
-    },
-    {
-        text: t('actions.edit'),
-        action: () => editTask(task.value),
-    },
-    {
-        divider: true,
-        text: t('actions.delete'),
-        action: () => removeTasks([task.value.id]),
-    },
-];
 
 const el = ref(null);
 </script>
@@ -126,11 +58,6 @@ const el = ref(null);
                 @keyup.enter="task.isDone = !(task.isDone)"
             >
 
-            <ContextMenu
-                :menu-items="menuItems"
-                :parent-element="el"
-            />
-
             <div
                 class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
                 :class="{'text-gray-400': task.isDone}"
@@ -140,6 +67,11 @@ const el = ref(null);
             <MbscDraggable
                 :drag-data="{title: task.title, task}"
                 :element="el"
+            />
+
+            <TaskContextMenu
+                v-model="task"
+                :parent-element="el"
             />
         </div>
 
