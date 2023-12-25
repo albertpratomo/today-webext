@@ -12,7 +12,7 @@ const {t} = useI18n();
 const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 
-const {selectedTaskIds} = storeToRefs(useTasksStore());
+const {tasks: allTasks, selectedTaskIds} = storeToRefs(useTasksStore());
 
 const lastSelectedTaskId = computed(() => selectedTaskIds.value.at(-1));
 
@@ -83,9 +83,9 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     const nextTaskId = tasks.value[nextIndex].id;
 
     if (e.shiftKey && (e.metaKey || e.ctrlKey) && selectedTaskIds.value.length === 1) {
-        // const oldIndex = selectedIndexes.value[0];
-        // const newIndex = oldIndex + (isArrowDown ? 1 : -1);
-        // swapTask(oldIndex, newIndex);
+        const oldIndex = currentIndex;
+        const newIndex = oldIndex + (isArrowDown ? 1 : -1);
+        swapTask(oldIndex, newIndex);
     }
     else if (e.shiftKey) {
         if (selectedTaskIds.value.includes(nextTaskId))
@@ -134,12 +134,19 @@ useSortable(list, tasks, {
 });
 
 async function swapTask(oldIndex: number, newIndex: number) {
-    if (newIndex >= 0 && newIndex < tasks.value.length) {
-        moveArrayElement(tasks.value, oldIndex, newIndex);
+    const taskId = tasks.value[oldIndex].id;
+    const parentOldIndex = allTasks.value.findIndex(task => task.id === taskId);
+    let parentNewIndex = 0;
+
+    if (newIndex !== 0) {
+        const addAfterTaskId = tasks.value[newIndex].id;
+        parentNewIndex = allTasks.value.findIndex(task => task.id === addAfterTaskId);
+    }
+
+    if (parentNewIndex >= 0 && parentNewIndex < allTasks.value.length) {
+        moveArrayElement(allTasks.value, parentOldIndex, parentNewIndex);
         await nextTick();
         useHistoryStore().commit();
-
-        selectTask(newIndex);
     }
 }
 
