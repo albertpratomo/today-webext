@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {useDateFormat, useNow} from '@vueuse/core';
 import {usePomodoroStore, useTasksStore, useTrashStore} from '~/stores';
+import type ContextMenuItem from '~/models/ContextMenuItem';
 import {MbscDraggable} from '@mobiscroll/vue';
 import type Task from '~/models/Task';
 import {getTomorrow} from '~/utils/date';
@@ -35,7 +36,7 @@ const {focusTask} = usePomodoroStore();
 const currentDate = useNow();
 const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD'); ;
 
-const menuItems = [
+const menuItems: ContextMenuItem[] = [
     {
         text: t('actions.moveTo'),
         submenu: {
@@ -92,12 +93,6 @@ const menuItems = [
     },
 ];
 
-const contextMenu = ref(null);
-function handleContextMenu(event: MouseEvent) {
-    if (contextMenu.value)
-        contextMenu.value.openContextMenu(event);
-};
-
 const el = ref(null);
 </script>
 
@@ -110,7 +105,6 @@ const el = ref(null);
                 {'bg-indigo-950 group-hover:bg-indigo-950': isSelected},
                 isLastSelected ? 'border-indigo-900' : 'border-transparent',
             ]"
-            @contextmenu.prevent="handleContextMenu($event)"
         >
             <button
                 v-if="pomodoroIsEnabled"
@@ -133,7 +127,6 @@ const el = ref(null);
             >
 
             <ContextMenu
-                ref="contextMenu"
                 :menu-items="menuItems"
                 :parent-element="el"
             />

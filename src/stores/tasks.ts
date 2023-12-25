@@ -127,7 +127,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
     // Move Task --------------------------------------------------------------
 
-    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', showToas: boolean = true) {
+    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', showToast: boolean = true) {
         if (destination === 'inbox') {
             task.projectId = 'inbox';
             task.scheduledFor = null;
@@ -145,7 +145,7 @@ export const useTasksStore = defineStore('tasks', () => {
             task.scheduledFor = 'later';
         }
 
-        if (showToas) {
+        if (showToast) {
             notify({
                 group: 'general',
                 text: t('tasks.taskMovedMessage', {taskTitle: task.title, destination: t(`sidebar.${destination}`)}),
@@ -154,7 +154,7 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
-    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow', showToas: boolean = true) {
+    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow', showToast: boolean = true) {
         let date;
 
         if (when instanceof Date)
@@ -172,7 +172,7 @@ export const useTasksStore = defineStore('tasks', () => {
             if (task.projectId === 'inbox')
                 task.projectId = null;
 
-            if (showToas) {
+            if (showToast) {
                 notify({
                     group: 'general',
                     text: t('tasks.taskScheduledMessage', {taskTitle: task.title, when: t(`sidebar.${when}`)}),

@@ -1,22 +1,10 @@
 <script setup lang="ts">
+import type ContextMenuItem from '~/models/ContextMenuItem';
 import {onKeyStroke} from '~/utils/onKeyStroke';
-
-interface MenuItem {
-    action?: () => void
-    active?: boolean
-    divider?: boolean
-    icon?: string
-    text: string
-    selected?: boolean
-    submenu?: {
-        text: string
-        items: MenuItem[]
-    }
-}
 
 const props = defineProps({
     menuItems: {
-        type: Array as PropType<MenuItem[]>,
+        type: Array as PropType<ContextMenuItem[]>,
         default: () => [],
     },
     parentElement: {
@@ -40,6 +28,12 @@ const container = ref<HTMLElement | null>(null);
 const menuPosition = reactive({top: '0px', left: '0px'});
 
 function handleContextMenu(event: MouseEvent) {
+    event.preventDefault();
+
+    if (props.parentElement && props.parentElement.contains(event.target))
+        openContextMenu(event);
+
+    // close all contextMenu's excluding the current one
     if (props.parentElement && !props.parentElement.contains(event.target)) {
         if (container.value && !container.value.contains(event.target))
             closeContextMenu();
@@ -78,8 +72,6 @@ onBeforeUnmount(() => {
     window.removeEventListener('contextmenu', handleContextMenu);
     window.removeEventListener('resize', closeContextMenu);
 });
-
-defineExpose({openContextMenu});
 </script>
 
 <template>
@@ -134,8 +126,8 @@ defineExpose({openContextMenu});
                             </div>
 
                             <button
-                                v-for="(submenuItem, ii) in item.submenu.items"
-                                :key="ii"
+                                v-for="(submenuItem, j) in item.submenu.items"
+                                :key="j"
                                 class="block w-full flex rounded p-2 pl-[2px] text-left hover:bg-gray-750"
                                 @click="submenuItem.action"
                             >
