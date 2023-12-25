@@ -28,10 +28,10 @@ const container = ref<HTMLElement | null>(null);
 const menuPosition = reactive({top: '0px', left: '0px'});
 
 function handleContextMenu(event: MouseEvent) {
-    event.preventDefault();
-
-    if (props.parentElement && props.parentElement.contains(event.target))
+    if (props.parentElement && props.parentElement.contains(event.target)) {
+        event.preventDefault();
         openContextMenu(event);
+    }
 
     // close all contextMenu's excluding the current one
     if (props.parentElement && !props.parentElement.contains(event.target)) {
