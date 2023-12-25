@@ -20,7 +20,7 @@ export const useTrashStore = defineStore('trash', () => {
 
         const removed = pullAt(tasks.value, indexes);
 
-        trashTasks.value.push(...removed);
+        trashTasks.value.unshift(...removed);
 
         useHistoryStore().commit();
     }
