@@ -3,6 +3,7 @@ import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {getTomorrow} from '~/utils/date';
+import {i18n} from '~/i18n';
 import {notify} from 'notiwind';
 import {remove} from 'lodash-es';
 import {trackGa} from '~/utils/googleAnalytics';
@@ -10,8 +11,6 @@ import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useTasksStore = defineStore('tasks', () => {
-    const {t} = useI18n();
-
     const initialTasks = [
         {
             title: 'Press <code>N</code> to create a new task ✨',
@@ -148,7 +147,10 @@ export const useTasksStore = defineStore('tasks', () => {
         if (showToast) {
             notify({
                 group: 'general',
-                text: t('tasks.taskMovedMessage', {taskTitle: task.title, destination: t(`sidebar.${destination}`)}),
+                text: i18n.t('tasks.taskMovedMessage', {
+                    taskTitle: task.title,
+                    destination: i18n.t(`sidebar.${destination}`),
+                }),
                 isCloseable: true,
             }, 4000);
         }
@@ -175,7 +177,10 @@ export const useTasksStore = defineStore('tasks', () => {
             if (showToast) {
                 notify({
                     group: 'general',
-                    text: t('tasks.taskScheduledMessage', {taskTitle: task.title, when: t(`sidebar.${when}`)}),
+                    text: i18n.t('tasks.taskScheduledMessage', {
+                        taskTitle: task.title,
+                        when: i18n.t(`sidebar.${when}`),
+                    }),
                     isCloseable: true,
                 }, 4000);
             }

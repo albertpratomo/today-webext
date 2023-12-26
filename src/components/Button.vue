@@ -82,7 +82,7 @@ const button = cva([
     },
 });
 
-type ButtonProps = VariantProps<typeof button>;
+export type ButtonProps = VariantProps<typeof button>;
 </script>
 
 <template>

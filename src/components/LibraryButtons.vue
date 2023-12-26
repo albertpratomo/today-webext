@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const buttons = ref([
+import {type ButtonProps} from './Button.vue';
+
+const buttons = ref<ButtonProps[]>([
     {
         variant: 'primary',
     },
