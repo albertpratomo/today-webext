@@ -7,6 +7,7 @@ import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
 import {getTimeOfDay} from '~/utils/date';
 import {trackGa} from '~/utils/googleAnalytics';
 import {useStorageLocal} from '~/utils/useStorageLocal';
+import {useTasksStore} from '~/stores';
 
 export const useCalendarStore = defineStore('calendar', () => {
     /**
@@ -113,6 +114,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         }).json<GcalEvent>();
     }
 
+    const {scheduleTask} = useTasksStore();
     async function createEvent(args: MbscEventCreatedEvent) {
         const localEvent = formatMbscEvent(args.event);
         localEvent.id = generateEventId();
@@ -127,6 +129,11 @@ export const useCalendarStore = defineStore('calendar', () => {
 
         args.event.id = localEvent.id;
         events.value.push(localEvent);
+
+        if (localEvent.start) {
+            const scheduleDate = new Date(localEvent.start);
+            scheduleTask(args.event.task, scheduleDate, false);
+        }
 
         trackGa('event_created');
     }

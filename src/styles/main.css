@@ -148,5 +148,5 @@ input[type=checkbox].subtask-checkbox {
 }
 
 .tippy-content code {
-    @apply shadow-keyboard text-gray-200 bg-gray-600 px-1 text-[12.5px]  m-l-1 font-extralight;
+    @apply shadow-keyboard text-gray-300 bg-gray-600 px-1 text-[12.5px]  m-l-1 font-extralight;
 }

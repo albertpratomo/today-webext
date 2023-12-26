@@ -6,7 +6,7 @@ import {useManualRefHistory} from '@vueuse/core';
 
 export const useHistoryStore = defineStore('history', () => {
     const {tasks} = storeToRefs(useTasksStore());
-    const {tasks: trashTasks} = storeToRefs(useTrashStore());
+    const {trashTasks} = storeToRefs(useTrashStore());
 
     const historiable = computed({
         get: () => ({tasks: tasks.value, trashTasks: trashTasks.value}),

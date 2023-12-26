@@ -5,32 +5,32 @@ import {useTrashStore} from '~/stores';
 const emit = defineEmits(['toggleSidebar']);
 
 const {t} = useI18n();
-const {tasks} = storeToRefs(useTrashStore());
+const {trashTasks} = storeToRefs(useTrashStore());
 
 const items = computed(() => {
     const items = [
         {
             icon: 'inbox',
             text: t('sidebar.inbox'),
-            to: null,
+            to: {name: 'inbox'},
             isVisible: true,
         },
         {
             icon: 'today',
             text: t('sidebar.today'),
-            to: {name: 'index'},
+            to: {name: 'today'},
             isVisible: true,
         },
         {
             icon: 'active',
             text: t('sidebar.active'),
-            to: null,
+            to: {name: 'active'},
             isVisible: true,
         },
         {
             icon: 'later',
             text: t('sidebar.later'),
-            to: null,
+            to: {name: 'later'},
             isVisible: true,
         },
         {
@@ -43,7 +43,7 @@ const items = computed(() => {
             icon: 'trash',
             text: t('sidebar.trash'),
             to: {name: 'trash'},
-            isVisible: !!tasks.value.length,
+            isVisible: !!trashTasks.value.length,
         },
     ];
 

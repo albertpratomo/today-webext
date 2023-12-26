@@ -1,11 +1,14 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
+import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
+import {getTomorrow} from '~/utils/date';
+import {i18n} from '~/i18n';
+import {notify} from 'notiwind';
 import {remove} from 'lodash-es';
 import {trackGa} from '~/utils/googleAnalytics';
 import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
-import {watchDebounced} from '@vueuse/core';
 
 export const useTasksStore = defineStore('tasks', () => {
     const initialTasks = [
@@ -33,8 +36,12 @@ export const useTasksStore = defineStore('tasks', () => {
 
     const tasks = useStorageLocal<Task[]>('tasks', generateTasks(initialTasks));
 
-    const selectedIndexes = ref<number[]>([]);
-    const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
+    function taskById(id: number) {
+        return tasks.value.find(task => task.id === id);
+    }
+
+    const selectedTaskIds = ref<number[]>([]);
+    const lastSelectedTaskId = computed(() => selectedTaskIds.value.at(-1));
 
     // Create Task ------------------------------------------------------------
 
@@ -46,6 +53,8 @@ export const useTasksStore = defineStore('tasks', () => {
         isDone: false,
         deletedAt: null,
         subtasks: [],
+        scheduledFor: null,
+        projectId: null,
     });
 
     const draftCreateTask = useStorageLocal<Task>('draftCreateTask', {
@@ -66,8 +75,8 @@ export const useTasksStore = defineStore('tasks', () => {
             return;
 
         // Find the last selected index.
-        const index = selectedIndexes.value.length
-            ? (selectedIndexes.value.at(-1) || 0) + 1
+        const index = typeof lastSelectedTaskId.value === 'number'
+            ? tasks.value.findIndex(task => task.id === lastSelectedTaskId.value) + 1
             : 0;
 
         // Insert the new task there.
@@ -77,15 +86,35 @@ export const useTasksStore = defineStore('tasks', () => {
         trackGa('task_created');
 
         // Highlight the newly created task.
-        selectedIndexes.value = [index];
+        selectedTaskIds.value = [draftCreateTask.value.id];
+
+        const newdraftCreateTask = Object.assign({}, JSON.parse(JSON.stringify(BLANK_TASK)), {
+            projectId: draftCreateTask.value.projectId,
+            scheduledFor: draftCreateTask.value.scheduledFor,
+        });
 
         draftCreateTask.value = {
             id: ++lastTaskId.value,
-            ...JSON.parse(JSON.stringify(BLANK_TASK)),
+            ...newdraftCreateTask,
         };
     };
 
     const taskCreateDialogIsOpen = ref(false);
+    function openTaskCreateDialog(bucket: string) {
+        switch (bucket) {
+            case 'active':
+            case 'inbox':
+            case 'later':
+                moveTask(draftCreateTask.value, bucket, false);
+                break;
+
+            default:
+                scheduleTask(draftCreateTask.value, 'today', false);
+                break;
+        }
+
+        taskCreateDialogIsOpen.value = true;
+    }
 
     // Edit Task --------------------------------------------------------------
 
@@ -93,6 +122,69 @@ export const useTasksStore = defineStore('tasks', () => {
 
     function editTask(task: Task) {
         draftEditTask.value = task;
+    }
+
+    // Move Task --------------------------------------------------------------
+
+    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', showToast: boolean = true) {
+        if (destination === 'inbox') {
+            task.projectId = 'inbox';
+            task.scheduledFor = null;
+        }
+        else if (destination === 'active') {
+            if (task.projectId === 'inbox')
+                task.projectId = null;
+
+            task.scheduledFor = null;
+        }
+        else if (destination === 'later') {
+            if (task.projectId === 'inbox')
+                task.projectId = null;
+
+            task.scheduledFor = 'later';
+        }
+
+        if (showToast) {
+            notify({
+                group: 'general',
+                text: i18n.t('tasks.taskMovedMessage', {
+                    taskTitle: task.title,
+                    destination: i18n.t(`sidebar.${destination}`),
+                }),
+                isCloseable: true,
+            }, 4000);
+        }
+    }
+
+    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow', showToast: boolean = true) {
+        let date;
+
+        if (when instanceof Date)
+            date = when;
+        else if (when === 'today')
+            date = useNow();
+        else if (when === 'tomorrow')
+            date = getTomorrow();
+
+        const scheduledDate = useDateFormat(date, 'YYYY-MM-DD').value;
+
+        if (task.scheduledFor !== scheduledDate) {
+            task.scheduledFor = scheduledDate;
+
+            if (task.projectId === 'inbox')
+                task.projectId = null;
+
+            if (showToast) {
+                notify({
+                    group: 'general',
+                    text: i18n.t('tasks.taskScheduledMessage', {
+                        taskTitle: task.title,
+                        when: i18n.t(`sidebar.${when}`),
+                    }),
+                    isCloseable: true,
+                }, 4000);
+            }
+        }
     }
 
     // Done Task --------------------------------------------------------------
@@ -158,17 +250,22 @@ export const useTasksStore = defineStore('tasks', () => {
 
     return {
         tasks,
-        selectedIndexes,
-        lastSelectedIndex,
+        taskById,
+        selectedTaskIds,
+        lastSelectedTaskId,
 
         lastTaskId,
         draftCreateTask,
         draftCreateTaskHasContent,
         createTask,
         taskCreateDialogIsOpen,
+        openTaskCreateDialog,
 
         draftEditTask,
         editTask,
+
+        moveTask,
+        scheduleTask,
 
         doneTasks,
         isAllDone,

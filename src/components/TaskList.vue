@@ -5,39 +5,46 @@ import type {SortableEvent} from 'sortablejs';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
+import {storeToRefs} from 'pinia';
 
 const {t} = useI18n();
 
 const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
-const selectedIndexes = defineModel<number[]>('selectedIndexes', {local: true, default: []});
 
-const lastSelectedIndex = computed(() => selectedIndexes.value.at(-1));
+const {tasks: allTasks, selectedTaskIds} = storeToRefs(useTasksStore());
+
+const lastSelectedTaskId = computed(() => selectedTaskIds.value.at(-1));
 
 onMounted(() => useHistoryStore());
 
-function selectTask(index: number | number[]) {
-    if (!Array.isArray(index))
-        index = [index];
+function selectTask(id: number | number[]) {
+    if (!Array.isArray(id))
+        id = [id];
 
-    selectedIndexes.value = index;
+    selectedTaskIds.value = id;
 }
 
 function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent) {
     if (ctrlKey || metaKey) {
         // Select or deselect the task.
-        selectedIndexes.value.includes(clicked)
-            ? selectedIndexes.value.splice(selectedIndexes.value.indexOf(clicked), 1)
-            : selectedIndexes.value.push(clicked);
+        selectedTaskIds.value.includes(clicked)
+            ? selectedTaskIds.value.splice(selectedTaskIds.value.indexOf(clicked), 1)
+            : selectedTaskIds.value.push(clicked);
     }
-    else if (shiftKey && typeof lastSelectedIndex.value === 'number') {
-        selectTask(Array.from(new Set([
-            ...selectedIndexes.value,
-            ...Array.from(
-                {length: Math.abs(clicked - lastSelectedIndex.value) + 1},
-                (_, i) => Math.min(clicked, lastSelectedIndex.value!) + i,
-            ),
-        ])));
+    else if (shiftKey && typeof lastSelectedTaskId.value === 'number') {
+        const clickedIndex = tasks.value.findIndex(task => task.id === clicked);
+        const lastIndex = lastSelectedTaskId.value !== null
+            ? tasks.value.findIndex(task => task.id === lastSelectedTaskId.value)
+            : clickedIndex; // Fallback to clickedIndex if lastSelectedTaskId is null
+
+        const minIndex = Math.min(clickedIndex, lastIndex);
+        const maxIndex = Math.max(clickedIndex, lastIndex);
+
+        const rangeTaskIds = tasks.value.slice(minIndex, maxIndex + 1).map(task => task.id);
+
+        // Combine existing selectedTaskIds with new range
+        selectedTaskIds.value = Array.from(new Set([...selectedTaskIds.value, ...rangeTaskIds]));
     }
     else {
         // Replace the whole selection.
@@ -61,33 +68,62 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 
     const taskLength = tasks.value.length;
     const isArrowDown = e.key === 'ArrowDown';
+    const currentTaskId = lastSelectedTaskId.value ?? (tasks.value[isArrowDown ? 0 : taskLength - 1].id);
 
-    const lastIndex = lastSelectedIndex.value ?? (isArrowDown ? -1 : 0);
-    const selected = (lastIndex + (isArrowDown ? 1 : -1) + taskLength) % taskLength;
+    let currentIndex;
+    if (typeof lastSelectedTaskId.value === 'number')
+        currentIndex = tasks.value.findIndex(task => task.id === lastSelectedTaskId.value);
+    else
+        currentIndex = isArrowDown ? -1 : taskLength;
 
-    if (e.shiftKey && (e.metaKey || e.ctrlKey) && selectedIndexes.value.length === 1) {
-        const oldIndex = selectedIndexes.value[0];
+    const nextIndex = currentIndex + (isArrowDown ? 1 : -1);
+    if (nextIndex < 0 || nextIndex >= taskLength)
+        return;
+
+    const nextTaskId = tasks.value[nextIndex].id;
+
+    if (e.shiftKey && (e.metaKey || e.ctrlKey) && selectedTaskIds.value.length === 1) {
+        const oldIndex = currentIndex;
         const newIndex = oldIndex + (isArrowDown ? 1 : -1);
         swapTask(oldIndex, newIndex);
     }
     else if (e.shiftKey) {
-        if (selectedIndexes.value.includes(selected))
-            selectTask(selectedIndexes.value.filter(i => i !== lastIndex));
+        if (selectedTaskIds.value.includes(nextTaskId))
+            selectedTaskIds.value = selectedTaskIds.value.filter(id => id !== currentTaskId);
         else
-            selectedIndexes.value.push(selected);
+            selectedTaskIds.value.push(nextTaskId);
     }
-    else { selectTask(selected); }
+    else {
+        selectTask(nextTaskId);
+    }
 });
 
 onKeyStroke(['Esc', 'Escape'], () => {
     selectTask([]);
 });
 
-const {editTask} = useTasksStore();
+const {editTask, taskById, scheduleTask} = useTasksStore();
 onKeyStroke('Enter', () => {
-    if (typeof lastSelectedIndex.value === 'number')
-        editTask(tasks.value[lastSelectedIndex.value]);
+    if (typeof lastSelectedTaskId.value === 'number') {
+        const task = taskById(lastSelectedTaskId.value);
+        if (task)
+            editTask(task);
+    }
 }, {eventName: 'keyup'});
+
+onKeyStroke(['t', 'T'], () => {
+    // If a dialog is open, ignore
+    if (document.querySelector('[role=dialog][data-headlessui-state=open]'))
+        return;
+
+    if (selectedTaskIds.value.length) {
+        selectedTaskIds.value.forEach((taskId) => {
+            const task = taskById(taskId);
+            if (task)
+                scheduleTask(task, 'today');
+        });
+    }
+});
 
 const list = ref<HTMLElement | null>(null);
 useSortable(list, tasks, {
@@ -98,12 +134,16 @@ useSortable(list, tasks, {
 });
 
 async function swapTask(oldIndex: number, newIndex: number) {
-    if (newIndex >= 0 && newIndex < tasks.value.length) {
-        moveArrayElement(tasks.value, oldIndex, newIndex);
+    const taskId = tasks.value[oldIndex].id;
+    const parentOldIndex = allTasks.value.findIndex(task => task.id === taskId);
+
+    const secondTaskId = tasks.value[newIndex].id;
+    const parentNewIndex = allTasks.value.findIndex(task => task.id === secondTaskId);
+
+    if (parentNewIndex >= 0 && parentNewIndex < allTasks.value.length) {
+        moveArrayElement(allTasks.value, parentOldIndex, parentNewIndex);
         await nextTick();
         useHistoryStore().commit();
-
-        selectTask(newIndex);
     }
 }
 
@@ -113,17 +153,16 @@ const toggleText = computed(() => {
     return t(`actions.${key}CompletedTasks`);
 });
 
-const {trashTasks} = useTrashStore();
+const {removeTasks} = useTrashStore();
 onKeyStroke(['Backspace', 'Delete'], () => {
     // If a dialog is open, don't delete any task.
     if (document.querySelector('[role=dialog][data-headlessui-state=open]'))
         return;
 
-    if (selectedIndexes.value.length) {
-        trashTasks(tasks, selectedIndexes.value);
+    if (selectedTaskIds.value.length) {
+        removeTasks(selectedTaskIds.value);
 
-        if (selectedIndexes.value.length > 1)
-            selectTask(0);
+        selectTask([]);
     }
 });
 </script>
@@ -139,12 +178,13 @@ onKeyStroke(['Backspace', 'Delete'], () => {
                 v-for="(task, i) in tasks"
                 :key="task.id"
                 v-model="tasks[i]"
-                :aria-selected="selectedIndexes.includes(i)"
-                :is-last-selected="lastSelectedIndex === i "
-                :is-selected="selectedIndexes.includes(i)"
-                @click="onTaskClick(i, $event)"
+                :aria-selected="selectedTaskIds.includes(task.id)"
+                class="task-item"
+                :is-last-selected="lastSelectedTaskId === task.id"
+                :is-selected="selectedTaskIds.includes(task.id)"
+                @click="onTaskClick(task.id, $event)"
                 @dblclick="editTask(task)"
-                @dragstart="selectTask(i)"
+                @dragstart="selectTask(task.id)"
             />
         </div>
 

@@ -5,8 +5,12 @@ export default {
         cancel: 'Cancel',
         connect: 'Connect',
         createTask: 'Create task',
+        delete: 'Delete',
+        edit: 'Edit',
         hideCompletedTasks: 'Hide completed tasks',
+        moveTo: 'Move to',
         remove: 'Remove',
+        schedule: 'Schedule',
         showCompletedTasks: 'Show completed tasks',
     },
     calendarConnectCard: {
@@ -42,11 +46,20 @@ export default {
         settings: 'Settings',
         slack: 'Join Slack',
         today: 'Today',
+        tomorrow: 'Tomorrow',
         trash: 'Trash',
+    },
+    tasks: {
+        contextMenu: {
+            buckets: 'Buckets',
+        },
+        taskMovedMessage: 'Task was moved to {destination}',
+        taskScheduledMessage: 'Task was scheduled for {when}',
     },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
         newTask: 'New task <code>N</code>',
+        toggleCalendarDaily: 'Toggle calendar <code>]</code>',
         toggleSidebar: 'Toggle sidebar <code>[</code>',
     },
 };

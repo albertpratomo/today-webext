@@ -48,30 +48,32 @@ const hasSubtasks = computed(() => {
                         />
                     </div>
 
-                    <div
-                        v-if="!hasSubtasks"
-                        class="flex justify-end gap-2 px-3"
-                    >
+                    <SubtaskList
+                        v-model="draftEditTask.subtasks"
+                        v-model:selected-subtasks="selectedSubtasks"
+                        class="px-3"
+                        :class="{'pb-5': hasSubtasks}"
+                    />
+
+                    <div class="flex justify-end gap-2 p-3 pt-0">
+                        <TaskButtonMoveTo v-model="draftEditTask" />
+
+                        <TaskButtonSchedule v-model="draftEditTask" />
+
                         <Button
+                            v-if="!hasSubtasks"
                             v-tippy="{
                                 content: $t('tooltips.addSubtasks'),
                                 placement: 'bottom',
                                 offset: [0, 6],
                             }"
-                            size="sm"
+                            size="xs"
                             variant="secondary"
                             @click="createSubtask"
                         >
                             <MaterialSymbolsChecklist class="h-4 w-4 text-gray-350" />
                         </Button>
                     </div>
-
-                    <SubtaskList
-                        v-model="draftEditTask.subtasks"
-                        v-model:selected-subtasks="selectedSubtasks"
-                        class="px-3"
-                        :class="[hasSubtasks ? 'pb-5' : 'pb-3']"
-                    />
                 </div>
             </DialogPanel>
         </div>

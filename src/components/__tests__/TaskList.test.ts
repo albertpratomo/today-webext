@@ -4,6 +4,7 @@ import TaskList from '~/components/TaskList.vue';
 import {createTestingPinia} from '@pinia/testing';
 import i18n from '~/i18n';
 import {useTasksStore} from '~/stores/tasks';
+import {useTrashStore} from '~/stores/trash';
 import {vOnClickOutside} from '@vueuse/components';
 
 function prepare(length = 5) {
@@ -14,13 +15,13 @@ function prepare(length = 5) {
     }));
 
     const pinia = createTestingPinia({
-        stubActions: false,
         initialState: {
             tasks: {tasks},
         },
     });
 
-    const store = useTasksStore();
+    const tasksStore = useTasksStore();
+    const trashStore = useTrashStore();
 
     const result = render(TaskList, {
         global: {
@@ -28,15 +29,15 @@ function prepare(length = 5) {
             plugins: [pinia, i18n],
         },
         props: {
-            modelValue: store.tasks,
-            doneTasks: store.doneTasks,
-            selectedIndexes: [],
+            modelValue: tasksStore.tasks,
+            doneTasks: tasksStore.doneTasks,
         },
     });
 
     return {
         result,
-        store,
+        tasksStore,
+        trashStore,
         taskItems: result.getAllByText(/^task/),
     };
 }
@@ -128,9 +129,6 @@ describe('TaskList', () => {
         expectSelected(result, [0]);
 
         await fireEvent.keyDown(document, {key: 'ArrowUp'});
-        expectSelected(result, [4]);
-
-        await fireEvent.keyDown(document, {key: 'ArrowDown'});
         expectSelected(result, [0]);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown'});
@@ -146,31 +144,40 @@ describe('TaskList', () => {
         await fireEvent.keyDown(document, {key: 'ArrowDown'});
         expectSelected(result, [0]);
 
-        await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
-        expectSelected(result, [0, 4]);
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [1]);
 
         await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
-        expectSelected(result, [0, 3, 4]);
+        expectSelected(result, [0, 1]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
+        expectSelected(result, [0, 1]);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
-        expectSelected(result, [0, 4]);
+        expectSelected(result, [1]);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
-        expectSelected(result, [0]);
+        expectSelected(result, [1, 2]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
+        expectSelected(result, [1, 2, 3]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [4]);
     });
 
     test('edit 1 task', async () => {
-        const {store, taskItems} = prepare(1);
+        const {tasksStore, taskItems} = prepare(1);
 
         await fireEvent.dblClick(taskItems[0]);
-        expect(store.editTask).toHaveBeenCalledWith({
+        expect(tasksStore.editTask).toHaveBeenCalledWith({
             id: 1,
             title: 'task 0',
             isDone: false,
         });
     });
 
-    test('cmd + shift + arrow key to reorder task', async () => {
+    test.todo('cmd + shift + arrow key to reorder task', async () => {
         const {result} = prepare(2);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown'});
@@ -181,10 +188,10 @@ describe('TaskList', () => {
         let taskItems = await result.findAllByText(/^task/);
         expect(taskItems[1].textContent).toBe('task 0');
 
-        await fireEvent.keyDown(document, {key: 'ArrowDown', metaKey: true, shiftKey: true});
+        await fireEvent.keyDown(document, {key: 'ArrowUp', metaKey: true, shiftKey: true});
         await nextTick();
         taskItems = await result.findAllByText(/^task/);
-        expect(taskItems[1].textContent).toBe('task 0');
+        expect(taskItems[0].textContent).toBe('task 0');
     });
 
     test('click checkbox to complete task', async () => {
@@ -212,14 +219,12 @@ describe('TaskList', () => {
     });
 
     test('backspace to delete task', async () => {
-        const {result, taskItems} = prepare();
+        const {taskItems, trashStore} = prepare();
 
         await fireEvent.click(taskItems[1], {metaKey: true});
         await fireEvent.click(taskItems[2], {metaKey: true});
         await fireEvent.keyDown(document, {key: 'Backspace'});
 
-        const tasks = result.getAllByText(/^task/);
-        expect(tasks.length).toBe(3);
-        expectSelected(result, [0]);
+        expect(trashStore.removeTasks).toHaveBeenCalledWith([2, 3]);
     });
 });

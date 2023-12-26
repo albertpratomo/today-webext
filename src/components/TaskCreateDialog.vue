@@ -2,7 +2,11 @@
 import {Dialog, DialogPanel} from '@headlessui/vue';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
+import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
+
+const route = useRoute();
+const routeName = route.name as string;
 
 const {
     draftCreateTask,
@@ -10,10 +14,10 @@ const {
     taskCreateDialogIsOpen,
     selectedSubtasks,
 } = storeToRefs(useTasksStore());
-const {createTask, createSubtask} = useTasksStore();
+const {createTask, createSubtask, openTaskCreateDialog} = useTasksStore();
 
 onKeyStroke(['n', 'N'], () => {
-    taskCreateDialogIsOpen.value = true;
+    openTaskCreateDialog(routeName);
 }, {dedupe: false});
 
 function close() {
@@ -51,30 +55,32 @@ const hasSubtasks = computed(() => {
                         />
                     </div>
 
-                    <div
-                        v-if="!hasSubtasks"
-                        class="flex justify-end gap-2 px-3"
-                    >
+                    <SubtaskList
+                        v-model="draftCreateTask.subtasks"
+                        v-model:selected-subtasks="selectedSubtasks"
+                        class="px-3"
+                        :class="{'pb-5': hasSubtasks}"
+                    />
+
+                    <div class="flex justify-end gap-2 p-3 pt-0">
+                        <TaskButtonMoveTo v-model="draftCreateTask" />
+
+                        <TaskButtonSchedule v-model="draftCreateTask" />
+
                         <Button
+                            v-if="!hasSubtasks"
                             v-tippy="{
                                 content: $t('tooltips.addSubtasks'),
                                 placement: 'bottom',
                                 offset: [0, 6],
                             }"
-                            size="sm"
+                            size="xs"
                             variant="secondary"
                             @click="createSubtask"
                         >
                             <MaterialSymbolsChecklist class="h-4 w-4 text-gray-350" />
                         </Button>
                     </div>
-
-                    <SubtaskList
-                        v-model="draftCreateTask.subtasks"
-                        v-model:selected-subtasks="selectedSubtasks"
-                        class="px-3"
-                        :class="[hasSubtasks ? 'pb-5' : 'pb-3']"
-                    />
 
                     <div class="flex justify-end gap-2 border-t p-3 pl-5">
                         <Button
