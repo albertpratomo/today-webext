@@ -134,7 +134,7 @@ onBeforeUnmount(() => {
                                 @click="submenuItem.action"
                             >
                                 <div class="mr-1 h-4 w-4 flex items-center text-gray-400">
-                                    <MaterialSymbolsCheck v-if="submenuItem.selected" />
+                                    <MaterialSymbolsCheck v-if="submenuItem.selected && submenuItem.selected.value" />
                                 </div>
 
                                 <Icon
