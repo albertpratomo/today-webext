@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {useDateFormat, useNow} from '@vueuse/core';
 import {useTasksStore, useTrashStore} from '~/stores';
-import type ContextMenuItem from '~/models/ContextMenuItem';
+import {type ContextMenuItem} from '~/components/ContextMenu.vue';
 import type Task from '~/models/Task';
 import {getTomorrow} from '~/utils/date';
 

@@ -1,6 +1,18 @@
 <script setup lang="ts">
-import type ContextMenuItem from '~/models/ContextMenuItem';
 import {onKeyStroke} from '~/utils/onKeyStroke';
+
+export interface ContextMenuItem {
+    action?: () => void
+    active?: boolean
+    divider?: boolean
+    icon?: string
+    text: string
+    selected?: ComputedRef<boolean>
+    submenu?: {
+        text?: string
+        items: ContextMenuItem[]
+    }
+}
 
 const props = defineProps({
     menuItems: {
@@ -140,6 +152,7 @@ onBeforeUnmount(() => {
                                     class="mr-2"
                                     :name="submenuItem.icon"
                                 />
+
                                 {{ submenuItem.text }}
                             </button>
                         </div>
