@@ -30,7 +30,6 @@ function prepare(length = 5) {
         props: {
             modelValue: store.tasks,
             doneTasks: store.doneTasks,
-            selectedIndexes: [],
         },
     });
 
@@ -128,9 +127,6 @@ describe('TaskList', () => {
         expectSelected(result, [0]);
 
         await fireEvent.keyDown(document, {key: 'ArrowUp'});
-        expectSelected(result, [4]);
-
-        await fireEvent.keyDown(document, {key: 'ArrowDown'});
         expectSelected(result, [0]);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown'});
@@ -146,17 +142,26 @@ describe('TaskList', () => {
         await fireEvent.keyDown(document, {key: 'ArrowDown'});
         expectSelected(result, [0]);
 
-        await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
-        expectSelected(result, [0, 4]);
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [1]);
 
         await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
-        expectSelected(result, [0, 3, 4]);
+        expectSelected(result, [0, 1]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowUp', shiftKey: true});
+        expectSelected(result, [0, 1]);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
-        expectSelected(result, [0, 4]);
+        expectSelected(result, [1]);
 
         await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
-        expectSelected(result, [0]);
+        expectSelected(result, [1, 2]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown', shiftKey: true});
+        expectSelected(result, [1, 2, 3]);
+
+        await fireEvent.keyDown(document, {key: 'ArrowDown'});
+        expectSelected(result, [4]);
     });
 
     test('edit 1 task', async () => {
@@ -181,10 +186,10 @@ describe('TaskList', () => {
         let taskItems = await result.findAllByText(/^task/);
         expect(taskItems[1].textContent).toBe('task 0');
 
-        await fireEvent.keyDown(document, {key: 'ArrowDown', metaKey: true, shiftKey: true});
+        await fireEvent.keyDown(document, {key: 'ArrowUp', metaKey: true, shiftKey: true});
         await nextTick();
         taskItems = await result.findAllByText(/^task/);
-        expect(taskItems[1].textContent).toBe('task 0');
+        expect(taskItems[0].textContent).toBe('task 0');
     });
 
     test('click checkbox to complete task', async () => {

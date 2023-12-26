@@ -136,12 +136,9 @@ useSortable(list, tasks, {
 async function swapTask(oldIndex: number, newIndex: number) {
     const taskId = tasks.value[oldIndex].id;
     const parentOldIndex = allTasks.value.findIndex(task => task.id === taskId);
-    let parentNewIndex = 0;
 
-    if (newIndex !== 0) {
-        const addAfterTaskId = tasks.value[newIndex].id;
-        parentNewIndex = allTasks.value.findIndex(task => task.id === addAfterTaskId);
-    }
+    const secondTaskId = tasks.value[newIndex].id;
+    const parentNewIndex = allTasks.value.findIndex(task => task.id === secondTaskId);
 
     if (parentNewIndex >= 0 && parentNewIndex < allTasks.value.length) {
         moveArrayElement(allTasks.value, parentOldIndex, parentNewIndex);
