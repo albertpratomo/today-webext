@@ -5,7 +5,6 @@ import {onKeyStroke} from '~/utils/onKeyStroke';
 
 export interface ContextMenuItem {
     action?: () => void
-    active?: boolean
     divider?: boolean
     icon?: string
     text: string
@@ -23,15 +22,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// Create a reactive copy of menuItems
-const reactiveMenuItems = reactive(props.menuItems.map(item => ({...item, active: false})));
-
-function setActive(index: number, value: boolean) {
-    reactiveMenuItems[index].active = value;
-}
-
-// Expose the reactive menu items to the template
-const {menuItems} = toRefs({menuItems: reactiveMenuItems});
+const activeIndex = ref<number | null>(null);
 
 const isVisible = ref(false);
 const container = ref<HTMLElement | null>(null);
@@ -67,10 +58,7 @@ function openContextMenu(event: MouseEvent) {
 
 function closeContextMenu() {
     isVisible.value = false;
-
-    menuItems.value.forEach((item) => {
-        item.active = false;
-    });
+    activeIndex.value = null;
 }
 
 onKeyStroke(['Esc', 'Escape'], () => {
@@ -109,12 +97,12 @@ onBeforeUnmount(() => {
 
                 <div
                     class="relative flex text-xs"
-                    @mouseenter="setActive(i, true)"
-                    @mouseleave="setActive(i, false)"
+                    @mouseenter="activeIndex = i"
+                    @mouseleave="activeIndex = null"
                 >
                     <button
                         class="mx-1 flex grow rounded p-2 text-left text-gray-300"
-                        :class="{'bg-gray-750': item.active}"
+                        :class="{'bg-gray-750': activeIndex === i}"
                         @click="item.action"
                     >
                         <div class="grow">
@@ -129,7 +117,7 @@ onBeforeUnmount(() => {
                     <Transition name="fade">
                         <div
                             v-if="item.submenu"
-                            v-show="item.active"
+                            v-show="activeIndex === i"
                             class="absolute left-full top-[-5px] min-w-40 border border-color-[#39394D] rounded bg-gray-800 p-1 text-gray-200 shadow-sm"
                         >
                             <div
