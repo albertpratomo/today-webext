@@ -5,12 +5,11 @@ import {type ContextMenuItem} from '~/components/ContextMenu.vue';
 import type Task from '~/models/Task';
 import {getTomorrow} from '~/utils/date';
 
-defineProps({
-    parentElement: {
-        type: Object as PropType<HTMLElement | null>,
-        default: null,
-    },
-});
+interface Props {
+    parentElement: HTMLElement | null
+}
+
+defineProps<Props>();
 
 const task = defineModel<Task>({required: true});
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// TODO: Maybe refactor to use https://www.radix-vue.com/components/context-menu.html.
+// It is open-source component and supports keyboard navigation already.
 import {onKeyStroke} from '~/utils/onKeyStroke';
 
 export interface ContextMenuItem {
@@ -14,16 +16,12 @@ export interface ContextMenuItem {
     }
 }
 
-const props = defineProps({
-    menuItems: {
-        type: Array as PropType<ContextMenuItem[]>,
-        default: () => [],
-    },
-    parentElement: {
-        type: Object as PropType<HTMLElement | null>,
-        default: null,
-    },
-});
+interface Props {
+    menuItems: ContextMenuItem[]
+    parentElement: HTMLElement | null
+}
+
+const props = defineProps<Props>();
 
 // Create a reactive copy of menuItems
 const reactiveMenuItems = reactive(props.menuItems.map(item => ({...item, active: false})));
@@ -40,20 +38,24 @@ const container = ref<HTMLElement | null>(null);
 const menuPosition = reactive({top: '0px', left: '0px'});
 
 function handleContextMenu(event: MouseEvent) {
-    if (props.parentElement && props.parentElement.contains(event.target)) {
+    const target = event.target as HTMLElement;
+
+    if (props.parentElement && props.parentElement.contains(target)) {
         event.preventDefault();
         openContextMenu(event);
     }
 
     // close all contextMenu's excluding the current one
-    if (props.parentElement && !props.parentElement.contains(event.target)) {
-        if (container.value && !container.value.contains(event.target))
+    if (props.parentElement && !props.parentElement.contains(target)) {
+        if (container.value && !container.value.contains(target))
             closeContextMenu();
     }
 }
 
 function openContextMenu(event: MouseEvent) {
-    if (container.value && container.value.contains(event.target))
+    const target = event.target as HTMLElement;
+
+    if (container.value && container.value.contains(target))
         return;
 
     const x = event.clientX + 5;
