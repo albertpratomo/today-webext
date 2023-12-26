@@ -59,26 +59,11 @@ const onBackspace = function () {
             />
 
             <button
-                class="ml-1 mt-[2px] h-4 text-gray-350 opacity-0 group-hover:opacity-100"
+                class="ml-1 mt-[2px] h-4 text-gray-500 opacity-0 group-hover:opacity-100"
                 :class="{'opacity-100': isSelected}"
                 tabindex="-1"
             >
-                <svg
-                    fill="none"
-                    height="7"
-                    viewBox="0 0 10 7"
-                    width="10"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <g opacity="0.3">
-                        <path
-                            clip-rule="evenodd"
-                            d="M0 0H10V1H0V0ZM0 6H10V7H0V6ZM10 3H0V4H10V3Z"
-                            fill="#E0E1EC"
-                            fill-rule="evenodd"
-                        />
-                    </g>
-                </svg>
+                <MaterialSymbolsMenu class="h-3.5" />
             </button>
         </div>
     </div>

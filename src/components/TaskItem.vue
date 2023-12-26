@@ -76,26 +76,11 @@ const el = ref(null);
         </div>
 
         <button
-            class="drag-handle absolute bottom-0 right-0 top-0 px-3 text-gray-350 opacity-0 group-hover:opacity-100"
+            class="drag-handle absolute bottom-0 right-0 top-0 px-3 text-gray-600 opacity-0 group-hover:opacity-100"
             :class="{'opacity-100': isSelected}"
             tabindex="-1"
         >
-            <svg
-                fill="none"
-                height="7"
-                viewBox="0 0 10 7"
-                width="10"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <g opacity="0.3">
-                    <path
-                        clip-rule="evenodd"
-                        d="M0 0H10V1H0V0ZM0 6H10V7H0V6ZM10 3H0V4H10V3Z"
-                        fill="#E0E1EC"
-                        fill-rule="evenodd"
-                    />
-                </g>
-            </svg>
+            <MaterialSymbolsMenu class="h-3.5" />
         </button>
     </div>
 </template>

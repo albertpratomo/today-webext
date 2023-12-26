@@ -87,6 +87,5 @@ defineProps({
                 fill-rule="evenodd"
             />
         </g>
-
     </svg>
 </template>
