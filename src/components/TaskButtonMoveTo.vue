@@ -47,7 +47,6 @@ const currentBucket = computed(() => menu.items.find(item => item.selected.value
             >
                 <Icon
                     v-if="currentBucket?.icon"
-                    class="mr-0.5"
                     :name="currentBucket.icon"
                 />
                 {{ currentBucket?.text }}

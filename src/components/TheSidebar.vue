@@ -87,7 +87,7 @@ const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-
                         :class="{'!bg-gray-750/70': isExactActive}"
                     >
                         <Icon
-                            class="mr-1.5 h-[16px] w-[16px]"
+                            class="mr-1.5"
                             :name="item.icon"
                         />
 
@@ -105,7 +105,7 @@ const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-
                     class="flex cursor-default items-center rounded px-2 py-1.25 text-gray-500 hover:bg-gray-800/70"
                 >
                     <Icon
-                        class="mr-1.5 h-[16px] w-[16px]"
+                        class="mr-1.5"
                         :name="item.icon"
                     />
 

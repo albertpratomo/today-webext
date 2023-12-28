@@ -1,12 +1,30 @@
 <script setup lang="ts">
-defineProps({
-    name: String,
+const props = withDefaults(
+    defineProps<{
+        name: string
+        class?: string
+    }>(),
+    {
+        class: '',
+    },
+);
 
+// Check if the class prop contains 'h-' or 'w-' classes and add defaults if not present
+const computedClass = computed(() => {
+    let resultClass = props.class;
+
+    if (!resultClass.includes('h-'))
+        resultClass += ' h-4';
+
+    if (!resultClass.includes('w-'))
+        resultClass += ' w-4';
+
+    return resultClass;
 });
 </script>
 
 <template>
-    <div>
+    <div :class="computedClass">
         <svg
             class="h-full w-full"
             fill="none"
