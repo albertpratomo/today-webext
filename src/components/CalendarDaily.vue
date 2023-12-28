@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
+import {type Event, formatMbscEvent} from '~/models/Event';
 import type {MbscEventUpdateEvent, MbscEventcalendarOptions} from '@mobiscroll/vue';
 import {MbscEventcalendar, luxonTimezone} from '@mobiscroll/vue';
-import {formatMbscEvent} from '~/models/Event';
+import ConfirmDialog from './ConfirmDialog.vue';
 import {notify} from 'notiwind';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
@@ -36,9 +37,10 @@ function onEventUpdate(args: MbscEventUpdateEvent) {
 
     if (event.isSelfOrganized) {
         if (event.hasAttendees)
-            confirm('update attendees');
+            confirmRescheduleEvent(event);
 
-        updateGcalEvent(event);
+        else
+            updateGcalEvent(event);
     }
     else {
         notify({
@@ -49,6 +51,19 @@ function onEventUpdate(args: MbscEventUpdateEvent) {
 
         return false;
     }
+}
+
+const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
+const confirmDialogTitle = ref('');
+
+async function confirmRescheduleEvent(event: Event) {
+    confirmDialogTitle.value = event.title;
+    const confirmed = await confirmDialog.value!.confirm();
+
+    if (confirmed)
+        updateGcalEvent(event);
+
+    // TODO: if not confirmed, move back event to old place
 }
 </script>
 
@@ -74,5 +89,12 @@ function onEventUpdate(args: MbscEventUpdateEvent) {
         <Suspense>
             <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
         </Suspense>
+
+        <ConfirmDialog
+            ref="confirmDialog"
+            :confirm-button-text="$t('events.rescheduleEvent')"
+            :description="$t('events.confirmEventRescheduleMessage')"
+            :title="confirmDialogTitle"
+        />
     </div>
 </template>

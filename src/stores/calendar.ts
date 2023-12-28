@@ -140,7 +140,8 @@ export const useCalendarStore = defineStore('calendar', () => {
 
     async function updateGcalEvent(event: Event) {
         if (authToken.value) {
-            await useGcalApi(`calendars/primary/events/${event.id}`).patch({
+            // Always send updates to attendees.
+            await useGcalApi(`calendars/primary/events/${event.id}?sendUpdates=all`).patch({
                 start: {
                     date: event.allDay ? event.start : null,
                     dateTime: event.allDay ? null : event.start,

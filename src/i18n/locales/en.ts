@@ -3,6 +3,7 @@
 export default {
     actions: {
         cancel: 'Cancel',
+        confirm: 'Confirm',
         connect: 'Connect',
         createTask: 'Create task',
         delete: 'Delete',
@@ -19,7 +20,9 @@ export default {
     },
     comingSoon: 'Coming soon :)',
     events: {
+        confirmEventRescheduleMessage: 'Do you want to reschedule and notify the guests?',
         notOrganizerMessage: 'You can\'t reschedule this event.',
+        rescheduleEvent: 'Reschedule event',
     },
     fields: {
         taskNote: {placeholder: 'Notes'},
