@@ -23,6 +23,10 @@ export default {
         default: 'Press <code>N</code> to create new tasks',
         inbox: 'Inbox is a place to offload tasks from your head quickly so you can stay focused on what you’re doing.<br><br>Later, process all the tasks in your inbox—move them, schedule them, or delete them.<br><br>@:emptyState.default',
         later: 'Sometimes, you have tasks you’d like to work on but are unsure when. Put them to Later list and regularly review them later on.',
+        today: {
+            body: 'Take a moment to appreciate your accomplishments.<br>Recharge and get ready for tomorrow!',
+            title: 'Done for Today',
+        },
     },
     fields: {
         taskNote: {placeholder: 'Notes'},

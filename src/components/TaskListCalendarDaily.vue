@@ -63,6 +63,7 @@ onKeyStroke([']'], () => {
                 </div>
 
                 <TaskList
+                    v-show="tasks.length || doneTasks.length"
                     v-model="tasks"
                     v-model:done-tasks="doneTasks"
                     class="mt-8 pb-10"
