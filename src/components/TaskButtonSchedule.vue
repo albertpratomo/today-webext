@@ -8,6 +8,8 @@ import {useTasksStore} from '~/stores';
 const {scheduleTask} = useTasksStore();
 const task = defineModel<Task>({required: true});
 
+const isActionable = computed(() => task.value.deletedAt === null && task.value.isDone === false);
+
 const {t} = useI18n();
 
 const currentDate = useNow();
@@ -39,8 +41,10 @@ const currentBucket = computed(() => menu.items.find(item => item.selected.value
         <MenuButton
             as="div"
             class="flex"
+            :disabled="isActionable === false"
         >
             <Button
+                :disabled="isActionable === false"
                 size="xs"
                 variant="secondary"
             >
