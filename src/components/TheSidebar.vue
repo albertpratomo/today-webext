@@ -83,7 +83,7 @@ const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-
                     :to="item.to"
                 >
                     <Icon
-                        class="mr-1.5"
+                        class="mr-1.5 h-[16px] w-[16px]"
                         :name="item.icon"
                     />
 
@@ -100,7 +100,7 @@ const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-
                     class="flex cursor-default items-center px-2 py-1.25 text-gray-500"
                 >
                     <Icon
-                        class="mr-1.5"
+                        class="mr-1.5 h-[16px] w-[16px]"
                         :name="item.icon"
                     />
 
