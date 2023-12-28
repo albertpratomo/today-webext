@@ -67,6 +67,11 @@ onKeyStroke([']'], () => {
                     v-model:done-tasks="doneTasks"
                     class="mt-8 pb-10"
                 />
+
+                <slot
+                    v-if="tasks.length === 0 && doneTasks.length === 0"
+                    name="empty-state"
+                />
             </div>
         </div>
 
