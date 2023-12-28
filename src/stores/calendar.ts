@@ -1,5 +1,5 @@
 import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
-import type {MbscEventCreatedEvent, MbscEventDeletedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
+import type {MbscEventCreatedEvent, MbscEventDeletedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/googleCalendar';
@@ -138,9 +138,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         trackGa('event_created');
     }
 
-    async function updateEvent(args: MbscEventUpdatedEvent) {
-        const event = formatMbscEvent(args.event);
-
+    async function updateGcalEvent(event: Event) {
         if (authToken.value) {
             await useGcalApi(`calendars/primary/events/${event.id}`).patch({
                 start: {
@@ -179,7 +177,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         deleteEvent,
         fetchGcalEvents,
         getAuthToken,
-        updateEvent,
+        updateGcalEvent,
     };
 });
 

@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
-import {MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
-import {luxonTimezone} from '@mobiscroll/vue';
+import type {MbscEventUpdateEvent, MbscEventcalendarOptions} from '@mobiscroll/vue';
+import {MbscEventcalendar, luxonTimezone} from '@mobiscroll/vue';
+import {formatMbscEvent} from '~/models/Event';
+import {notify} from 'notiwind';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
+const {t} = useI18n();
+
 const {calendarColorId, events} = storeToRefs(useCalendarStore());
-const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
+const {createEvent, deleteEvent, updateGcalEvent} = useCalendarStore();
 
 luxonTimezone.luxon = luxon;
 
@@ -26,6 +30,26 @@ const options: MbscEventcalendarOptions = {
     timezonePlugin: luxonTimezone,
     view: {schedule: {type: 'day', days: false}},
 };
+
+function onEventUpdate(args: MbscEventUpdateEvent) {
+    const event = formatMbscEvent(args.event);
+
+    if (event.isSelfOrganized) {
+        if (event.hasAttendees)
+            confirm('update attendees');
+
+        updateGcalEvent(event);
+    }
+    else {
+        notify({
+            group: 'general',
+            text: t('events.notOrganizerMessage'),
+            isCloseable: true,
+        });
+
+        return false;
+    }
+}
 </script>
 
 <template>
@@ -36,7 +60,7 @@ const options: MbscEventcalendarOptions = {
                 :data="events"
                 @event-created="createEvent"
                 @event-deleted="deleteEvent"
-                @event-updated="updateEvent"
+                @event-update="onEventUpdate"
             >
                 <template #scheduleEvent="{original}">
                     <CalendarEvent
