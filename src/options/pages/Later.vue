@@ -25,6 +25,7 @@ const _doneTasks = computed(() => {
         <TaskListCalendarDaily
             v-model="_tasks"
             v-model:done-tasks="_doneTasks"
+            :toggle-empty-state-info="_tasks.length > 0"
         >
             <template #header>
                 {{ $t(`sidebar.${bucket}`) }}

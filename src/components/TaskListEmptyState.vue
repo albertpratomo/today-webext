@@ -9,18 +9,15 @@ withDefaults(
     },
 );
 
-const isVisible = defineModel<boolean>('isVisible', {local: true, default: true});
+const emit = defineEmits(['close']);
 
 function close() {
-    isVisible.value = false;
+    emit('close');
 }
 </script>
 
 <template>
-    <div
-        v-show="isVisible"
-        class="h-4/5 flex grow items-center"
-    >
+    <div class="h-4/5 flex grow items-center">
         <div class="relative mx-auto mb-10 mt-8 max-w-[420px] border border-gray-750 rounded-2 bg-gray-800 p-6">
             <Button
                 v-show="isCloseable"
