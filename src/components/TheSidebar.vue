@@ -75,19 +75,24 @@ const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-
             <li
                 v-for="(item, i) in items"
                 :key="i"
-                class="rounded font-medium hover:bg-gray-800"
+                class="font-medium"
             >
                 <RouterLink
                     v-if="item.to"
-                    class="block flex items-center px-2 py-1.25 text-gray-300"
+                    v-slot="{isExactActive}"
                     :to="item.to"
                 >
-                    <Icon
-                        class="mr-1.5"
-                        :name="item.icon"
-                    />
+                    <div
+                        class="flex items-center rounded px-2 py-1.25 text-gray-300 hover:bg-gray-800/70"
+                        :class="{'!bg-gray-750/70': isExactActive}"
+                    >
+                        <Icon
+                            class="mr-1.5"
+                            :name="item.icon"
+                        />
 
-                    {{ item.text }}
+                        {{ item.text }}
+                    </div>
                 </RouterLink>
 
                 <div
@@ -97,7 +102,7 @@ const settingsClass = 'flex items-center gap-1.5 rounded px-2 py-1 text-sm font-
                         placement: 'right',
                         offset: [0, 6],
                     }"
-                    class="flex cursor-default items-center px-2 py-1.25 text-gray-500"
+                    class="flex cursor-default items-center rounded px-2 py-1.25 text-gray-500 hover:bg-gray-800/70"
                 >
                     <Icon
                         class="mr-1.5"
