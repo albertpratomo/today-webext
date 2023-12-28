@@ -170,8 +170,10 @@ onKeyStroke(['Backspace', 'Delete'], () => {
 <template>
     <div>
         <div
+            v-show="tasks.length"
             ref="list"
             v-on-click-outside="onClickOutside"
+            class="mb-12"
             :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
         >
             <TaskItem
@@ -188,10 +190,7 @@ onKeyStroke(['Backspace', 'Delete'], () => {
             />
         </div>
 
-        <div
-            v-if="doneTasks.length"
-            class="mt-12"
-        >
+        <div v-show="doneTasks.length">
             <Button
                 class="p-2 text-gray-400 -ml-4"
                 variant="ghost"
