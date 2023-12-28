@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
+import {useCalendarStore, useTasksStore} from '~/stores';
 import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
+import {storeToRefs} from 'pinia';
 import {useRoute} from 'vue-router';
-import {useTasksStore} from '~/stores';
 
 withDefaults(
     defineProps<{
@@ -22,7 +23,7 @@ const {openTaskCreateDialog} = useTasksStore();
 const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 
-const isCalendarVisible = ref(true);
+const {isCalendarVisible} = storeToRefs(useCalendarStore());
 const isEmptyStateInfoVisible = ref(false);
 
 function toggleCalendar() {
