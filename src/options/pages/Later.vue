@@ -2,6 +2,7 @@
 import {storeToRefs} from 'pinia';
 import {useTasksStore} from '~/stores/tasks';
 
+const bucket = 'later';
 const {tasks, doneTasks} = storeToRefs(useTasksStore());
 
 const _tasks = computed(() => {
@@ -26,7 +27,11 @@ const _doneTasks = computed(() => {
             v-model:done-tasks="_doneTasks"
         >
             <template #header>
-                {{ $t(`sidebar.later`) }}
+                {{ $t(`sidebar.${bucket}`) }}
+            </template>
+
+            <template #empty-state>
+                <TaskListEmptyState :bucket="bucket" />
             </template>
         </TaskListCalendarDaily>
     </LayoutSidebar>
