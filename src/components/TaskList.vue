@@ -185,6 +185,7 @@ onKeyStroke(['Backspace', 'Delete'], () => {
                 :is-last-selected="lastSelectedTaskId === task.id"
                 :is-selected="selectedTaskIds.includes(task.id)"
                 @click="onTaskClick(task.id, $event)"
+                @contextmenu="onTaskClick(task.id, $event)"
                 @dblclick="editTask(task)"
                 @dragstart="selectTask(task.id)"
             />
