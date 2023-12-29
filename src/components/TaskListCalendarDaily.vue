@@ -6,14 +6,11 @@ import {onKeyStroke} from '~/utils/onKeyStroke';
 import {storeToRefs} from 'pinia';
 import {useRoute} from 'vue-router';
 
-withDefaults(
-    defineProps<{
-        toggleEmptyStateInfo?: boolean
-    }>(),
-    {
-        toggleEmptyStateInfo: false,
-    },
-);
+interface Props {
+    showInfoToggle?: boolean
+}
+
+const {showInfoToggle = false} = defineProps<Props>();
 
 const route = useRoute();
 const routeName = route.name as string;
@@ -24,14 +21,14 @@ const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 
 const {isCalendarVisible} = storeToRefs(useCalendarStore());
-const isEmptyStateInfoVisible = ref(false);
+const infoIsVisible = ref(false);
 
 function toggleCalendar() {
     isCalendarVisible.value = !isCalendarVisible.value;
 }
 
 onKeyStroke(['n', 'N'], () => {
-    isEmptyStateInfoVisible.value = false;
+    infoIsVisible.value = false;
 }, {dedupe: false});
 
 onKeyStroke([']'], () => {
@@ -64,9 +61,9 @@ onKeyStroke([']'], () => {
                         </h1>
 
                         <button
-                            v-if="toggleEmptyStateInfo"
-                            class="opacity-0 group-hover:opacity-100"
-                            @click="isEmptyStateInfoVisible = true"
+                            v-if="showInfoToggle"
+                            class="mb-1 opacity-0 group-hover:opacity-100"
+                            @click="infoIsVisible = true"
                         >
                             <MaterialSymbolsInfoOutline class="h-4 w-4 text-gray-500" />
                         </button>
@@ -114,16 +111,16 @@ onKeyStroke([']'], () => {
     </div>
 
     <Dialog
-        v-if="toggleEmptyStateInfo"
-        :open="isEmptyStateInfoVisible"
-        @close="isEmptyStateInfoVisible = false"
+        v-if="showInfoToggle"
+        :open="infoIsVisible"
+        @close="infoIsVisible = false"
     >
         <div class="fixed inset-0 flex items-center justify-center p-4">
             <DialogPanel class="relative">
                 <TaskListEmptyState
                     :bucket="routeName"
                     :is-closeable="true"
-                    @close="isEmptyStateInfoVisible = false"
+                    @close="infoIsVisible = false"
                 />
             </DialogPanel>
         </div>
