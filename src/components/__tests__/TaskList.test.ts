@@ -29,7 +29,7 @@ function prepare(length = 5) {
             plugins: [pinia, i18n],
         },
         props: {
-            modelValue: tasksStore.tasks,
+            tasks: tasksStore.tasks,
             doneTasks: tasksStore.doneTasks,
         },
     });

@@ -18,6 +18,16 @@ export default {
         title: 'Connect your Google Calendar',
     },
     comingSoon: 'Coming soon :)',
+    emptyState: {
+        active: 'Active list is a home for all tasks you want to commit in the near future. Simply prioritize tasks from <i>Later</i> list when you want to commit on it.<br><br>@:emptyState.defaultFooter',
+        defaultFooter: 'Press <code>N</code> to create new tasks',
+        inbox: 'Inbox is a place to offload tasks from your head quickly so you can stay focused on what you’re doing.<br><br>Later, process all the tasks in your inbox — move them, schedule them, or delete them.<br><br>@:emptyState.defaultFooter',
+        later: 'Sometimes, you have tasks you’d like to work on but are unsure when. Put them to Later list and regularly review them later on.',
+        today: {
+            body: 'Take a moment to appreciate your accomplishments.<br>Recharge and get ready for tomorrow!',
+            title: 'Done for Today',
+        },
+    },
     fields: {
         taskNote: {placeholder: 'Notes'},
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},

@@ -7,10 +7,13 @@ import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
 import {storeToRefs} from 'pinia';
 
-const {t} = useI18n();
+interface Props {
+    tasks: Task[]
+    doneTasks?: Task[]
+}
+const {tasks, doneTasks = []} = defineProps<Props>();
 
-const tasks = defineModel<Task[]>({required: true});
-const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
+const {t} = useI18n();
 
 const {tasks: allTasks, selectedTaskIds} = storeToRefs(useTasksStore());
 
@@ -33,15 +36,15 @@ function onTaskClick(clicked: number, {ctrlKey, metaKey, shiftKey}: PointerEvent
             : selectedTaskIds.value.push(clicked);
     }
     else if (shiftKey && typeof lastSelectedTaskId.value === 'number') {
-        const clickedIndex = tasks.value.findIndex(task => task.id === clicked);
+        const clickedIndex = tasks.findIndex(task => task.id === clicked);
         const lastIndex = lastSelectedTaskId.value !== null
-            ? tasks.value.findIndex(task => task.id === lastSelectedTaskId.value)
+            ? tasks.findIndex(task => task.id === lastSelectedTaskId.value)
             : clickedIndex; // Fallback to clickedIndex if lastSelectedTaskId is null
 
         const minIndex = Math.min(clickedIndex, lastIndex);
         const maxIndex = Math.max(clickedIndex, lastIndex);
 
-        const rangeTaskIds = tasks.value.slice(minIndex, maxIndex + 1).map(task => task.id);
+        const rangeTaskIds = tasks.slice(minIndex, maxIndex + 1).map(task => task.id);
 
         // Combine existing selectedTaskIds with new range
         selectedTaskIds.value = Array.from(new Set([...selectedTaskIds.value, ...rangeTaskIds]));
@@ -66,13 +69,13 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
 
     e.preventDefault();
 
-    const taskLength = tasks.value.length;
+    const taskLength = tasks.length;
     const isArrowDown = e.key === 'ArrowDown';
-    const currentTaskId = lastSelectedTaskId.value ?? (tasks.value[isArrowDown ? 0 : taskLength - 1].id);
+    const currentTaskId = lastSelectedTaskId.value ?? (tasks[isArrowDown ? 0 : taskLength - 1].id);
 
     let currentIndex;
     if (typeof lastSelectedTaskId.value === 'number')
-        currentIndex = tasks.value.findIndex(task => task.id === lastSelectedTaskId.value);
+        currentIndex = tasks.findIndex(task => task.id === lastSelectedTaskId.value);
     else
         currentIndex = isArrowDown ? -1 : taskLength;
 
@@ -80,7 +83,7 @@ onKeyStroke(['ArrowDown', 'ArrowUp'], (e) => {
     if (nextIndex < 0 || nextIndex >= taskLength)
         return;
 
-    const nextTaskId = tasks.value[nextIndex].id;
+    const nextTaskId = tasks[nextIndex].id;
 
     if (e.shiftKey && (e.metaKey || e.ctrlKey) && selectedTaskIds.value.length === 1) {
         const oldIndex = currentIndex;
@@ -134,10 +137,10 @@ useSortable(list, tasks, {
 });
 
 async function swapTask(oldIndex: number, newIndex: number) {
-    const taskId = tasks.value[oldIndex].id;
+    const taskId = tasks[oldIndex].id;
     const parentOldIndex = allTasks.value.findIndex(task => task.id === taskId);
 
-    const secondTaskId = tasks.value[newIndex].id;
+    const secondTaskId = tasks[newIndex].id;
     const parentNewIndex = allTasks.value.findIndex(task => task.id === secondTaskId);
 
     if (parentNewIndex >= 0 && parentNewIndex < allTasks.value.length) {
@@ -170,8 +173,10 @@ onKeyStroke(['Backspace', 'Delete'], () => {
 <template>
     <div>
         <div
+            v-show="tasks.length"
             ref="list"
             v-on-click-outside="onClickOutside"
+            class="mb-12"
             :class="pomodoroIsEnabled ? '-ml-8' : '-ml-2'"
         >
             <TaskItem
@@ -183,15 +188,13 @@ onKeyStroke(['Backspace', 'Delete'], () => {
                 :is-last-selected="lastSelectedTaskId === task.id"
                 :is-selected="selectedTaskIds.includes(task.id)"
                 @click="onTaskClick(task.id, $event)"
+                @contextmenu="onTaskClick(task.id, $event)"
                 @dblclick="editTask(task)"
                 @dragstart="selectTask(task.id)"
             />
         </div>
 
-        <div
-            v-if="doneTasks.length"
-            class="mt-12"
-        >
+        <div v-show="doneTasks.length">
             <Button
                 class="p-2 text-gray-400 -ml-4"
                 variant="ghost"

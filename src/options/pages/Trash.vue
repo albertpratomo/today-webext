@@ -15,8 +15,8 @@ const {trashTasks} = storeToRefs(useTrashStore());
                     </h1>
 
                     <TaskList
-                        v-model="trashTasks"
                         class="mt-8 pb-10"
+                        :tasks="trashTasks"
                     />
                 </div>
             </div>

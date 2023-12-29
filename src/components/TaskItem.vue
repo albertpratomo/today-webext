@@ -18,6 +18,8 @@ const props = withDefaults(
 
 const task = defineModel<Task>({required: true});
 
+const isActionable = computed(() => task.value.deletedAt === null && task.value.isDone === false);
+
 onKeyStroke(['d', 'D'], () => {
     if (props.isSelected)
         task.value.isDone = !task.value.isDone;
@@ -65,17 +67,20 @@ const el = ref(null);
             />
 
             <MbscDraggable
+                v-if="isActionable"
                 :drag-data="{title: task.title, task}"
                 :element="el"
             />
 
             <TaskContextMenu
+                v-if="isActionable"
                 v-model="task"
                 :parent-element="el"
             />
         </div>
 
         <button
+            v-if="isActionable"
             class="drag-handle absolute bottom-0 right-0 top-0 px-3 text-gray-600 opacity-0 group-hover:opacity-100"
             :class="{'opacity-100': isSelected}"
             tabindex="-1"

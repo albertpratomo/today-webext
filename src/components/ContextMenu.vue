@@ -8,6 +8,7 @@ export interface ContextMenuItem {
     divider?: boolean
     icon?: string
     text: string
+    shortcut?: string
     selected?: ComputedRef<boolean>
     submenu?: {
         text?: string
@@ -109,8 +110,15 @@ onBeforeUnmount(() => {
                             {{ item.text }}
                         </div>
 
+                        <div
+                            v-if="item.shortcut"
+                            class="ml-2 text-gray-400"
+                        >
+                            {{ item.shortcut }}
+                        </div>
+
                         <div v-if="item.submenu">
-                            <MaterialSymbolsArrowRight class="h-4 text-[16px] text-gray-400" />
+                            <MaterialSymbolsArrowRight class="ml-[6px] h-4 text-[16px] text-gray-400" />
                         </div>
                     </button>
 
@@ -143,7 +151,16 @@ onBeforeUnmount(() => {
                                     :name="submenuItem.icon"
                                 />
 
-                                {{ submenuItem.text }}
+                                <div class="grow">
+                                    {{ submenuItem.text }}
+                                </div>
+
+                                <div
+                                    v-if="submenuItem.shortcut"
+                                    class="ml-2 text-gray-400"
+                                >
+                                    {{ submenuItem.shortcut }}
+                                </div>
                             </button>
                         </div>
                     </Transition>
