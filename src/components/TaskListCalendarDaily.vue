@@ -7,18 +7,17 @@ import {storeToRefs} from 'pinia';
 import {useRoute} from 'vue-router';
 
 interface Props {
+    tasks: Task[]
+    doneTasks?: Task[]
     showInfoToggle?: boolean
 }
 
-const {showInfoToggle = false} = defineProps<Props>();
+const {tasks, doneTasks = [], showInfoToggle = false} = defineProps<Props>();
 
 const route = useRoute();
 const routeName = route.name as string;
 
 const {openTaskCreateDialog} = useTasksStore();
-
-const tasks = defineModel<Task[]>({required: true});
-const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 
 const {calendarIsVisible} = storeToRefs(useCalendarStore());
 const infoIsVisible = ref(false);
@@ -92,9 +91,9 @@ onKeyStroke([']'], () => {
 
                 <TaskList
                     v-show="tasks.length || doneTasks.length"
-                    v-model="tasks"
-                    v-model:done-tasks="doneTasks"
                     class="mt-8 pb-10"
+                    :done-tasks="doneTasks"
+                    :tasks="tasks"
                 />
             </div>
         </div>

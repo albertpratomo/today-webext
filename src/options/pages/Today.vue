@@ -28,8 +28,8 @@ const _doneTasks = computed(() => {
 <template>
     <LayoutSidebar>
         <TaskListCalendarDaily
-            v-model="_tasks"
-            v-model:done-tasks="_doneTasks"
+            :done-tasks="_doneTasks"
+            :tasks="_tasks"
         >
             <template #header>
                 {{ $t(`sidebar.today`) }}

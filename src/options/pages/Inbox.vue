@@ -25,9 +25,9 @@ const _doneTasks = computed(() => {
 <template>
     <LayoutSidebar>
         <TaskListCalendarDaily
-            v-model="_tasks"
-            v-model:done-tasks="_doneTasks"
+            :done-tasks="_doneTasks"
             :show-info-toggle="_tasks.length > 0"
+            :tasks="_tasks"
         >
             <template #header>
                 {{ $t(`sidebar.${bucket}`) }}
