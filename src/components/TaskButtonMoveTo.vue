@@ -6,7 +6,7 @@ import {useTasksStore} from '~/stores';
 const {moveTask} = useTasksStore();
 const task = defineModel<Task>({required: true});
 
-const isActionable = computed(() => task.value.deletedAt === null && task.value.isDone === false);
+const isActionable = computed(() => !task.value.deletedAt && !task.value.isDone);
 
 const {t} = useI18n();
 
@@ -42,10 +42,10 @@ const currentBucket = computed(() => menu.items.find(item => item.selected.value
         <MenuButton
             as="div"
             class="text-indigo-400"
-            :disabled="isActionable === false"
+            :disabled="!isActionable"
         >
             <Button
-                :disabled="isActionable === false"
+                :disabled="!isActionable"
                 size="xs"
                 variant="secondary"
             >
