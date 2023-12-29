@@ -21,10 +21,7 @@ const icons = [
             v-for="(icon, i) in icons"
             :key="i"
         >
-            <Icon
-                class="mr-1.5 h-4 w-4"
-                :name="icon.name"
-            />
+            <Icon :name="icon.name" />
         </li>
     </ul>
 </template>

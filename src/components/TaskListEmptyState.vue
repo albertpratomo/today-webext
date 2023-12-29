@@ -31,8 +31,8 @@ function close() {
 
             <div class="flex items-center gap-2 pb-[10px]">
                 <Icon
-                    class="h-[20px] w-[20px]"
                     :name="bucket"
+                    size="h-[20px] w-[20px]"
                 />
 
                 <h2 class="text-[20px] font-semibold">

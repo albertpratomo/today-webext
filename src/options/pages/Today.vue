@@ -42,8 +42,9 @@ const _doneTasks = computed(() => {
                 <div class="h-4/5 flex items-center">
                     <div class="relative mx-auto mb-10 mt-8 max-w-md p-6 text-center">
                         <Icon
-                            class="mx-auto mb-4 h-14 w-14 p-1"
+                            class="mx-auto mb-4 p-1"
                             name="flower"
+                            size="h-14 w-14"
                         />
 
                         <h2 class="mb-2 text-4 text-gray-300">
