@@ -20,11 +20,11 @@ const {openTaskCreateDialog} = useTasksStore();
 const tasks = defineModel<Task[]>({required: true});
 const doneTasks = defineModel<Task[]>('doneTasks', {local: true, default: []});
 
-const {isCalendarVisible} = storeToRefs(useCalendarStore());
+const {calendarIsVisible} = storeToRefs(useCalendarStore());
 const infoIsVisible = ref(false);
 
 function toggleCalendar() {
-    isCalendarVisible.value = !isCalendarVisible.value;
+    calendarIsVisible.value = !calendarIsVisible.value;
 }
 
 onKeyStroke(['n', 'N'], () => {
@@ -101,7 +101,7 @@ onKeyStroke([']'], () => {
 
         <Transition name="slide-left-right">
             <div
-                v-show="isCalendarVisible"
+                v-show="calendarIsVisible"
                 class="shrink-0 border-l border-gray-750 p-2.5"
                 w="70 xl:80"
             >
