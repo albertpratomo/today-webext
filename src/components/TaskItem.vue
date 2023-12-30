@@ -60,6 +60,8 @@ const el = ref(null);
                 @keyup.enter="task.isDone = !(task.isDone)"
             >
 
+            <TaskTimeLabel :task="task" />
+
             <div
                 class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
                 :class="{'text-gray-400': task.isDone}"
