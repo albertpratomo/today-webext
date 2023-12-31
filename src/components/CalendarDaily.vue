@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
-import {type Event, formatMbscEvent} from '~/models/Event';
 import type {MbscEventUpdateEvent, MbscEventcalendarOptions} from '@mobiscroll/vue';
 import {MbscEventcalendar, luxonTimezone} from '@mobiscroll/vue';
 import ConfirmDialog from './ConfirmDialog.vue';
+import {formatMbscEvent} from '~/models/Event';
 import {notify} from 'notiwind';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
@@ -32,15 +32,28 @@ const options: MbscEventcalendarOptions = {
     view: {schedule: {type: 'day', days: false}},
 };
 
-function onEventUpdate(args: MbscEventUpdateEvent) {
+const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
+const confirmDialogTitle = ref('');
+
+async function onEventUpdate(args: MbscEventUpdateEvent) {
     const event = formatMbscEvent(args.event);
 
     if (event.isSelfOrganized) {
-        if (event.hasAttendees)
-            confirmRescheduleEvent(event);
+        if (event.hasAttendees) {
+            confirmDialogTitle.value = event.title;
+            const confirmed = await confirmDialog.value!.confirm();
 
-        else
+            if (confirmed)
+                updateGcalEvent(event);
+            else
+                // Update event back to the old data.
+                args.inst?.updateEvent([args.oldEvent]);
+        }
+        else {
             updateGcalEvent(event);
+        }
+
+        return true;
     }
     else {
         notify({
@@ -51,19 +64,6 @@ function onEventUpdate(args: MbscEventUpdateEvent) {
 
         return false;
     }
-}
-
-const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
-const confirmDialogTitle = ref('');
-
-async function confirmRescheduleEvent(event: Event) {
-    confirmDialogTitle.value = event.title;
-    const confirmed = await confirmDialog.value!.confirm();
-
-    if (confirmed)
-        updateGcalEvent(event);
-
-    // TODO: if not confirmed, move back event to old place
 }
 </script>
 
