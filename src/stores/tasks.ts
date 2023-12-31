@@ -156,8 +156,9 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
-    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow', showToast: boolean = true) {
+    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow' | 'unschedule', showToast: boolean = true) {
         let date;
+        let scheduledDate = null;
 
         if (when instanceof Date)
             date = when;
@@ -166,7 +167,8 @@ export const useTasksStore = defineStore('tasks', () => {
         else if (when === 'tomorrow')
             date = getTomorrow();
 
-        const scheduledDate = useDateFormat(date, 'YYYY-MM-DD').value;
+        if (when !== 'unschedule')
+            scheduledDate = useDateFormat(date, 'YYYY-MM-DD').value;
 
         if (task.scheduledFor !== scheduledDate) {
             task.scheduledFor = scheduledDate;
@@ -175,12 +177,17 @@ export const useTasksStore = defineStore('tasks', () => {
                 task.projectId = null;
 
             if (showToast) {
+                let toastText = i18n.t('tasks.taskScheduledMessage', {
+                    taskTitle: task.title,
+                    when: i18n.t(`sidebar.${when}`),
+                });
+
+                if (when === 'unschedule')
+                    toastText = i18n.t('tasks.taskUnscheduledMessage');
+
                 notify({
                     group: 'general',
-                    text: i18n.t('tasks.taskScheduledMessage', {
-                        taskTitle: task.title,
-                        when: i18n.t(`sidebar.${when}`),
-                    }),
+                    text: toastText,
                     isCloseable: true,
                 }, 4000);
             }

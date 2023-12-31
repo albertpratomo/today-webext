@@ -15,20 +15,23 @@ const {t} = useI18n();
 const currentDate = useNow();
 const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD'); ;
 
+const todayIsSelected = computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value));
+const tomorrowIsSelected = computed(() => (task.value.scheduledFor === tomorrowsDate.value));
+
 const menu = {
     text: t('actions.schedule'),
     items: [
         {
             icon: 'schedule',
             text: t('sidebar.today'),
-            action: () => scheduleTask(task.value, 'today', false),
-            selected: computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value)),
+            action: () => scheduleTask(task.value, (todayIsSelected.value ? 'unschedule' : 'today'), false),
+            selected: todayIsSelected,
         },
         {
             icon: 'schedule',
             text: t('sidebar.tomorrow'),
-            action: () => scheduleTask(task.value, 'tomorrow', false),
-            selected: computed(() => (task.value.scheduledFor === tomorrowsDate.value)),
+            action: () => scheduleTask(task.value, (tomorrowIsSelected.value ? 'unschedule' : 'tomorrow'), false),
+            selected: tomorrowIsSelected,
         },
     ],
 };
