@@ -65,7 +65,8 @@ const el = ref(null);
             >
 
             <TaskTimeLabel
-                v-if="routeName === 'active'"
+                v-if="routeName === 'active' || routeName === 'today'"
+                :bucket="routeName"
                 :task="task"
             />
 

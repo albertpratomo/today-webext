@@ -10,6 +10,7 @@ interface Task {
     subtasks: Subtask[]
     scheduledFor: string | null
     projectId: string | null
+    eventIds?: string[]
 }
 
 export default Task;

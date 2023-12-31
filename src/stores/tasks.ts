@@ -194,6 +194,15 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
+    // Events -----------------------------------------------------------------
+
+    function addEventId(task: Task, eventId: string | number) {
+        if (typeof task.eventIds == 'undefined')
+            task.eventIds = [];
+
+        task.eventIds.push(eventId as string);
+    }
+
     // Done Task --------------------------------------------------------------
 
     const doneTasks = useStorageLocal<Task[]>('doneTasks', []);
@@ -273,6 +282,8 @@ export const useTasksStore = defineStore('tasks', () => {
 
         moveTask,
         scheduleTask,
+
+        addEventId,
 
         doneTasks,
         isAllDone,
