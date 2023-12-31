@@ -15,10 +15,10 @@ const {events} = storeToRefs(useCalendarStore());
 const {t} = useI18n();
 
 const currentDate = new Date();
-const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD');
+const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD 00:00:00');
 
 function labelName(date: Date | string) {
-    const _date = useDateFormat(date, 'YYYY-MM-DD');
+    const _date = useDateFormat(date, 'YYYY-MM-DD 00:00:00');
 
     if (new Date(_date.value) <= currentDate)
         return t('sidebar.today');

@@ -15,7 +15,7 @@ const {t} = useI18n();
 const currentDate = useNow();
 const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD'); ;
 
-const todayIsSelected = computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value));
+const todayIsSelected = computed(() => (task.value.scheduledFor != null && new Date(`${task.value.scheduledFor} 00:00:00`) <= currentDate.value));
 const tomorrowIsSelected = computed(() => (task.value.scheduledFor === tomorrowsDate.value));
 
 const menu = {

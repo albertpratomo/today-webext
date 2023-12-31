@@ -12,7 +12,7 @@ const _tasks = computed(() => {
     return tasks.value.filter(task =>
         // task.isDone === false &&
         task.scheduledFor != null
-        && new Date(task.scheduledFor) <= currentDate.value,
+        && new Date(`${task.scheduledFor} 00:00:00`) <= currentDate.value,
     );
 });
 
@@ -20,7 +20,7 @@ const _doneTasks = computed(() => {
     return doneTasks.value.filter(task =>
         task.isDone === true
         && task.scheduledFor != null
-        && new Date(task.scheduledFor) <= currentDate.value,
+        && new Date(`${task.scheduledFor} 00:00:00`) <= currentDate.value,
     );
 });
 </script>
