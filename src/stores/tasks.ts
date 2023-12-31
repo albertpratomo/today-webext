@@ -203,6 +203,16 @@ export const useTasksStore = defineStore('tasks', () => {
         task.eventIds.push(eventId as string);
     }
 
+    function removeTaskEventId(eventId: string | number) {
+        tasks.value.forEach((task) => {
+            if (task.eventIds !== undefined && task.eventIds !== null) {
+                const indexToRemove = task.eventIds.indexOf(eventId as string);
+                if (indexToRemove !== -1)
+                    task.eventIds.splice(indexToRemove, 1);
+            }
+        });
+    }
+
     // Done Task --------------------------------------------------------------
 
     const doneTasks = useStorageLocal<Task[]>('doneTasks', []);
@@ -284,6 +294,7 @@ export const useTasksStore = defineStore('tasks', () => {
         scheduleTask,
 
         addEventId,
+        removeTaskEventId,
 
         doneTasks,
         isAllDone,
