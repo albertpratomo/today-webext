@@ -10,6 +10,7 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 import {useTasksStore} from '~/stores';
 
 export const useCalendarStore = defineStore('calendar', () => {
+    const calendarIsVisible = useLocalStorage<boolean>('calendarIsVisible', true);
     /**
      * There are 3 possible states:
      * null -> user hasn't decided to connect or not
@@ -168,6 +169,8 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
 
     return {
+        calendarIsVisible,
+
         authToken,
         refreshToken,
         calendarColorId,

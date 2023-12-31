@@ -28,14 +28,35 @@ const _doneTasks = computed(() => {
 <template>
     <LayoutSidebar>
         <TaskListCalendarDaily
-            v-model="_tasks"
-            v-model:done-tasks="_doneTasks"
+            :done-tasks="_doneTasks"
+            :tasks="_tasks"
         >
             <template #header>
                 {{ $t(`sidebar.today`) }}
                 <span class="ml-1 text-gray-500">
                     {{ titleDate }}
                 </span>
+            </template>
+
+            <template #empty-state>
+                <div class="h-4/5 flex items-center">
+                    <div class="relative mx-auto mb-10 mt-8 max-w-md p-6 text-center">
+                        <Icon
+                            class="mx-auto mb-4 p-1"
+                            name="flower"
+                            size="h-14 w-14"
+                        />
+
+                        <h2 class="mb-2 text-4 text-gray-300">
+                            {{ $t(`emptyState.today.title`) }}
+                        </h2>
+
+                        <p
+                            class="text-[14px] text-gray-400"
+                            v-html="$t(`emptyState.today.body`)"
+                        />
+                    </div>
+                </div>
             </template>
         </TaskListCalendarDaily>
     </LayoutSidebar>
