@@ -1,5 +1,6 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
+import {type Event} from '~/models/Event';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {getTomorrow} from '~/utils/date';
@@ -196,11 +197,16 @@ export const useTasksStore = defineStore('tasks', () => {
 
     // Events -----------------------------------------------------------------
 
-    function addEventId(task: Task, eventId: string | number) {
+    function addTaskEventId(task: Task, event: Event) {
         if (typeof task.eventIds == 'undefined')
             task.eventIds = [];
 
-        task.eventIds.push(eventId as string);
+        task.eventIds.push(event.id as string);
+
+        if (event.start) {
+            const scheduleDate = new Date(event.start);
+            scheduleTask(task, scheduleDate, false);
+        }
     }
 
     function removeTaskEventId(eventId: string | number) {
@@ -293,7 +299,7 @@ export const useTasksStore = defineStore('tasks', () => {
         moveTask,
         scheduleTask,
 
-        addEventId,
+        addTaskEventId,
         removeTaskEventId,
 
         doneTasks,

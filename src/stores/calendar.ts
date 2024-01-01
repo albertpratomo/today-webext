@@ -115,7 +115,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         }).json<GcalEvent>();
     }
 
-    const {addEventId, scheduleTask} = useTasksStore();
+    const {addTaskEventId} = useTasksStore();
     async function createEvent(args: MbscEventCreatedEvent) {
         const localEvent = formatMbscEvent(args.event);
         localEvent.id = generateEventId();
@@ -131,11 +131,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         args.event.id = localEvent.id;
         events.value.push(localEvent);
 
-        if (localEvent.start) {
-            const scheduleDate = new Date(localEvent.start);
-            addEventId(args.event.task, localEvent.id);
-            scheduleTask(args.event.task, scheduleDate, false);
-        }
+        addTaskEventId(args.event.task, localEvent);
 
         trackGa('event_created');
     }
