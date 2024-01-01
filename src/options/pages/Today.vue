@@ -5,7 +5,7 @@ import {useTasksStore} from '~/stores/tasks';
 
 const {tasks, doneTasks} = storeToRefs(useTasksStore());
 
-const currentDate = useNow();
+const currentDate = useNow({interval: 5000});
 const titleDate = useDateFormat(currentDate, 'DD MMM YYYY');
 
 const _tasks = computed(() => {

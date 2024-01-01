@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import {useDateFormat, useNow} from '@vueuse/core';
 import type Task from '~/models/Task';
 import {getTomorrow} from '~/utils/date';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
-import {useDateFormat} from '@vueuse/core';
 
 const prop = defineProps<{
     bucket: string
@@ -14,13 +14,13 @@ const {events} = storeToRefs(useCalendarStore());
 
 const {t} = useI18n();
 
-const currentDate = new Date();
+const currentDate = useNow({interval: 5000});
 const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD 00:00:00');
 
 function labelName(date: Date | string) {
     const _date = useDateFormat(date, 'YYYY-MM-DD 00:00:00');
 
-    if (new Date(_date.value) <= currentDate)
+    if (new Date(_date.value) <= currentDate.value)
         return t('sidebar.today');
     else if (_date.value === tomorrowsDate.value)
         return t('sidebar.tomorrow');
@@ -32,7 +32,7 @@ const timeLabel = computed(() => {
     const eventIds = prop.task.eventIds;
     if (eventIds) {
         const eventStartDates = events.value
-            .filter(event => eventIds.includes(event.id) && useDateFormat(event.start, 'YYYY-MM-DD').value >= useDateFormat(currentDate, 'YYYY-MM-DD').value)
+            .filter(event => eventIds.includes(event.id) && (new Date(event.start) >= currentDate.value || new Date(event.end) >= currentDate.value))
             .map(event => new Date(event.start))
             .sort((a: any, b: any) => a - b);
 
