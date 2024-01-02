@@ -16,19 +16,19 @@ const menu = {
         {
             icon: 'inbox',
             text: t('sidebar.inbox'),
-            action: () => moveTask(task.value, 'inbox', false),
+            action: () => moveTask(task.value, 'inbox', {showToast: false}),
             selected: computed(() => (task.value.projectId === 'inbox')),
         },
         {
             icon: 'active',
             text: t('sidebar.active'),
-            action: () => moveTask(task.value, 'active', false),
+            action: () => moveTask(task.value, 'active', {showToast: false}),
             selected: computed(() => (task.value.projectId !== 'inbox' && (task.value.scheduledFor === null || task.value.scheduledFor !== 'later'))),
         },
         {
             icon: 'later',
             text: t('sidebar.later'),
-            action: () => moveTask(task.value, 'later', false),
+            action: () => moveTask(task.value, 'later', {showToast: false}),
             selected: computed(() => (task.value.scheduledFor === 'later')),
         },
     ],

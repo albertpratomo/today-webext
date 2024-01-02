@@ -106,11 +106,11 @@ export const useTasksStore = defineStore('tasks', () => {
             case 'active':
             case 'inbox':
             case 'later':
-                moveTask(draftCreateTask.value, bucket, false);
+                moveTask(draftCreateTask.value, bucket, {showToast: false});
                 break;
 
             default:
-                scheduleTask(draftCreateTask.value, 'today', false);
+                scheduleTask(draftCreateTask.value, 'today', {showToast: false});
                 break;
         }
 
@@ -125,9 +125,15 @@ export const useTasksStore = defineStore('tasks', () => {
         draftEditTask.value = task;
     }
 
-    // Move Task --------------------------------------------------------------
+    // Move / Schedule Task ---------------------------------------------------
 
-    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', showToast: boolean = true) {
+    interface MoveScheduleOptions {
+        showToast?: boolean
+    }
+
+    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', options: MoveScheduleOptions = {}) {
+        const {showToast = true} = options;
+
         if (destination === 'inbox') {
             task.projectId = 'inbox';
             task.scheduledFor = null;
@@ -157,7 +163,9 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
-    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow' | 'unschedule', showToast: boolean = true) {
+    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow' | 'unschedule', options: MoveScheduleOptions = {}) {
+        const {showToast = true} = options;
+
         let date;
         let scheduledDate = null;
 

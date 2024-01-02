@@ -24,13 +24,13 @@ const menu = {
         {
             icon: 'schedule',
             text: t('sidebar.today'),
-            action: () => scheduleTask(task.value, (todayIsSelected.value ? 'unschedule' : 'today'), false),
+            action: () => scheduleTask(task.value, (todayIsSelected.value ? 'unschedule' : 'today'), {showToast: false}),
             selected: todayIsSelected,
         },
         {
             icon: 'schedule',
             text: t('sidebar.tomorrow'),
-            action: () => scheduleTask(task.value, (tomorrowIsSelected.value ? 'unschedule' : 'tomorrow'), false),
+            action: () => scheduleTask(task.value, (tomorrowIsSelected.value ? 'unschedule' : 'tomorrow'), {showToast: false}),
             selected: tomorrowIsSelected,
         },
     ],
