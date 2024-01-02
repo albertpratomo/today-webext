@@ -1,5 +1,5 @@
 import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
-import type {MbscEventCreatedEvent, MbscEventDeletedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
+import type {MbscEventCreatedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/googleCalendar';
@@ -166,12 +166,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         }
     }
 
-    async function deleteEvent(args: MbscEventDeletedEvent) {
-        const id = args.event.id;
-
-        if (!id)
-            return;
-
+    async function deleteEvent(id: string | number) {
         // Delete the event from local events.
         events.value = events.value.filter(e => e.id !== id);
         removeTaskEventId(id);

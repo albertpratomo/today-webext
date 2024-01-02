@@ -6,6 +6,7 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 import {useTasksStore} from '~/stores/tasks';
 
 export const useTrashStore = defineStore('trash', () => {
+    const {unscheduleTaskEvents} = useTasksStore();
     const {tasks} = storeToRefs(useTasksStore());
     const trashTasks = useStorageLocal<Task[]>('trashTasks', []);
 
@@ -16,6 +17,7 @@ export const useTrashStore = defineStore('trash', () => {
 
         indexes.forEach((i) => {
             tasks.value[i].deletedAt = new Date();
+            unscheduleTaskEvents(tasks.value[i]);
         });
 
         const removed = pullAt(tasks.value, indexes);

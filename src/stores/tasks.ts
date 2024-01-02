@@ -1,4 +1,5 @@
 import {acceptHMRUpdate, defineStore} from 'pinia';
+import {useCalendarStore, useHistoryStore} from '~/stores';
 import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
 import {type Event} from '~/models/Event';
 import type Task from '~/models/Task';
@@ -8,7 +9,6 @@ import {i18n} from '~/i18n';
 import {notify} from 'notiwind';
 import {remove} from 'lodash-es';
 import {trackGa} from '~/utils/googleAnalytics';
-import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useTasksStore = defineStore('tasks', () => {
@@ -106,11 +106,11 @@ export const useTasksStore = defineStore('tasks', () => {
             case 'active':
             case 'inbox':
             case 'later':
-                moveTask(draftCreateTask.value, bucket, {showToast: false});
+                moveTask(draftCreateTask.value, bucket, {showToast: false, unscheduleEvents: false});
                 break;
 
             default:
-                scheduleTask(draftCreateTask.value, 'today', {showToast: false});
+                scheduleTask(draftCreateTask.value, 'today', {showToast: false, unscheduleEvents: false});
                 break;
         }
 
@@ -129,10 +129,11 @@ export const useTasksStore = defineStore('tasks', () => {
 
     interface MoveScheduleOptions {
         showToast?: boolean
+        unscheduleEvents?: boolean
     }
 
     function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', options: MoveScheduleOptions = {}) {
-        const {showToast = true} = options;
+        const {showToast = true, unscheduleEvents = true} = options;
 
         if (destination === 'inbox') {
             task.projectId = 'inbox';
@@ -151,6 +152,9 @@ export const useTasksStore = defineStore('tasks', () => {
             task.scheduledFor = 'later';
         }
 
+        if (unscheduleEvents)
+            unscheduleTaskEvents(task);
+
         if (showToast) {
             notify({
                 group: 'general',
@@ -164,7 +168,7 @@ export const useTasksStore = defineStore('tasks', () => {
     }
 
     function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow' | 'unschedule', options: MoveScheduleOptions = {}) {
-        const {showToast = true} = options;
+        const {showToast = true, unscheduleEvents = true} = options;
 
         let date;
         let scheduledDate = null;
@@ -185,14 +189,20 @@ export const useTasksStore = defineStore('tasks', () => {
             if (task.projectId === 'inbox')
                 task.projectId = null;
 
-            if (showToast) {
-                let toastText = i18n.t('tasks.taskScheduledMessage', {
-                    taskTitle: task.title,
-                    when: i18n.t(`sidebar.${when}`),
-                });
+            if (unscheduleEvents)
+                unscheduleTaskEvents(task);
 
-                if (when === 'unschedule')
+            if (showToast) {
+                let toastText;
+                if (when === 'unschedule') {
                     toastText = i18n.t('tasks.taskUnscheduledMessage');
+                }
+                else {
+                    toastText = i18n.t('tasks.taskScheduledMessage', {
+                        taskTitle: task.title,
+                        when: i18n.t(`sidebar.${when}`),
+                    });
+                }
 
                 notify({
                     group: 'general',
@@ -213,7 +223,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
         if (event.start) {
             const scheduleDate = new Date(event.start);
-            scheduleTask(task, scheduleDate, false);
+            scheduleTask(task, scheduleDate, {showToast: false, unscheduleEvents: false});
         }
     }
 
@@ -225,6 +235,22 @@ export const useTasksStore = defineStore('tasks', () => {
                     task.eventIds.splice(indexToRemove, 1);
             }
         });
+    }
+
+    function unscheduleTaskEvents(task: Task) {
+        const {deleteEvent} = useCalendarStore();
+        if (task.eventIds !== undefined && task.eventIds !== null && task.eventIds.length > 0) {
+            const eventIds = [...task.eventIds];
+            for (const eventId of eventIds)
+                deleteEvent(eventId);
+            ;
+
+            notify({
+                group: 'general',
+                text: i18n.t('events.unscheduled', {count: eventIds.length}),
+                isCloseable: true,
+            }, 4000);
+        }
     }
 
     // Done Task --------------------------------------------------------------
@@ -309,6 +335,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
         addTaskEventId,
         removeTaskEventId,
+        unscheduleTaskEvents,
 
         doneTasks,
         isAllDone,

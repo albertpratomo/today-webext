@@ -28,6 +28,9 @@ export default {
             title: 'Done for Today',
         },
     },
+    events: {
+        unscheduled: 'An event was removed from your calendar | {count} events were removed from your calendar',
+    },
     fields: {
         taskNote: {placeholder: 'Notes'},
         taskTitle: {placeholder: 'Create a new task, like “Read book”'},
