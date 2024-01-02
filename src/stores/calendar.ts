@@ -1,6 +1,6 @@
 import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
 import type {MbscEventCreatedEvent, MbscEventDeletedEvent, MbscEventUpdatedEvent} from '@mobiscroll/vue';
-import {acceptHMRUpdate, defineStore} from 'pinia';
+import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/googleCalendar';
 import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
@@ -10,6 +10,8 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 import {useTasksStore} from '~/stores';
 
 export const useCalendarStore = defineStore('calendar', () => {
+    const {addTaskEventId, removeTaskEventId} = useTasksStore();
+    const {tasks} = storeToRefs(useTasksStore());
     const calendarIsVisible = useLocalStorage<boolean>('calendarIsVisible', true);
     /**
      * There are 3 possible states:
@@ -72,8 +74,20 @@ export const useCalendarStore = defineStore('calendar', () => {
     async function fetchGcalEvents(calendarId: string = 'primary') {
         // Store local events (unsynced) to Gcal.
         const localEvents = events.value.filter(e => e.id.startsWith('_'));
-        for (const localEvent of localEvents)
-            await storeGcalEvent(localEvent);
+        for (const localEvent of localEvents) {
+            const result = await storeGcalEvent(localEvent);
+            if (!result.error.value && result.data.value) {
+                // Replace localEvent.id with gcal id
+                const gcalEventId = result.data.value.id!;
+                for (const task of tasks.value) {
+                    if (task.eventIds !== undefined && task.eventIds !== null) {
+                        const index = task.eventIds.indexOf(localEvent.id);
+                        if (index !== -1)
+                            task.eventIds[index] = gcalEventId;
+                    }
+                }
+            }
+        }
 
         // Fetch Gcal events.
         const params = new URLSearchParams({
@@ -115,7 +129,6 @@ export const useCalendarStore = defineStore('calendar', () => {
         }).json<GcalEvent>();
     }
 
-    const {addTaskEventId} = useTasksStore();
     async function createEvent(args: MbscEventCreatedEvent) {
         const localEvent = formatMbscEvent(args.event);
         localEvent.id = generateEventId();
@@ -153,7 +166,6 @@ export const useCalendarStore = defineStore('calendar', () => {
         }
     }
 
-    const {removeTaskEventId} = useTasksStore();
     async function deleteEvent(args: MbscEventDeletedEvent) {
         const id = args.event.id;
 
