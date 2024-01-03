@@ -142,7 +142,9 @@ export const useCalendarStore = defineStore('calendar', () => {
         }
 
         args.event.id = localEvent.id;
-        events.value.push(localEvent);
+
+        // Use `concat` instead of `push` to trigger <MbscEventcalendar> to rerender.
+        events.value = events.value.concat([localEvent]);
 
         addTaskEventId(args.event.task, localEvent);
 
