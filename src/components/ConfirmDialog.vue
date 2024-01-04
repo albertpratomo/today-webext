@@ -9,6 +9,7 @@ import {
     AlertDialogRoot,
     AlertDialogTitle,
 } from 'radix-vue';
+import type {ButtonProps} from './Button.vue';
 import {i18n} from '~/i18n';
 import {useConfirmDialog} from '@vueuse/core';
 
@@ -17,11 +18,13 @@ interface Props {
     description: string
     cancelButtonText?: string
     confirmButtonText?: string
+    confirmButtonVariant?: ButtonProps['variant']
 }
 
 const {
     cancelButtonText = i18n.t('actions.cancel'),
     confirmButtonText = i18n.t('actions.confirm'),
+    confirmButtonVariant = 'primary',
 } = defineProps<Props>();
 
 const {isRevealed, reveal, confirm: _confirm} = useConfirmDialog();
@@ -61,7 +64,7 @@ defineExpose({confirm});
 
                         <AlertDialogAction>
                             <Button
-                                variant="primary"
+                                :variant="confirmButtonVariant"
                                 @click="_confirm(true)"
                             >
                                 {{ confirmButtonText }}

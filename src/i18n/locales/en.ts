@@ -30,7 +30,9 @@ export default {
         },
     },
     events: {
-        confirmEventRescheduleMessage: 'Do you want to reschedule and notify the guests?',
+        confirmEventDeleteMessage: 'Do you want to delete this event and notify the attendees?',
+        confirmEventRescheduleMessage: 'Do you want to reschedule and notify the attendees?',
+        deleteEvent: 'Delete event',
         notOrganizerMessage: 'You can\'t reschedule this event.',
         rescheduleEvent: 'Reschedule event',
     },

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
-import type {MbscEventUpdateEvent, MbscEventcalendarOptions} from '@mobiscroll/vue';
+import type {MbscEventDeleteEvent, MbscEventUpdateEvent, MbscEventcalendarOptions} from '@mobiscroll/vue';
 import {MbscEventcalendar, luxonTimezone} from '@mobiscroll/vue';
 import ConfirmDialog from './ConfirmDialog.vue';
 import {formatMbscEvent} from '~/models/Event';
@@ -33,14 +33,58 @@ const options: MbscEventcalendarOptions = {
 };
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
-const confirmDialogTitle = ref('');
+const confirmDialogProps = reactive({
+    title: '',
+    description: '',
+    confirmButtonText: '',
+    confirmButtonVariant: 'primary',
+});
 
 async function onEventUpdate(args: MbscEventUpdateEvent) {
     const event = formatMbscEvent(args.event);
 
     if (event.isSelfOrganized) {
         if (event.hasAttendees) {
-            confirmDialogTitle.value = event.title;
+            confirmDialogProps.title = event.title;
+            confirmDialogProps.description = t('events.confirmEventRescheduleMessage');
+            confirmDialogProps.confirmButtonText = t('events.rescheduleEvent');
+            confirmDialogProps.confirmButtonVariant = 'primary';
+
+            const confirmed = await confirmDialog.value!.confirm();
+
+            if (confirmed)
+                updateGcalEvent(event);
+            else
+                // Update event back to the old data.
+                args.inst?.updateEvent([args.oldEvent]);
+        }
+        else {
+            updateGcalEvent(event);
+        }
+
+        return true;
+    }
+    else {
+        notify({
+            group: 'general',
+            text: t('events.notOrganizerMessage'),
+            isCloseable: true,
+        });
+
+        return false;
+    }
+}
+
+async function onEventDelete(args: MbscEventDeleteEvent) {
+    const event = formatMbscEvent(args.event);
+
+    if (event.isSelfOrganized) {
+        if (event.hasAttendees) {
+            confirmDialogProps.title = event.title;
+            confirmDialogProps.description = t('events.confirmEventDeleteMessage');
+            confirmDialogProps.confirmButtonText = t('events.deleteEvent');
+            confirmDialogProps.confirmButtonVariant = 'critical';
+
             const confirmed = await confirmDialog.value!.confirm();
 
             if (confirmed)
@@ -74,7 +118,7 @@ async function onEventUpdate(args: MbscEventUpdateEvent) {
                 v-bind="options"
                 :data="events"
                 @event-created="createEvent"
-                @event-deleted="deleteEvent"
+                @event-delete="onEventDelete"
                 @event-update="onEventUpdate"
             >
                 <template #scheduleEvent="{original}">
@@ -91,10 +135,8 @@ async function onEventUpdate(args: MbscEventUpdateEvent) {
         </Suspense>
 
         <ConfirmDialog
+            v-bind="confirmDialogProps"
             ref="confirmDialog"
-            :confirm-button-text="$t('events.rescheduleEvent')"
-            :description="$t('events.confirmEventRescheduleMessage')"
-            :title="confirmDialogTitle"
         />
     </div>
 </template>
