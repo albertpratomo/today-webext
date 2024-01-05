@@ -40,7 +40,7 @@ const confirmDialogProps = reactive<ConfirmDialogProps>({
     confirmButtonVariant: 'primary',
 });
 
-async function onEventUpdate(args: MbscEventUpdateEvent) {
+function onEventUpdate(args: MbscEventUpdateEvent) {
     const event = formatMbscEvent(args.event);
 
     if (event.isSelfOrganized) {
@@ -50,13 +50,14 @@ async function onEventUpdate(args: MbscEventUpdateEvent) {
             confirmDialogProps.confirmButtonText = t('events.rescheduleEvent');
             confirmDialogProps.confirmButtonVariant = 'primary';
 
-            const confirmed = await confirmDialog.value!.confirm();
-
-            if (confirmed)
-                updateGcalEvent(event);
-            else
-                // Update event back to the old data.
-                args.inst?.updateEvent([args.oldEvent]);
+            confirmDialog.value!.confirm()
+                .then((confirmed) => {
+                    if (confirmed)
+                        updateGcalEvent(event);
+                    else
+                        // Update event back to the old data.
+                        args.inst?.updateEvent([args.oldEvent]);
+                });
         }
         else {
             updateGcalEvent(event);
@@ -75,7 +76,7 @@ async function onEventUpdate(args: MbscEventUpdateEvent) {
     }
 }
 
-async function onEventDelete(args: MbscEventDeleteEvent) {
+function onEventDelete(args: MbscEventDeleteEvent) {
     const event = formatMbscEvent(args.event);
 
     if (event.hasAttendees) {
@@ -88,10 +89,11 @@ async function onEventDelete(args: MbscEventDeleteEvent) {
             : t('events.declineEvent');
         confirmDialogProps.confirmButtonVariant = 'critical';
 
-        const confirmed = await confirmDialog.value!.confirm();
-
-        if (confirmed)
-            deleteEvent(event);
+        confirmDialog.value!.confirm()
+            .then((confirmed) => {
+                if (confirmed)
+                    deleteEvent(event);
+            });
 
         return false;
     }
