@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
+import ConfirmDialog, {type Props as ConfirmDialogProps} from './ConfirmDialog.vue';
 import type {MbscEventDeleteEvent, MbscEventUpdateEvent, MbscEventcalendarOptions} from '@mobiscroll/vue';
 import {MbscEventcalendar, luxonTimezone} from '@mobiscroll/vue';
-import ConfirmDialog from './ConfirmDialog.vue';
 import {formatMbscEvent} from '~/models/Event';
 import {notify} from 'notiwind';
 import {storeToRefs} from 'pinia';
@@ -33,7 +33,7 @@ const options: MbscEventcalendarOptions = {
 };
 
 const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
-const confirmDialogProps = reactive({
+const confirmDialogProps = reactive<ConfirmDialogProps>({
     title: '',
     description: '',
     confirmButtonText: '',

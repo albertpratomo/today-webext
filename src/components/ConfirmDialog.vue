@@ -13,7 +13,7 @@ import type {ButtonProps} from './Button.vue';
 import {i18n} from '~/i18n';
 import {useConfirmDialog} from '@vueuse/core';
 
-interface Props {
+export interface Props {
     title: string
     description: string
     cancelButtonText?: string
