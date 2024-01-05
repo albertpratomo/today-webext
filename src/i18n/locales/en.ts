@@ -3,6 +3,7 @@
 export default {
     actions: {
         cancel: 'Cancel',
+        confirm: 'Confirm',
         connect: 'Connect',
         createTask: 'Create task',
         delete: 'Delete',
@@ -27,6 +28,16 @@ export default {
             body: 'Take a moment to appreciate your accomplishments.<br>Recharge and get ready for tomorrow!',
             title: 'Done for Today',
         },
+    },
+    events: {
+        confirmEventDeclineMessage: 'Do you want to decline this event and notify the attendees?',
+        confirmEventDeleteMessage: 'Do you want to delete this event and notify the attendees?',
+        confirmEventRescheduleMessage: 'Do you want to reschedule and notify the attendees?',
+        declineEvent: 'Decline event',
+        deleteEvent: 'Delete event',
+        eventDeletedMessage: 'Deleted: {title}',
+        notOrganizerMessage: 'You can\'t reschedule this event.',
+        rescheduleEvent: 'Reschedule event',
     },
     fields: {
         taskNote: {placeholder: 'Notes'},
