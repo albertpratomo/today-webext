@@ -1,10 +1,12 @@
 import {type Event, type GcalEvent, generateEventId} from '~/models/Event';
-import type {MbscEventCreatedEvent, MbscEventDeletedEvent} from '@mobiscroll/vue';
 import {acceptHMRUpdate, defineStore} from 'pinia';
 import {createFetch, useLocalStorage} from '@vueuse/core';
 import {fetchAccessToken, fetchAuthCode, refreshAccessToken} from '~/utils/googleCalendar';
 import {formatGcalEvent, formatMbscEvent} from '~/models/Event';
+import type {MbscEventCreatedEvent} from '@mobiscroll/vue';
 import {getTimeOfDay} from '~/utils/date';
+import {i18n} from '~/i18n';
+import {notify} from 'notiwind';
 import {trackGa} from '~/utils/googleAnalytics';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 import {useTasksStore} from '~/stores';
@@ -155,17 +157,18 @@ export const useCalendarStore = defineStore('calendar', () => {
         }
     }
 
-    async function deleteEvent(args: MbscEventDeletedEvent) {
-        const id = args.event.id;
-
-        if (!id)
-            return;
-
+    async function deleteEvent(event: Event) {
         // Delete the event from local events.
-        events.value = events.value.filter(e => e.id !== id);
+        events.value = events.value.filter(e => e.id !== event.id);
+
+        notify({
+            group: 'general',
+            text: i18n.t('events.eventDeletedMessage', {title: event.title}),
+            isCloseable: true,
+        });
 
         if (authToken.value)
-            await useGcalApi(`calendars/primary/events/${id}`).delete();
+            await useGcalApi(`calendars/primary/events/${event.id}?sendUpdates=all`).delete();
     }
 
     return {

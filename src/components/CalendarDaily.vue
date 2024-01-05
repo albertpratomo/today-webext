@@ -78,35 +78,27 @@ async function onEventUpdate(args: MbscEventUpdateEvent) {
 async function onEventDelete(args: MbscEventDeleteEvent) {
     const event = formatMbscEvent(args.event);
 
-    if (event.isSelfOrganized) {
-        if (event.hasAttendees) {
-            confirmDialogProps.title = event.title;
-            confirmDialogProps.description = t('events.confirmEventDeleteMessage');
-            confirmDialogProps.confirmButtonText = t('events.deleteEvent');
-            confirmDialogProps.confirmButtonVariant = 'critical';
+    if (event.hasAttendees) {
+        confirmDialogProps.title = event.title;
+        confirmDialogProps.description = event.isSelfOrganized
+            ? t('events.confirmEventDeleteMessage')
+            : t('events.confirmEventDeclineMessage');
+        confirmDialogProps.confirmButtonText = event.isSelfOrganized
+            ? t('events.deleteEvent')
+            : t('events.declineEvent');
+        confirmDialogProps.confirmButtonVariant = 'critical';
 
-            const confirmed = await confirmDialog.value!.confirm();
+        const confirmed = await confirmDialog.value!.confirm();
 
-            if (confirmed)
-                updateGcalEvent(event);
-            else
-                // Update event back to the old data.
-                args.inst?.updateEvent([args.oldEvent]);
-        }
-        else {
-            updateGcalEvent(event);
-        }
-
-        return true;
-    }
-    else {
-        notify({
-            group: 'general',
-            text: t('events.notOrganizerMessage'),
-            isCloseable: true,
-        });
+        if (confirmed)
+            deleteEvent(event);
 
         return false;
+    }
+    else {
+        deleteEvent(event);
+
+        return true;
     }
 }
 </script>
