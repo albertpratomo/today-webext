@@ -56,7 +56,7 @@ const timeLabel = computed(() => {
 <template>
     <div
         v-if="timeLabel"
-        class="mr-[6px] whitespace-nowrap border border-gray-700 rounded-[3px] bg-gray-800 px-[6px] py-1 text-[11px] font-450 leading-3 text-gray-300"
+        class="ml-[6px] whitespace-nowrap border border-gray-750 rounded-[3px] bg-gray-800 px-[6px] py-1 text-[11px] font-450 leading-3 tracking-wider text-gray-350"
     >
         {{ timeLabel }}
     </div>

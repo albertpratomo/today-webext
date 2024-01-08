@@ -64,16 +64,16 @@ const el = ref(null);
                 @keyup.enter="task.isDone = !(task.isDone)"
             >
 
-            <TaskTimeLabel
-                v-if="routeName === 'active' || routeName === 'today'"
-                :bucket="routeName"
-                :task="task"
-            />
-
             <div
                 class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
                 :class="{'text-gray-400': task.isDone}"
                 v-html="task.title"
+            />
+
+            <TaskTimeLabel
+                v-if="routeName === 'active' || routeName === 'today'"
+                :bucket="routeName"
+                :task="task"
             />
 
             <MbscDraggable
