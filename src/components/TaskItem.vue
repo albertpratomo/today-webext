@@ -21,12 +21,11 @@ const task = defineModel<Task>({required: true});
 const isActionable = computed(() => task.value.deletedAt === null && task.value.isDone === false);
 const subtasksCompleted = computed(() => {
     return task.value.subtasks.reduce((count, item) => {
-        if (item.isDone === true) {
+        if (item.isDone === true)
             return count + 1;
-        } else {
+        else
             return count;
-        }
-    }, 0)
+    }, 0);
 });
 
 onKeyStroke(['d', 'D'], () => {
@@ -70,13 +69,14 @@ const el = ref(null);
             >
 
             <div
-                class="grow flex truncate border border-transparent text-sm text-gray-200 transition-colors"
+                class="flex grow truncate border border-transparent text-sm text-gray-200 transition-colors"
                 :class="{'text-gray-400': task.isDone}"
             >
                 <div v-html="task.title" />
+
                 <div
-                    v-if="task.subtasks.length"
-                    class="px-2 border rounded-[100px] text-[11px] text-gray-400 mx-2 font-normal"
+                    v-if="task.subtasks && task.subtasks.length > 0"
+                    class="mx-2 border rounded-[100px] px-2 text-[11px] font-normal text-gray-400"
                 >
                     {{ subtasksCompleted }}/{{ task.subtasks.length }}
                 </div>
