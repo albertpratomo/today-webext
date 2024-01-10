@@ -19,14 +19,7 @@ const props = withDefaults(
 const task = defineModel<Task>({required: true});
 
 const isActionable = computed(() => task.value.deletedAt === null && task.value.isDone === false);
-const subtasksCompleted = computed(() => {
-    return task.value.subtasks.reduce((count, item) => {
-        if (item.isDone === true)
-            return count + 1;
-        else
-            return count;
-    }, 0);
-});
+const doneSubtasksCount = computed(() => task.value.subtasks.filter(item => item.isDone === true).length);
 
 onKeyStroke(['d', 'D'], () => {
     if (props.isSelected)
@@ -76,9 +69,9 @@ const el = ref(null);
 
                 <div
                     v-if="task.subtasks && task.subtasks.length > 0"
-                    class="mx-2 border rounded-[100px] px-2 text-[11px] font-normal text-gray-400"
+                    class="mx-2 border rounded-[100px] px-2 py-0.5 text-2xs text-gray-400"
                 >
-                    {{ subtasksCompleted }}/{{ task.subtasks.length }}
+                    {{ doneSubtasksCount }}/{{ task.subtasks.length }}
                 </div>
             </div>
 
