@@ -69,7 +69,7 @@ const el = ref(null);
 
                 <div
                     v-if="task.subtasks && task.subtasks.length > 0"
-                    class="mx-2 border rounded-[100px] px-2 py-0.5 text-2xs text-gray-400"
+                    class="mx-2 border rounded-full px-2 py-0.5 text-2xs text-gray-400"
                 >
                     {{ doneSubtasksCount }}/{{ task.subtasks.length }}
                 </div>
