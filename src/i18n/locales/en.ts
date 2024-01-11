@@ -30,13 +30,13 @@ export default {
         },
     },
     events: {
-        confirmEventDeclineMessage: 'Do you want to decline this event and notify the attendees?',
-        confirmEventDeleteMessage: 'Do you want to delete this event and notify the attendees?',
-        confirmEventRescheduleMessage: 'Do you want to reschedule and notify the attendees?',
+        confirmEventDeclineMessage: 'You\'re about to decline this event and notify the participants.',
+        confirmEventDeleteMessage: 'You\'re about to delete this event and notify the participants.',
+        confirmEventRescheduleMessage: 'You\'re about to reschedule this event and notify the participants.',
         declineEvent: 'Decline event',
         deleteEvent: 'Delete event',
-        eventDeletedMessage: 'Deleted: {title}',
-        notOrganizerMessage: 'You can\'t reschedule this event.',
+        eventDeletedMessage: '{title} deleted',
+        notOrganizerMessage: 'You can\'t reschedule this event',
         rescheduleEvent: 'Reschedule event',
     },
     fields: {
@@ -74,8 +74,8 @@ export default {
         contextMenu: {
             buckets: 'Buckets',
         },
-        taskMovedMessage: 'Task was moved to {destination}',
-        taskScheduledMessage: 'Task was scheduled for {when}',
+        taskMovedMessage: 'Task moved to {destination}',
+        taskScheduledMessage: 'Task scheduled for {when}',
     },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
