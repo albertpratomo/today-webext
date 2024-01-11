@@ -199,9 +199,11 @@ export const useTasksStore = defineStore('tasks', () => {
         () => {
             const recentlyDoneTasks = remove(tasks.value, t => t.isDone);
 
-            doneTasks.value.unshift(...recentlyDoneTasks);
+            if (recentlyDoneTasks.length > 0) {
+                doneTasks.value.unshift(...recentlyDoneTasks);
 
-            trackGa('tasks_completed', {count: recentlyDoneTasks.length});
+                trackGa('tasks_completed', {count: recentlyDoneTasks.length});
+            }
         },
         {debounce: 1800},
     );
