@@ -32,7 +32,7 @@ onKeyStroke(['['], () => {
             />
         </Transition>
 
-        <div class="relative min-w-0 grow border border-gray-200/16 rounded-[6px] bg-gray-850">
+        <div class="relative min-w-0 grow border border-gray-200/16 rounded-md bg-gray-850">
             <Button
                 v-tippy="{
                     content: $t('tooltips.toggleSidebar'),

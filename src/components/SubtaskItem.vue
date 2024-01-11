@@ -59,7 +59,7 @@ const onBackspace = function () {
             />
 
             <button
-                class="ml-1 mt-[2px] h-4 text-gray-500 opacity-0 group-hover:opacity-100"
+                class="ml-1 mt-0.5 h-4 text-gray-500 opacity-0 group-hover:opacity-100"
                 :class="{'opacity-100': isSelected}"
                 tabindex="-1"
             >

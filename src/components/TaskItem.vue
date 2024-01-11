@@ -19,6 +19,7 @@ const props = withDefaults(
 const task = defineModel<Task>({required: true});
 
 const isActionable = computed(() => task.value.deletedAt === null && task.value.isDone === false);
+const doneSubtasksCount = computed(() => task.value.subtasks.filter(item => item.isDone === true).length);
 
 onKeyStroke(['d', 'D'], () => {
     if (props.isSelected)
@@ -61,10 +62,18 @@ const el = ref(null);
             >
 
             <div
-                class="grow truncate border border-transparent text-sm text-gray-200 transition-colors"
+                class="flex grow truncate border border-transparent text-sm text-gray-200 transition-colors"
                 :class="{'text-gray-400': task.isDone}"
-                v-html="task.title"
-            />
+            >
+                <div v-html="task.title" />
+
+                <div
+                    v-if="task.subtasks && task.subtasks.length > 0"
+                    class="mx-2 border rounded-full px-2 py-0.5 text-2xs text-gray-400"
+                >
+                    {{ doneSubtasksCount }}/{{ task.subtasks.length }}
+                </div>
+            </div>
 
             <MbscDraggable
                 v-if="isActionable"

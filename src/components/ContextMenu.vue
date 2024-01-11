@@ -86,7 +86,7 @@ onBeforeUnmount(() => {
         :style="menuPosition"
         @click="closeContextMenu"
     >
-        <div class="w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 py-1 shadow-sm">
+        <div class="w-40 flex flex-col border border-gray-700 rounded bg-gray-800 py-1 shadow-sm">
             <div
                 v-for="(item, i) in menuItems"
                 :key="i"
@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
                         </div>
 
                         <div v-if="item.submenu">
-                            <MaterialSymbolsArrowRight class="ml-[6px] h-4 text-[16px] text-gray-400" />
+                            <MaterialSymbolsArrowRight class="ml-1.5 h-4 text-[16px] text-gray-400" />
                         </div>
                     </button>
 
@@ -130,7 +130,7 @@ onBeforeUnmount(() => {
                         >
                             <div
                                 v-if="item.submenu.text"
-                                class="p-[6px] text-gray-400"
+                                class="p-1.5 text-gray-400"
                             >
                                 {{ item.submenu.text }}
                             </div>
@@ -138,7 +138,7 @@ onBeforeUnmount(() => {
                             <button
                                 v-for="(submenuItem, j) in item.submenu.items"
                                 :key="j"
-                                class="block w-full flex rounded p-2 pl-[2px] text-left hover:bg-gray-750"
+                                class="block w-full flex rounded p-2 pl-0.5 text-left hover:bg-gray-750"
                                 @click="submenuItem.action"
                             >
                                 <div class="mr-1 h-4 w-4 flex items-center text-gray-400">
