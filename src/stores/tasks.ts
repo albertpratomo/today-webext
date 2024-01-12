@@ -193,16 +193,12 @@ export const useTasksStore = defineStore('tasks', () => {
                 unscheduleTaskEvents(task);
 
             if (showToast) {
-                let toastText;
-                if (when === 'unschedule') {
-                    toastText = i18n.t('tasks.taskUnscheduledMessage');
-                }
-                else {
-                    toastText = i18n.t('tasks.taskScheduledMessage', {
+                const toastText = (when === 'unschedule')
+                    ? i18n.t('tasks.taskUnscheduledMessage')
+                    : i18n.t('tasks.taskScheduledMessage', {
                         taskTitle: task.title,
                         when: i18n.t(`sidebar.${when}`),
                     });
-                }
 
                 notify({
                     group: 'general',

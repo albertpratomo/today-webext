@@ -77,7 +77,7 @@ export const useCalendarStore = defineStore('calendar', () => {
         for (const localEvent of localEvents) {
             const result = await storeGcalEvent(localEvent);
             if (!result.error.value && result.data.value) {
-                // Replace localEvent.id with gcal id
+                // Updating the task.eventIds: replacing local event id with Gcal id after sync.
                 const gcalEventId = result.data.value.id!;
                 for (const task of tasks.value) {
                     if (task.eventIds !== undefined && task.eventIds !== null) {

@@ -5,7 +5,7 @@ import {getTomorrow} from '~/utils/date';
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
-const prop = defineProps<{
+const {bucket, task} = defineProps<{
     bucket: string
     task: Task
 }>();
@@ -15,49 +15,52 @@ const {events} = storeToRefs(useCalendarStore());
 const {t} = useI18n();
 
 const currentDate = useNow({interval: 5000});
-const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD 00:00:00');
+const tomorrowDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD 00:00:00');
 
-function labelName(date: Date | string) {
+function formatDate(date: Date | string) {
     const _date = useDateFormat(date, 'YYYY-MM-DD 00:00:00');
 
     if (new Date(_date.value) <= currentDate.value)
         return t('sidebar.today');
-    else if (_date.value === tomorrowsDate.value)
+    else if (_date.value === tomorrowDate.value)
         return t('sidebar.tomorrow');
     else
         return useDateFormat(_date, 'D MMM').value;
 }
 
 const timeLabel = computed(() => {
-    const eventIds = prop.task.eventIds;
+    // Sort events schedule for current date & task and return nearest future date (or latest past time as the fallback)
+    const eventIds = task.eventIds;
     if (eventIds) {
-        const todaysEventDates = events.value
+        // Array of all events schedule for current date & task
+        const currentDateEvents = events.value
             .filter(event => eventIds.includes(event.id) && (useDateFormat(event.start, 'YYYY-MM-DD 00:00:00') >= useDateFormat(currentDate.value, 'YYYY-MM-DD 00:00:00')))
             .map(event => new Date(event.start))
             .sort((a: any, b: any) => a - b);
 
-        const eventStartDates = todaysEventDates
+        // Return all future start dates sorted by nearest first
+        const futureStartDates = currentDateEvents
             .filter(startDate => (new Date(startDate) >= currentDate.value))
             .sort((a: any, b: any) => a - b);
 
         // If no future start date, use past start date
-        if(eventStartDates.length === 0 && todaysEventDates.length > 0)
-            eventStartDates.push(todaysEventDates[todaysEventDates.length - 1]);
+        if(futureStartDates.length === 0 && currentDateEvents.length > 0)
+            futureStartDates.push(currentDateEvents[currentDateEvents.length - 1]);
 
-        if (eventStartDates.length > 0) {
-            const time = useDateFormat(eventStartDates[0], 'HH.mm');
-            if (prop.bucket === 'today') {
+        if (futureStartDates.length > 0) {
+            const time = useDateFormat(futureStartDates[0], 'HH.mm');
+            if (bucket === 'today') {
                 return time.value;
             }
             else {
-                const day = labelName(eventStartDates[0]);
+                const day = formatDate(futureStartDates[0]);
                 return `${day}, ${time.value}`;
             }
         }
     }
 
-    if (prop.task.scheduledFor != null && prop.bucket !== 'today')
-        return labelName(prop.task.scheduledFor);
+    if (task.scheduledFor != null && bucket !== 'today')
+        return formatDate(task.scheduledFor);
 });
 </script>
 
