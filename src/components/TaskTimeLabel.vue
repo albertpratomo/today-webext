@@ -31,10 +31,18 @@ function labelName(date: Date | string) {
 const timeLabel = computed(() => {
     const eventIds = prop.task.eventIds;
     if (eventIds) {
-        const eventStartDates = events.value
-            .filter(event => eventIds.includes(event.id) && (new Date(event.start) >= currentDate.value || new Date(event.end) >= currentDate.value))
+        const todaysEventDates = events.value
+            .filter(event => eventIds.includes(event.id) && (useDateFormat(event.start, 'YYYY-MM-DD 00:00:00') >= useDateFormat(currentDate.value, 'YYYY-MM-DD 00:00:00')))
             .map(event => new Date(event.start))
             .sort((a: any, b: any) => a - b);
+
+        const eventStartDates = todaysEventDates
+            .filter(startDate => (new Date(startDate) >= currentDate.value))
+            .sort((a: any, b: any) => a - b);
+
+        // If no future start date, use past start date
+        if(eventStartDates.length === 0 && todaysEventDates.length > 0)
+            eventStartDates.push(todaysEventDates[todaysEventDates.length - 1]);
 
         if (eventStartDates.length > 0) {
             const time = useDateFormat(eventStartDates[0], 'HH.mm');
