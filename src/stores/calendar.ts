@@ -133,20 +133,27 @@ export const useCalendarStore = defineStore('calendar', () => {
         const localEvent = formatMbscEvent(args.event);
         localEvent.id = generateEventId();
 
-        if (authToken.value) {
-            const result = await storeGcalEvent(localEvent);
-
-            if (!result.error.value && result.data.value)
-                // Set gcal generated id to the event instance.
-                localEvent.id = result.data.value.id!;
-        }
-
-        args.event.id = localEvent.id;
-
         // Use `concat` instead of `push` to trigger <MbscEventcalendar> to rerender.
         events.value = events.value.concat([localEvent]);
 
+        args.event.id = localEvent.id;
+
         addTaskEventId(args.event.task, localEvent);
+
+        if (authToken.value) {
+            const result = await storeGcalEvent(localEvent);
+
+            if (!result.error.value && result.data.value) {
+                // Remove local generated id
+                removeTaskEventId(localEvent.id);
+
+                // Set gcal generated id to the event instance.
+                localEvent.id = result.data.value.id!;
+
+                addTaskEventId(args.event.task, localEvent);
+            }
+        }
+
 
         trackGa('event_created');
     }
