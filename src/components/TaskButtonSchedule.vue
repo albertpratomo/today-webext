@@ -57,8 +57,8 @@ const currentBucket = computed(() => menu.items.find(item => item.selected.value
             </Button>
         </MenuButton>
 
-        <MenuItems class="absolute z-10 ma-1 w-40 flex flex-col border border-color-[#39394D] rounded bg-gray-800 p-1 text-xs shadow-sm">
-            <div class="p-[6px] text-gray-400">
+        <MenuItems class="absolute z-10 ma-1 w-40 flex flex-col border border-gray-700 rounded bg-gray-800 p-1 text-xs shadow-sm">
+            <div class="p-1.5 text-gray-400">
                 {{ menu.text }}
             </div>
 
@@ -68,7 +68,7 @@ const currentBucket = computed(() => menu.items.find(item => item.selected.value
                 v-slot="{active}"
             >
                 <button
-                    class="block w-full flex rounded p-2 pl-[2px] text-left"
+                    class="block w-full flex rounded p-2 pl-0.5 text-left"
                     :class="{'bg-gray-750': active}"
                     @click="item.action"
                 >

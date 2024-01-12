@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import '~/styles/mobiscroll.scss';
 import * as luxon from 'luxon';
-import {type MbscEventDeletedEvent, MbscEventcalendar, type MbscEventcalendarOptions} from '@mobiscroll/vue';
-import {luxonTimezone} from '@mobiscroll/vue';
+import ConfirmDialog, {type Props as ConfirmDialogProps} from './ConfirmDialog.vue';
+import type {MbscEventDeleteEvent, MbscEventUpdateEvent, MbscEventcalendarOptions} from '@mobiscroll/vue';
+import {MbscEventcalendar, luxonTimezone} from '@mobiscroll/vue';
+import {formatMbscEvent} from '~/models/Event';
+import {notify} from 'notiwind';
+
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
+const {t} = useI18n();
+
 const {calendarColorId, events} = storeToRefs(useCalendarStore());
-const {createEvent, deleteEvent, updateEvent} = useCalendarStore();
+const {createEvent, deleteEvent, updateGcalEvent} = useCalendarStore();
 
 luxonTimezone.luxon = luxon;
 
@@ -27,10 +33,76 @@ const options: MbscEventcalendarOptions = {
     view: {schedule: {type: 'day', days: false}},
 };
 
-function _deleteEvent(args: MbscEventDeletedEvent) {
-    const id = args.event.id;
-    if (id)
-        deleteEvent(id);
+const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null);
+const confirmDialogProps = reactive<ConfirmDialogProps>({
+    title: '',
+    description: '',
+    confirmButtonText: '',
+    confirmButtonVariant: 'primary',
+});
+
+function onEventUpdate(args: MbscEventUpdateEvent) {
+    const event = formatMbscEvent(args.event);
+
+    if (event.isSelfOrganized) {
+        if (event.hasAttendees) {
+            confirmDialogProps.title = event.title;
+            confirmDialogProps.description = t('events.confirmEventRescheduleMessage');
+            confirmDialogProps.confirmButtonText = t('events.rescheduleEvent');
+            confirmDialogProps.confirmButtonVariant = 'primary';
+
+            confirmDialog.value!.confirm()
+                .then((confirmed) => {
+                    if (confirmed)
+                        updateGcalEvent(event);
+                    else
+                        // Update event back to the old data.
+                        args.inst?.updateEvent([args.oldEvent]);
+                });
+        }
+        else {
+            updateGcalEvent(event);
+        }
+
+        return true;
+    }
+    else {
+        notify({
+            group: 'general',
+            text: t('events.notOrganizerMessage'),
+            isCloseable: true,
+        });
+
+        return false;
+    }
+}
+
+function onEventDelete(args: MbscEventDeleteEvent) {
+    const event = formatMbscEvent(args.event);
+
+    if (event.hasAttendees) {
+        confirmDialogProps.title = event.title;
+        confirmDialogProps.description = event.isSelfOrganized
+            ? t('events.confirmEventDeleteMessage')
+            : t('events.confirmEventDeclineMessage');
+        confirmDialogProps.confirmButtonText = event.isSelfOrganized
+            ? t('events.deleteEvent')
+            : t('events.declineEvent');
+        confirmDialogProps.confirmButtonVariant = 'critical';
+
+        confirmDialog.value!.confirm()
+            .then((confirmed) => {
+                if (confirmed)
+                    deleteEvent(event);
+            });
+
+        return false;
+    }
+    else {
+        deleteEvent(event);
+
+        return true;
+    }
 }
 </script>
 
@@ -41,8 +113,8 @@ function _deleteEvent(args: MbscEventDeletedEvent) {
                 v-bind="options"
                 :data="events"
                 @event-created="createEvent"
-                @event-deleted="_deleteEvent"
-                @event-updated="updateEvent"
+                @event-delete="onEventDelete"
+                @event-update="onEventUpdate"
             >
                 <template #scheduleEvent="{original}">
                     <CalendarEvent
@@ -56,5 +128,10 @@ function _deleteEvent(args: MbscEventDeletedEvent) {
         <Suspense>
             <CalendarConnectCard class="absolute bottom-0 right-0 z-10" />
         </Suspense>
+
+        <ConfirmDialog
+            v-bind="confirmDialogProps"
+            ref="confirmDialog"
+        />
     </div>
 </template>

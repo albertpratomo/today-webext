@@ -29,19 +29,19 @@ function close() {
                 <MaterialSymbolsClose />
             </Button>
 
-            <div class="flex items-center gap-2 pb-[10px]">
+            <div class="flex items-center gap-2 pb-2.5">
                 <Icon
                     :name="bucket"
                     size="h-[20px] w-[20px]"
                 />
 
-                <h2 class="text-[20px] font-semibold">
+                <h2 class="text-lg font-semibold">
                     {{ $t(`sidebar.${bucket}`) }}
                 </h2>
             </div>
 
             <p
-                class="text-[14px] text-gray-400"
+                class="text-sm leading-6 text-gray-400"
                 v-html="$t(`emptyState.${bucket}`)"
             />
         </div>

@@ -3,6 +3,7 @@
 export default {
     actions: {
         cancel: 'Cancel',
+        confirm: 'Confirm',
         connect: 'Connect',
         createTask: 'Create task',
         delete: 'Delete',
@@ -29,6 +30,14 @@ export default {
         },
     },
     events: {
+        confirmEventDeclineMessage: 'You\'re about to decline this event and notify the participants.',
+        confirmEventDeleteMessage: 'You\'re about to delete this event and notify the participants.',
+        confirmEventRescheduleMessage: 'You\'re about to reschedule this event and notify the participants.',
+        declineEvent: 'Decline event',
+        deleteEvent: 'Delete event',
+        eventDeletedMessage: '{title} deleted',
+        notOrganizerMessage: 'You can\'t reschedule this event',
+        rescheduleEvent: 'Reschedule event',
         unscheduled: 'An event was removed from your calendar | {count} events were removed from your calendar',
     },
     fields: {
@@ -66,8 +75,8 @@ export default {
         contextMenu: {
             buckets: 'Buckets',
         },
-        taskMovedMessage: 'Task was moved to {destination}',
-        taskScheduledMessage: 'Task was scheduled for {when}',
+        taskMovedMessage: 'Task moved to {destination}',
+        taskScheduledMessage: 'Task scheduled for {when}',
         taskUnscheduledMessage: 'Task was unscheduled',
     },
     tooltips: {

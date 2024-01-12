@@ -9,6 +9,8 @@ interface Event {
     start: string
     end: string
     allDay: boolean
+    hasAttendees: boolean
+    isSelfOrganized: boolean
 }
 
 interface GcalEvent extends calendar_v3.Schema$Event {}
@@ -30,6 +32,8 @@ function formatMbscEvent(mbscEvent: MbscCalendarEvent): Event {
         // If allDay, plus 1 day to end, so Gcal knows it's an allDay event.
         end: allDay ? end.plus({day: 1}).toISODate()! : end.toISO()!,
         allDay,
+        hasAttendees: mbscEvent.hasAttendees !== undefined ? mbscEvent.hasAttendees : false,
+        isSelfOrganized: mbscEvent.isSelfOrganized !== undefined ? mbscEvent.isSelfOrganized : true,
     };
 }
 
@@ -43,6 +47,8 @@ function formatGcalEvent(gcalEvent: GcalEvent): Event {
         end: gcalEvent.end?.dateTime || gcalEvent.end?.date || '',
         // gcalEvent.start.date in 'yyyy-mm-dd' format indicates that this event is all day.
         allDay: Boolean(gcalEvent.start?.date && gcalEvent.start.date.length === 10),
+        hasAttendees: Boolean(gcalEvent.attendees),
+        isSelfOrganized: Boolean(gcalEvent.organizer?.self),
     };
 };
 
