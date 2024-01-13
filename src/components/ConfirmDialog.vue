@@ -43,7 +43,11 @@ defineExpose({confirm});
         <AlertDialogPortal>
             <AlertDialogOverlay class="fixed inset-0 z-30 bg-black/30" />
 
-            <AlertDialogContent class="z-30 max-w-xl w-full px-4 inset-center">
+            <AlertDialogContent
+                class="z-30 max-w-xl w-full px-4 inset-center"
+                @escape-key-down="_confirm(false)"
+                @pointer-down-outside="_confirm(false)"
+            >
                 <div class="border rounded bg-gray-800">
                     <div class="p-4">
                         <AlertDialogTitle class="font-medium text-gray-200">
