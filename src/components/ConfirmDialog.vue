@@ -9,9 +9,9 @@ import {
     AlertDialogRoot,
     AlertDialogTitle,
 } from 'radix-vue';
+import {useConfirmDialog, useFocus} from '@vueuse/core';
 import type {ButtonProps} from './Button.vue';
 import {i18n} from '~/i18n';
-import {useConfirmDialog} from '@vueuse/core';
 
 export interface Props {
     title: string
@@ -34,6 +34,9 @@ async function confirm(): Promise<boolean> {
 
     return data;
 }
+
+const confirmButton = ref();
+useFocus(confirmButton, {initialValue: true});
 
 defineExpose({confirm});
 </script>
@@ -60,14 +63,15 @@ defineExpose({confirm});
                     </div>
 
                     <div class="flex justify-end gap-3 border-t p-3">
-                        <AlertDialogCancel>
+                        <AlertDialogCancel as-child>
                             <Button @click="_confirm(false)">
                                 {{ cancelButtonText }}
                             </Button>
                         </AlertDialogCancel>
 
-                        <AlertDialogAction>
+                        <AlertDialogAction as-child>
                             <Button
+                                ref="confirmButton"
                                 :variant="confirmButtonVariant"
                                 @click="_confirm(true)"
                             >
