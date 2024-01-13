@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Dialog, DialogPanel} from '@headlessui/vue';
-import {onKeyStroke} from '~/utils/onKeyStroke';
+import {onKeyStroke} from '@vueuse/core';
 import {storeToRefs} from 'pinia';
 import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
@@ -17,8 +17,18 @@ const {
 const {createTask, createSubtask, openTaskCreateDialog} = useTasksStore();
 
 onKeyStroke(['n', 'N'], () => {
-    openTaskCreateDialog(routeName);
+    if (taskCreateDialogIsOpen.value === false)
+        openTaskCreateDialog(routeName);
 }, {dedupe: false});
+
+onKeyStroke(['Enter'], (e) => {
+    if (e.metaKey) {
+        e.preventDefault();
+        createTask();
+        if (e.shiftKey)
+            close();
+    }
+});
 
 function close() {
     taskCreateDialogIsOpen.value = false;
@@ -91,6 +101,11 @@ const hasSubtasks = computed(() => {
                         </Button>
 
                         <Button
+                            v-tippy="{
+                                content: $t('tooltips.createTask'),
+                                placement: 'bottom',
+                                offset: [0, 6],
+                            }"
                             :disabled="!draftCreateTaskHasContent"
                             variant="primary"
                             @click="createTask()"
