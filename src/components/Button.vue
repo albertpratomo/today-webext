@@ -63,6 +63,7 @@ const button = cva([
                 'border',
                 'enabled:hover:text-gray-300',
                 'enabled:hover:bg-gray-800/30',
+                'enabled:hover:border-gray-500',
                 'border-gray-750',
                 'text-gray-300/70',
             ],
