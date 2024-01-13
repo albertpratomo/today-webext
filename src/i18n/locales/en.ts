@@ -79,6 +79,7 @@ export default {
     },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',
+        createTask: '<code>⌘</code> <code>Enter</code> to create task<br><code>⌘</code> <code>⇧</code> <code>Enter</code> to create task and close',
         newTask: 'New task <code>N</code>',
         toggleCalendarDaily: 'Toggle calendar <code>]</code>',
         toggleSidebar: 'Toggle sidebar <code>[</code>',
