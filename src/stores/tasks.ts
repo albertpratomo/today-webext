@@ -211,6 +211,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
     // Events -----------------------------------------------------------------
 
+    // TODO: Should be done in BE.
     function addTaskEventId(task: Task, event: Event) {
         if (typeof task.eventIds == 'undefined')
             task.eventIds = [];
@@ -223,6 +224,7 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
+    // TODO: Should be done in BE.
     function removeTaskEventId(eventId: string | number) {
         tasks.value.forEach((task) => {
             if (task.eventIds !== undefined && task.eventIds !== null) {
@@ -233,6 +235,7 @@ export const useTasksStore = defineStore('tasks', () => {
         });
     }
 
+    // TODO: Should be done in BE.
     function unscheduleTaskEvents(task: Task) {
         const {deleteEvent} = useCalendarStore();
         if (task.eventIds !== undefined && task.eventIds !== null && task.eventIds.length > 0) {

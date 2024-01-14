@@ -44,7 +44,7 @@ const timeLabel = computed(() => {
             .sort((a: any, b: any) => a - b);
 
         // If no future start date, use past start date
-        if(futureStartDates.length === 0 && currentDateEvents.length > 0)
+        if (futureStartDates.length === 0 && currentDateEvents.length > 0)
             futureStartDates.push(currentDateEvents[currentDateEvents.length - 1]);
 
         if (futureStartDates.length > 0) {

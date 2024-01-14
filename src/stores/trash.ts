@@ -15,6 +15,7 @@ export const useTrashStore = defineStore('trash', () => {
             tasks.value.findIndex(task => task.id === taskId),
         );
 
+        // TODO: Should be done in BE.
         indexes.forEach((i) => {
             tasks.value[i].deletedAt = new Date();
             unscheduleTaskEvents(tasks.value[i]);

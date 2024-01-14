@@ -75,12 +75,15 @@ export const useCalendarStore = defineStore('calendar', () => {
 
     async function fetchGcalEvents(calendarId: string = 'primary') {
         // Store local events (unsynced) to Gcal.
+        // TODO: This should be handled by BE.
         const localEvents = events.value.filter(e => e.id.startsWith('_'));
         for (const localEvent of localEvents) {
             const result = await storeGcalEvent(localEvent);
             if (!result.error.value && result.data.value) {
                 // Updating the task.eventIds: replacing local event id with Gcal id after sync.
                 const gcalEventId = result.data.value.id!;
+
+                // TODO: This should be handled by BE.
                 for (const task of tasks.value) {
                     if (task.eventIds !== undefined && task.eventIds !== null) {
                         const index = task.eventIds.indexOf(localEvent.id);
@@ -155,7 +158,6 @@ export const useCalendarStore = defineStore('calendar', () => {
                 addTaskEventId(args.event.task, localEvent);
             }
         }
-
 
         trackGa('event_created');
     }

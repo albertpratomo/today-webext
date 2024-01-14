@@ -6,7 +6,6 @@ import type {MbscEventDeleteEvent, MbscEventUpdateEvent, MbscEventcalendarOption
 import {MbscEventcalendar, luxonTimezone} from '@mobiscroll/vue';
 import {formatMbscEvent} from '~/models/Event';
 import {notify} from 'notiwind';
-
 import {storeToRefs} from 'pinia';
 import {useCalendarStore} from '~/stores';
 
