@@ -3,6 +3,7 @@ import type {RenderResult} from '@testing-library/vue';
 import TaskList from '~/components/TaskList.vue';
 import {createTestingPinia} from '@pinia/testing';
 import i18n from '~/i18n';
+import {useRoute} from 'vue-router';
 import {useTasksStore} from '~/stores/tasks';
 import {useTrashStore} from '~/stores/trash';
 import {vOnClickOutside} from '@vueuse/components';
@@ -54,7 +55,11 @@ function expectSelected(result: RenderResult, indexes: number[]) {
     });
 }
 
+vi.mock('vue-router');
+
 describe('TaskList', () => {
+    useRoute.mockReturnValue({name: 'today'});
+
     test('render tasks', () => {
         const {taskItems} = prepare();
 
