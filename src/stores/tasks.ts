@@ -1,4 +1,4 @@
-import {acceptHMRUpdate, defineStore} from 'pinia';
+import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
 import {useCalendarStore, useHistoryStore} from '~/stores';
 import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
 import {type Event} from '~/models/Event';
@@ -238,17 +238,17 @@ export const useTasksStore = defineStore('tasks', () => {
     // TODO: Should be done in BE.
     function unscheduleTaskEvents(task: Task) {
         const {deleteEvent} = useCalendarStore();
+        const {events} = storeToRefs(useCalendarStore());
         if (task.eventIds !== undefined && task.eventIds !== null && task.eventIds.length > 0) {
             const eventIds = [...task.eventIds];
-            for (const eventId of eventIds)
-                deleteEvent(eventId);
-            ;
-
-            notify({
-                group: 'general',
-                text: i18n.t('events.unscheduled', {count: eventIds.length}),
-                isCloseable: true,
-            }, 4000);
+            for (const eventId of eventIds) {
+                const currentDate = new Date();
+                const event = events.value.find(event => event.id === eventId && new Date(event.start) >= currentDate);
+                if (event)
+                    deleteEvent(event);
+                else
+                    removeTaskEventId(eventId);
+            }
         }
     }
 

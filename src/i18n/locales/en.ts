@@ -38,7 +38,6 @@ export default {
         eventDeletedMessage: '{title} deleted',
         notOrganizerMessage: 'You can\'t reschedule this event',
         rescheduleEvent: 'Reschedule event',
-        unscheduled: 'An event was removed from your calendar | {count} events were removed from your calendar',
     },
     fields: {
         taskNote: {placeholder: 'Notes'},
