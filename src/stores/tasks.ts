@@ -235,10 +235,9 @@ export const useTasksStore = defineStore('tasks', () => {
         });
     }
 
-    const {deleteEvent} = useCalendarStore();
-
     // TODO: Should be done in BE.
     function unscheduleTaskEvents(task: Task) {
+        const {deleteEvent} = useCalendarStore();
         if (task.eventIds !== undefined && task.eventIds !== null && task.eventIds.length > 0) {
             const eventIds = [...task.eventIds];
             for (const eventId of eventIds)
