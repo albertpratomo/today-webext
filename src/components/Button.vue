@@ -20,7 +20,7 @@ const button = cva([
     'justify-center',
     'rounded',
     'font-normal',
-    'focus-visible:ring',
+    'focus:ring',
     'focus:outline-none',
     'enabled:active:text-opacity-70',
     'focus:ring-indigo-200',

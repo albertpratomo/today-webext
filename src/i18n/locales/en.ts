@@ -76,6 +76,7 @@ export default {
         },
         taskMovedMessage: 'Task moved to {destination}',
         taskScheduledMessage: 'Task scheduled for {when}',
+        taskUnscheduledMessage: 'Task was unscheduled',
     },
     tooltips: {
         addSubtasks: 'Add subtasks <code>⌘</code> <code>⇧</code> <code>O</code>',

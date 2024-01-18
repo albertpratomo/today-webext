@@ -1,5 +1,7 @@
-import {acceptHMRUpdate, defineStore} from 'pinia';
+import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia';
+import {useCalendarStore, useHistoryStore} from '~/stores';
 import {useDateFormat, useNow, watchDebounced} from '@vueuse/core';
+import {type Event} from '~/models/Event';
 import type Task from '~/models/Task';
 import {generateTasks} from '~/utils/generateTasks';
 import {getTomorrow} from '~/utils/date';
@@ -7,7 +9,6 @@ import {i18n} from '~/i18n';
 import {notify} from 'notiwind';
 import {remove} from 'lodash-es';
 import {trackGa} from '~/utils/googleAnalytics';
-import {useHistoryStore} from '~/stores';
 import {useStorageLocal} from '~/utils/useStorageLocal';
 
 export const useTasksStore = defineStore('tasks', () => {
@@ -105,11 +106,11 @@ export const useTasksStore = defineStore('tasks', () => {
             case 'active':
             case 'inbox':
             case 'later':
-                moveTask(draftCreateTask.value, bucket, false);
+                moveTask(draftCreateTask.value, bucket, {showToast: false, unscheduleEvents: false});
                 break;
 
             default:
-                scheduleTask(draftCreateTask.value, 'today', false);
+                scheduleTask(draftCreateTask.value, 'today', {showToast: false, unscheduleEvents: false});
                 break;
         }
 
@@ -124,9 +125,16 @@ export const useTasksStore = defineStore('tasks', () => {
         draftEditTask.value = task;
     }
 
-    // Move Task --------------------------------------------------------------
+    // Move / Schedule Task ---------------------------------------------------
 
-    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', showToast: boolean = true) {
+    interface MoveScheduleOptions {
+        showToast?: boolean
+        unscheduleEvents?: boolean
+    }
+
+    function moveTask(task: Task, destination: 'active' | 'inbox' | 'later', options: MoveScheduleOptions = {}) {
+        const {showToast = true, unscheduleEvents = true} = options;
+
         if (destination === 'inbox') {
             task.projectId = 'inbox';
             task.scheduledFor = null;
@@ -144,6 +152,9 @@ export const useTasksStore = defineStore('tasks', () => {
             task.scheduledFor = 'later';
         }
 
+        if (unscheduleEvents)
+            deleteTaskEvents(task, 'future');
+
         if (showToast) {
             notify({
                 group: 'general',
@@ -156,8 +167,11 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
-    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow', showToast: boolean = true) {
+    function scheduleTask(task: Task, when: Date | 'today' | 'tomorrow' | 'unschedule', options: MoveScheduleOptions = {}) {
+        const {showToast = true, unscheduleEvents = true} = options;
+
         let date;
+        let scheduledDate = null;
 
         if (when instanceof Date)
             date = when;
@@ -166,7 +180,8 @@ export const useTasksStore = defineStore('tasks', () => {
         else if (when === 'tomorrow')
             date = getTomorrow();
 
-        const scheduledDate = useDateFormat(date, 'YYYY-MM-DD').value;
+        if (when !== 'unschedule')
+            scheduledDate = useDateFormat(date, 'YYYY-MM-DD').value;
 
         if (task.scheduledFor !== scheduledDate) {
             task.scheduledFor = scheduledDate;
@@ -174,15 +189,69 @@ export const useTasksStore = defineStore('tasks', () => {
             if (task.projectId === 'inbox')
                 task.projectId = null;
 
+            if (unscheduleEvents)
+                deleteTaskEvents(task, 'future');
+
             if (showToast) {
-                notify({
-                    group: 'general',
-                    text: i18n.t('tasks.taskScheduledMessage', {
+                const toastText = (when === 'unschedule')
+                    ? i18n.t('tasks.taskUnscheduledMessage')
+                    : i18n.t('tasks.taskScheduledMessage', {
                         taskTitle: task.title,
                         when: i18n.t(`sidebar.${when}`),
-                    }),
+                    });
+
+                notify({
+                    group: 'general',
+                    text: toastText,
                     isCloseable: true,
                 }, 4000);
+            }
+        }
+    }
+
+    // Events -----------------------------------------------------------------
+
+    // TODO: Should be done in BE.
+    function addTaskEventId(task: Task, event: Event) {
+        if (typeof task.eventIds == 'undefined')
+            task.eventIds = [];
+
+        task.eventIds.push(event.id as string);
+
+        if (event.start) {
+            const scheduleDate = new Date(event.start);
+            scheduleTask(task, scheduleDate, {showToast: false, unscheduleEvents: false});
+        }
+    }
+
+    // TODO: Should be done in BE.
+    function deleteTaskEventId(eventId: string | number) {
+        tasks.value.forEach((task) => {
+            if (task.eventIds !== undefined && task.eventIds !== null) {
+                const indexToRemove = task.eventIds.indexOf(eventId as string);
+                if (indexToRemove !== -1)
+                    task.eventIds.splice(indexToRemove, 1);
+            }
+        });
+    }
+
+    // TODO: Should be done in BE.
+    function deleteTaskEvents(task: Task, type: 'future') {
+        const {deleteEvent} = useCalendarStore();
+        const {events} = storeToRefs(useCalendarStore());
+        if (task.eventIds !== undefined && task.eventIds !== null && task.eventIds.length > 0) {
+            const eventIds = [...task.eventIds];
+            for (const eventId of eventIds) {
+                const currentDate = new Date();
+
+                let event;
+                if(type === 'future')
+                    event = events.value.find(event => event.id === eventId && new Date(event.start) >= currentDate);
+
+                if (event)
+                    deleteEvent(event);
+                else
+                    deleteTaskEventId(eventId);
             }
         }
     }
@@ -272,6 +341,10 @@ export const useTasksStore = defineStore('tasks', () => {
 
         moveTask,
         scheduleTask,
+
+        addTaskEventId,
+        deleteTaskEventId,
+        deleteTaskEvents,
 
         doneTasks,
         isAllDone,

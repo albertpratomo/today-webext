@@ -4,6 +4,7 @@ import type Task from '~/models/Task';
 import {onKeyStroke} from '~/utils/onKeyStroke';
 import {pomodoroIsEnabled} from '~/utils/featureToggle';
 import {usePomodoroStore} from '~/stores';
+import {useRoute} from 'vue-router';
 
 const props = withDefaults(
     defineProps<{
@@ -15,6 +16,9 @@ const props = withDefaults(
         isSelected: false,
     },
 );
+
+const route = useRoute();
+const routeName = route.name as string;
 
 const task = defineModel<Task>({required: true});
 
@@ -60,6 +64,12 @@ const el = ref(null);
                 @dblclick.stop
                 @keyup.enter="task.isDone = !(task.isDone)"
             >
+
+            <TaskTimeLabel
+                v-if="routeName === 'active' || routeName === 'today'"
+                :bucket="routeName"
+                :task="task"
+            />
 
             <div
                 class="flex grow truncate border border-transparent text-sm text-gray-200 transition-colors"

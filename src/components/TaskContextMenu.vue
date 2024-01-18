@@ -18,8 +18,11 @@ const {removeTasks} = useTrashStore();
 
 const {t} = useI18n();
 
-const currentDate = useNow();
-const tomorrowsDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD'); ;
+const currentDate = useNow({interval: 5000});
+const tomorrowDate = useDateFormat(getTomorrow(), 'YYYY-MM-DD');
+
+const todayIsSelected = computed(() => (task.value.scheduledFor != null && new Date(`${task.value.scheduledFor} 00:00:00`) <= currentDate.value));
+const tomorrowIsSelected = computed(() => (task.value.scheduledFor === tomorrowDate.value));
 
 const menuItems: ContextMenuItem[] = [
     {
@@ -56,14 +59,14 @@ const menuItems: ContextMenuItem[] = [
                     icon: 'schedule',
                     text: t('sidebar.today'),
                     shortcut: 'T',
-                    action: () => scheduleTask(task.value, 'today'),
-                    selected: computed(() => (task.value.scheduledFor != null && new Date(task.value.scheduledFor) <= currentDate.value)),
+                    action: () => scheduleTask(task.value, (todayIsSelected.value ? 'unschedule' : 'today')),
+                    selected: todayIsSelected,
                 },
                 {
                     icon: 'schedule',
                     text: t('sidebar.tomorrow'),
-                    action: () => scheduleTask(task.value, 'tomorrow'),
-                    selected: computed(() => (task.value.scheduledFor === tomorrowsDate.value)),
+                    action: () => scheduleTask(task.value, (tomorrowIsSelected.value ? 'unschedule' : 'tomorrow')),
+                    selected: tomorrowIsSelected,
                 },
             ],
         },
