@@ -9,73 +9,52 @@ import {
     AlertDialogRoot,
     AlertDialogTitle,
 } from 'radix-vue';
-import {useConfirmDialog, useFocus} from '@vueuse/core';
-import type {ButtonProps} from './Button.vue';
-import {i18n} from '~/i18n';
+import {storeToRefs} from 'pinia';
+import {useConfirmDialogStore} from '~/stores/confirmDialog';
+import {useFocus} from '@vueuse/core';
 
-export interface Props {
-    title: string
-    description: string
-    cancelButtonText?: string
-    confirmButtonText?: string
-    confirmButtonVariant?: ButtonProps['variant']
-}
-
-const {
-    cancelButtonText = i18n.t('actions.cancel'),
-    confirmButtonText = i18n.t('actions.confirm'),
-    confirmButtonVariant = 'primary',
-} = defineProps<Props>();
-
-const {isRevealed, reveal, confirm: _confirm} = useConfirmDialog();
-
-async function confirm(): Promise<boolean> {
-    const {data} = await reveal();
-
-    return data;
-}
+const {confirm} = useConfirmDialogStore();
+const {confirmDialogIsOpen, confirmDialogProps} = storeToRefs(useConfirmDialogStore());
 
 const confirmButton = ref();
 useFocus(confirmButton, {initialValue: true});
-
-defineExpose({confirm});
 </script>
 
 <template>
-    <AlertDialogRoot v-model:open="isRevealed">
+    <AlertDialogRoot :open="confirmDialogIsOpen">
         <AlertDialogPortal>
             <AlertDialogOverlay class="fixed inset-0 z-30 bg-black/30" />
 
             <AlertDialogContent
                 class="z-30 max-w-xl w-full px-4 inset-center"
-                @escape-key-down="_confirm(false)"
-                @pointer-down-outside="_confirm(false)"
+                @escape-key-down="confirm(false)"
+                @pointer-down-outside="confirm(false)"
             >
                 <div class="border rounded bg-gray-800">
                     <div class="p-4">
                         <AlertDialogTitle class="font-medium text-gray-200">
-                            {{ title }}
+                            {{ confirmDialogProps.title }}
                         </AlertDialogTitle>
 
                         <AlertDialogDescription class="mt-1.5 text-sm text-gray-300">
-                            {{ description }}
+                            {{ confirmDialogProps.description }}
                         </AlertDialogDescription>
                     </div>
 
                     <div class="flex justify-end gap-3 border-t p-3">
                         <AlertDialogCancel as-child>
-                            <Button @click="_confirm(false)">
-                                {{ cancelButtonText }}
+                            <Button @click="confirm(false)">
+                                {{ confirmDialogProps.cancelButtonText }}
                             </Button>
                         </AlertDialogCancel>
 
                         <AlertDialogAction as-child>
                             <Button
                                 ref="confirmButton"
-                                :variant="confirmButtonVariant"
-                                @click="_confirm(true)"
+                                :variant="confirmDialogProps.confirmButtonVariant"
+                                @click="confirm(true)"
                             >
-                                {{ confirmButtonText }}
+                                {{ confirmDialogProps.confirmButtonText }}
                             </Button>
                         </AlertDialogAction>
                     </div>
