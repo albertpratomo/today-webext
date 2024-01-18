@@ -153,7 +153,7 @@ export const useTasksStore = defineStore('tasks', () => {
         }
 
         if (unscheduleEvents)
-            unscheduleTaskEvents(task);
+            deleteTaskEvents(task, 'future');
 
         if (showToast) {
             notify({
@@ -190,7 +190,7 @@ export const useTasksStore = defineStore('tasks', () => {
                 task.projectId = null;
 
             if (unscheduleEvents)
-                unscheduleTaskEvents(task);
+                deleteTaskEvents(task, 'future');
 
             if (showToast) {
                 const toastText = (when === 'unschedule')
@@ -225,7 +225,7 @@ export const useTasksStore = defineStore('tasks', () => {
     }
 
     // TODO: Should be done in BE.
-    function removeTaskEventId(eventId: string | number) {
+    function deleteTaskEventId(eventId: string | number) {
         tasks.value.forEach((task) => {
             if (task.eventIds !== undefined && task.eventIds !== null) {
                 const indexToRemove = task.eventIds.indexOf(eventId as string);
@@ -236,18 +236,22 @@ export const useTasksStore = defineStore('tasks', () => {
     }
 
     // TODO: Should be done in BE.
-    function unscheduleTaskEvents(task: Task) {
+    function deleteTaskEvents(task: Task, type: 'future') {
         const {deleteEvent} = useCalendarStore();
         const {events} = storeToRefs(useCalendarStore());
         if (task.eventIds !== undefined && task.eventIds !== null && task.eventIds.length > 0) {
             const eventIds = [...task.eventIds];
             for (const eventId of eventIds) {
                 const currentDate = new Date();
-                const event = events.value.find(event => event.id === eventId && new Date(event.start) >= currentDate);
+
+                let event;
+                if(type === 'future')
+                    event = events.value.find(event => event.id === eventId && new Date(event.start) >= currentDate);
+
                 if (event)
                     deleteEvent(event);
                 else
-                    removeTaskEventId(eventId);
+                    deleteTaskEventId(eventId);
             }
         }
     }
@@ -339,8 +343,8 @@ export const useTasksStore = defineStore('tasks', () => {
         scheduleTask,
 
         addTaskEventId,
-        removeTaskEventId,
-        unscheduleTaskEvents,
+        deleteTaskEventId,
+        deleteTaskEvents,
 
         doneTasks,
         isAllDone,

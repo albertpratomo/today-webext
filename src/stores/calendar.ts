@@ -12,7 +12,7 @@ import {useStorageLocal} from '~/utils/useStorageLocal';
 import {useTasksStore} from '~/stores';
 
 export const useCalendarStore = defineStore('calendar', () => {
-    const {addTaskEventId, removeTaskEventId} = useTasksStore();
+    const {addTaskEventId, deleteTaskEventId} = useTasksStore();
     const {tasks} = storeToRefs(useTasksStore());
     const calendarIsVisible = useLocalStorage<boolean>('calendarIsVisible', true);
     /**
@@ -150,7 +150,7 @@ export const useCalendarStore = defineStore('calendar', () => {
 
             if (!result.error.value && result.data.value) {
                 // Remove local generated id
-                removeTaskEventId(localEvent.id);
+                deleteTaskEventId(localEvent.id);
 
                 // Set gcal generated id to the event instance.
                 localEvent.id = result.data.value.id!;
@@ -181,7 +181,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     async function deleteEvent(event: Event) {
         // Delete the event from local events.
         events.value = events.value.filter(e => e.id !== event.id);
-        removeTaskEventId(event.id);
+        deleteTaskEventId(event.id);
 
         notify({
             group: 'general',
