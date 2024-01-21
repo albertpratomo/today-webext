@@ -17,8 +17,11 @@ const {
 const {createTask, createSubtask, openTaskCreateDialog} = useTasksStore();
 
 onKeyStroke(['n', 'N'], () => {
-    if (taskCreateDialogIsOpen.value === false)
-        openTaskCreateDialog(routeName);
+    // If a dialog is open, ignore
+    if (document.querySelector('[role=dialog][data-headlessui-state=open]'))
+        return;
+
+    openTaskCreateDialog(routeName);
 }, {dedupe: false});
 
 onKeyStroke(['Enter'], (e) => {
