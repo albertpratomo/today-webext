@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
                     @mouseleave="activeIndex = null"
                 >
                     <button
-                        class="mx-1 flex grow rounded p-2 text-left text-gray-300"
+                        class="mx-1 flex grow rounded py-2 pl-2 pr-0.25 text-left text-gray-300"
                         :class="{'bg-gray-750': activeIndex === i}"
                         @click="item.action"
                     >
