@@ -22,7 +22,7 @@ export const useConfirmDialogStore = defineStore('confirmDialog', () => {
         cancelButtonText: i18n.t('actions.cancel'),
         confirmButtonText: i18n.t('actions.confirm'),
         confirmButtonVariant: 'primary',
-    };
+    } as const;
 
     const confirmDialogProps = ref<Props>({
         ...DEFAULT_PROPS,

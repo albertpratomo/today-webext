@@ -245,7 +245,7 @@ export const useTasksStore = defineStore('tasks', () => {
                 const currentDate = new Date();
 
                 let event;
-                if(type === 'future')
+                if (type === 'future')
                     event = events.value.find(event => event.id === eventId && new Date(event.start) >= currentDate);
 
                 if (event)
