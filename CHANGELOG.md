@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved calendar to pull events from the secondary calendar
 - Added calendar context menu (right click on the calendar event)
 
+## [0.5.5]
+
+- Added time label for scheduled tasks
+- Added global confirm dialog that is triggerable from component or store
+
 ## [0.5.4]
 
 - Fixed `tasks_completed` GA event which was tracking incorrectly (too often)
