@@ -59,7 +59,7 @@ export const useCalendarStore = defineStore('calendar', () => {
                     Authorization: `Bearer ${authToken.value}`,
                 };
 
-                url += `${url.includes('?') ? '&' : '?'}key=AIzaSyC2G-xvTc95LDqX1SCEhdyh0Z9_uipiqdo`;
+                url += `${url.includes('?') ? '&' : '?'}key=GCAL_API_KEY`;
 
                 return {url, options};
             },
